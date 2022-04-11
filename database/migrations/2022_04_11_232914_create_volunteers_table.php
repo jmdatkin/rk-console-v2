@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('volunteers', function (Blueprint $table) {
             $table->id();
+            $table->string('firstName');
+            $table->string('lastName');
+            $table->string('email');
+            $table->string('phoneHome');
+            $table->string('phoneCell');
             $table->timestamps();
         });
     }

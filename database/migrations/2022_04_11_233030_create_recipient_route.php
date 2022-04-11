@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('recipient_route', function (Blueprint $table) {
             $table->id();
+            $table->integer('recipient_id')->unsigned();
+            $table->integer('route_id')->unsigned();
+            $table->foreign('recipient_id')->references('id')->on('recipients');
+            $table->foreign('route_id')->references('id')->on('routes');
             $table->timestamps();
         });
     }

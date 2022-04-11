@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('driver_route', function (Blueprint $table) {
             $table->id();
+            $table->integer('driver_id')->unsigned();
+            $table->integer('route_id')->unsigned();
+            $table->foreign('driver_id')->references('id')->on('drivers');
+            $table->foreign('route_id')->references('id')->on('routes');
             $table->timestamps();
         });
     }

@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('recipients', function (Blueprint $table) {
             $table->id();
+            $table->string('firstName');
+            $table->string('lastName');
+            $table->string('email');
+            $table->string('phoneHome');
+            $table->string('phoneCell');
+            $table->string('notes');
             $table->timestamps();
         });
     }
