@@ -26,6 +26,10 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/rdt', function() {
+    return Inertia::render('Resources/RecipientDataTable');
+})->middleware(['auth', 'verified']);
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
