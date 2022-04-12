@@ -2,7 +2,8 @@
 
 namespace App\Repository\Eloquent;   
 
-use App\Repository\EloquentRepositoryInterface; 
+use App\Repository\EloquentRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;   
 
 class BaseRepository implements EloquentRepositoryInterface 
@@ -39,5 +40,9 @@ class BaseRepository implements EloquentRepositoryInterface
     public function find($id): ?Model
     {
         return $this->model->find($id);
+    }
+
+    public function all(): Collection {
+        return $this->model->all();
     }
 }

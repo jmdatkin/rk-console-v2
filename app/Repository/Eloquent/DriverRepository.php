@@ -18,12 +18,4 @@ class DriverRepository extends BaseRepository implements DriverRepositoryInterfa
    {
        parent::__construct($model);
    }
-
-   /**
-    * @return Collection
-    */
-   public function all(): Collection
-   {
-       return $this->model->all();    
-   }
 }

@@ -18,12 +18,4 @@ class RouteRepository extends BaseRepository implements RouteRepositoryInterface
    {
        parent::__construct($model);
    }
-
-   /**
-    * @return Collection
-    */
-   public function all(): Collection
-   {
-       return $this->model->all();    
-   }
 }
