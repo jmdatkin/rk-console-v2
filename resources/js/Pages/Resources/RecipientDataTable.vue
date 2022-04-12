@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
+<script setup>
+import DataTableLayout from '@/Layouts/DataTableLayout.vue';
 import Column from 'primevue/column';
 import { ref } from 'vue';
 
@@ -17,10 +17,7 @@ const sampleData = ref([
 </script>
 
 <template>
-    <BreezeAuthenticatedLayout>
-        <div
-            class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-
+    <DataTableLayout>
             <DataTable :value="sampleData">
                 <Column field="code" header="Code"></Column>
                 <Column field="name" header="Name"></Column>
@@ -29,6 +26,5 @@ const sampleData = ref([
 
             </DataTable>
 
-        </div>
-    </BreezeAuthenticatedLayout>
+    </DataTableLayout>
 </template>
