@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DataTableControllers\RecipientDataTableController;
 use App\Http\Controllers\RecipientController;
+use App\Models\Recipient;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,12 +29,16 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/rdt', [RecipientController::class, 'index'])->middleware(['auth', 'verified']);
+// Route::get('/', [RecipientController::class, 'index'])->middleware(['auth', 'verified']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::prefix('datatables')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('recipients', [RecipientController::class, 'index']);
+});
+
 Route::get('/datatables/recipients/data', [RecipientDataTableController::class, 'data']);
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

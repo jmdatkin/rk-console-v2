@@ -28,7 +28,7 @@ const sampleData = ref([
         <template #table>
             <!-- <span v-for="(key,val) in props.cols">{{key}}  +  {{val}}</span> -->
             <DataTable :value="data" paginator="true" :rows="10">
-                <Column v-for="(header, data) in props.cols" :field="data" :header="header" :key="data"></Column>
+                <Column v-for="(header, data) in props.cols" :field="data" :header="header" :key="data" style="min-width: 14rem;"></Column>
 
                 <!-- <Column field="code" header="Code"></Column>
             <Column field="name" header="Name"></Column>
@@ -41,3 +41,10 @@ const sampleData = ref([
 
     </DataTableLayout>
 </template>
+
+<style scoped>
+    .p-datatable {
+        max-width: 1400px;
+        width: 100%;
+    }
+</style>
