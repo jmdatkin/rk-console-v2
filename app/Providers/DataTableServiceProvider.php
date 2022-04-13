@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\DataTables\Eloquent\RecipientDataTable;
+use App\DataTables\RecipientDataTableInterface;
 use Illuminate\Support\ServiceProvider;
 
 class DataTableServiceProvider extends ServiceProvider
@@ -24,5 +26,6 @@ class DataTableServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        $this->app->bind(RecipientDataTableInterface::class, RecipientDataTable::class);
     }
 }

@@ -1,8 +1,11 @@
 <?php
 
+namespace App\DataTables\Eloquent;
+
 use App\Repository\Eloquent\RecipientRepository;
 
-class RecipientDataTable extends BaseDataTable {
+class RecipientDataTable extends BaseDataTable
+{
     public function __construct(RecipientRepository $repository)
     {
         parent::__construct($repository);
