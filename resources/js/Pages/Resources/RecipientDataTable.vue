@@ -27,28 +27,8 @@ const sampleData = ref([
 
         <template #table>
             <!-- <span v-for="(key,val) in props.cols">{{key}}  +  {{val}}</span> -->
-            <DataTable :value="data" paginator="true" :rows="10"
-                :globalFilterFields="Object.keys(props.cols)">
-                <template #header>
-                    <div class="flex justify-content-between">
-                        <Button type="button" icon="pi pi-filter-slash" label="Clear" class="p-button-outlined"
-                            @click="clearFilter1()" />
-                        <span class="p-input-icon-left">
-                            <i class="pi pi-search" />
-                            <InputText v-model="filters1['global'].value" placeholder="Keyword Search" />
-                        </span>
-                    </div>
-                </template>
-                <template #empty>
-                    No customers found.
-                </template>
-                <template #loading>
-                    Loading customers data. Please wait.
-                </template>
-                <Column v-for="(header, data) in props.cols" :field="data" :header="header" 
-                :key="data"
-                :filterField="data"
-                ></Column>
+            <DataTable :value="data" paginator="true" :rows="10">
+                <Column v-for="(header, data) in props.cols" :field="data" :header="header" :key="data"></Column>
 
                 <!-- <Column field="code" header="Code"></Column>
             <Column field="name" header="Name"></Column>
