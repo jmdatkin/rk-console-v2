@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\RecipientDataTableInterface;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class RecipientController extends Controller
 {
+    public function __construct(RecipientDataTableInterface $dataTable)
+    {
+       $this->dataTable = $dataTable; 
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,6 +20,12 @@ class RecipientController extends Controller
     public function index()
     {
         //
+        error_log('hey');
+        return Inertia::render('Resources/RecipientDataTable', 
+        [
+            "cols" => $this->dataTable->cols(),
+            "data" => $this->dataTable->data()
+        ]);
     }
 
     /**
