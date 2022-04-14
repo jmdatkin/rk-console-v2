@@ -48,14 +48,55 @@ const filters = ref({
     },
 });
 
-const onRowEditSave = function(event) {
+const onRowEditSave = function (event) {
     let { newData, index } = event;
     console.log(`${index}`);
     console.dir(newData);
     Inertia.patch(`/recipients/${newData.id}/update`,
-    newData);
+        newData);
 };
 
+const initFilters = function () {
+    filters.value = {
+        'global':
+        {
+            value: null, matchMode: FilterMatchMode.CONTAINS
+        },
+
+        'id':
+        {
+            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+            // value: null, matchMode: FilterMatchMode.CONTAINS
+        },
+
+        'firstName':
+        {
+            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+        },
+
+        'lastName':
+        {
+            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+        },
+
+        'email':
+        {
+            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+        },
+
+        'phoneHome':
+        {
+            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+        },
+
+        'phoneCell':
+        {
+            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+        },
+    }
+};
+
+const loading = ref(true);
 const editingRows = ref([]);
 
 </script>
@@ -67,20 +108,24 @@ const editingRows = ref([]);
             <!-- <span v-for="(key,val) in props.cols">{{key}}  +  {{val}}</span> -->
             <DataTable :value="data" :paginator="true" :rows="10"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
-                filterDisplay="menu" responsiveLayout="scroll" v-model:filters="filters"
-                editMode="row"
-                @row-edit-save="onRowEditSave"
-                v-model:editingRows="editingRows">
+                filterDisplay="menu" responsiveLayout="scroll" v-model:filters="filters" editMode="row"
+                @row-edit-save="onRowEditSave" v-model:editingRows="editingRows">
                 <template #header>
                     <div class="flex" style="justify-content: space-between">
 
                         <Button type="button" icon="pi pi-filter-slash" label="Clear" class="p-button-outlined"
-                            @click="clearFilter1()" />
+                            @click="initFilters()" />
                         <span class="p-input-icon-left ">
                             <i class="pi pi-search" />
                             <InputText v-model="filters['global'].value" placeholder="Search all columns" />
                         </span>
                     </div>
+                </template>
+                <template #loading>
+                    Loading recipients, please wait...
+                </template>
+                <template #empty>
+                    No recipients found.
                 </template>
                 <!-- <Column v-for="(header, data) in props.cols" :field="data" :header="header" :key="data"
                     style="min-width: 14rem;"
@@ -103,7 +148,7 @@ const editingRows = ref([]);
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search by first name"></InputText>
                     </template>
-                    <template #editor="{data, field}">
+                    <template #editor="{ data, field }">
                         <InputText v-model="data[field]" autofocus />
                     </template>
                 </Column>
@@ -115,7 +160,7 @@ const editingRows = ref([]);
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search by last name"></InputText>
                     </template>
-                    <template #editor="{data, field}">
+                    <template #editor="{ data, field }">
                         <InputText v-model="data[field]" autofocus />
                     </template>
                 </Column>
@@ -127,7 +172,7 @@ const editingRows = ref([]);
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search by e-mail address"></InputText>
                     </template>
-                    <template #editor="{data, field}">
+                    <template #editor="{ data, field }">
                         <InputText v-model="data[field]" autofocus />
                     </template>
                 </Column>
@@ -139,7 +184,7 @@ const editingRows = ref([]);
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search home phone"></InputText>
                     </template>
-                    <template #editor="{data, field}">
+                    <template #editor="{ data, field }">
                         <InputText v-model="data[field]" autofocus />
                     </template>
                 </Column>
@@ -151,7 +196,7 @@ const editingRows = ref([]);
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search cell phone"></InputText>
                     </template>
-                    <template #editor="{data, field}">
+                    <template #editor="{ data, field }">
                         <InputText v-model="data[field]" autofocus />
                     </template>
                 </Column>
@@ -163,7 +208,7 @@ const editingRows = ref([]);
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search notes"></InputText>
                     </template>
-                    <template #editor="{data, field}">
+                    <template #editor="{ data, field }">
                         <InputText v-model="data[field]" autofocus />
                     </template>
                 </Column>

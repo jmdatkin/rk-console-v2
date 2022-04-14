@@ -6,7 +6,7 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 <template>
     <AuthenticatedLayout>
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 sm:items-center sm:pt-0">
-            <Toolbar>
+            <!-- <Toolbar>
                 <template #start>
                     <Button label="New" icon="pi pi-plus" class="mr-2" />
                     <Button label="Upload" icon="pi pi-upload" class="p-button-success" />
@@ -19,9 +19,12 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
                     <Button icon="pi pi-calendar" class="p-button-success mr-2" />
                     <Button icon="pi pi-times" class="p-button-danger" />
                 </template>
-            </Toolbar>
+            </Toolbar> -->
             <slot></slot>
-            <slot name="table"></slot>
+            <div class="card">
+
+                <slot name="table"></slot>
+            </div>
         </div>
     </AuthenticatedLayout>
 </template>

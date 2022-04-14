@@ -85,7 +85,8 @@ class RecipientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->repository->update($id, $request->all());
+        $data = $request->except('id', 'created_at', 'updated_at', 'deleted_at');
+        $this->repository->update($id, $data);
         return Redirect::route('datatables.recipients');
     }
 
