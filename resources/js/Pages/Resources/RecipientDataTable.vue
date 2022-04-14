@@ -4,9 +4,12 @@ import Column from 'primevue/column';
 import Toolbar from 'primevue/toolbar';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
+import FileUpload from 'primevue/fileupload';
+import Dialog from 'primevue/dialog';
 import { ref, onMounted, onUpdated } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { Inertia, onSuccess } from '@inertiajs/inertia';
+import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
 
 const props = defineProps(['cols', 'data', 'errors', 'message']);
@@ -44,6 +47,11 @@ const filters = ref({
     },
 
     'phoneCell':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
+    'notes':
     {
         operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
     },
@@ -87,13 +95,42 @@ const initFilters = function () {
         {
             operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
         },
+
+        'notes':
+        {
+            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+        },
+
     }
 };
+
+onMounted(() => {
+    initFilters();
+});
 
 const toast = useToast();
 const loading = ref(true);
 const editingRows = ref([]);
 const selected = ref();
+const newRecordDialog = ref(false);
+const newRecordForm = useForm({
+    firstName: null,
+    lastName: null,
+    email: null,
+    phoneHome: null,
+    phoneCell: null,
+    notes: null,
+});
+
+const openNewRecordDialog = function () {
+    console.log('opening');
+    newRecordDialog.value = true;
+    console.log(newRecordDialog.value);
+}
+
+const closeNewRecordDialog = function () {
+    newRecordDialog.value = true;
+}
 
 const onRowEditSave = function (event) {
     let { newData, index } = event;
@@ -118,8 +155,51 @@ onUpdated(() => {
 
 <template>
     <DataTableLayout>
+        <Dialog v-model:visible="newRecordDialog" :closeOnEscape="true" :closable="true" :draggable="false"
+            :modal="true" @open="() => console.log('ME OPEN')" :breakpoints="{
+                '960px': '75vw',
+                '640px': '100vw'
+            }" :style="{ width: '50vw' }">
+            Add Record
+            <form @submit.prevent="newRecordForm.post('/recipients/create')">
+                <div>
+                    <div class="grid p-fluid">
+                        <div class="col-12 md:col-6">
+                            <label for="newRecord.firstName">First Name</label>
+                            <InputText id="newRecord.firstName" type="text" v-model="newRecordForm.firstName" />
+                        </div>
+                        <div class="col-12 md:col-6">
+                            <label for="newRecord.lastName">Last Name</label>
+                            <InputText type="text" v-model="newRecordForm.lastName" />
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-12">
+                            <InputText type="text" v-model="newRecordForm.email" />
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-12 md:col-6">
+                            <InputText type="text" v-model="newRecordForm.phoneHome" />
+                        </div>
+                        <div class="col-12 md:col-6">
+                            <InputText type="text" v-model="newRecordForm.phoneCell" />
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-12">
+
+                            <InputText type="text" v-model="newRecordForm.notes" />
+                        </div>
+                    </div>
+                    <Button type="submit" :disabled="newRecordForm.processing">Submit</Button>
+
+                </div>
+            </form>
+
+        </Dialog>
         <template #header>
-            <h2>Recipients</h2>
+            Recipients
         </template>
         <template #table>
             <!-- <span v-for="(key,val) in props.cols">{{key}}  +  {{val}}</span> -->
@@ -129,10 +209,30 @@ onUpdated(() => {
                 :resizableColumns="true" columnResizeMode="fit" @row-edit-save="onRowEditSave"
                 v-model:editingRows="editingRows">
                 <template #header>
-                    <div class="flex p-header" style="justify-content: space-between">
+                    <Toolbar class="p-0">
+                        <template #start>
+                            <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
+                                class="p-button-outlined" @click="initFilters()" />
+                            <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
+                                @click="openNewRecordDialog" />
+                            <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
+                                label="Import from CSV" chooseLabel="Import from CSV" url="/recipients/import"
+                                class="inline-block" />
+
+                        </template>
+                        <template #end>
+                            <span class="p-input-icon-left ">
+                                <i class="pi pi-search" />
+                                <InputText v-model="filters['global'].value" placeholder="Search all columns" />
+                            </span>
+
+                        </template>
+
+                    </Toolbar>
+                    <!-- <div class="flex p-header" style="justify-content: space-between">
                         <div class="p-header-left">
-                            <Button type="button" icon="pi pi-filter-slash" label="Clear Filters" class="p-button-outlined"
-                                @click="initFilters()" />
+                            <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
+                                class="p-button-outlined" @click="initFilters()" />
                             <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
                                 @click="initFilters()" />
 
@@ -144,7 +244,7 @@ onUpdated(() => {
                             </span>
 
                         </div>
-                    </div>
+                    </div> -->
                 </template>
                 <template #loading>
                     Loading recipients, please wait...
@@ -255,6 +355,14 @@ onUpdated(() => {
 </template>
 
 <style lang="scss" scoped>
+.p-toolbar {
+    padding: 0;
+}
+
+.p-toolbar * {
+    margin: 0 0.2rem;
+}
+
 .p-header div * {
     margin: 0 0.2rem;
 }
@@ -311,5 +419,12 @@ onUpdated(() => {
     .p-dropdown-label:not(.p-placeholder) {
         text-transform: uppercase;
     }
+}
+</style>
+
+<style>
+.p-button.p-fileupload-choose {
+    overflow: initial !important;
+    cursor: pointer;
 }
 </style>
