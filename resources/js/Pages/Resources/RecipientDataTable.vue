@@ -4,7 +4,7 @@ import Column from 'primevue/column';
 import Toolbar from 'primevue/toolbar';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
-import { ref, onMounted, defineProps } from 'vue';
+import { ref, onMounted } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { Inertia } from '@inertiajs/inertia';
 
@@ -107,8 +107,10 @@ const editingRows = ref([]);
         <template #table>
             <!-- <span v-for="(key,val) in props.cols">{{key}}  +  {{val}}</span> -->
             <DataTable :value="data" :paginator="true" :rows="10"
+            class="p-datatable-recipients"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" v-model:filters="filters" editMode="row"
+                showGridlines
                 @row-edit-save="onRowEditSave" v-model:editingRows="editingRows">
                 <template #header>
                     <div class="flex" style="justify-content: space-between">
@@ -258,7 +260,7 @@ const editingRows = ref([]);
     }
 }
 
-::v-deep(.p-datatable.p-datatable-customers) {
+::v-deep(.p-datatable.p-datatable-recipients) {
     .p-datatable-header {
         padding: 1rem;
         text-align: left;
@@ -279,6 +281,10 @@ const editingRows = ref([]);
 
     .p-dropdown-label:not(.p-placeholder) {
         text-transform: uppercase;
+    }
+
+    .p-datatable .p-datatable-tbody > tr > td {
+        padding: 0.25rem !important;
     }
 }
 </style>
