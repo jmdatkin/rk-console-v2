@@ -9,5 +9,12 @@ class Recipient extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'firstName',
+        'lastName',
+        'email',
+        'phoneHome',
+        'phoneCell',
+        'notes'
+    ];
 }
