@@ -8,6 +8,7 @@ import DataTable from 'primevue/datatable';
 import 'primeicons/primeicons.css';
 import 'primevue/resources/themes/md-light-indigo/theme.css';
 // import 'primevue/resources/themes/fluent-light/theme.css';
+// import 'primevue/resources/themes/lara-light-indigo/theme.css';
 
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
