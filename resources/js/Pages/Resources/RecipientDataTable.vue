@@ -4,9 +4,10 @@ import Column from 'primevue/column';
 import Toolbar from 'primevue/toolbar';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUpdated } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { Inertia } from '@inertiajs/inertia';
+import { useToast } from 'primevue/usetoast';
 
 const props = defineProps(['cols', 'data']);
 
@@ -48,13 +49,6 @@ const filters = ref({
     },
 });
 
-const onRowEditSave = function (event) {
-    let { newData, index } = event;
-    console.log(`${index}`);
-    console.dir(newData);
-    Inertia.patch(`/recipients/${newData.id}/update`,
-        newData);
-};
 
 const initFilters = function () {
     filters.value = {
@@ -96,9 +90,24 @@ const initFilters = function () {
     }
 };
 
+const toast = useToast();
 const loading = ref(true);
 const editingRows = ref([]);
+const selected = ref();
 
+const onRowEditSave = function (event) {
+    let { newData, index } = event;
+    console.log(`${index}`);
+    console.dir(newData);
+    Inertia.patch(`/recipients/${newData.id}/update`,
+        newData);
+};
+
+onUpdated(() => {
+    // console.log('mounted');
+    console.log(props);
+    toast.add({severity: props['message-class'], summary: 'Successful', detail: props['message'], life: 3000});
+});
 </script>
 
 <template>
@@ -106,12 +115,11 @@ const editingRows = ref([]);
 
         <template #table>
             <!-- <span v-for="(key,val) in props.cols">{{key}}  +  {{val}}</span> -->
-            <DataTable :value="data" :paginator="true" :rows="10"
-            class="p-datatable-recipients"
+            <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-recipients"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
-                filterDisplay="menu" responsiveLayout="scroll" v-model:filters="filters" editMode="row"
-                showGridlines
-                @row-edit-save="onRowEditSave" v-model:editingRows="editingRows">
+                filterDisplay="menu" responsiveLayout="scroll" v-model:filters="filters" editMode="row" showGridlines
+                :resizableColumns="true" columnResizeMode="fit" @row-edit-save="onRowEditSave"
+                v-model:editingRows="editingRows">
                 <template #header>
                     <div class="flex" style="justify-content: space-between">
 
@@ -233,7 +241,8 @@ const editingRows = ref([]);
 
 <style lang="scss" scoped>
 .p-datatable {
-    max-width: 1400px;
+    max-width: 1700px;
+    margin: 0 auto;
     width: 100%;
 }
 
@@ -277,14 +286,11 @@ const editingRows = ref([]);
 
     .p-datatable-tbody>tr>td {
         cursor: auto;
+        padding: 0.5rem !important;
     }
 
     .p-dropdown-label:not(.p-placeholder) {
         text-transform: uppercase;
-    }
-
-    .p-datatable .p-datatable-tbody > tr > td {
-        padding: 0.25rem !important;
     }
 }
 </style>

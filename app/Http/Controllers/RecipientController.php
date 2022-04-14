@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\RecipientDataTableInterface;
 use App\Repository\RecipientRepositoryInterface;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -86,8 +87,18 @@ class RecipientController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->except('id', 'created_at', 'updated_at', 'deleted_at');
-        $this->repository->update($id, $data);
-        return Redirect::route('datatables.recipients');
+        try {
+            $this->repository->update($id, $data);
+            return Redirect::route('datatables.recipients')->with([
+                'message-class' => 'success',
+                'message' => 'Record successfully edited.'
+            ]);
+        } catch (Exception $e) {
+            return Redirect::route('datatables.recipients')->with([
+                'message-class' => 'error',
+                'message' => 'An error occurred. Record was not edited.'
+            ]);
+        }
     }
 
     /**

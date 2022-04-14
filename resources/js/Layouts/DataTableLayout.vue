@@ -21,10 +21,15 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
                 </template>
             </Toolbar> -->
             <slot></slot>
-            <div class="card">
-
+            <div class="p-datatable-wrapper flex card">
                 <slot name="table"></slot>
             </div>
         </div>
     </AuthenticatedLayout>
 </template>
+
+<style scoped lang="scss">
+    .p-datatable-wrapper {
+        width: 100%;
+    }
+</style>

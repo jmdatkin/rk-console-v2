@@ -13,3 +13,15 @@
     position: absolute;
     width: 1px;
 }
+
+.p-datatable {
+    font-size: 0.9rem !important;
+}
+
+.p-inputtext {
+    padding: 0.5rem !important;
+}
+
+.p-datatable .p-sortable-column.p-highlight {
+    background-color: transparent !important;
+}
