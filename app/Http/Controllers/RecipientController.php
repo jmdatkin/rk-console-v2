@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\RecipientDataTableInterface;
+use App\Repository\RecipientRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class RecipientController extends Controller
 {
-    public function __construct(RecipientDataTableInterface $dataTable)
+    public function __construct(RecipientDataTableInterface $dataTable,  RecipientRepositoryInterface $repository)
     {
-       $this->dataTable = $dataTable; 
+        $this->dataTable = $dataTable;
+        $this->repository = $repository;
     }
     /**
      * Display a listing of the resource.
@@ -21,11 +24,13 @@ class RecipientController extends Controller
     {
         //
         error_log('hey');
-        return Inertia::render('Resources/RecipientDataTable', 
-        [
-            "cols" => $this->dataTable->cols(),
-            "data" => $this->dataTable->data()
-        ]);
+        return Inertia::render(
+            'Resources/RecipientDataTable',
+            [
+                "cols" => $this->dataTable->cols(),
+                "data" => $this->dataTable->data()
+            ]
+        );
     }
 
     /**
@@ -80,7 +85,8 @@ class RecipientController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->repository->update($id, $request->all());
+        return Redirect::route('datatables.recipients');
     }
 
     /**

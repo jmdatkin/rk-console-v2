@@ -6,6 +6,7 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import { ref, onMounted, defineProps } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
+import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps(['cols', 'data']);
 
@@ -17,6 +18,7 @@ const filters = ref({
 
     'id':
     {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
         // value: null, matchMode: FilterMatchMode.CONTAINS
     },
 
@@ -46,6 +48,15 @@ const filters = ref({
     },
 });
 
+const onRowEditSave = function(event) {
+    let { newData, index } = event;
+    console.log(`${index}`);
+    console.dir(newData);
+    Inertia.patch(`/recipients/${newData.id}/update`,
+    newData);
+};
+
+const editingRows = ref([]);
 
 </script>
 
@@ -54,9 +65,12 @@ const filters = ref({
 
         <template #table>
             <!-- <span v-for="(key,val) in props.cols">{{key}}  +  {{val}}</span> -->
-            <DataTable :value="data" paginator="true" :rows="10"
+            <DataTable :value="data" :paginator="true" :rows="10"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
-                filterDisplay="menu" responsiveLayout="scroll" v-model:filters="filters">
+                filterDisplay="menu" responsiveLayout="scroll" v-model:filters="filters"
+                editMode="row"
+                @row-edit-save="onRowEditSave"
+                v-model:editingRows="editingRows">
                 <template #header>
                     <div class="flex" style="justify-content: space-between">
 
@@ -72,16 +86,16 @@ const filters = ref({
                     style="min-width: 14rem;"
                     :sortable="true"></Column> -->
 
-                <Column sortable="true" field="id" header="id">
+                <Column :sortable="true" field="id" header="id">
                     <template #body="{ data }">
                         {{ data.id }}
                     </template>
                     <template #filter="{ filterModel }">
                         <InputText type="text" v-model="filterModel.value" class="p-column-filter"
-                            placeholder="Search by name"></InputText>
+                            placeholder="Search by id"></InputText>
                     </template>
                 </Column>
-                <Column sortable="true" field="firstName" header="First Name" filterField="firstName">
+                <Column :sortable="true" field="firstName" header="First Name" filterField="firstName">
                     <template #body="{ data }">
                         {{ data.firstName }}
                     </template>
@@ -89,8 +103,11 @@ const filters = ref({
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search by first name"></InputText>
                     </template>
+                    <template #editor="{data, field}">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
                 </Column>
-                <Column sortable="true" field="lastName" header="Last Name">
+                <Column :sortable="true" field="lastName" header="Last Name">
                     <template #body="{ data }">
                         {{ data.lastName }}
                     </template>
@@ -98,8 +115,11 @@ const filters = ref({
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search by last name"></InputText>
                     </template>
+                    <template #editor="{data, field}">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
                 </Column>
-                <Column sortable="true" field="email" header="E-mail Address">
+                <Column :sortable="true" field="email" header="E-mail Address">
                     <template #body="{ data }">
                         {{ data.email }}
                     </template>
@@ -107,8 +127,11 @@ const filters = ref({
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search by e-mail address"></InputText>
                     </template>
+                    <template #editor="{data, field}">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
                 </Column>
-                <Column sortable="true" field="phoneHome" header="Home #">
+                <Column :sortable="true" field="phoneHome" header="Home #">
                     <template #body="{ data }">
                         {{ data.phoneHome }}
                     </template>
@@ -116,8 +139,11 @@ const filters = ref({
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search home phone"></InputText>
                     </template>
+                    <template #editor="{data, field}">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
                 </Column>
-                <Column sortable="true" field="phoneCell" header="Cell #">
+                <Column :sortable="true" field="phoneCell" header="Cell #">
                     <template #body="{ data }">
                         {{ data.phoneCell }}
                     </template>
@@ -125,8 +151,11 @@ const filters = ref({
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search cell phone"></InputText>
                     </template>
+                    <template #editor="{data, field}">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
                 </Column>
-                <Column sortable="true" field="notes" header="Notes">
+                <Column :sortable="true" field="notes" header="Notes">
                     <template #body="{ data }">
                         {{ data.notes }}
                     </template>
@@ -134,7 +163,11 @@ const filters = ref({
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search notes"></InputText>
                     </template>
+                    <template #editor="{data, field}">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
                 </Column>
+                <Column :rowEditor="true" style="width:10%; min-width:8rem" bodyStyle="text-align:center"></Column>
 
 
 

@@ -18,7 +18,10 @@ use Inertia\Inertia;
 |
 */
 
-Route::resource('recipients', 'RecipientController');
+// Route::resource('recipients', RecipientController::class);
+Route::prefix('recipients')->group(function() {
+    Route::patch('/{id}/update', [RecipientController::class, 'update']);
+});
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -36,7 +39,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('datatables')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('recipients', [RecipientController::class, 'index']);
+    Route::get('recipients', [RecipientController::class, 'index'])->name('datatables.recipients');
 });
 
 Route::get('/datatables/recipients/data', [RecipientDataTableController::class, 'data']);

@@ -23,5 +23,7 @@ interface EloquentRepositoryInterface
      */
     public function find($id): ?Model;
 
+    public function update($id, $data): void;
+
     public function all(): Collection;
 }
