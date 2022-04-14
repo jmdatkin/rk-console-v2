@@ -24,6 +24,26 @@ const filters = ref({
     {
         operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.STARTS_WITH}],
     },
+
+    'lastName':
+    {
+        operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.STARTS_WITH}],
+    },
+
+    'email':
+    {
+        operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.CONTAINS}],
+    },
+
+    'phoneHome':
+    {
+        operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.CONTAINS}],
+    },
+
+    'phoneCell':
+    {
+        operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.CONTAINS}],
+    },
 });
 
 
@@ -66,14 +86,54 @@ const filters = ref({
                     </template>
                     <template #filter="{ filterModel, filterCallback }">
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                            class="p-column-filter" placeholder="Search by name"></InputText>
+                            class="p-column-filter" placeholder="Search by first name"></InputText>
                     </template>
                 </Column>
-                <Column sortable="true" field="lastName" header="Last Name"></Column>
-                <Column sortable="true" field="email" header="E-mail Address"></Column>
-                <Column sortable="true" field="phoneHome" header="Home #"></Column>
-                <Column sortable="true" field="phoneCell" header="Cell #"></Column>
-                <Column sortable="true" field="notes" header="Notes"></Column>
+                <Column sortable="true" field="lastName" header="Last Name">
+                    <template #body="{ data }">
+                        {{ data.lastName }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search by last name"></InputText>
+                    </template>
+                </Column>
+                <Column sortable="true" field="email" header="E-mail Address">
+                    <template #body="{ data }">
+                        {{ data.email }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search by e-mail address"></InputText>
+                    </template>
+                </Column>
+                <Column sortable="true" field="phoneHome" header="Home #">
+                    <template #body="{ data }">
+                        {{ data.phoneHome }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search home phone"></InputText>
+                    </template>
+                </Column>
+                <Column sortable="true" field="phoneCell" header="Cell #">
+                    <template #body="{ data }">
+                        {{ data.phoneCell }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search cell phone"></InputText>
+                    </template>
+                </Column>
+                <Column sortable="true" field="notes" header="Notes">
+                    <template #body="{ data }">
+                        {{ data.notes }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search notes"></InputText>
+                    </template>
+                </Column>
 
 
 
