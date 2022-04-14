@@ -2,6 +2,6 @@
 
 namespace App\Repository;
 
-interface RecipientRepositoryInterface
+interface RecipientRepositoryInterface extends EloquentRepositoryInterface
 {
 }

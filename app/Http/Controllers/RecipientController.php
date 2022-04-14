@@ -4,17 +4,14 @@ namespace App\Http\Controllers;
 
 use App\DataTables\RecipientDataTableInterface;
 use App\Repository\RecipientRepositoryInterface;
-use Exception;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
-class RecipientController extends Controller
+class RecipientController extends BaseResourceController
 {
     public function __construct(RecipientDataTableInterface $dataTable,  RecipientRepositoryInterface $repository)
     {
         $this->dataTable = $dataTable;
-        $this->repository = $repository;
+        parent::__construct($repository);
     }
     /**
      * Display a listing of the resource.
@@ -24,7 +21,6 @@ class RecipientController extends Controller
     public function index()
     {
         //
-        error_log('hey');
         return Inertia::render(
             'Resources/RecipientDataTable',
             [
@@ -34,94 +30,4 @@ class RecipientController extends Controller
         );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-        try {
-            $this->repository->create($request->all());
-            return Redirect::route('datatables.recipients')->with([
-                'message-class' => 'success',
-                'message' => 'Record successfully created.'
-            ]);
-        } catch (Exception $e) {
-            error_log($e);
-            return Redirect::route('datatables.recipients')->with([
-                'message-class' => 'error',
-                'message' => 'An error occurred. Record was not created.'
-            ]);
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $data = $request->except('id', 'created_at', 'updated_at', 'deleted_at');
-        try {
-            $this->repository->update($id, $data);
-            return Redirect::route('datatables.recipients')->with([
-                'message-class' => 'success',
-                'message' => 'Record successfully edited.'
-            ]);
-        } catch (Exception $e) {
-            return Redirect::route('datatables.recipients')->with([
-                'message-class' => 'error',
-                'message' => 'An error occurred. Record was not edited.'
-            ]);
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

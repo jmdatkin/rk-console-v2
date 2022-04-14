@@ -21,6 +21,7 @@ use Inertia\Inertia;
 // Route::resource('recipients', RecipientController::class);
 Route::prefix('recipients')->group(function() {
     Route::post('/store', [RecipientController::class, 'store']);
+    Route::post('/import', [RecipientController::class, 'import']);
     Route::patch('/{id}/update', [RecipientController::class, 'update']);
 });
 

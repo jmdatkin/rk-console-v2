@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Repository\EloquentRepositoryInterface;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class BaseResourceController extends Controller
 {
@@ -47,6 +49,19 @@ class BaseResourceController extends Controller
     public function store(Request $request)
     {
         //
+        try {
+            $this->repository->create($request->all());
+            return Redirect::route('datatables.recipients')->with([
+                'message-class' => 'success',
+                'message' => 'Record successfully created.'
+            ]);
+        } catch (Exception $e) {
+            error_log($e);
+            return Redirect::route('datatables.recipients')->with([
+                'message-class' => 'error',
+                'message' => 'An error occurred. Record was not created.'
+            ]);
+        }
     }
 
     /**
@@ -81,6 +96,19 @@ class BaseResourceController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $data = $request->except('id', 'created_at', 'updated_at', 'deleted_at');
+        try {
+            $this->repository->update($id, $data);
+            return Redirect::route('datatables.recipients')->with([
+                'message-class' => 'success',
+                'message' => 'Record successfully edited.'
+            ]);
+        } catch (Exception $e) {
+            return Redirect::route('datatables.recipients')->with([
+                'message-class' => 'error',
+                'message' => 'An error occurred. Record was not edited.'
+            ]);
+        }
     }
 
     /**
@@ -92,5 +120,17 @@ class BaseResourceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Import multiple records from CSV
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function import(Request $request) {
+        error_log("Import");
+        error_log($request->collect());
+        return Redirect::route('datatables.recipients');
     }
 }
