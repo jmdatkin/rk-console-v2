@@ -7,6 +7,7 @@ import PrimeVue from 'primevue/config';
 import DataTable from 'primevue/datatable';
 import ToastService from 'primevue/toastservice';
 import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';
 import 'primevue/resources/themes/md-light-indigo/theme.css';
 // import 'primevue/resources/themes/fluent-light/theme.css';
 // import 'primevue/resources/themes/lara-light-indigo/theme.css';

@@ -132,6 +132,17 @@ const closeNewRecordDialog = function () {
     newRecordDialog.value = true;
 }
 
+const submitNewRecord = function () {
+    newRecordForm.post('/recipients/store', {
+        onSuccess: page => {
+            toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
+        },
+        onError: errors => {
+            toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
+        }
+    })
+}
+
 const onRowEditSave = function (event) {
     let { newData, index } = event;
     console.log(`${index}`);
@@ -161,7 +172,7 @@ onUpdated(() => {
                 '640px': '100vw'
             }" :style="{ width: '50vw' }">
             Add Record
-            <form @submit.prevent="newRecordForm.post('/recipients/create')">
+            <form @submit.prevent="submitNewRecord">
                 <div>
                     <div class="grid p-fluid">
                         <div class="col-12 md:col-6">
@@ -170,26 +181,29 @@ onUpdated(() => {
                         </div>
                         <div class="col-12 md:col-6">
                             <label for="newRecord.lastName">Last Name</label>
-                            <InputText type="text" v-model="newRecordForm.lastName" />
+                            <InputText id="newRecord.lastName" type="text" v-model="newRecordForm.lastName" />
                         </div>
                     </div>
                     <div class="grid">
                         <div class="col-12">
-                            <InputText type="text" v-model="newRecordForm.email" />
+                            <label for="newRecord.email">E-mail Address</label>
+                            <InputText id="newRecord.email" type="text" v-model="newRecordForm.email" />
                         </div>
                     </div>
                     <div class="grid">
                         <div class="col-12 md:col-6">
-                            <InputText type="text" v-model="newRecordForm.phoneHome" />
+                            <label for="newRecord.phoneHome">Home Phone</label>
+                            <InputText id="newRecord.phoneHome" type="text" v-model="newRecordForm.phoneHome" />
                         </div>
                         <div class="col-12 md:col-6">
-                            <InputText type="text" v-model="newRecordForm.phoneCell" />
+                            <label for="newRecord.phoneCell">Cell Phone</label>
+                            <InputText id="newRecord.phoneCell" type="text" v-model="newRecordForm.phoneCell" />
                         </div>
                     </div>
                     <div class="grid">
                         <div class="col-12">
-
-                            <InputText type="text" v-model="newRecordForm.notes" />
+                            <label for="newRecord.notes">Notes</label>
+                            <InputText id="newRecord.notes" type="text" v-model="newRecordForm.notes" />
                         </div>
                     </div>
                     <Button type="submit" :disabled="newRecordForm.processing">Submit</Button>

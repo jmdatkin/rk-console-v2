@@ -53,6 +53,19 @@ class RecipientController extends Controller
     public function store(Request $request)
     {
         //
+        try {
+            $this->repository->create($request->all());
+            return Redirect::route('datatables.recipients')->with([
+                'message-class' => 'success',
+                'message' => 'Record successfully created.'
+            ]);
+        } catch (Exception $e) {
+            error_log($e);
+            return Redirect::route('datatables.recipients')->with([
+                'message-class' => 'error',
+                'message' => 'An error occurred. Record was not created.'
+            ]);
+        }
     }
 
     /**
