@@ -22,27 +22,27 @@ const filters = ref({
 
     'firstName':
     {
-        operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.STARTS_WITH}],
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
     },
 
     'lastName':
     {
-        operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.STARTS_WITH}],
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
     },
 
     'email':
     {
-        operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.CONTAINS}],
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
     },
 
     'phoneHome':
     {
-        operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.CONTAINS}],
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
     },
 
     'phoneCell':
     {
-        operator: FilterOperator.AND, constraints: [{value: null, matchMode: FilterMatchMode.CONTAINS}],
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
     },
 });
 
@@ -56,14 +56,15 @@ const filters = ref({
             <!-- <span v-for="(key,val) in props.cols">{{key}}  +  {{val}}</span> -->
             <DataTable :value="data" paginator="true" :rows="10"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
-                filterDisplay="menu"
-                responsiveLayout="scroll"
-                v-model:filters="filters">
+                filterDisplay="menu" responsiveLayout="scroll" v-model:filters="filters">
                 <template #header>
-                    <div class="flex justify-content-end">
+                    <div class="flex" style="justify-content: space-between">
+
+                        <Button type="button" icon="pi pi-filter-slash" label="Clear" class="p-button-outlined"
+                            @click="clearFilter1()" />
                         <span class="p-input-icon-left ">
                             <i class="pi pi-search" />
-                            <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+                            <InputText v-model="filters['global'].value" placeholder="Search all columns" />
                         </span>
                     </div>
                 </template>
@@ -190,11 +191,11 @@ const filters = ref({
         padding: 1rem;
     }
 
-    .p-datatable-thead > tr > th {
+    .p-datatable-thead>tr>th {
         text-align: left;
     }
 
-    .p-datatable-tbody > tr > td {
+    .p-datatable-tbody>tr>td {
         cursor: auto;
     }
 
@@ -202,5 +203,4 @@ const filters = ref({
         text-transform: uppercase;
     }
 }
-
 </style>
