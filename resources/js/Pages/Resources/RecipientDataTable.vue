@@ -118,6 +118,9 @@ onUpdated(() => {
 
 <template>
     <DataTableLayout>
+        <template #header>
+            <h2>Recipients</h2>
+        </template>
         <template #table>
             <!-- <span v-for="(key,val) in props.cols">{{key}}  +  {{val}}</span> -->
             <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-recipients"
@@ -126,14 +129,21 @@ onUpdated(() => {
                 :resizableColumns="true" columnResizeMode="fit" @row-edit-save="onRowEditSave"
                 v-model:editingRows="editingRows">
                 <template #header>
-                    <div class="flex" style="justify-content: space-between">
+                    <div class="flex p-header" style="justify-content: space-between">
+                        <div class="p-header-left">
+                            <Button type="button" icon="pi pi-filter-slash" label="Clear Filters" class="p-button-outlined"
+                                @click="initFilters()" />
+                            <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
+                                @click="initFilters()" />
 
-                        <Button type="button" icon="pi pi-filter-slash" label="Clear" class="p-button-outlined"
-                            @click="initFilters()" />
-                        <span class="p-input-icon-left ">
-                            <i class="pi pi-search" />
-                            <InputText v-model="filters['global'].value" placeholder="Search all columns" />
-                        </span>
+                        </div>
+                        <div class="p-header-right">
+                            <span class="p-input-icon-left ">
+                                <i class="pi pi-search" />
+                                <InputText v-model="filters['global'].value" placeholder="Search all columns" />
+                            </span>
+
+                        </div>
                     </div>
                 </template>
                 <template #loading>
@@ -146,7 +156,7 @@ onUpdated(() => {
                     style="min-width: 14rem;"
                     :sortable="true"></Column> -->
 
-                <Column :sortable="true" field="id" header="id">
+                <Column :sortable="true" field="id" header="id" style="text-align: center">
                     <template #body="{ data }">
                         {{ data.id }}
                     </template>
@@ -245,6 +255,10 @@ onUpdated(() => {
 </template>
 
 <style lang="scss" scoped>
+.p-header div * {
+    margin: 0 0.2rem;
+}
+
 .p-datatable {
     max-width: 1700px;
     margin: 0 auto;

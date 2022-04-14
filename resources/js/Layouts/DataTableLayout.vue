@@ -5,8 +5,10 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 
 <template>
     <AuthenticatedLayout>
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 sm:items-center sm:pt-0">
-            <!-- <Toolbar>
+        <div class="relative flex pt-0 justify-center min-h-screen bg-gray-100 sm:pt-2">
+            <div class="flex flex-col px-4 w-full max-w-screen-2xl">
+                <slot name="header"></slot>
+                <!-- <Toolbar>
                 <template #start>
                     <Button label="New" icon="pi pi-plus" class="mr-2" />
                     <Button label="Upload" icon="pi pi-upload" class="p-button-success" />
@@ -20,16 +22,16 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
                     <Button icon="pi pi-times" class="p-button-danger" />
                 </template>
             </Toolbar> -->
-            <slot></slot>
-            <div class="p-datatable-wrapper flex card">
-                <slot name="table"></slot>
+                <div class="p-datatable-wrapper flex card">
+                    <slot name="table"></slot>
+                </div>
             </div>
         </div>
     </AuthenticatedLayout>
 </template>
 
 <style scoped lang="scss">
-    .p-datatable-wrapper {
-        width: 100%;
-    }
+.p-datatable-wrapper {
+    width: 100%;
+}
 </style>

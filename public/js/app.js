@@ -23190,15 +23190,18 @@ var _withScopeId = function _withScopeId(n) {
 };
 
 var _hoisted_1 = {
-  "class": "relative flex items-top justify-center min-h-screen bg-gray-100 sm:items-center sm:pt-0"
+  "class": "relative flex pt-0 justify-center min-h-screen bg-gray-100 sm:pt-2"
 };
 var _hoisted_2 = {
+  "class": "flex flex-col px-4 w-full max-w-screen-2xl"
+};
+var _hoisted_3 = {
   "class": "p-datatable-wrapper flex card"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["AuthenticatedLayout"], null, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Toolbar>\n                <template #start>\n                    <Button label=\"New\" icon=\"pi pi-plus\" class=\"mr-2\" />\n                    <Button label=\"Upload\" icon=\"pi pi-upload\" class=\"p-button-success\" />\n                    <i class=\"pi pi-bars p-toolbar-separator mr-2\" />\n                    <SplitButton label=\"Save\" icon=\"pi pi-check\" :model=\"items\" class=\"p-button-warning\"></SplitButton>\n                </template>\n\n                <template #end>\n                    <Button icon=\"pi pi-search\" class=\"mr-2\" />\n                    <Button icon=\"pi pi-calendar\" class=\"p-button-success mr-2\" />\n                    <Button icon=\"pi pi-times\" class=\"p-button-danger\" />\n                </template>\n            </Toolbar> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "default", {}, undefined, true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "table", {}, undefined, true)])])];
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "header", {}, undefined, true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <Toolbar>\n                <template #start>\n                    <Button label=\"New\" icon=\"pi pi-plus\" class=\"mr-2\" />\n                    <Button label=\"Upload\" icon=\"pi pi-upload\" class=\"p-button-success\" />\n                    <i class=\"pi pi-bars p-toolbar-separator mr-2\" />\n                    <SplitButton label=\"Save\" icon=\"pi pi-check\" :model=\"items\" class=\"p-button-warning\"></SplitButton>\n                </template>\n\n                <template #end>\n                    <Button icon=\"pi pi-search\" class=\"mr-2\" />\n                    <Button icon=\"pi pi-calendar\" class=\"p-button-success mr-2\" />\n                    <Button icon=\"pi pi-times\" class=\"p-button-danger\" />\n                </template>\n            </Toolbar> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.renderSlot)(_ctx.$slots, "table", {}, undefined, true)])])])];
     }),
     _: 3
     /* FORWARDED */
@@ -23945,17 +23948,29 @@ var _withScopeId = function _withScopeId(n) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-7cb78e1e"), n = n(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)(), n;
 };
 
-var _hoisted_1 = {
-  "class": "flex",
+var _hoisted_1 = /*#__PURE__*/_withScopeId(function () {
+  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Recipients", -1
+  /* HOISTED */
+  );
+});
+
+var _hoisted_2 = {
+  "class": "flex p-header",
   style: {
     "justify-content": "space-between"
   }
 };
-var _hoisted_2 = {
+var _hoisted_3 = {
+  "class": "p-header-left"
+};
+var _hoisted_4 = {
+  "class": "p-header-right"
+};
+var _hoisted_5 = {
   "class": "p-input-icon-left"
 };
 
-var _hoisted_3 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_6 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     "class": "pi pi-search"
   }, null, -1
@@ -23963,14 +23978,17 @@ var _hoisted_3 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Loading recipients, please wait... ");
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Loading recipients, please wait... ");
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" No recipients found. ");
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" No recipients found. ");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_DataTable = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("DataTable");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["DataTableLayout"], null, {
+    header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [_hoisted_1];
+    }),
     table: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span v-for=\"(key,val) in props.cols\">{{key}}  +  {{val}}</span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_DataTable, {
         value: $props.data,
@@ -23981,7 +23999,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         filterDisplay: "menu",
         responsiveLayout: "scroll",
         filters: $setup.filters,
-        "onUpdate:filters": _cache[2] || (_cache[2] = function ($event) {
+        "onUpdate:filters": _cache[3] || (_cache[3] = function ($event) {
           return $setup.filters = $event;
         }),
         editMode: "row",
@@ -23990,40 +24008,51 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         columnResizeMode: "fit",
         onRowEditSave: $setup.onRowEditSave,
         editingRows: $setup.editingRows,
-        "onUpdate:editingRows": _cache[3] || (_cache[3] = function ($event) {
+        "onUpdate:editingRows": _cache[4] || (_cache[4] = function ($event) {
           return $setup.editingRows = $event;
         })
       }, {
         header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Button"], {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Button"], {
             type: "button",
             icon: "pi pi-filter-slash",
-            label: "Clear",
+            label: "Clear Filters",
             "class": "p-button-outlined",
             onClick: _cache[0] || (_cache[0] = function ($event) {
               return $setup.initFilters();
             })
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["InputText"], {
+          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Button"], {
+            type: "button",
+            icon: "pi pi-plus",
+            label: "Add Record",
+            "class": "p-button-success",
+            onClick: _cache[1] || (_cache[1] = function ($event) {
+              return $setup.initFilters();
+            })
+          })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["InputText"], {
             modelValue: $setup.filters['global'].value,
-            "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+            "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
               return $setup.filters['global'].value = $event;
             }),
             placeholder: "Search all columns"
           }, null, 8
           /* PROPS */
-          , ["modelValue"])])])];
+          , ["modelValue"])])])])];
         }),
         loading: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [_hoisted_4];
+          return [_hoisted_7];
         }),
         empty: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [_hoisted_5];
+          return [_hoisted_8];
         }),
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Column"], {
             sortable: true,
             field: "id",
-            header: "id"
+            header: "id",
+            style: {
+              "text-align": "center"
+            }
           }, {
             body: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref) {
               var data = _ref.data;
@@ -24660,7 +24689,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".p-datatable[data-v-7cb78e1e] {\n  max-width: 1700px;\n  margin: 0 auto;\n  width: 100%;\n}\n[data-v-7cb78e1e] .p-paginator .p-paginator-current {\n  margin-left: auto;\n}\n[data-v-7cb78e1e] .p-progressbar {\n  height: 0.5rem;\n  background-color: #D8DADC;\n}\n[data-v-7cb78e1e] .p-progressbar .p-progressbar-value {\n  background-color: #607D8B;\n}\n[data-v-7cb78e1e] .p-datepicker {\n  min-width: 25rem;\n}\n[data-v-7cb78e1e] .p-datepicker td {\n  font-weight: 400;\n}\n[data-v-7cb78e1e] .p-datatable.p-datatable-recipients .p-datatable-header {\n  padding: 1rem;\n  text-align: left;\n  font-size: 1.5rem;\n}\n[data-v-7cb78e1e] .p-datatable.p-datatable-recipients .p-paginator {\n  padding: 1rem;\n}\n[data-v-7cb78e1e] .p-datatable.p-datatable-recipients .p-datatable-thead > tr > th {\n  text-align: left;\n}\n[data-v-7cb78e1e] .p-datatable.p-datatable-recipients .p-datatable-tbody > tr > td {\n  cursor: auto;\n  padding: 0.5rem !important;\n}\n[data-v-7cb78e1e] .p-datatable.p-datatable-recipients .p-dropdown-label:not(.p-placeholder) {\n  text-transform: uppercase;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".p-header div *[data-v-7cb78e1e] {\n  margin: 0 0.2rem;\n}\n.p-datatable[data-v-7cb78e1e] {\n  max-width: 1700px;\n  margin: 0 auto;\n  width: 100%;\n}\n[data-v-7cb78e1e] .p-paginator .p-paginator-current {\n  margin-left: auto;\n}\n[data-v-7cb78e1e] .p-progressbar {\n  height: 0.5rem;\n  background-color: #D8DADC;\n}\n[data-v-7cb78e1e] .p-progressbar .p-progressbar-value {\n  background-color: #607D8B;\n}\n[data-v-7cb78e1e] .p-datepicker {\n  min-width: 25rem;\n}\n[data-v-7cb78e1e] .p-datepicker td {\n  font-weight: 400;\n}\n[data-v-7cb78e1e] .p-datatable.p-datatable-recipients .p-datatable-header {\n  padding: 1rem;\n  text-align: left;\n  font-size: 1.5rem;\n}\n[data-v-7cb78e1e] .p-datatable.p-datatable-recipients .p-paginator {\n  padding: 1rem;\n}\n[data-v-7cb78e1e] .p-datatable.p-datatable-recipients .p-datatable-thead > tr > th {\n  text-align: left;\n}\n[data-v-7cb78e1e] .p-datatable.p-datatable-recipients .p-datatable-tbody > tr > td {\n  cursor: auto;\n  padding: 0.5rem !important;\n}\n[data-v-7cb78e1e] .p-datatable.p-datatable-recipients .p-dropdown-label:not(.p-placeholder) {\n  text-transform: uppercase;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
