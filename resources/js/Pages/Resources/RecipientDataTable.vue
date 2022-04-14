@@ -6,10 +6,10 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import { ref, onMounted, onUpdated } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
-import { Inertia } from '@inertiajs/inertia';
+import { Inertia, onSuccess } from '@inertiajs/inertia';
 import { useToast } from 'primevue/usetoast';
 
-const props = defineProps(['cols', 'data']);
+const props = defineProps(['cols', 'data', 'errors', 'message']);
 
 const filters = ref({
     'global':
@@ -99,20 +99,25 @@ const onRowEditSave = function (event) {
     let { newData, index } = event;
     console.log(`${index}`);
     console.dir(newData);
-    Inertia.patch(`/recipients/${newData.id}/update`,
-        newData);
+    Inertia.patch(`/recipients/${newData.id}/update`, newData,
+        {
+            onSuccess: page => {
+                toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
+            },
+
+            onError: errors => {
+                toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
+            }
+        });
 };
 
 onUpdated(() => {
-    // console.log('mounted');
-    console.log(props);
-    toast.add({severity: props['message-class'], summary: 'Successful', detail: props['message'], life: 3000});
+    // toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
 });
 </script>
 
 <template>
     <DataTableLayout>
-
         <template #table>
             <!-- <span v-for="(key,val) in props.cols">{{key}}  +  {{val}}</span> -->
             <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-recipients"
