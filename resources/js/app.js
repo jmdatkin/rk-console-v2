@@ -3,12 +3,15 @@ require('./bootstrap');
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
+import NProgress from 'nprogress';
 import PrimeVue from 'primevue/config';
 import DataTable from 'primevue/datatable';
 import ToastService from 'primevue/toastservice';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import 'primevue/resources/themes/md-light-indigo/theme.css';
+import { Inertia } from '@inertiajs/inertia';
+import { noopDirectiveTransform } from '@vue/compiler-core';
 // import 'primevue/resources/themes/fluent-light/theme.css';
 // import 'primevue/resources/themes/arya-green/theme.css';
 // import 'primevue/resources/themes/lara-light-indigo/theme.css';
@@ -31,3 +34,6 @@ createInertiaApp({
 });
 
 InertiaProgress.init({ color: '#4B5563' });
+
+Inertia.on('start', () => NProgress.start());
+Inertia.on('finish', () => NProgress.done());

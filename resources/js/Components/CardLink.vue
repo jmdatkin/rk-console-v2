@@ -19,9 +19,7 @@ import { Link } from '@inertiajs/inertia-vue3';
 
 <style scoped lang="scss">
 .p-card-link {
-    flex-grow: 1;
-    align-items: stretch;
-    margin: 1rem;
+    display: block;
 }
 
 .p-card-link div.p-card:hover {

@@ -44,7 +44,8 @@ class HandleInertiaRequests extends Middleware
             'message' => [
                 'class' => session('message-class'),
                 'detail' => session('message')
-            ]
+            ],
+            'csrf' => csrf_token()
         ]);
     }
 }

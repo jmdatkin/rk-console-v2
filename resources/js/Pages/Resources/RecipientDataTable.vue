@@ -160,6 +160,16 @@ const onRowEditSave = function (event) {
         });
 };
 
+const onUpload = function(event) {
+    let { files } = event;
+    console.log("hey!");
+    
+};
+
+const beforeUpload = function(event) {
+    console.log("Before upload");
+};
+
 onUpdated(() => {
     // toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
 });
@@ -242,7 +252,8 @@ onUpdated(() => {
                                 @click="openNewRecordDialog" />
                             <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/recipients/import"
-                                class="inline-block" />
+                                class="inline-block"
+                                @before-send="beforeUpload" />
 
                         </template>
                         <template #end>
