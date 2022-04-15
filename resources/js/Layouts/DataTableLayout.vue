@@ -5,6 +5,9 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 
 <template>
     <AuthenticatedLayout>
+        <!-- <template #header>
+            <slot name="header"></slot>
+        </template> -->
         <slot></slot>
         <div class="relative flex pt-0 justify-center min-h-screen bg-gray-100 sm:pt-2">
             <div class="flex flex-col px-0 w-full max-w-screen-2xl">
