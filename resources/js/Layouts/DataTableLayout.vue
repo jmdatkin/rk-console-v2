@@ -7,7 +7,7 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
     <AuthenticatedLayout>
         <slot></slot>
         <div class="relative flex pt-0 justify-center min-h-screen bg-gray-100 sm:pt-2">
-            <div class="flex flex-col px-4 w-full max-w-screen-2xl">
+            <div class="flex flex-col px-0 w-full max-w-screen-2xl">
                 <div class="surface-section px-4 py-5 md:px-6 lg:px-8">
                     <ul class="list-none p-0 m-0 flex align-items-center font-medium mb-3">
                         <li>

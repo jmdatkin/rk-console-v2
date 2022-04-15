@@ -4,6 +4,7 @@ import Column from 'primevue/column';
 import Toolbar from 'primevue/toolbar';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
+import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
 import { ref, onMounted, onUpdated } from 'vue';
@@ -167,43 +168,53 @@ onUpdated(() => {
 <template>
     <DataTableLayout>
         <Dialog v-model:visible="newRecordDialog" :closeOnEscape="true" :closable="true" :draggable="false"
-            :modal="true" @open="() => console.log('ME OPEN')" :breakpoints="{
+            :modal="true" :breakpoints="{
                 '960px': '75vw',
                 '640px': '100vw'
-            }" :style="{ width: '50vw' }">
-            Add Record
+            }" :style="{ width: '50vw' }" :dismissableMask="true">
+
+            <template #header>
+                <h5 class="font-medium">Add Record</h5>
+            </template>
+
             <form @submit.prevent="submitNewRecord">
                 <div>
-                    <div class="grid p-fluid">
-                        <div class="col-12 md:col-6">
+                    <div class="grid p-field">
+                        <div class="col-12">
                             <label for="newRecord.firstName">First Name</label>
-                            <InputText id="newRecord.firstName" type="text" v-model="newRecordForm.firstName" />
+                            <InputText class="p-form-input" id="newRecord.firstName" type="text"
+                                v-model="newRecordForm.firstName" />
                         </div>
-                        <div class="col-12 md:col-6">
+                        <div class="col-12">
                             <label for="newRecord.lastName">Last Name</label>
-                            <InputText id="newRecord.lastName" type="text" v-model="newRecordForm.lastName" />
+                            <InputText class="p-form-input" id="newRecord.lastName" type="text"
+                                v-model="newRecordForm.lastName" />
                         </div>
                     </div>
                     <div class="grid">
                         <div class="col-12">
                             <label for="newRecord.email">E-mail Address</label>
-                            <InputText id="newRecord.email" type="text" v-model="newRecordForm.email" />
+                            <InputText class="p-form-input" id="newRecord.email" type="text"
+                                v-model="newRecordForm.email" />
                         </div>
                     </div>
                     <div class="grid">
-                        <div class="col-12 md:col-6">
+                        <div class="col-12">
                             <label for="newRecord.phoneHome">Home Phone</label>
-                            <InputText id="newRecord.phoneHome" type="text" v-model="newRecordForm.phoneHome" />
+                            <InputText class="p-form-input" id="newRecord.phoneHome" type="text"
+                                v-model="newRecordForm.phoneHome" />
                         </div>
-                        <div class="col-12 md:col-6">
+                        <div class="col-12">
                             <label for="newRecord.phoneCell">Cell Phone</label>
-                            <InputText id="newRecord.phoneCell" type="text" v-model="newRecordForm.phoneCell" />
+                            <InputText class="p-form-input" id="newRecord.phoneCell" type="text"
+                                v-model="newRecordForm.phoneCell" />
                         </div>
                     </div>
                     <div class="grid">
                         <div class="col-12">
                             <label for="newRecord.notes">Notes</label>
-                            <InputText id="newRecord.notes" type="text" v-model="newRecordForm.notes" />
+                            <Textarea class="p-form-input" id="newRecord.notes" type="text"
+                                v-model="newRecordForm.notes" />
                         </div>
                     </div>
                     <Button type="submit" :disabled="newRecordForm.processing">Submit</Button>
@@ -381,8 +392,14 @@ onUpdated(() => {
     margin: 0 0.2rem;
 }
 
+.p-form-input {
+    width: 100%;
+}
+
+.p-dialog-titlebar-close {}
+
 .p-datatable {
-    max-width: 1700px;
+    // max-width: 1700px;
     margin: 0 auto;
     width: 100%;
 }
@@ -427,7 +444,6 @@ onUpdated(() => {
 
     .p-datatable-tbody>tr>td {
         cursor: auto;
-        padding: 0.5rem !important;
     }
 
     .p-dropdown-label:not(.p-placeholder) {
@@ -440,5 +456,9 @@ onUpdated(() => {
 .p-button.p-fileupload-choose {
     overflow: initial !important;
     cursor: pointer;
+}
+
+.p-datatable-tbody>tr>td {
+    padding: 0.25rem 0.5rem !important;
 }
 </style>
