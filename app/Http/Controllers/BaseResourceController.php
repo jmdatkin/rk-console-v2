@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repository\EloquentRepositoryInterface;
+use Error;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class BaseResourceController extends Controller
     {
         $this->repository = $repository;
     }
-
+    
     /**
      * Display a listing of the resource.
      *
@@ -128,9 +129,26 @@ class BaseResourceController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function import(Request $request) {
-        error_log("Import");
-        error_log($request->collect());
+    public function import(Request $request)
+    {
+        try {
+            $data = $request->input('data');
+            $rows = explode("\n", $data);       //Split data by newline
+            $csv_data = array_map(function ($row) {
+                return str_getcsv($row);
+            }, $rows);
+
+            $header = $csv_data[0];
+            $body = array_slice($csv_data, 1);
+
+            if ($this->checkCsvHeaders($header))
+                $this->repository->import($body);
+            else
+                throw new Error("Headers do not match");
+
+        } catch (Exception | Error $e) {
+            error_log($e);
+        }
         return Redirect::route('datatables.recipients');
     }
 }

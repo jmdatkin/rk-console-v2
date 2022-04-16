@@ -13,7 +13,7 @@ import { Inertia, onSuccess } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
 
-const props = defineProps(['cols', 'data', 'errors', 'message']);
+const props = defineProps(['cols', 'data', 'errors', 'message', 'csrf']);
 
 const filters = ref({
     'global':
@@ -124,7 +124,6 @@ const newRecordForm = useForm({
 });
 
 const openNewRecordDialog = function () {
-    console.log('opening');
     newRecordDialog.value = true;
     console.log(newRecordDialog.value);
 }
@@ -146,8 +145,6 @@ const submitNewRecord = function () {
 
 const onRowEditSave = function (event) {
     let { newData, index } = event;
-    console.log(`${index}`);
-    console.dir(newData);
     Inertia.patch(`/recipients/${newData.id}/update`, newData,
         {
             onSuccess: page => {
@@ -160,15 +157,40 @@ const onRowEditSave = function (event) {
         });
 };
 
-const onUpload = function(event) {
-    let { files } = event;
-    console.log("hey!");
-    
+const beforeUpload = function (event) {
+    event.xhr.setRequestHeader('Content-type', 'text/csv');
+    event.xhr.setRequestHeader('X-CSRF-TOKEN', props.csrf);
+    event.formData.append("XDXD", ":)))))");
+    for (let key of event.formData.values())
+        console.log(key);
+    console.log(props.csrf);
 };
 
-const beforeUpload = function(event) {
-    console.log("Before upload");
-};
+const onUpload = function (event) {
+    let { files } = event;
+    let fr = new FileReader();
+
+    console.log(fr);
+
+    fr.readAsText(files[0]);
+
+    fr.onload = () => {
+        Inertia.post('/recipients/import', {
+            data: fr.result,
+            XDXD: ":))))"
+        }, {
+            onSuccess: page => {
+                toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
+            },
+
+            onError: errors => {
+                toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
+            }
+        })
+
+    };
+
+}
 
 onUpdated(() => {
     // toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
@@ -240,9 +262,9 @@ onUpdated(() => {
             <!-- <span v-for="(key,val) in props.cols">{{key}}  +  {{val}}</span> -->
             <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-recipients"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
-                filterDisplay="menu" responsiveLayout="scroll" v-model:filters="filters" editMode="row" showGridlines
-                :resizableColumns="true" columnResizeMode="fit" @row-edit-save="onRowEditSave"
-                v-model:editingRows="editingRows">
+                filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
+                columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
+                @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
                     <Toolbar class="p-0">
                         <template #start>
@@ -252,8 +274,7 @@ onUpdated(() => {
                                 @click="openNewRecordDialog" />
                             <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/recipients/import"
-                                class="inline-block"
-                                @before-send="beforeUpload" />
+                                class="inline-block" :customUpload="true" @uploader="onUpload" />
 
                         </template>
                         <template #end>
@@ -291,6 +312,9 @@ onUpdated(() => {
                 <!-- <Column v-for="(header, data) in props.cols" :field="data" :header="header" :key="data"
                     style="min-width: 14rem;"
                     :sortable="true"></Column> -->
+
+                <Column selectionMode="multiple" headerStyle="width: 3em">
+                </Column>
 
                 <Column :sortable="true" field="id" header="id" style="text-align: center">
                     <template #body="{ data }">

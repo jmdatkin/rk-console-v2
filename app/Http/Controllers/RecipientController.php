@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\DataTables\RecipientDataTableInterface;
 use App\Repository\RecipientRepositoryInterface;
+use Error;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class RecipientController extends BaseResourceController
@@ -30,4 +34,15 @@ class RecipientController extends BaseResourceController
         );
     }
 
+    public function checkCsvHeaders($headers)
+    {
+        $cols = array_values($this->dataTable->cols());
+        var_dump($cols);
+        foreach ($headers as $header) {
+            error_log($header);
+            if (!in_array($header, $cols))
+                return false;
+        }
+        return true;
+    }
 }
