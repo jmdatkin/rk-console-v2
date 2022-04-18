@@ -118,10 +118,13 @@ class BaseResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($ids)
+    public function destroy(Request $request)
     {
+        error_log($request->collect());
         //
         try {
+            $ids = $request->input('ids');
+            error_log($ids);
             $this->repository->destroy($ids);
             return Redirect::route('datatables.recipients')->with([
                 'message-class' => 'success',

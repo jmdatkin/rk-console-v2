@@ -157,6 +157,22 @@ const onRowEditSave = function (event) {
         });
 };
 
+const destroyRecords = function () {
+    let ids = selected.value.map(row => row.id);
+    console.log(ids);
+    Inertia.delete('/recipients/destroy', ids,
+        {
+            onSuccess: page => {
+                toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
+            },
+
+            onError: errors => {
+                toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
+            }
+        }
+    )
+};
+
 const beforeUpload = function (event) {
     event.xhr.setRequestHeader('Content-type', 'text/csv');
     event.xhr.setRequestHeader('X-CSRF-TOKEN', props.csrf);
@@ -271,6 +287,8 @@ onUpdated(() => {
                                 class="p-button-outlined" @click="initFilters()" />
                             <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
                                 @click="openNewRecordDialog" />
+                            <Button type="button" icon="pi pi-plus" label="Destroy Records" class="p-button-error"
+                                @click="destroyRecords" />
                             <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/recipients/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" />

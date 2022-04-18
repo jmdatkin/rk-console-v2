@@ -23,6 +23,7 @@ Route::prefix('recipients')->group(function() {
     Route::post('/store', [RecipientController::class, 'store']);
     Route::post('/import', [RecipientController::class, 'import']);
     Route::patch('/{id}/update', [RecipientController::class, 'update']);
+    Route::delete('/destroy', [RecipientController::class, 'destroy']);
 });
 
 Route::get('/', function () {

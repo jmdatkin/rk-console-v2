@@ -22644,6 +22644,31 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       });
     };
 
+    var destroyRecords = function destroyRecords() {
+      var ids = selected.value.map(function (row) {
+        return row.id;
+      });
+      console.log(ids);
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_10__.Inertia["delete"]('/recipients/destroy', ids, {
+        onSuccess: function onSuccess(page) {
+          toast.add({
+            severity: props.message["class"],
+            summary: 'Successful',
+            detail: props.message.detail,
+            life: 3000
+          });
+        },
+        onError: function onError(errors) {
+          toast.add({
+            severity: props.message["class"],
+            summary: 'Error',
+            detail: props.message.detail,
+            life: 3000
+          });
+        }
+      });
+    };
+
     var beforeUpload = function beforeUpload(event) {
       event.xhr.setRequestHeader('Content-type', 'text/csv');
       event.xhr.setRequestHeader('X-CSRF-TOKEN', props.csrf);
@@ -22712,6 +22737,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       closeNewRecordDialog: closeNewRecordDialog,
       submitNewRecord: submitNewRecord,
       onRowEditSave: onRowEditSave,
+      destroyRecords: destroyRecords,
       beforeUpload: beforeUpload,
       onUpload: onUpload,
       DataTableLayout: _Layouts_DataTableLayout_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -24492,6 +24518,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 label: "Add Record",
                 "class": "p-button-success",
                 onClick: $setup.openNewRecordDialog
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Button"], {
+                type: "button",
+                icon: "pi pi-plus",
+                label: "Destroy Records",
+                "class": "p-button-error",
+                onClick: $setup.destroyRecords
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["FileUpload"], {
                 auto: true,
                 name: "csv_data",
