@@ -177,7 +177,6 @@ const onUpload = function (event) {
     fr.onload = () => {
         Inertia.post('/recipients/import', {
             data: fr.result,
-            XDXD: ":))))"
         }, {
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });

@@ -30,8 +30,6 @@ class BaseRepository implements EloquentRepositoryInterface
     */
     public function create(array $attributes): Model
     {
-        error_log("Yo");
-        error_log(collect($attributes));
         return $this->model->create($attributes);
     }
  
@@ -53,5 +51,9 @@ class BaseRepository implements EloquentRepositoryInterface
 
     public function all(): Collection {
         return $this->model->all();
+    }
+
+    public function destroy($ids) {
+        $this->model->destroy($ids);
     }
 }

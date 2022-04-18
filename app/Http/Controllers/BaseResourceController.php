@@ -20,7 +20,7 @@ class BaseResourceController extends Controller
     {
         $this->repository = $repository;
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -118,9 +118,22 @@ class BaseResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($ids)
     {
         //
+        try {
+            $this->repository->destroy($ids);
+            return Redirect::route('datatables.recipients')->with([
+                'message-class' => 'success',
+                'message' => 'Record successfully destroyed.'
+            ]);
+        } catch (Exception $e) {
+            error_log($e);
+            return Redirect::route('datatables.recipients')->with([
+                'message-class' => 'error',
+                'message' => 'An error occurred. Record was not altered.'
+            ]);
+        }
     }
 
     /**
@@ -145,7 +158,6 @@ class BaseResourceController extends Controller
                 $this->repository->import($body);
             else
                 throw new Error("Headers do not match");
-
         } catch (Exception | Error $e) {
             error_log($e);
         }

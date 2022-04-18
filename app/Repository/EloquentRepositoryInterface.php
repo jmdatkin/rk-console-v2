@@ -27,4 +27,6 @@ interface EloquentRepositoryInterface
     public function update($id, $data): void;
 
     public function all(): Collection;
+
+    public function destroy($ids);
 }

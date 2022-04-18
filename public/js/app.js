@@ -22674,8 +22674,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
       fr.onload = function () {
         _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_10__.Inertia.post('/recipients/import', {
-          data: fr.result,
-          XDXD: ":))))"
+          data: fr.result
         }, {
           onSuccess: function onSuccess(page) {
             toast.add({
