@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Recipient>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Driver>
  */
-class RecipientFactory extends Factory
+class DriverFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -23,7 +23,6 @@ class RecipientFactory extends Factory
             'email' => $this->faker->email(),
             'phoneHome' => $this->faker->phoneNumber(),
             'phoneCell' => $this->faker->phoneNumber(),
-            'numMeals' => $this->faker->numberBetween(2,108),
             'notes' => ''
         ];
     }

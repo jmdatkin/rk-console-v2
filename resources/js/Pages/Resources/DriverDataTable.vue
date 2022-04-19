@@ -133,7 +133,7 @@ const closeNewRecordDialog = function () {
 }
 
 const submitNewRecord = function () {
-    newRecordForm.post('/recipients/store', {
+    newRecordForm.post('/drivers/store', {
         onSuccess: page => {
             toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
         },
@@ -145,7 +145,7 @@ const submitNewRecord = function () {
 
 const onRowEditSave = function (event) {
     let { newData, index } = event;
-    Inertia.patch(`/recipients/${newData.id}/update`, newData,
+    Inertia.patch(`/drivers/${newData.id}/update`, newData,
         {
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
@@ -160,7 +160,7 @@ const onRowEditSave = function (event) {
 const destroyRecords = function () {
     let ids = selected.value.map(row => row.id);
     console.log(ids);
-    Inertia.post('/recipients/destroy', {ids},
+    Inertia.post('/drivers/destroy', {ids},
         {
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
@@ -191,7 +191,7 @@ const onUpload = function (event) {
     fr.readAsText(files[0]);
 
     fr.onload = () => {
-        Inertia.post('/recipients/import', {
+        Inertia.post('/drivers/import', {
             data: fr.result,
         }, {
             onSuccess: page => {
@@ -271,11 +271,11 @@ onUpdated(() => {
 
         </Dialog>
         <template #header>
-            Recipients
+            drivers
         </template>
         <template #table>
             <!-- <span v-for="(key,val) in props.cols">{{key}}  +  {{val}}</span> -->
-            <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-recipients"
+            <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-drivers"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
@@ -290,7 +290,7 @@ onUpdated(() => {
                             <Button type="button" icon="pi pi-plus" label="Delete Records" class="p-button-alert"
                                 @click="destroyRecords" />
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
-                                label="Import from CSV" chooseLabel="Import from CSV" url="/recipients/import"
+                                label="Import from CSV" chooseLabel="Import from CSV" url="/drivers/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
 
                         </template>
@@ -321,10 +321,10 @@ onUpdated(() => {
                     </div> -->
                 </template>
                 <template #loading>
-                    Loading recipients, please wait...
+                    Loading drivers, please wait...
                 </template>
                 <template #empty>
-                    No recipients found.
+                    No drivers found.
                 </template>
                 <!-- <Column v-for="(header, data) in props.cols" :field="data" :header="header" :key="data"
                     style="min-width: 14rem;"

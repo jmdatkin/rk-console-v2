@@ -74,7 +74,7 @@ import CardLink from '@/Components/CardLink';
                             </CardLink>
                         </div>
                         <div class="col-4">
-                            <CardLink class="p-dashboard-card" href="/datatables/recipients">
+                            <CardLink class="p-dashboard-card" href="/datatables/drivers">
                                 <template #title>
                                     Drivers
                                 </template>
