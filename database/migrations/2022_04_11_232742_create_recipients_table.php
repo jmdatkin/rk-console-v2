@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('phoneHome');
             $table->string('phoneCell');
             $table->integer('numMeals');
-            $table->string('notes')->default('');
+            $table->string('notes')->default('')->nullable();
             $table->timestamps();
         });
     }
