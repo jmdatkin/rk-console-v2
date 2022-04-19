@@ -118,25 +118,33 @@ class BaseResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        error_log($request->collect());
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function bulkDestroy(Request $request)
+    {
         //
         try {
             $ids = $request->input('ids');
-            error_log($ids);
             $this->repository->destroy($ids);
             return Redirect::route('datatables.recipients')->with([
                 'message-class' => 'success',
-                'message' => 'Record successfully destroyed.'
+                'message' => 'Record(s) successfully deleted.'
             ]);
         } catch (Exception $e) {
-            error_log($e);
             return Redirect::route('datatables.recipients')->with([
                 'message-class' => 'error',
-                'message' => 'An error occurred. Record was not altered.'
+                'message' => 'An error occurred. One or more record(s) were not deleted.'
             ]);
         }
+
     }
 
     /**

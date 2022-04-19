@@ -22649,7 +22649,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         return row.id;
       });
       console.log(ids);
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_10__.Inertia["delete"]('/recipients/destroy', ids, {
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_10__.Inertia.post('/recipients/destroy', {
+        ids: ids
+      }, {
         onSuccess: function onSuccess(page) {
           toast.add({
             severity: props.message["class"],
@@ -24521,22 +24523,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Button"], {
                 type: "button",
                 icon: "pi pi-plus",
-                label: "Destroy Records",
-                "class": "p-button-error",
+                label: "Delete Records",
+                "class": "p-button-alert",
                 onClick: $setup.destroyRecords
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["FileUpload"], {
-                auto: true,
-                name: "csv_data",
-                mode: "basic",
-                accept: ".csv",
-                maxFileSize: 1000000,
-                label: "Import from CSV",
-                chooseLabel: "Import from CSV",
-                url: "/recipients/import",
-                "class": "inline-block",
-                customUpload: true,
-                onUploader: $setup.onUpload
-              })];
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <FileUpload :auto=\"true\" name=\"csv_data\" mode=\"basic\" accept=\".csv\" :maxFileSize=\"1000000\"\n                                label=\"Import from CSV\" chooseLabel=\"Import from CSV\" url=\"/recipients/import\"\n                                class=\"inline-block\" :customUpload=\"true\" @uploader=\"onUpload\" /> ")];
             }),
             end: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, [_hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["InputText"], {
