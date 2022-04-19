@@ -160,7 +160,7 @@ const onRowEditSave = function (event) {
 const destroyRecords = function () {
     let ids = selected.value.map(row => row.id);
     console.log(ids);
-    Inertia.post('/recipients/destroy', {ids},
+    Inertia.post('/recipients/destroy', { ids },
         {
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
@@ -206,10 +206,6 @@ const onUpload = function (event) {
     };
 
 }
-
-onUpdated(() => {
-    // toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-});
 </script>
 
 <template>
@@ -274,7 +270,6 @@ onUpdated(() => {
             Recipients
         </template>
         <template #table>
-            <!-- <span v-for="(key,val) in props.cols">{{key}}  +  {{val}}</span> -->
             <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-recipients"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
@@ -303,22 +298,7 @@ onUpdated(() => {
                         </template>
 
                     </Toolbar>
-                    <!-- <div class="flex p-header" style="justify-content: space-between">
-                        <div class="p-header-left">
-                            <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
-                                class="p-button-outlined" @click="initFilters()" />
-                            <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
-                                @click="initFilters()" />
 
-                        </div>
-                        <div class="p-header-right">
-                            <span class="p-input-icon-left ">
-                                <i class="pi pi-search" />
-                                <InputText v-model="filters['global'].value" placeholder="Search all columns" />
-                            </span>
-
-                        </div>
-                    </div> -->
                 </template>
                 <template #loading>
                     Loading recipients, please wait...
@@ -326,9 +306,7 @@ onUpdated(() => {
                 <template #empty>
                     No recipients found.
                 </template>
-                <!-- <Column v-for="(header, data) in props.cols" :field="data" :header="header" :key="data"
-                    style="min-width: 14rem;"
-                    :sortable="true"></Column> -->
+
 
                 <Column selectionMode="multiple" headerStyle="width: 3em">
                 </Column>
@@ -415,15 +393,6 @@ onUpdated(() => {
                     </template>
                 </Column>
                 <Column :rowEditor="true" style="width:10%; min-width:8rem" bodyStyle="text-align:center"></Column>
-
-
-
-
-                <!-- <Column field="code" header="Code"></Column>
-            <Column field="name" header="Name"></Column>
-            <Column field="category" header="Category"></Column>
-            <Column field="quantity" header="Quantity"></Column> -->
-
             </DataTable>
 
         </template>

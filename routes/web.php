@@ -1,10 +1,8 @@
 <?php
 
-use App\Http\Controllers\DataTableControllers\RecipientDataTableController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\RecipientController;
-use App\Models\Recipient;
-use App\Repository\DriverRepositoryInterface;
+use App\Http\Controllers\RouteController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,7 +18,6 @@ use Inertia\Inertia;
 |
 */
 
-// Route::resource('recipients', RecipientController::class);
 Route::prefix('recipients')->group(function() {
     Route::post('/store', [RecipientController::class, 'store']);
     Route::post('/import', [RecipientController::class, 'import']);
@@ -33,6 +30,13 @@ Route::prefix('drivers')->group(function() {
     Route::post('/import', [DriverController::class, 'import']);
     Route::patch('/{id}/update', [DriverController::class, 'update']);
     Route::post('/destroy', [DriverController::class, 'bulkDestroy']);
+});
+
+Route::prefix('routes')->group(function() {
+    Route::post('/store', [RouteController::class, 'store']);
+    Route::post('/import', [RouteController::class, 'import']);
+    Route::patch('/{id}/update', [RouteController::class, 'update']);
+    Route::post('/destroy', [RouteController::class, 'bulkDestroy']);
 });
 
 Route::get('/', function () {
@@ -53,8 +57,7 @@ Route::get('/dashboard', function () {
 Route::prefix('datatables')->middleware(['auth', 'verified'])->group(function () {
     Route::get('recipients', [RecipientController::class, 'index'])->name('datatables.recipients');
     Route::get('drivers', [DriverController::class, 'index'])->name('datatables.drivers');
+    Route::get('routes', [RouteController::class, 'index'])->name('datatables.routes');
 });
-
-Route::get('/datatables/recipients/data', [RecipientDataTableController::class, 'data']);
 
 require __DIR__ . '/auth.php';

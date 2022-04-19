@@ -2,6 +2,6 @@
 
 namespace App\Repository;
 
-interface RouteRepositoryInterface
+interface RouteRepositoryInterface extends EloquentRepositoryInterface
 {
 }

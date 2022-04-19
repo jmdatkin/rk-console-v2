@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\RecipientDataTableInterface;
-use App\Repository\RecipientRepositoryInterface;
-use Error;
+use App\DataTables\RouteDataTableInterface;
+use App\Repository\RouteRepositoryInterface;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
-class RecipientController extends BaseResourceController
+class RouteController extends BaseResourceController
 {
-    public function __construct(RecipientDataTableInterface $dataTable,  RecipientRepositoryInterface $repository)
+    public function __construct(RouteDataTableInterface $dataTable,  RouteRepositoryInterface $repository)
     {
         $this->dataTable = $dataTable;
         parent::__construct($repository);
@@ -26,7 +25,7 @@ class RecipientController extends BaseResourceController
     {
         //
         return Inertia::render(
-            'Resources/RecipientDataTable',
+            'Resources/RouteDataTable',
             [
                 "data" => $this->dataTable->data()
             ]
@@ -37,13 +36,13 @@ class RecipientController extends BaseResourceController
     {
         try {
             parent::store($request);
-            return Redirect::route('datatables.recipients')->with([
+            return Redirect::route('datatables.routes')->with([
                 'message-class' => 'success',
                 'message' => 'Record successfully created.'
             ]);
         } catch (Exception $e) {
             error_log($e);
-            return Redirect::route('datatables.recipients')->with([
+            return Redirect::route('datatables.routes')->with([
                 'message-class' => 'error',
                 'message' => 'An error occurred. Record was not created.'
             ]);
@@ -54,13 +53,13 @@ class RecipientController extends BaseResourceController
     {
         try {
             parent::update($request, $id);
-            return Redirect::route('datatables.recipients')->with([
+            return Redirect::route('datatables.routes')->with([
                 'message-class' => 'success',
                 'message' => 'Record successfully edited.'
             ]);
         } catch (Exception $e) {
             error_log($e);
-            return Redirect::route('datatables.recipients')->with([
+            return Redirect::route('datatables.routes')->with([
                 'message-class' => 'error',
                 'message' => 'An error occurred. Record was not edited.'
             ]);
@@ -71,27 +70,15 @@ class RecipientController extends BaseResourceController
     {
         try {
             parent::bulkDestroy($request);
-            return Redirect::route('datatables.recipients')->with([
+            return Redirect::route('datatables.routes')->with([
                 'message-class' => 'success',
                 'message' => 'Record(s) successfully deleted.'
             ]);
         } catch (Exception $e) {
-            return Redirect::route('datatables.recipients')->with([
+            return Redirect::route('datatables.routes')->with([
                 'message-class' => 'error',
                 'message' => 'An error occurred. One or more record(s) were not deleted.'
             ]);
         }
-    }
-
-    public function checkCsvHeaders($headers)
-    {
-        $cols = array_values($this->dataTable->cols());
-        var_dump($cols);
-        foreach ($headers as $header) {
-            error_log($header);
-            if (!in_array($header, $cols))
-                return false;
-        }
-        return true;
     }
 }

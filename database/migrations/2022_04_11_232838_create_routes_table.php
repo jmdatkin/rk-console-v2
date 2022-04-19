@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('routes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('notes');
+            $table->string('notes')->default('');
             $table->timestamps();
         });
     }
