@@ -147,8 +147,7 @@ const onUpload = function (event) {
             onError: errors => {
                 toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
             }
-        })
-
+        });
     };
 
 }
@@ -193,10 +192,9 @@ const onUpload = function (event) {
         </template>
         <template #table>
             <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-routes"
-                :globalFilterFields="['id', 'name', 'notes']"
-                filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
-                columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
-                @row-edit-save="onRowEditSave" v-model:selection="selected">
+                :globalFilterFields="['id', 'name', 'notes']" filterDisplay="menu" responsiveLayout="scroll"
+                editMode="row" showGridlines :resizableColumns="true" columnResizeMode="fit" v-model:filters="filters"
+                v-model:editingRows="editingRows" @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
                     <Toolbar class="p-0">
                         <template #start>
