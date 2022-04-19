@@ -32,7 +32,7 @@ Route::prefix('drivers')->group(function() {
     Route::post('/store', [DriverController::class, 'store']);
     Route::post('/import', [DriverController::class, 'import']);
     Route::patch('/{id}/update', [DriverController::class, 'update']);
-    Route::post('/destroy', [DriverRepositoryInterface::class, 'bulkDestroy']);
+    Route::post('/destroy', [DriverController::class, 'bulkDestroy']);
 });
 
 Route::get('/', function () {
@@ -52,7 +52,7 @@ Route::get('/dashboard', function () {
 
 Route::prefix('datatables')->middleware(['auth', 'verified'])->group(function () {
     Route::get('recipients', [RecipientController::class, 'index'])->name('datatables.recipients');
-    Route::get('drivers', [DriverController::class, 'index'])->name('datatables.driver');
+    Route::get('drivers', [DriverController::class, 'index'])->name('datatables.drivers');
 });
 
 Route::get('/datatables/recipients/data', [RecipientDataTableController::class, 'data']);

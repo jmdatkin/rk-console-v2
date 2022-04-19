@@ -50,19 +50,7 @@ class BaseResourceController extends Controller
     public function store(Request $request)
     {
         //
-        try {
-            $this->repository->create($request->all());
-            return Redirect::route('datatables.recipients')->with([
-                'message-class' => 'success',
-                'message' => 'Record successfully created.'
-            ]);
-        } catch (Exception $e) {
-            error_log($e);
-            return Redirect::route('datatables.recipients')->with([
-                'message-class' => 'error',
-                'message' => 'An error occurred. Record was not created.'
-            ]);
-        }
+        $this->repository->create($request->all());
     }
 
     /**
@@ -98,18 +86,7 @@ class BaseResourceController extends Controller
     {
         //
         $data = $request->except('id', 'created_at', 'updated_at', 'deleted_at');
-        try {
-            $this->repository->update($id, $data);
-            return Redirect::route('datatables.recipients')->with([
-                'message-class' => 'success',
-                'message' => 'Record successfully edited.'
-            ]);
-        } catch (Exception $e) {
-            return Redirect::route('datatables.recipients')->with([
-                'message-class' => 'error',
-                'message' => 'An error occurred. Record was not edited.'
-            ]);
-        }
+        $this->repository->update($id, $data);
     }
 
     /**
@@ -131,20 +108,8 @@ class BaseResourceController extends Controller
     public function bulkDestroy(Request $request)
     {
         //
-        try {
-            $ids = $request->input('ids');
-            $this->repository->destroy($ids);
-            return Redirect::route('datatables.recipients')->with([
-                'message-class' => 'success',
-                'message' => 'Record(s) successfully deleted.'
-            ]);
-        } catch (Exception $e) {
-            return Redirect::route('datatables.recipients')->with([
-                'message-class' => 'error',
-                'message' => 'An error occurred. One or more record(s) were not deleted.'
-            ]);
-        }
-
+        $ids = $request->input('ids');
+        $this->repository->destroy($ids);
     }
 
     /**
