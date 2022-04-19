@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('phoneHome');
             $table->string('phoneCell');
+            $table->integer('numMeals');
             $table->string('notes')->nullable();
             $table->timestamps();
         });
