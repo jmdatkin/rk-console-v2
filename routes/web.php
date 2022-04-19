@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\RecipientController;
 use App\Http\Controllers\RouteController;
@@ -39,6 +40,13 @@ Route::prefix('routes')->group(function() {
     Route::post('/destroy', [RouteController::class, 'bulkDestroy']);
 });
 
+Route::prefix('agencies')->group(function() {
+    Route::post('/store', [AgencyController::class, 'store']);
+    Route::post('/import', [AgencyController::class, 'import']);
+    Route::patch('/{id}/update', [AgencyController::class, 'update']);
+    Route::post('/destroy', [AgencyController::class, 'bulkDestroy']);
+});
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -48,8 +56,6 @@ Route::get('/', function () {
     ]);
 });
 
-// Route::get('/', [RecipientController::class, 'index'])->middleware(['auth', 'verified']);
-
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -58,6 +64,7 @@ Route::prefix('datatables')->middleware(['auth', 'verified'])->group(function ()
     Route::get('recipients', [RecipientController::class, 'index'])->name('datatables.recipients');
     Route::get('drivers', [DriverController::class, 'index'])->name('datatables.drivers');
     Route::get('routes', [RouteController::class, 'index'])->name('datatables.routes');
+    Route::get('agencies', [AgencyController::class, 'index'])->name('datatables.agencies');
 });
 
 require __DIR__ . '/auth.php';

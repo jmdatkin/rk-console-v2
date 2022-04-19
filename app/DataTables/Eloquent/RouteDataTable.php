@@ -3,11 +3,11 @@
 namespace App\DataTables\Eloquent;
 
 use App\DataTables\RouteDataTableInterface;
-use App\Repository\Eloquent\RouteRepository;
+use App\Repository\RouteRepositoryInterface;
 
 class RouteDataTable extends BaseDataTable implements RouteDataTableInterface
 {
-    public function __construct(RouteRepository $repository)
+    public function __construct(RouteRepositoryInterface $repository)
     {
         parent::__construct($repository);
     }

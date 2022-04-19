@@ -13,7 +13,7 @@ import { Inertia, onSuccess } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
 
-const props = defineProps(['cols', 'data', 'errors', 'message', 'csrf']);
+const props = defineProps(['data', 'errors', 'message', 'csrf']);
 
 const filters = ref({
     'global':
@@ -27,31 +27,10 @@ const filters = ref({
         // value: null, matchMode: FilterMatchMode.CONTAINS
     },
 
-    'firstName':
+    'name':
     {
         operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
     },
-
-    'lastName':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-    },
-
-    'email':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-    },
-
-    'phoneHome':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-    },
-
-    'phoneCell':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-    },
-
     'notes':
     {
         operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
@@ -69,32 +48,11 @@ const initFilters = function () {
         'id':
         {
             operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-            // value: null, matchMode: FilterMatchMode.CONTAINS
         },
 
-        'firstName':
+        'name':
         {
             operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-        },
-
-        'lastName':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-        },
-
-        'email':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-        },
-
-        'phoneHome':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-        },
-
-        'phoneCell':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
         },
 
         'notes':
@@ -115,16 +73,13 @@ const editingRows = ref([]);
 const selected = ref();
 const newRecordDialog = ref(false);
 const newRecordForm = useForm({
-    firstName: null,
-    lastName: null,
-    email: null,
-    phoneHome: null,
-    phoneCell: null,
+    name: null,
     notes: null,
 });
 
 const openNewRecordDialog = function () {
     newRecordDialog.value = true;
+    console.log(newRecordDialog.value);
 }
 
 const closeNewRecordDialog = function () {
@@ -132,7 +87,7 @@ const closeNewRecordDialog = function () {
 }
 
 const submitNewRecord = function () {
-    newRecordForm.post('/recipients/store', {
+    newRecordForm.post('/agencies/store', {
         onSuccess: page => {
             toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
         },
@@ -144,7 +99,7 @@ const submitNewRecord = function () {
 
 const onRowEditSave = function (event) {
     let { newData, index } = event;
-    Inertia.patch(`/recipients/${newData.id}/update`, newData,
+    Inertia.patch(`/agencies/${newData.id}/update`, newData,
         {
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
@@ -158,7 +113,7 @@ const onRowEditSave = function (event) {
 
 const destroyRecords = function () {
     let ids = selected.value.map(row => row.id);
-    Inertia.post('/recipients/destroy', { ids },
+    Inertia.post('/agencies/destroy', { ids },
         {
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
@@ -183,7 +138,7 @@ const onUpload = function (event) {
     fr.readAsText(files[0]);
 
     fr.onload = () => {
-        Inertia.post('/recipients/import', {
+        Inertia.post('/agencies/import', {
             data: fr.result,
         }, {
             onSuccess: page => {
@@ -214,35 +169,11 @@ const onUpload = function (event) {
 
             <form @submit.prevent="submitNewRecord">
                 <div>
-                    <div class="grid p-field">
-                        <div class="col-12">
-                            <label for="newRecord.firstName">First Name</label>
-                            <InputText class="p-form-input" id="newRecord.firstName" type="text"
-                                v-model="newRecordForm.firstName" />
-                        </div>
-                        <div class="col-12">
-                            <label for="newRecord.lastName">Last Name</label>
-                            <InputText class="p-form-input" id="newRecord.lastName" type="text"
-                                v-model="newRecordForm.lastName" />
-                        </div>
-                    </div>
                     <div class="grid">
                         <div class="col-12">
-                            <label for="newRecord.email">E-mail Address</label>
-                            <InputText class="p-form-input" id="newRecord.email" type="text"
-                                v-model="newRecordForm.email" />
-                        </div>
-                    </div>
-                    <div class="grid">
-                        <div class="col-12">
-                            <label for="newRecord.phoneHome">Home Phone</label>
-                            <InputText class="p-form-input" id="newRecord.phoneHome" type="text"
-                                v-model="newRecordForm.phoneHome" />
-                        </div>
-                        <div class="col-12">
-                            <label for="newRecord.phoneCell">Cell Phone</label>
-                            <InputText class="p-form-input" id="newRecord.phoneCell" type="text"
-                                v-model="newRecordForm.phoneCell" />
+                            <label for="newRecord.name">Name</label>
+                            <InputText class="p-form-input" id="newRecord.name" type="text"
+                                v-model="newRecordForm.name" />
                         </div>
                     </div>
                     <div class="grid">
@@ -259,11 +190,11 @@ const onUpload = function (event) {
 
         </Dialog>
         <template #header>
-            Recipients
+            Agencies
         </template>
         <template #table>
-            <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-recipients"
-                :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
+            <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-agencies"
+                :globalFilterFields="['id', 'name', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
                 @row-edit-save="onRowEditSave" v-model:selection="selected">
@@ -277,7 +208,7 @@ const onUpload = function (event) {
                             <Button type="button" icon="pi pi-plus" label="Delete Records" class="p-button-alert"
                                 @click="destroyRecords" />
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
-                                label="Import from CSV" chooseLabel="Import from CSV" url="/recipients/import"
+                                label="Import from CSV" chooseLabel="Import from CSV" url="/agencies/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
 
                         </template>
@@ -298,8 +229,6 @@ const onUpload = function (event) {
                 <template #empty>
                     No records found.
                 </template>
-
-
                 <Column selectionMode="multiple" headerStyle="width: 3em">
                 </Column>
 
@@ -312,61 +241,13 @@ const onUpload = function (event) {
                             placeholder="Search by id"></InputText>
                     </template>
                 </Column>
-                <Column :sortable="true" field="firstName" header="First Name" filterField="firstName">
+                <Column :sortable="true" field="name" header="Name" filterField="name">
                     <template #body="{ data }">
-                        {{ data.firstName }}
+                        {{ data.name }}
                     </template>
                     <template #filter="{ filterModel, filterCallback }">
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search by first name"></InputText>
-                    </template>
-                    <template #editor="{ data, field }">
-                        <InputText v-model="data[field]" autofocus />
-                    </template>
-                </Column>
-                <Column :sortable="true" field="lastName" header="Last Name">
-                    <template #body="{ data }">
-                        {{ data.lastName }}
-                    </template>
-                    <template #filter="{ filterModel, filterCallback }">
-                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                            class="p-column-filter" placeholder="Search by last name"></InputText>
-                    </template>
-                    <template #editor="{ data, field }">
-                        <InputText v-model="data[field]" autofocus />
-                    </template>
-                </Column>
-                <Column :sortable="true" field="email" header="E-mail Address">
-                    <template #body="{ data }">
-                        {{ data.email }}
-                    </template>
-                    <template #filter="{ filterModel, filterCallback }">
-                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                            class="p-column-filter" placeholder="Search by e-mail address"></InputText>
-                    </template>
-                    <template #editor="{ data, field }">
-                        <InputText v-model="data[field]" autofocus />
-                    </template>
-                </Column>
-                <Column :sortable="true" field="phoneHome" header="Home #">
-                    <template #body="{ data }">
-                        {{ data.phoneHome }}
-                    </template>
-                    <template #filter="{ filterModel, filterCallback }">
-                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                            class="p-column-filter" placeholder="Search home phone"></InputText>
-                    </template>
-                    <template #editor="{ data, field }">
-                        <InputText v-model="data[field]" autofocus />
-                    </template>
-                </Column>
-                <Column :sortable="true" field="phoneCell" header="Cell #">
-                    <template #body="{ data }">
-                        {{ data.phoneCell }}
-                    </template>
-                    <template #filter="{ filterModel, filterCallback }">
-                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                            class="p-column-filter" placeholder="Search cell phone"></InputText>
                     </template>
                     <template #editor="{ data, field }">
                         <InputText v-model="data[field]" autofocus />

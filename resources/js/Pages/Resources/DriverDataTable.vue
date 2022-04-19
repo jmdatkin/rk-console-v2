@@ -125,7 +125,6 @@ const newRecordForm = useForm({
 
 const openNewRecordDialog = function () {
     newRecordDialog.value = true;
-    console.log(newRecordDialog.value);
 }
 
 const closeNewRecordDialog = function () {
@@ -159,7 +158,6 @@ const onRowEditSave = function (event) {
 
 const destroyRecords = function () {
     let ids = selected.value.map(row => row.id);
-    console.log(ids);
     Inertia.post('/drivers/destroy', {ids},
         {
             onSuccess: page => {
@@ -176,17 +174,12 @@ const destroyRecords = function () {
 const beforeUpload = function (event) {
     event.xhr.setRequestHeader('Content-type', 'text/csv');
     event.xhr.setRequestHeader('X-CSRF-TOKEN', props.csrf);
-    event.formData.append("XDXD", ":)))))");
-    for (let key of event.formData.values())
-        console.log(key);
-    console.log(props.csrf);
 };
 
 const onUpload = function (event) {
     let { files } = event;
     let fr = new FileReader();
 
-    console.log(fr);
 
     fr.readAsText(files[0]);
 
@@ -301,10 +294,10 @@ const onUpload = function (event) {
                     </Toolbar>
                 </template>
                 <template #loading>
-                    Loading drivers, please wait...
+                    Loading records, please wait...
                 </template>
                 <template #empty>
-                    No drivers found.
+                    No records found.
                 </template>
                 
                 <Column selectionMode="multiple" headerStyle="width: 3em">
