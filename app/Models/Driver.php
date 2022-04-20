@@ -17,4 +17,9 @@ class Driver extends Model
         'phoneCell',
         'notes'
     ];
+
+    //Many-to-many linkage between route
+    public function routes() {
+        return $this->belongsToMany(Route::class);
+    }
 }
