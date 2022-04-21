@@ -22,4 +22,9 @@ class Recipient extends Model
     public function routes() {
         return $this->belongsToMany(Route::class);
     }
+
+    public function setRoute($route_id) {
+        $this->routes()->detach();              //Remove existing assignments
+        $this->routes()->attach($route_id);     //Set new route id
+    }
 }

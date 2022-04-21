@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('volunteers', function (Blueprint $table) {
+        Schema::create('driver_route_exception', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('firstName');
-            $table->string('lastName');
-            $table->string('email');
-            $table->string('phoneHome');
-            $table->string('phoneCell');
+            $table->unsignedBigInteger('driver_id');
+            $table->unsignedBigInteger('route_id');
+            $table->date('date');
+            $table->foreign('driver_id')->references('id')->on('drivers');
+            $table->foreign('route_id')->references('id')->on('routes');
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('volunteers');
+        Schema::dropIfExists('driver_route_exception');
     }
 };

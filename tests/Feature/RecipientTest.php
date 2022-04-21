@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Recipient;
+use App\Models\Route;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -33,5 +35,18 @@ class RecipientTest extends TestCase
             'numMeals' => 23,
             'notes' => 'Hi'
         ]);
+    }
+
+
+    public function assign_to_route() {
+        $recipient = Recipient::factory()->make();
+        $routes = Route::factory(2)->make();
+
+        // $recipient->setRoute($routes[0]->get('id'));
+
+        $this->assertModelExists($recipient->routes);
+        // $this->assertDatabaseHas('recipients', [
+            
+        // ])
     }
 }
