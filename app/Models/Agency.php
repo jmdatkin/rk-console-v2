@@ -13,4 +13,8 @@ class Agency extends Model
         'name',
         'notes'
     ];
+
+    public function recipients() {
+        return $this->hasMany(Recipient::class);
+    }
 }

@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('recipients', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('agency_id')->nullable();
-            $table->unsignedBigInteger('person_id');
-            $table->integer('numMeals');
-            $table->foreign('person_id')->references('id')->on('people');
-            $table->foreign('agency_id')->references('id')->on('agencies');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recipients');
+        Schema::dropIfExists('roles');
     }
 };

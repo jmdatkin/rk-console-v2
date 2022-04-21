@@ -10,13 +10,16 @@ class Recipient extends Model
     use HasFactory;
 
     protected $fillable = [
-        'firstName',
-        'lastName',
-        'email',
-        'phoneHome',
-        'phoneCell',
-        'notes'
+        'numMeals'
     ];
+
+    public function person() {
+        return $this->belongsTo(Person::class);
+    }
+
+    public function agency() {
+        return $this->belongsTo(Agency::class);
+    }
 
     //Many-to-many linkage between route
     public function routes() {

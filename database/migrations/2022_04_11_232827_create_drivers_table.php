@@ -15,12 +15,8 @@ return new class extends Migration
     {
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
-            $table->string('firstName');
-            $table->string('lastName');
-            $table->string('email');
-            $table->string('phoneHome');
-            $table->string('phoneCell');
-            $table->string('notes')->default('')->nullable();
+            $table->unsignedBigInteger('person_id');
+            $table->foreign('person_id')->references('id')->on('people');
             $table->timestamps();
         });
     }

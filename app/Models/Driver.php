@@ -19,6 +19,10 @@ class Driver extends Model
         'notes'
     ];
 
+    public function person() {
+        return $this->belongsTo(Person::class);
+    }
+
     //Many-to-many linkage between route
     public function routes()
     {

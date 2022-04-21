@@ -14,4 +14,12 @@ class Route extends Model
         'notes'
     ];
 
+    public function recipients() {
+        return $this->belongsToMany(Recipient::class);
+    }
+
+    public function drivers() {
+        return $this->belongsToMany(Driver::class);
+    }
+
 }

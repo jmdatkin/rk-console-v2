@@ -18,13 +18,7 @@ class RecipientFactory extends Factory
     {
         return [
             //
-            'firstName' => $this->faker->firstName(),
-            'lastName' => $this->faker->lastName(),
-            'email' => $this->faker->email(),
-            'phoneHome' => $this->faker->phoneNumber(),
-            'phoneCell' => $this->faker->phoneNumber(),
             'numMeals' => $this->faker->numberBetween(2,108),
-            'notes' => ''
         ];
     }
 }
