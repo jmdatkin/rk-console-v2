@@ -3,6 +3,7 @@ import DataTableLayout from '@/Layouts/DataTableLayout.vue';
 import Column from 'primevue/column';
 import Toolbar from 'primevue/toolbar';
 import Button from 'primevue/button';
+import Chip from 'primevue/chip';
 import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
@@ -113,6 +114,12 @@ const initFilters = function () {
         },
 
     }
+};
+
+const roleNameLookup = {
+    'recipient': 'recip.',
+    'driver': 'driver',
+    'admin': 'admin'
 };
 
 onMounted(() => {
@@ -324,7 +331,14 @@ const onUpload = function (event) {
                 </Column>
                 <Column :sortable="true" field="roles" header="Roles" filterField="roles">
                     <template #body="{ data }">
-                        {{ data.roles }}
+                        <Chip v-for="role in data.roles" :class="{
+                            'p-role-admin': role === 'admin',
+                            'p-role-driver': role === 'driver',
+                            'p-role-recipient': role === 'recipient'
+                        }">
+                            {{ role }}
+                        </Chip>
+                        <!-- {{ data.roles[0] }} -->
                     </template>
                     <template #filter="{ filterModel, filterCallback }">
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
@@ -416,4 +430,21 @@ const onUpload = function (event) {
 </template>
 
 <style lang="scss" scoped>
+    .p-chip {
+        // font-weight: 500;
+    }
+    .p-chip.p-role-admin {
+        background-color: var(--purple-200);
+        color: var(--purple-900);
+    }
+
+    .p-chip.p-role-driver {
+        background-color: var(--blue-200);
+        color: var(--blue-900);
+    }
+
+    .p-chip.p-role-recipient {
+        background-color: var(--green-200);
+        color: var(--green-900);
+    }
 </style>
