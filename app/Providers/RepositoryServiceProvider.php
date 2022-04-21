@@ -10,6 +10,8 @@ use App\Repository\Eloquent\RouteRepository;
 use App\Repository\EloquentRepositoryInterface;
 use App\Repository\DriverRepositoryInterface;
 use App\Repository\Eloquent\AgencyRepository;
+use App\Repository\Eloquent\PersonRepository;
+use App\Repository\PersonRepositoryInterface;
 use App\Repository\RecipientRepositoryInterface;
 use App\Repository\RouteRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -35,6 +37,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         //
         $this->app->bind(EloquentRepositoryInterface::class, BaseRepository::class);
+        $this->app->bind(PersonRepositoryInterface::class, PersonRepository::class);
         $this->app->bind(RecipientRepositoryInterface::class, RecipientRepository::class);
         $this->app->bind(DriverRepositoryInterface::class, DriverRepository::class);
         $this->app->bind(RouteRepositoryInterface::class, RouteRepository::class);

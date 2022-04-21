@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\PersonController;
 use App\Http\Controllers\RecipientController;
 use App\Http\Controllers\RouteController;
 use Illuminate\Foundation\Application;
@@ -61,6 +62,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('datatables')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('people', [PersonController::class, 'index'])->name('datatables.people');
     Route::get('recipients', [RecipientController::class, 'index'])->name('datatables.recipients');
     Route::get('drivers', [DriverController::class, 'index'])->name('datatables.drivers');
     Route::get('routes', [RouteController::class, 'index'])->name('datatables.routes');
