@@ -64,22 +64,12 @@ import CardLink from '@/Components/CardLink';
                             </div>
                         </Divider> -->
                         <div class="col-4">
-                            <CardLink class="p-dashboard-card" href="/datatables/recipients">
+                            <CardLink class="p-dashboard-card" href="/datatables/people">
                                 <template #title>
-                                    Recipients
+                                    Personnel
                                 </template>
                                 <template #content>
-                                    View and modify recipient records.
-                                </template>
-                            </CardLink>
-                        </div>
-                        <div class="col-4">
-                            <CardLink class="p-dashboard-card" href="/datatables/drivers">
-                                <template #title>
-                                    Drivers
-                                </template>
-                                <template #content>
-                                    View and modify driver records.
+                                    View and modify personnel records.
                                 </template>
                             </CardLink>
                         </div>
