@@ -100,7 +100,7 @@ import CardLink from '@/Components/CardLink';
                             <h3>Reports</h3>
                         </div>
                         <div class="col-4">
-                            <CardLink class="p-dashboard-card" href="/datatables/recipients">
+                            <CardLink class="p-dashboard-card" href="/reports/driver">
                                 <template #title>
                                     Driver Report
                                 </template>
