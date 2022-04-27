@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AgencyController;
+use App\Http\Controllers\Assignments\ManageRecipientController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\RecipientController;
@@ -21,7 +22,8 @@ use Inertia\Inertia;
 |
 */
 
-Route::prefix('recipients')->group(function() {
+Route::prefix('recipient')->group(function() {
+    Route::get('/{id}', [RecipientController::class, 'show']);
     Route::post('/store', [RecipientController::class, 'store']);
     Route::post('/import', [RecipientController::class, 'import']);
     Route::patch('/{id}/update', [RecipientController::class, 'update']);
@@ -72,6 +74,10 @@ Route::prefix('datatables')->middleware(['auth', 'verified'])->group(function ()
 
 Route::prefix('reports')->middleware(['auth', 'verified'])->group(function() {
     Route::get('driver', [DriverReportController::class, 'index']);
+});
+
+Route::prefix('manage')->middleware(['auth', 'verified'])->group(function() {
+    Route::get('recipient/{id}', [ManageRecipientController::class, 'index']);
 });
 
 require __DIR__ . '/auth.php';

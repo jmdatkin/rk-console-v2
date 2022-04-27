@@ -13,6 +13,10 @@ class Recipient extends Model
         'numMeals'
     ];
 
+    public function joinPerson() {
+        return $this->union($this->person);
+    }
+
     public function person() {
         return $this->belongsTo(Person::class);
     }
@@ -23,11 +27,11 @@ class Recipient extends Model
 
     //Many-to-many linkage between route
     public function routes() {
-        return $this->belongsToMany(Route::class);
+        return $this->belongsToMany(Route::class)->withPivot(['weekday']);
     }
 
     public function setRoute($route_id, $weekday) {
         // $this->routes()->detach();              //Remove existing assignments
-        $this->routes()->attach($route_id, [ 'day' => $weekday]);     //Set new route id
+        $this->routes()->attach($route_id, [ 'weekday' => $weekday]);     //Set new route id
     }
 }

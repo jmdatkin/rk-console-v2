@@ -7,7 +7,7 @@ use App\Models\Recipient;
 use App\Repository\DriverRepositoryInterface;
 use Illuminate\Support\Collection;
 
-class DriverRepository extends BaseRepository implements DriverRepositoryInterface
+class DriverRepository extends BasePersonRoleRepository implements DriverRepositoryInterface
 {
 
    /**

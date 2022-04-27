@@ -17,9 +17,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('recipient_id');
             $table->unsignedBigInteger('route_id');
-            $table->enum('day', ['mon','tues','wed','thurs','fri','sat','sun']);
+            $table->enum('weekday', ['mon','tues','wed','thurs','fri','sat','sun']);
             $table->foreign('recipient_id')->references('id')->on('recipients');
             $table->foreign('route_id')->references('id')->on('routes');
+            $table->unique(['recipient_id','route_id','weekday']);
             $table->timestamps();
         });
     }

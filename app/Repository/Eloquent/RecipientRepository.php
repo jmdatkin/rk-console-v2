@@ -6,7 +6,7 @@ use App\Models\Recipient;
 use App\Repository\RecipientRepositoryInterface;
 use Illuminate\Support\Collection;
 
-class RecipientRepository extends BaseRepository implements RecipientRepositoryInterface
+class RecipientRepository extends BasePersonRoleRepository implements RecipientRepositoryInterface
 {
 
    /**
@@ -18,4 +18,8 @@ class RecipientRepository extends BaseRepository implements RecipientRepositoryI
    {
        parent::__construct($model);
    }
+
+//    public function findPerson($id) {
+//        return $this->find($id)->join('people', 'person_id', 'people.id')->get();
+//    }
 }

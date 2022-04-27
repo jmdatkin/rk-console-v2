@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
-class RecipientController extends BaseResourceController
+class RecipientController extends BasePersonRoleController
 {
     public function __construct(RecipientDataTableInterface $dataTable,  RecipientRepositoryInterface $repository)
     {

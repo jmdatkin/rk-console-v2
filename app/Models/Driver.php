@@ -26,17 +26,18 @@ class Driver extends Model
     //Many-to-many linkage between route
     public function routes()
     {
-        return $this->belongsToMany(Route::class, 'driver_route');
+        return $this->belongsToMany(Route::class, 'driver_route')->withPivot(['weekday']);
     }
 
     public function routeExceptions() {
         return $this->belongsToMany(Route::class, 'driver_route_exception');
     }
 
-    public function assignRoute($route_id, $day)
+
+    public function assignRoute($route_id, $weekday)
     {
         try {
-            $this->routes()->attach($route_id, [ "day" => $day ]);
+            $this->routes()->attach($route_id, [ "weekday" => $weekday ]);
         } catch (Exception $e) {
             error_log($e);
         }
