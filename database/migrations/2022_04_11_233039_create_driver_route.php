@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('driver_id');
             $table->unsignedBigInteger('route_id');
+            $table->enum('day', ['mon','tues','wed','thurs','fri','sat','sun']);
             $table->foreign('driver_id')->references('id')->on('drivers');
             $table->foreign('route_id')->references('id')->on('routes');
             $table->timestamps();

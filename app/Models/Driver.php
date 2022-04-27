@@ -20,19 +20,23 @@ class Driver extends Model
     ];
 
     public function person() {
-        return $this->belongsTo(Person::class);
+        return $this->belongsto(person::class);
     }
 
     //Many-to-many linkage between route
     public function routes()
     {
-        return $this->belongsToMany(Route::class);
+        return $this->belongsToMany(Route::class, 'driver_route');
     }
 
-    public function assignRoute($route_id)
+    public function routeExceptions() {
+        return $this->belongsToMany(Route::class, 'driver_route_exception');
+    }
+
+    public function assignRoute($route_id, $day)
     {
         try {
-            $this->routes()->attach($route_id);
+            $this->routes()->attach($route_id, [ "day" => $day ]);
         } catch (Exception $e) {
             error_log($e);
         }
@@ -42,6 +46,15 @@ class Driver extends Model
     {
         try {
             $this->routes()->deatch($route_id);
+        } catch (Exception $e) {
+            error_log($e);
+        }
+    }
+
+
+    public function makeException($route_id, $date) {
+        try {
+            $this->routeExceptions()->attach($route_id, [ "date" => $date]);
         } catch (Exception $e) {
             error_log($e);
         }

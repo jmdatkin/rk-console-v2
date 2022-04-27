@@ -26,8 +26,8 @@ class Recipient extends Model
         return $this->belongsToMany(Route::class);
     }
 
-    public function setRoute($route_id) {
-        $this->routes()->detach();              //Remove existing assignments
-        $this->routes()->attach($route_id);     //Set new route id
+    public function setRoute($route_id, $weekday) {
+        // $this->routes()->detach();              //Remove existing assignments
+        $this->routes()->attach($route_id, [ 'day' => $weekday]);     //Set new route id
     }
 }
