@@ -278,7 +278,7 @@ const onUpload = function (event) {
 
         </Dialog>
         <template #header>
-            People
+            Personnel
         </template>
         <template #table>
             <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-persons"

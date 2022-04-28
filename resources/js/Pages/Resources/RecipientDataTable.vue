@@ -132,7 +132,7 @@ const closeNewRecordDialog = function () {
 }
 
 const submitNewRecord = function () {
-    newRecordForm.post('/recipients/store', {
+    newRecordForm.post('/recipient/store', {
         onSuccess: page => {
             toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
         },
@@ -144,7 +144,7 @@ const submitNewRecord = function () {
 
 const onRowEditSave = function (event) {
     let { newData, index } = event;
-    Inertia.patch(`/recipients/${newData.id}/update`, newData,
+    Inertia.patch(`/recipient/${newData.id}/update`, newData,
         {
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
@@ -158,7 +158,7 @@ const onRowEditSave = function (event) {
 
 const destroyRecords = function () {
     let ids = selected.value.map(row => row.id);
-    Inertia.post('/recipients/destroy', { ids },
+    Inertia.post('/recipient/destroy', { ids },
         {
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
@@ -183,7 +183,7 @@ const onUpload = function (event) {
     fr.readAsText(files[0]);
 
     fr.onload = () => {
-        Inertia.post('/recipients/import', {
+        Inertia.post('/recipient/import', {
             data: fr.result,
         }, {
             onSuccess: page => {

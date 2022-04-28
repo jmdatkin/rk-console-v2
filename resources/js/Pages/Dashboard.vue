@@ -64,7 +64,7 @@ import CardLink from '@/Components/CardLink';
                             </div>
                         </Divider> -->
                         <div class="col-4">
-                            <CardLink class="p-dashboard-card" href="/datatables/people">
+                            <CardLink class="p-dashboard-card" href="/datatables/personnel">
                                 <template #title>
                                     Personnel
                                 </template>

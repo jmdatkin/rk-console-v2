@@ -30,21 +30,21 @@ Route::prefix('recipient')->group(function() {
     Route::post('/destroy', [RecipientController::class, 'bulkDestroy']);
 });
 
-Route::prefix('drivers')->group(function() {
+Route::prefix('driver')->group(function() {
     Route::post('/store', [DriverController::class, 'store']);
     Route::post('/import', [DriverController::class, 'import']);
     Route::patch('/{id}/update', [DriverController::class, 'update']);
     Route::post('/destroy', [DriverController::class, 'bulkDestroy']);
 });
 
-Route::prefix('routes')->group(function() {
+Route::prefix('route')->group(function() {
     Route::post('/store', [RouteController::class, 'store']);
     Route::post('/import', [RouteController::class, 'import']);
     Route::patch('/{id}/update', [RouteController::class, 'update']);
     Route::post('/destroy', [RouteController::class, 'bulkDestroy']);
 });
 
-Route::prefix('agencies')->group(function() {
+Route::prefix('agency')->group(function() {
     Route::post('/store', [AgencyController::class, 'store']);
     Route::post('/import', [AgencyController::class, 'import']);
     Route::patch('/{id}/update', [AgencyController::class, 'update']);
@@ -65,7 +65,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('datatables')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('people', [PersonController::class, 'index'])->name('datatables.people');
+    Route::get('personnel', [PersonController::class, 'index'])->name('datatables.personnel');
     Route::get('recipients', [RecipientController::class, 'index'])->name('datatables.recipients');
     Route::get('drivers', [DriverController::class, 'index'])->name('datatables.drivers');
     Route::get('routes', [RouteController::class, 'index'])->name('datatables.routes');

@@ -132,7 +132,7 @@ const closeNewRecordDialog = function () {
 }
 
 const submitNewRecord = function () {
-    newRecordForm.post('/drivers/store', {
+    newRecordForm.post('/driver/store', {
         onSuccess: page => {
             toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
         },
@@ -144,7 +144,7 @@ const submitNewRecord = function () {
 
 const onRowEditSave = function (event) {
     let { newData, index } = event;
-    Inertia.patch(`/drivers/${newData.id}/update`, newData,
+    Inertia.patch(`/driver/${newData.id}/update`, newData,
         {
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
@@ -158,7 +158,7 @@ const onRowEditSave = function (event) {
 
 const destroyRecords = function () {
     let ids = selected.value.map(row => row.id);
-    Inertia.post('/drivers/destroy', {ids},
+    Inertia.post('/driver/destroy', {ids},
         {
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
@@ -184,7 +184,7 @@ const onUpload = function (event) {
     fr.readAsText(files[0]);
 
     fr.onload = () => {
-        Inertia.post('/drivers/import', {
+        Inertia.post('/driver/import', {
             data: fr.result,
         }, {
             onSuccess: page => {
