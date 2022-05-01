@@ -5,49 +5,164 @@ import TabPanel from 'primevue/tabpanel';
 import WeekView from '@/Components/WeekView';
 import Weekday from '@/Components/Weekday';
 import OverlayPanel from 'primevue/overlaypanel';
+import Dialog from 'primevue/dialog';
+import DataTable from 'primevue/datatable';
+import Button from 'primevue/button';
+import Column from 'primevue/column';
+import InputText from 'primevue/inputtext';
+import Toast from 'primevue/toast';
+import { useToast } from 'primevue/usetoast';
+import { FilterMatchMode, FilterOperator } from 'primevue/api';
+import { Inertia, onSuccess } from '@inertiajs/inertia';
 
-import { ref } from 'vue';
+import { ref, reactive, computed, onUpdated, onMounted } from 'vue';
 
 let weekdaySelect = function (day) {
     console.log(day);
 };
 
-const props = defineProps(['recipient_id']);
+const toast = useToast();
+const props = defineProps(['assignment_data', 'recipient_id', 'message']);
 
 const recipientData = ref(null);
 const dataLoaded = ref(false);
 
-const sunOverlay = ref();
-const sunToggle = (e) => sunOverlay.value.toggle(e);
-const monOverlay = ref();
-const monToggle = (e) => monOverlay.value.toggle(e);
-const tuesOverlay = ref();
-const tuesToggle = (e) => tuesOverlay.value.toggle(e);
-const wedOverlay = ref();
-const wedToggle = (e) => wedOverlay.value.toggle(e);
-const thursOverlay = ref();
-const thursToggle = (e) => thursOverlay.value.toggle(e);
-const friOverlay = ref();
-const friToggle = (e) => friOverlay.value.toggle(e);
-const satOverlay = ref();
-const satToggle = (e) => satOverlay.value.toggle(e);
+const assignmentData = ref(props.assignment_data);
+const assignmentDataLoaded = ref(false);
 
+const routeData = ref(null);
+const routeDataLoaded = ref(false);
+const selectedRoute = ref();
+
+const routeSelectOpen = ref(false);
+const weekdaySelected = ref();
+
+const routeFilters = ref({
+    'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
+});
+
+const clearFilters = function () {
+    routeFilters.value = {
+        'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
+    };
+};
+
+const sunData = computed(() => assignmentsForDay('sun'));
+const monData = computed(() => assignmentsForDay('mon'));
+const tuesData = computed(() => assignmentsForDay('tues'));
+const wedData = computed(() => assignmentsForDay('wed'));
+const thursData = computed(() => assignmentsForDay('thurs'));
+const friData = computed(() => assignmentsForDay('fri'));
+const satData = computed(() => assignmentsForDay('sat'));
+
+const makeWeekdayCallback = function (day) {
+    return function () {
+        console.log("Ay");
+        weekdaySelected.value = day;
+        routeSelectOpen.value = true;
+    };
+};
+
+const makeWeekdayComputed = function (day) {
+    return computed(() => assignmentsForDay(day));
+};
+
+const weekdayFullName = function (abbr) {
+    return {
+        'sun': 'Sunday',
+        'mon': 'Monday',
+        'tues': 'Tuesday',
+        'wed': 'Wednesday',
+        'thurs': 'Thursday',
+        'fri': 'Friday',
+        'sat': 'Saturday'
+    }[abbr];
+};
+
+const submitRecipientAssignment = function (day) {
+    Inertia.visit(`/manage/recipient/${props.recipient_id}/assign/${selectedRoute.value.id}/${weekdaySelected.value}`,
+        {
+            method: 'post',
+            onFinish: page => {
+                getAssignmentData();
+            },
+
+            // onSuccess: page => {
+            //     toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
+            // },
+
+            // onError: errors => {
+            //     toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
+            // }
+        });
+};
+
+const assignmentsForDay = function (day) {
+    return props.assignment_data.filter(item => item.pivot.weekday === day).map(item => {
+        return { id: item.id, name: item.name, notes: item.notes }
+    });
+};
 
 axios.get(`/recipient/${props.recipient_id}`)
-.then(res => {
-    recipientData.value = res.data;
-    dataLoaded.value = true;
-}).catch(err => {
-    console.error(err);
-});
+    .then(res => {
+        recipientData.value = res.data;
+        dataLoaded.value = true;
+    }).catch(err => {
+        console.error(err);
+    });
+
+const getAssignmentData = function () {
+    assignmentDataLoaded.value = false;
+    axios.get(`/manage/recipient/${props.recipient_id}/assignments`)
+        .then(res => {
+            assignmentData.value = res.data;
+            assignmentDataLoaded.value = true;
+        }).catch(err => console.error(err));
+};
+
+axios.get('/route')
+    .then(res => {
+        routeData.value = res.data;
+        routeDataLoaded.value = true;
+    }).catch(err => console.error(err));
+
+onMounted(() => {
+
+    toast.add({ severity: props.message.class, summary: props.message.class === 'success' ? 'Successful' : 'Error', detail: props.message.detail, life: 3000 });
+})
 </script>
 
 
 <template>
+    <Dialog v-model:visible="routeSelectOpen">
+        <template #header>
+            {{ weekdayFullName(weekdaySelected) }}
+        </template>
+        <DataTable v-if="routeDataLoaded" :value="routeData" :paginator="true" :rows="10"
+            v-model:selection="selectedRoute" v-model:filters="routeFilters" selectionMode="single" dataKey="id"
+            @row-select="submitRecipientAssignment(selectedRoute)">
+            <template #header>
+                <div class="flex justify-content-between">
+                    <Button type="button" icon="pi pi-filter-slash" label="Clear" class="p-button-outlined"
+                        @click="clearFilters()" />
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search" />
+                        <InputText v-model="routeFilters['global'].value" placeholder="Search" />
+                    </span>
+                </div>
+            </template>
+            <template #empty>
+                No records found.
+            </template>
+            <Column field="id" header="id"></Column>
+            <Column field="name" header="Name"></Column>
+            <Column field="notes" header="Notes"></Column>
+        </DataTable>
+    </Dialog>
     <AssignmentLayout>
         <template #header>
             <span v-if="dataLoaded">
-            {{ recipientData.person.firstName }} {{ recipientData.person.lastName }}
+                {{ recipientData.person.firstName }} {{ recipientData.person.lastName }}
             </span>
         </template>
         <template #body>
@@ -63,45 +178,42 @@ axios.get(`/recipient/${props.recipient_id}`)
                 </TabPanel>
             </TabView> -->
             <WeekView @weekdaySelect="weekdaySelect">
-                <Weekday>
-                    <template #overlay>
-                        Hi!
-                    </template>
+                <Weekday :callback="makeWeekdayCallback('sun')" :data="assignmentsForDay('sun')">
                     <template #head>
                         Sunday
                     </template>
                 </Weekday>
-                <Weekday>
+                <Weekday :callback="makeWeekdayCallback('mon')" :data="assignmentsForDay('mon')">
                     <template #head>
                         Monday
                     </template>
 
                 </Weekday>
-                <Weekday>
+                <Weekday :callback="makeWeekdayCallback('tues')" :data="assignmentsForDay('tues')">
                     <template #head>
                         Tuesday
                     </template>
 
                 </Weekday>
-                <Weekday>
+                <Weekday :callback="makeWeekdayCallback('wed')" :data="assignmentsForDay('wed')">
                     <template #head>
                         Wednesday
                     </template>
 
                 </Weekday>
-                <Weekday>
+                <Weekday :callback="makeWeekdayCallback('thurs')" :data="assignmentsForDay('thurs')">
                     <template #head>
                         Thursday
                     </template>
 
                 </Weekday>
-                <Weekday>
+                <Weekday :callback="makeWeekdayCallback('fri')" :data="assignmentsForDay('fri')">
                     <template #head>
                         Friday
                     </template>
 
                 </Weekday>
-                <Weekday>
+                <Weekday :callback="makeWeekdayCallback('sat')" :data="assignmentsForDay('sat')">
                     <template #head>
                         Saturday
                     </template>

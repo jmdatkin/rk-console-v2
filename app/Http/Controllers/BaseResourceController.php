@@ -66,6 +66,16 @@ class BaseResourceController extends Controller
     }
 
     /**
+     * Display all resources.
+     *
+     * @return Collection
+     */
+    public function all()
+    {
+        return $this->repository->all();
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id

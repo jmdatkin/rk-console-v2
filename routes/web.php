@@ -38,6 +38,7 @@ Route::prefix('driver')->group(function() {
 });
 
 Route::prefix('route')->group(function() {
+    Route::get('/', [RouteController::class, 'all']);
     Route::post('/store', [RouteController::class, 'store']);
     Route::post('/import', [RouteController::class, 'import']);
     Route::patch('/{id}/update', [RouteController::class, 'update']);
@@ -77,7 +78,9 @@ Route::prefix('reports')->middleware(['auth', 'verified'])->group(function() {
 });
 
 Route::prefix('manage')->middleware(['auth', 'verified'])->group(function() {
-    Route::get('recipient/{id}', [ManageRecipientController::class, 'index']);
+    Route::get('recipient/{id}/assignments', [ManageRecipientController::class, 'getAssignments']);
+    Route::post('recipient/{recipient_id}/assign/{route_id}/{weekday}', [ManageRecipientController::class, 'makeRecipientAssignment']);
+    Route::get('recipient/{id}', [ManageRecipientController::class, 'index'])->name('manage.recipient');
 });
 
 require __DIR__ . '/auth.php';

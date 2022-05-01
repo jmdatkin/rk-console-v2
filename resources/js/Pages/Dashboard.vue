@@ -21,39 +21,7 @@ import CardLink from '@/Components/CardLink';
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <!-- <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg"> -->
                 <div class="flex flex-col">
-                    <!-- <div class="flex justify-between"> -->
-                    <div class="grid">
-                        <div class="col-4">
-                            <CardLink class="p-dashboard-card" href="/datatables/recipients">
-                                <template #title>
-                                    Volunteers
-                                </template>
-                                <template #content>
-                                    View and modify volunteer records.
-                                </template>
-                            </CardLink>
-                        </div>
-                        <div class="col"></div>
-                        <!-- <CardLink class="p-dashboard-card" href="/datatables/recipients">
-                            
-                            <template #title>
-                                Drivers
-                            </template>
-                            <template #content>
-                                View and modify driver records.
-                            </template>
-                        </CardLink>
-                        <CardLink class="p-dashboard-card" href="/datatables/recipients">
-                            <template #title>
-                                Routes
-                            </template>
-                            <template #content>
-                                View and modify route records.
-                            </template>
-                        </CardLink> -->
-                    </div>
-                    <Divider />
-                    <!-- <div class="flex justify-between"> -->
+
                     <div class="grid mb-4">
                         <div class="col-12">
                             <h3>Resources</h3>
@@ -70,6 +38,16 @@ import CardLink from '@/Components/CardLink';
                                 </template>
                                 <template #content>
                                     View and modify personnel records.
+                                </template>
+                            </CardLink>
+                        </div>
+                        <div class="col-4">
+                            <CardLink class="p-dashboard-card" href="/datatables/recipients">
+                                <template #title>
+                                    Recipients
+                                </template>
+                                <template #content>
+                                    View and modify recipient records.
                                 </template>
                             </CardLink>
                         </div>
@@ -93,6 +71,38 @@ import CardLink from '@/Components/CardLink';
                                 </template>
                             </CardLink>
                         </div>
+                    </div>
+                    <Divider />
+                    <div class="grid mb-4">
+                        <div class="col-12">
+                            <h3>Assignments</h3>
+                        </div>
+                        <!-- <Divider>
+                            <div class="inline-flex align-items-left">
+                                <b>Resources</b>
+                            </div>
+                        </Divider> -->
+                        <div class="col-4">
+                            <CardLink class="p-dashboard-card" href="/manage/recipient/1">
+                                <template #title>
+                                    Recipients
+                                </template>
+                                <template #content>
+                                    View and mangage recipient route assignments.
+                                </template>
+                            </CardLink>
+                        </div>
+                        <div class="col-4">
+                            <CardLink class="p-dashboard-card" href="/datatables/routes">
+                                <template #title>
+                                    Drivers
+                                </template>
+                                <template #content>
+                                    View and modify driver route assignments.
+                                </template>
+                            </CardLink>
+                        </div>
+
                     </div>
                     <Divider />
                     <div class="grid">
