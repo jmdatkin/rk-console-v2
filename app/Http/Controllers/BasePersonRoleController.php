@@ -13,11 +13,30 @@ class BasePersonRoleController extends BaseResourceController
         parent::__construct($repository);   
     }
 
+    public function showWithPerson($id) {
+        return $this->repository->findWithPerson($id);
+    }
+
+    public function allWithPerson() {
+        return $this->repository->allWithPerson();
+    }
+
+    public function updateWithPerson($id, $attr) {
+        return $this->repository->updateWithPerson($id, $attr);
+    }
+
+    //Override default methods
     public function show($id) {
-        return $this->repository->findPerson($id);
+        return $this->showWithPerson($id);
     }
 
     public function all() {
-        return $this->repository->withPeople();
+        return $this->allWithPerson();
     }
+
+    public function update(Request $request, $id) {
+        $attr = $request->except('id', 'created_at', 'updated_at', 'deleted_at');
+        return $this->updateWithPerson($id, $attr);
+    }
+
 }

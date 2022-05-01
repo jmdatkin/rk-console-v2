@@ -13,9 +13,11 @@ class Recipient extends Model
         'numMeals'
     ];
 
-    public function joinPerson() {
-        return $this->union($this->person);
-    }
+    protected $touches = ['person'];
+
+    // public function joinPerson() {
+    //     return $this->union($this->person);
+    // }
 
     public function person() {
         return $this->belongsTo(Person::class);

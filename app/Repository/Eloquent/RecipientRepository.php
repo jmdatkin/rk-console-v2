@@ -18,8 +18,4 @@ class RecipientRepository extends BasePersonRoleRepository implements RecipientR
    {
        parent::__construct($model);
    }
-
-//    public function findPerson($id) {
-//        return $this->find($id)->join('people', 'person_id', 'people.id')->get();
-//    }
 }

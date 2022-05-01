@@ -19,6 +19,8 @@ class Driver extends Model
         'notes'
     ];
 
+    protected $touches = ['person'];
+
     public function person() {
         return $this->belongsto(person::class);
     }
