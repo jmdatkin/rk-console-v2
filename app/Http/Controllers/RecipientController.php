@@ -27,9 +27,9 @@ class RecipientController extends BasePersonRoleController
         //
         return Inertia::render(
             'Resources/RecipientDataTable',
-            [
-                "data" => $this->dataTable->data()
-            ]
+            // [
+            //     "data" => $this->dataTable->data()
+            // ]
         );
     }
 

@@ -13,7 +13,7 @@ import { Inertia, onSuccess } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
 
-const props = defineProps(['cols', 'data', 'errors', 'message', 'csrf']);
+const props = defineProps(['errors', 'message', 'csrf']);
 
 const filters = ref({
     'global':
@@ -109,6 +109,9 @@ onMounted(() => {
     initFilters();
 });
 
+const recipientData = ref();
+const recipientDataLoaded = ref(false);
+
 const toast = useToast();
 const loading = ref(true);
 const editingRows = ref([]);
@@ -196,8 +199,21 @@ const onUpload = function (event) {
         })
 
     };
+};
 
-}
+axios.get('/recipient').then(res => {
+    let data = res.data;
+    data = data.map(item => {
+        let {id, ...person} = item.person;
+        // item = {item, ...item.person};
+        console.log(person);
+        Object.assign(item, person);   //Bring properties from nested 'person' object into top level
+        delete item.person;
+        return item;
+    });
+    recipientData.value = data;
+    recipientDataLoaded.value = true;
+}).catch(err => console.error(err));
 </script>
 
 <template>
@@ -262,8 +278,8 @@ const onUpload = function (event) {
             Recipients
         </template>
         <template #table>
-            <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-recipients"
-                :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
+            <DataTable :value="recipientData" :paginator="true" :rows="10" class="p-datatable-recipients"
+                :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
                 @row-edit-save="onRowEditSave" v-model:selection="selected">
@@ -367,6 +383,18 @@ const onUpload = function (event) {
                     <template #filter="{ filterModel, filterCallback }">
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search cell phone"></InputText>
+                    </template>
+                    <template #editor="{ data, field }">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
+                </Column>
+                <Column :sortable="true" field="numMeals" header="Num. Meals">
+                    <template #body="{ data }">
+                        {{ data.numMeals }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search notes"></InputText>
                     </template>
                     <template #editor="{ data, field }">
                         <InputText v-model="data[field]" autofocus />

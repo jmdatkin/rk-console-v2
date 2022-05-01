@@ -16,4 +16,8 @@ class BasePersonRoleController extends BaseResourceController
     public function show($id) {
         return $this->repository->findPerson($id);
     }
+
+    public function all() {
+        return $this->repository->withPeople();
+    }
 }

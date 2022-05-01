@@ -23,6 +23,7 @@ use Inertia\Inertia;
 */
 
 Route::prefix('recipient')->group(function() {
+    Route::get('/', [RecipientController::class, 'all']);
     Route::get('/{id}', [RecipientController::class, 'show']);
     Route::post('/store', [RecipientController::class, 'store']);
     Route::post('/import', [RecipientController::class, 'import']);

@@ -23791,6 +23791,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
 /* harmony import */ var primevue_usetoast__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! primevue/usetoast */ "./node_modules/primevue/usetoast/usetoast.esm.js");
+var _excluded = ["id"];
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
 
 
 
@@ -23805,7 +23811,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['cols', 'data', 'errors', 'message', 'csrf'],
+  props: ['errors', 'message', 'csrf'],
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
     expose();
@@ -23929,6 +23935,8 @@ __webpack_require__.r(__webpack_exports__);
     (0,vue__WEBPACK_IMPORTED_MODULE_8__.onMounted)(function () {
       initFilters();
     });
+    var recipientData = (0,vue__WEBPACK_IMPORTED_MODULE_8__.ref)();
+    var recipientDataLoaded = (0,vue__WEBPACK_IMPORTED_MODULE_8__.ref)(false);
     var toast = (0,primevue_usetoast__WEBPACK_IMPORTED_MODULE_12__.useToast)();
     var loading = (0,vue__WEBPACK_IMPORTED_MODULE_8__.ref)(true);
     var editingRows = (0,vue__WEBPACK_IMPORTED_MODULE_8__.ref)([]);
@@ -24055,10 +24063,31 @@ __webpack_require__.r(__webpack_exports__);
       };
     };
 
+    axios.get('/recipient').then(function (res) {
+      var data = res.data;
+      data = data.map(function (item) {
+        var _item$person = item.person,
+            id = _item$person.id,
+            person = _objectWithoutProperties(_item$person, _excluded); // item = {item, ...item.person};
+
+
+        console.log(person);
+        Object.assign(item, person); //Bring properties from nested 'person' object into top level
+
+        delete item.person;
+        return item;
+      });
+      recipientData.value = data;
+      recipientDataLoaded.value = true;
+    })["catch"](function (err) {
+      return console.error(err);
+    });
     var __returned__ = {
       props: props,
       filters: filters,
       initFilters: initFilters,
+      recipientData: recipientData,
+      recipientDataLoaded: recipientDataLoaded,
       toast: toast,
       loading: loading,
       editingRows: editingRows,
@@ -28291,11 +28320,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     table: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_DataTable, {
-        value: $props.data,
+        value: $setup.recipientData,
         paginator: true,
         rows: 10,
         "class": "p-datatable-recipients",
-        globalFilterFields: ['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes'],
+        globalFilterFields: ['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'numMeals', 'notes'],
         filterDisplay: "menu",
         responsiveLayout: "scroll",
         editMode: "row",
@@ -28628,12 +28657,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
           }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Column"], {
             sortable: true,
-            field: "notes",
-            header: "Notes"
+            field: "numMeals",
+            header: "Num. Meals"
           }, {
             body: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref18) {
               var data = _ref18.data;
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.notes), 1
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.numMeals), 1
               /* TEXT */
               )];
             }),
@@ -28658,6 +28687,51 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             editor: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref20) {
               var data = _ref20.data,
                   field = _ref20.field;
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["InputText"], {
+                modelValue: data[field],
+                "onUpdate:modelValue": function onUpdateModelValue($event) {
+                  return data[field] = $event;
+                },
+                autofocus: ""
+              }, null, 8
+              /* PROPS */
+              , ["modelValue", "onUpdate:modelValue"])];
+            }),
+            _: 1
+            /* STABLE */
+
+          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Column"], {
+            sortable: true,
+            field: "notes",
+            header: "Notes"
+          }, {
+            body: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref21) {
+              var data = _ref21.data;
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.notes), 1
+              /* TEXT */
+              )];
+            }),
+            filter: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref22) {
+              var filterModel = _ref22.filterModel,
+                  filterCallback = _ref22.filterCallback;
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["InputText"], {
+                type: "text",
+                modelValue: filterModel.value,
+                "onUpdate:modelValue": function onUpdateModelValue($event) {
+                  return filterModel.value = $event;
+                },
+                onKeydown: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)(function ($event) {
+                  return filterCallback();
+                }, ["enter"]),
+                "class": "p-column-filter",
+                placeholder: "Search notes"
+              }, null, 8
+              /* PROPS */
+              , ["modelValue", "onUpdate:modelValue", "onKeydown"])];
+            }),
+            editor: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (_ref23) {
+              var data = _ref23.data,
+                  field = _ref23.field;
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["InputText"], {
                 modelValue: data[field],
                 "onUpdate:modelValue": function onUpdateModelValue($event) {
