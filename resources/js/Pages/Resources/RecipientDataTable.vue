@@ -115,8 +115,8 @@ onMounted(() => {
     initFilters();
 });
 
-const recipientData = ref();
-const recipientDataLoaded = ref(false);
+const data = ref();
+const dataLoaded = ref(false);
 
 const toast = useToast();
 const loading = ref(true);
@@ -143,7 +143,7 @@ const closeNewRecordDialog = function () {
 const submitNewRecord = function () {
     newRecordForm.post('/recipient/store', {
         onBefore: () => {
-            recipientDataLoaded.value = false;
+            dataLoaded.value = false;
         },
         onFinish: () => {
             fetchData();
@@ -162,7 +162,7 @@ const onRowEditSave = function (event) {
     Inertia.patch(`/recipient/${newData.id}/update`, newData,
         {
             onBefore: () => {
-                recipientDataLoaded.value = false;
+                dataLoaded.value = false;
             },
             onFinish: () => {
                 fetchData();
@@ -182,7 +182,7 @@ const destroyRecords = function () {
     Inertia.post('/recipient/destroy', { ids },
         {
             onBefore: () => {
-                recipientDataLoaded.value = false;
+                dataLoaded.value = false;
             },
             onFinish: () => {
                 fetchData();
@@ -214,7 +214,7 @@ const onUpload = function (event) {
             data: fr.result,
         }, {
             onBefore: () => {
-                recipientDataLoaded.value = false;
+                dataLoaded.value = false;
             },
             onFinish: () => {
                 fetchData();
@@ -232,19 +232,17 @@ const onUpload = function (event) {
 };
 
 const fetchData = function () {
-    recipientDataLoaded.value = false;
+    dataLoaded.value = false;
     axios.get('/recipient').then(res => {
-        let data = res.data;
-        data = data.map(item => {
+        let response = res.data;
+        response = response.map(item => {
             let { id, ...person } = item.person;
-            // item = {item, ...item.person};
-            console.log(person);
             Object.assign(item, person);   //Bring properties from nested 'person' object into top level
             delete item.person;
             return item;
         });
-        recipientData.value = data;
-        recipientDataLoaded.value = true;
+        data.value = response;
+        dataLoaded.value = true;
     }).catch(err => console.error(err));
 };
 fetchData();
@@ -312,7 +310,7 @@ fetchData();
             Recipients
         </template>
         <template #table>
-            <DataTable :value="recipientData" :paginator="true" :rows="10" class="p-datatable-recipients"
+            <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-recipients"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
@@ -329,7 +327,7 @@ fetchData();
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/recipients/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
-                            <Loading :show="!recipientDataLoaded"></Loading>
+                            <Loading :show="!dataLoaded"></Loading>
                         </template>
                         <template #end>
                             <span class="p-input-icon-left ">

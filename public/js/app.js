@@ -23275,8 +23275,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     (0,vue__WEBPACK_IMPORTED_MODULE_9__.onMounted)(function () {
       initFilters();
     });
-    var driverData = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)();
-    var driverDataLoaded = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)(false);
+    var data = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)();
+    var dataLoaded = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)(false);
     var toast = (0,primevue_usetoast__WEBPACK_IMPORTED_MODULE_13__.useToast)();
     var loading = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)(true);
     var editingRows = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)([]);
@@ -23302,7 +23302,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     var submitNewRecord = function submitNewRecord() {
       newRecordForm.post('/driver/store', {
         onBefore: function onBefore() {
-          driverDataLoaded.value = false;
+          dataLoaded.value = false;
         },
         onFinish: function onFinish() {
           fetchData();
@@ -23331,7 +23331,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
           index = event.index;
       _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_11__.Inertia.patch("/driver/".concat(newData.id, "/update"), newData, {
         onBefore: function onBefore() {
-          driverDataLoaded.value = false;
+          dataLoaded.value = false;
         },
         onFinish: function onFinish() {
           fetchData();
@@ -23363,7 +23363,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
         ids: ids
       }, {
         onBefore: function onBefore() {
-          driverDataLoaded.value = false;
+          dataLoaded.value = false;
         },
         onFinish: function onFinish() {
           fetchData();
@@ -23402,7 +23402,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
           data: fr.result
         }, {
           onBefore: function onBefore() {
-            driverDataLoaded.value = false;
+            dataLoaded.value = false;
           },
           onFinish: function onFinish() {
             fetchData();
@@ -23428,23 +23428,21 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     };
 
     var fetchData = function fetchData() {
-      driverDataLoaded.value = false;
+      dataLoaded.value = false;
       axios.get('/driver').then(function (res) {
-        var data = res.data;
-        data = data.map(function (item) {
+        var response = res.data;
+        response = response.map(function (item) {
           var _item$person = item.person,
               id = _item$person.id,
-              person = _objectWithoutProperties(_item$person, _excluded); // item = {item, ...item.person};
+              person = _objectWithoutProperties(_item$person, _excluded);
 
-
-          console.log(person);
           Object.assign(item, person); //Bring properties from nested 'person' object into top level
 
           delete item.person;
           return item;
         });
-        driverData.value = data;
-        driverDataLoaded.value = true;
+        data.value = response;
+        dataLoaded.value = true;
       })["catch"](function (err) {
         return console.error(err);
       });
@@ -23455,8 +23453,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       props: props,
       filters: filters,
       initFilters: initFilters,
-      driverData: driverData,
-      driverDataLoaded: driverDataLoaded,
+      data: data,
+      dataLoaded: dataLoaded,
       toast: toast,
       loading: loading,
       editingRows: editingRows,
@@ -23520,11 +23518,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primevue_textarea__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! primevue/textarea */ "./node_modules/primevue/textarea/textarea.esm.js");
 /* harmony import */ var primevue_fileupload__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! primevue/fileupload */ "./node_modules/primevue/fileupload/fileupload.esm.js");
 /* harmony import */ var primevue_dialog__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! primevue/dialog */ "./node_modules/primevue/dialog/dialog.esm.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var primevue_api__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! primevue/api */ "./node_modules/primevue/api/api.esm.js");
-/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
-/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
-/* harmony import */ var primevue_usetoast__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! primevue/usetoast */ "./node_modules/primevue/usetoast/usetoast.esm.js");
+/* harmony import */ var _Components_Loading__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @/Components/Loading */ "./resources/js/Components/Loading.vue");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var primevue_api__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! primevue/api */ "./node_modules/primevue/api/api.esm.js");
+/* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+/* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
+/* harmony import */ var primevue_usetoast__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! primevue/usetoast */ "./node_modules/primevue/usetoast/usetoast.esm.js");
+
 
 
 
@@ -23540,71 +23540,71 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['data', 'errors', 'message', 'csrf'],
+  props: ['message', 'csrf'],
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
     expose();
     var props = __props;
-    var filters = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)({
+    var filters = (0,vue__WEBPACK_IMPORTED_MODULE_10__.ref)({
       'global': {
         value: null,
-        matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.CONTAINS
+        matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.CONTAINS
       },
       'id': {
-        operator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator.AND,
+        operator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator.AND,
         constraints: [{
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.STARTS_WITH
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.STARTS_WITH
         }] // value: null, matchMode: FilterMatchMode.CONTAINS
 
       },
       'roles': {
-        operator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator.AND,
+        operator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator.AND,
         constraints: [{
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.CONTAINS
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.CONTAINS
         }]
       },
       'firstName': {
-        operator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator.AND,
+        operator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator.AND,
         constraints: [{
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.STARTS_WITH
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.STARTS_WITH
         }]
       },
       'lastName': {
-        operator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator.AND,
+        operator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator.AND,
         constraints: [{
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.STARTS_WITH
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.STARTS_WITH
         }]
       },
       'email': {
-        operator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator.AND,
+        operator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator.AND,
         constraints: [{
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.CONTAINS
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.CONTAINS
         }]
       },
       'phoneHome': {
-        operator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator.AND,
+        operator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator.AND,
         constraints: [{
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.CONTAINS
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.CONTAINS
         }]
       },
       'phoneCell': {
-        operator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator.AND,
+        operator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator.AND,
         constraints: [{
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.CONTAINS
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.CONTAINS
         }]
       },
       'notes': {
-        operator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator.AND,
+        operator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator.AND,
         constraints: [{
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.CONTAINS
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.CONTAINS
         }]
       }
     });
@@ -23613,63 +23613,63 @@ __webpack_require__.r(__webpack_exports__);
       filters.value = {
         'global': {
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.CONTAINS
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.CONTAINS
         },
         'id': {
-          operator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator.AND,
+          operator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator.AND,
           constraints: [{
             value: null,
-            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.STARTS_WITH
+            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.STARTS_WITH
           }] // value: null, matchMode: FilterMatchMode.CONTAINS
 
         },
         'roles': {
-          operator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator.AND,
+          operator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator.AND,
           constraints: [{
             value: null,
-            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.CONTAINS
+            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.CONTAINS
           }]
         },
         'firstName': {
-          operator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator.AND,
+          operator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator.AND,
           constraints: [{
             value: null,
-            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.STARTS_WITH
+            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.STARTS_WITH
           }]
         },
         'lastName': {
-          operator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator.AND,
+          operator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator.AND,
           constraints: [{
             value: null,
-            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.STARTS_WITH
+            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.STARTS_WITH
           }]
         },
         'email': {
-          operator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator.AND,
+          operator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator.AND,
           constraints: [{
             value: null,
-            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.CONTAINS
+            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.CONTAINS
           }]
         },
         'phoneHome': {
-          operator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator.AND,
+          operator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator.AND,
           constraints: [{
             value: null,
-            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.CONTAINS
+            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.CONTAINS
           }]
         },
         'phoneCell': {
-          operator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator.AND,
+          operator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator.AND,
           constraints: [{
             value: null,
-            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.CONTAINS
+            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.CONTAINS
           }]
         },
         'notes': {
-          operator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator.AND,
+          operator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator.AND,
           constraints: [{
             value: null,
-            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode.CONTAINS
+            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode.CONTAINS
           }]
         }
       };
@@ -23680,15 +23680,17 @@ __webpack_require__.r(__webpack_exports__);
       'driver': 'driver',
       'admin': 'admin'
     };
-    (0,vue__WEBPACK_IMPORTED_MODULE_9__.onMounted)(function () {
+    (0,vue__WEBPACK_IMPORTED_MODULE_10__.onMounted)(function () {
       initFilters();
     });
-    var toast = (0,primevue_usetoast__WEBPACK_IMPORTED_MODULE_13__.useToast)();
-    var loading = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)(true);
-    var editingRows = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)([]);
-    var selected = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)();
-    var newRecordDialog = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)(false);
-    var newRecordForm = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_12__.useForm)({
+    var data = (0,vue__WEBPACK_IMPORTED_MODULE_10__.ref)();
+    var dataLoaded = (0,vue__WEBPACK_IMPORTED_MODULE_10__.ref)(false);
+    var toast = (0,primevue_usetoast__WEBPACK_IMPORTED_MODULE_14__.useToast)();
+    var loading = (0,vue__WEBPACK_IMPORTED_MODULE_10__.ref)(true);
+    var editingRows = (0,vue__WEBPACK_IMPORTED_MODULE_10__.ref)([]);
+    var selected = (0,vue__WEBPACK_IMPORTED_MODULE_10__.ref)();
+    var newRecordDialog = (0,vue__WEBPACK_IMPORTED_MODULE_10__.ref)(false);
+    var newRecordForm = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_13__.useForm)({
       firstName: null,
       lastName: null,
       email: null,
@@ -23707,6 +23709,12 @@ __webpack_require__.r(__webpack_exports__);
 
     var submitNewRecord = function submitNewRecord() {
       newRecordForm.post('/drivers/store', {
+        onBefore: function onBefore() {
+          dataLoaded.value = false;
+        },
+        onFinish: function onFinish() {
+          fetchData();
+        },
         onSuccess: function onSuccess(page) {
           toast.add({
             severity: props.message["class"],
@@ -23729,7 +23737,13 @@ __webpack_require__.r(__webpack_exports__);
     var onRowEditSave = function onRowEditSave(event) {
       var newData = event.newData,
           index = event.index;
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_11__.Inertia.patch("/drivers/".concat(newData.id, "/update"), newData, {
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_12__.Inertia.patch("/drivers/".concat(newData.id, "/update"), newData, {
+        onBefore: function onBefore() {
+          dataLoaded.value = false;
+        },
+        onFinish: function onFinish() {
+          fetchData();
+        },
         onSuccess: function onSuccess(page) {
           toast.add({
             severity: props.message["class"],
@@ -23753,9 +23767,15 @@ __webpack_require__.r(__webpack_exports__);
       var ids = selected.value.map(function (row) {
         return row.id;
       });
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_11__.Inertia.post('/drivers/destroy', {
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_12__.Inertia.post('/drivers/destroy', {
         ids: ids
       }, {
+        onBefore: function onBefore() {
+          dataLoaded.value = false;
+        },
+        onFinish: function onFinish() {
+          fetchData();
+        },
         onSuccess: function onSuccess(page) {
           toast.add({
             severity: props.message["class"],
@@ -23786,9 +23806,15 @@ __webpack_require__.r(__webpack_exports__);
       fr.readAsText(files[0]);
 
       fr.onload = function () {
-        _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_11__.Inertia.post('/drivers/import', {
+        _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_12__.Inertia.post('/drivers/import', {
           data: fr.result
         }, {
+          onBefore: function onBefore() {
+            dataLoaded.value = false;
+          },
+          onFinish: function onFinish() {
+            fetchData();
+          },
           onSuccess: function onSuccess(page) {
             toast.add({
               severity: props.message["class"],
@@ -23809,11 +23835,24 @@ __webpack_require__.r(__webpack_exports__);
       };
     };
 
+    var fetchData = function fetchData() {
+      dataLoaded.value = false;
+      axios.get('/person/data').then(function (res) {
+        data.value = res.data;
+        dataLoaded.value = true;
+      })["catch"](function (err) {
+        return console.error(err);
+      });
+    };
+
+    fetchData();
     var __returned__ = {
       props: props,
       filters: filters,
       initFilters: initFilters,
       roleNameLookup: roleNameLookup,
+      data: data,
+      dataLoaded: dataLoaded,
       toast: toast,
       loading: loading,
       editingRows: editingRows,
@@ -23827,6 +23866,7 @@ __webpack_require__.r(__webpack_exports__);
       destroyRecords: destroyRecords,
       beforeUpload: beforeUpload,
       onUpload: onUpload,
+      fetchData: fetchData,
       DataTableLayout: _Layouts_DataTableLayout_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
       Column: primevue_column__WEBPACK_IMPORTED_MODULE_1__["default"],
       Toolbar: primevue_toolbar__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -23836,15 +23876,16 @@ __webpack_require__.r(__webpack_exports__);
       Textarea: primevue_textarea__WEBPACK_IMPORTED_MODULE_6__["default"],
       FileUpload: primevue_fileupload__WEBPACK_IMPORTED_MODULE_7__["default"],
       Dialog: primevue_dialog__WEBPACK_IMPORTED_MODULE_8__["default"],
-      ref: vue__WEBPACK_IMPORTED_MODULE_9__.ref,
-      onMounted: vue__WEBPACK_IMPORTED_MODULE_9__.onMounted,
-      onUpdated: vue__WEBPACK_IMPORTED_MODULE_9__.onUpdated,
-      FilterMatchMode: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterMatchMode,
-      FilterOperator: primevue_api__WEBPACK_IMPORTED_MODULE_10__.FilterOperator,
-      Inertia: _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_11__.Inertia,
-      onSuccess: _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_11__.onSuccess,
-      useForm: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_12__.useForm,
-      useToast: primevue_usetoast__WEBPACK_IMPORTED_MODULE_13__.useToast
+      Loading: _Components_Loading__WEBPACK_IMPORTED_MODULE_9__["default"],
+      ref: vue__WEBPACK_IMPORTED_MODULE_10__.ref,
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_10__.onMounted,
+      onUpdated: vue__WEBPACK_IMPORTED_MODULE_10__.onUpdated,
+      FilterMatchMode: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterMatchMode,
+      FilterOperator: primevue_api__WEBPACK_IMPORTED_MODULE_11__.FilterOperator,
+      Inertia: _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_12__.Inertia,
+      onSuccess: _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_12__.onSuccess,
+      useForm: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_13__.useForm,
+      useToast: primevue_usetoast__WEBPACK_IMPORTED_MODULE_14__.useToast
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -24033,8 +24074,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     (0,vue__WEBPACK_IMPORTED_MODULE_9__.onMounted)(function () {
       initFilters();
     });
-    var recipientData = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)();
-    var recipientDataLoaded = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)(false);
+    var data = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)();
+    var dataLoaded = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)(false);
     var toast = (0,primevue_usetoast__WEBPACK_IMPORTED_MODULE_13__.useToast)();
     var loading = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)(true);
     var editingRows = (0,vue__WEBPACK_IMPORTED_MODULE_9__.ref)([]);
@@ -24060,7 +24101,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     var submitNewRecord = function submitNewRecord() {
       newRecordForm.post('/recipient/store', {
         onBefore: function onBefore() {
-          recipientDataLoaded.value = false;
+          dataLoaded.value = false;
         },
         onFinish: function onFinish() {
           fetchData();
@@ -24089,7 +24130,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
           index = event.index;
       _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_11__.Inertia.patch("/recipient/".concat(newData.id, "/update"), newData, {
         onBefore: function onBefore() {
-          recipientDataLoaded.value = false;
+          dataLoaded.value = false;
         },
         onFinish: function onFinish() {
           fetchData();
@@ -24121,7 +24162,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
         ids: ids
       }, {
         onBefore: function onBefore() {
-          recipientDataLoaded.value = false;
+          dataLoaded.value = false;
         },
         onFinish: function onFinish() {
           fetchData();
@@ -24160,7 +24201,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
           data: fr.result
         }, {
           onBefore: function onBefore() {
-            recipientDataLoaded.value = false;
+            dataLoaded.value = false;
           },
           onFinish: function onFinish() {
             fetchData();
@@ -24186,23 +24227,21 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     };
 
     var fetchData = function fetchData() {
-      recipientDataLoaded.value = false;
+      dataLoaded.value = false;
       axios.get('/recipient').then(function (res) {
-        var data = res.data;
-        data = data.map(function (item) {
+        var response = res.data;
+        response = response.map(function (item) {
           var _item$person = item.person,
               id = _item$person.id,
-              person = _objectWithoutProperties(_item$person, _excluded); // item = {item, ...item.person};
+              person = _objectWithoutProperties(_item$person, _excluded);
 
-
-          console.log(person);
           Object.assign(item, person); //Bring properties from nested 'person' object into top level
 
           delete item.person;
           return item;
         });
-        recipientData.value = data;
-        recipientDataLoaded.value = true;
+        data.value = response;
+        dataLoaded.value = true;
       })["catch"](function (err) {
         return console.error(err);
       });
@@ -24213,8 +24252,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       props: props,
       filters: filters,
       initFilters: initFilters,
-      recipientData: recipientData,
-      recipientDataLoaded: recipientDataLoaded,
+      data: data,
+      dataLoaded: dataLoaded,
       toast: toast,
       loading: loading,
       editingRows: editingRows,
@@ -27154,7 +27193,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     table: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_DataTable, {
-        value: $setup.driverData,
+        value: $setup.data,
         paginator: true,
         rows: 10,
         "class": "p-datatable-drivers",
@@ -27205,7 +27244,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "class": "p-button-alert",
                 onClick: $setup.destroyRecords
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <FileUpload :auto=\"true\" name=\"csv_data\" mode=\"basic\" accept=\".csv\" :maxFileSize=\"1000000\"\n                                label=\"Import from CSV\" chooseLabel=\"Import from CSV\" url=\"/drivers/import\"\n                                class=\"inline-block\" :customUpload=\"true\" @uploader=\"onUpload\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Loading"], {
-                show: !$setup.driverDataLoaded
+                show: !$setup.dataLoaded
               }, null, 8
               /* PROPS */
               , ["show"])];
@@ -27810,7 +27849,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     table: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_DataTable, {
-        value: $props.data,
+        value: $setup.data,
         paginator: true,
         rows: 10,
         "class": "p-datatable-persons",
@@ -27860,7 +27899,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 label: "Delete Records",
                 "class": "p-button-alert",
                 onClick: $setup.destroyRecords
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <FileUpload :auto=\"true\" name=\"csv_data\" mode=\"basic\" accept=\".csv\" :maxFileSize=\"1000000\"\n                                label=\"Import from CSV\" chooseLabel=\"Import from CSV\" url=\"/drivers/import\"\n                                class=\"inline-block\" :customUpload=\"true\" @uploader=\"onUpload\" /> ")];
+              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <FileUpload :auto=\"true\" name=\"csv_data\" mode=\"basic\" accept=\".csv\" :maxFileSize=\"1000000\"\n                                label=\"Import from CSV\" chooseLabel=\"Import from CSV\" url=\"/drivers/import\"\n                                class=\"inline-block\" :customUpload=\"true\" @uploader=\"onUpload\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Loading"], {
+                show: !$setup.dataLoaded
+              }, null, 8
+              /* PROPS */
+              , ["show"])];
             }),
             end: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, [_hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["InputText"], {
@@ -28507,7 +28550,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     table: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_DataTable, {
-        value: $setup.recipientData,
+        value: $setup.data,
         paginator: true,
         rows: 10,
         "class": "p-datatable-recipients",
@@ -28558,7 +28601,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
                 "class": "p-button-alert",
                 onClick: $setup.destroyRecords
               }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <FileUpload :auto=\"true\" name=\"csv_data\" mode=\"basic\" accept=\".csv\" :maxFileSize=\"1000000\"\n                                label=\"Import from CSV\" chooseLabel=\"Import from CSV\" url=\"/recipients/import\"\n                                class=\"inline-block\" :customUpload=\"true\" @uploader=\"onUpload\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Loading"], {
-                show: !$setup.recipientDataLoaded
+                show: !$setup.dataLoaded
               }, null, 8
               /* PROPS */
               , ["show"])];

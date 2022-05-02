@@ -20,9 +20,10 @@ class PersonController extends BaseResourceController
     {
         return Inertia::render(
             'Resources/PersonDataTable',
-            [
-                "data" => $this->dataTable->data()
-            ]
         );
+    }
+
+    public function data() {
+        return $this->dataTable->data();
     }
 }

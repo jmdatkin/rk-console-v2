@@ -8,13 +8,14 @@ import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
+import Loading from '@/Components/Loading';
 import { ref, onMounted, onUpdated } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { Inertia, onSuccess } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
 
-const props = defineProps(['data', 'errors', 'message', 'csrf']);
+const props = defineProps(['message', 'csrf']);
 
 const filters = ref({
     'global':
@@ -126,6 +127,9 @@ onMounted(() => {
     initFilters();
 });
 
+const data = ref();
+const dataLoaded = ref(false);
+
 const toast = useToast();
 const loading = ref(true);
 const editingRows = ref([]);
@@ -150,6 +154,12 @@ const closeNewRecordDialog = function () {
 
 const submitNewRecord = function () {
     newRecordForm.post('/drivers/store', {
+        onBefore: () => {
+            dataLoaded.value = false;
+        },
+        onFinish: () => {
+            fetchData();
+        },
         onSuccess: page => {
             toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
         },
@@ -163,6 +173,12 @@ const onRowEditSave = function (event) {
     let { newData, index } = event;
     Inertia.patch(`/drivers/${newData.id}/update`, newData,
         {
+            onBefore: () => {
+                dataLoaded.value = false;
+            },
+            onFinish: () => {
+                fetchData();
+            },
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
             },
@@ -177,6 +193,12 @@ const destroyRecords = function () {
     let ids = selected.value.map(row => row.id);
     Inertia.post('/drivers/destroy', { ids },
         {
+            onBefore: () => {
+                dataLoaded.value = false;
+            },
+            onFinish: () => {
+                fetchData();
+            },
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
             },
@@ -204,6 +226,12 @@ const onUpload = function (event) {
         Inertia.post('/drivers/import', {
             data: fr.result,
         }, {
+            onBefore: () => {
+                dataLoaded.value = false;
+            },
+            onFinish: () => {
+                fetchData();
+            },
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
             },
@@ -217,6 +245,14 @@ const onUpload = function (event) {
 
 }
 
+const fetchData = function () {
+    dataLoaded.value = false;
+    axios.get('/person/data').then(res => {
+        data.value = res.data;
+        dataLoaded.value = true;
+    }).catch(err => console.error(err));
+};
+fetchData();
 </script>
 
 <template>
@@ -298,6 +334,7 @@ const onUpload = function (event) {
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/drivers/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
+                            <Loading :show="!dataLoaded"></Loading>
 
                         </template>
                         <template #end>
@@ -430,21 +467,22 @@ const onUpload = function (event) {
 </template>
 
 <style lang="scss" scoped>
-    .p-chip {
-        // font-weight: 500;
-    }
-    .p-chip.p-role-admin {
-        background-color: var(--purple-200);
-        color: var(--purple-900);
-    }
+.p-chip {
+    // font-weight: 500;
+}
 
-    .p-chip.p-role-driver {
-        background-color: var(--blue-200);
-        color: var(--blue-900);
-    }
+.p-chip.p-role-admin {
+    background-color: var(--purple-200);
+    color: var(--purple-900);
+}
 
-    .p-chip.p-role-recipient {
-        background-color: var(--green-200);
-        color: var(--green-900);
-    }
+.p-chip.p-role-driver {
+    background-color: var(--blue-200);
+    color: var(--blue-900);
+}
+
+.p-chip.p-role-recipient {
+    background-color: var(--green-200);
+    color: var(--green-900);
+}
 </style>

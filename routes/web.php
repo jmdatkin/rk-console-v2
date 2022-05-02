@@ -41,6 +41,7 @@ Route::prefix('driver')->group(function() {
 
 Route::prefix('person')->group(function() {
     Route::get('/', [PersonController::class, 'all']);
+    Route::get('/data', [PersonController::class, 'data']);
     Route::post('/store', [PersonController::class, 'store']);
     Route::post('/import', [PersonController::class, 'import']);
     Route::patch('/{id}/update', [PersonController::class, 'update']);

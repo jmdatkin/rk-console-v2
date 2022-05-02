@@ -110,8 +110,8 @@ onMounted(() => {
     initFilters();
 });
 
-const driverData = ref();
-const driverDataLoaded = ref(false);
+const data = ref();
+const dataLoaded = ref(false);
 
 const toast = useToast();
 const loading = ref(true);
@@ -138,7 +138,7 @@ const closeNewRecordDialog = function () {
 const submitNewRecord = function () {
     newRecordForm.post('/driver/store', {
         onBefore: () => {
-            driverDataLoaded.value = false;
+            dataLoaded.value = false;
         },
         onFinish: () => {
             fetchData();
@@ -157,7 +157,7 @@ const onRowEditSave = function (event) {
     Inertia.patch(`/driver/${newData.id}/update`, newData,
         {
             onBefore: () => {
-                driverDataLoaded.value = false;
+                dataLoaded.value = false;
             },
             onFinish: () => {
                 fetchData();
@@ -177,7 +177,7 @@ const destroyRecords = function () {
     Inertia.post('/driver/destroy', { ids },
         {
             onBefore: () => {
-                driverDataLoaded.value = false;
+                dataLoaded.value = false;
             },
             onFinish: () => {
                 fetchData();
@@ -210,7 +210,7 @@ const onUpload = function (event) {
             data: fr.result,
         }, {
             onBefore: () => {
-                driverDataLoaded.value = false;
+                dataLoaded.value = false;
             },
             onFinish: () => {
                 fetchData();
@@ -229,19 +229,17 @@ const onUpload = function (event) {
 }
 
 const fetchData = function () {
-    driverDataLoaded.value = false;
+    dataLoaded.value = false;
     axios.get('/driver').then(res => {
-        let data = res.data;
-        data = data.map(item => {
+        let response = res.data;
+        response = response.map(item => {
             let { id, ...person } = item.person;
-            // item = {item, ...item.person};
-            console.log(person);
             Object.assign(item, person);   //Bring properties from nested 'person' object into top level
             delete item.person;
             return item;
         });
-        driverData.value = data;
-        driverDataLoaded.value = true;
+        data.value = response;
+        dataLoaded.value = true;
     }).catch(err => console.error(err));
 };
 fetchData();
@@ -310,7 +308,7 @@ fetchData();
             Drivers
         </template>
         <template #table>
-            <DataTable :value="driverData" :paginator="true" :rows="10" class="p-datatable-drivers"
+            <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-drivers"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
@@ -327,7 +325,7 @@ fetchData();
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/drivers/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
-                            <Loading :show="!driverDataLoaded"></Loading>
+                            <Loading :show="!dataLoaded"></Loading>
 
                         </template>
                         <template #end>
