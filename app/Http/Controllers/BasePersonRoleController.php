@@ -40,7 +40,7 @@ class BasePersonRoleController extends BaseResourceController
     }
 
     public function update(Request $request, $id) {
-        $attr = $request->except('id', 'created_at', 'updated_at', 'deleted_at');
+        $attr = $request->except('id', 'person_id', 'user_id', 'created_at', 'updated_at', 'deleted_at');
         return $this->updateWithPerson($id, $attr);
     }
 

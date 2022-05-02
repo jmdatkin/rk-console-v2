@@ -2,6 +2,6 @@
 
 namespace App\Repository;
 
-interface DriverRepositoryInterface extends EloquentRepositoryInterface
+interface DriverRepositoryInterface extends PersonRoleRepositoryInterface
 {
 }

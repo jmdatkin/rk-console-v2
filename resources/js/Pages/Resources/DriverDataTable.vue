@@ -7,6 +7,7 @@ import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
+import Loading from '@/Components/Loading';
 import { ref, onMounted, onUpdated } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { Inertia, onSuccess } from '@inertiajs/inertia';
@@ -109,6 +110,8 @@ onMounted(() => {
     initFilters();
 });
 
+const driverData = ref();
+const driverDataLoaded = ref(false);
 
 const toast = useToast();
 const loading = ref(true);
@@ -134,6 +137,12 @@ const closeNewRecordDialog = function () {
 
 const submitNewRecord = function () {
     newRecordForm.post('/driver/store', {
+        onBefore: () => {
+            driverDataLoaded.value = false;
+        },
+        onFinish: () => {
+            fetchData();
+        },
         onSuccess: page => {
             toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
         },
@@ -147,6 +156,12 @@ const onRowEditSave = function (event) {
     let { newData, index } = event;
     Inertia.patch(`/driver/${newData.id}/update`, newData,
         {
+            onBefore: () => {
+                driverDataLoaded.value = false;
+            },
+            onFinish: () => {
+                fetchData();
+            },
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
             },
@@ -159,8 +174,14 @@ const onRowEditSave = function (event) {
 
 const destroyRecords = function () {
     let ids = selected.value.map(row => row.id);
-    Inertia.post('/driver/destroy', {ids},
+    Inertia.post('/driver/destroy', { ids },
         {
+            onBefore: () => {
+                driverDataLoaded.value = false;
+            },
+            onFinish: () => {
+                fetchData();
+            },
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
             },
@@ -188,6 +209,12 @@ const onUpload = function (event) {
         Inertia.post('/driver/import', {
             data: fr.result,
         }, {
+            onBefore: () => {
+                driverDataLoaded.value = false;
+            },
+            onFinish: () => {
+                fetchData();
+            },
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
             },
@@ -200,6 +227,24 @@ const onUpload = function (event) {
     };
 
 }
+
+const fetchData = function () {
+    driverDataLoaded.value = false;
+    axios.get('/driver').then(res => {
+        let data = res.data;
+        data = data.map(item => {
+            let { id, ...person } = item.person;
+            // item = {item, ...item.person};
+            console.log(person);
+            Object.assign(item, person);   //Bring properties from nested 'person' object into top level
+            delete item.person;
+            return item;
+        });
+        driverData.value = data;
+        driverDataLoaded.value = true;
+    }).catch(err => console.error(err));
+};
+fetchData();
 
 </script>
 
@@ -265,7 +310,7 @@ const onUpload = function (event) {
             Drivers
         </template>
         <template #table>
-            <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-drivers"
+            <DataTable :value="driverData" :paginator="true" :rows="10" class="p-datatable-drivers"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
@@ -282,6 +327,7 @@ const onUpload = function (event) {
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/drivers/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
+                            <Loading :show="!driverDataLoaded"></Loading>
 
                         </template>
                         <template #end>
@@ -300,7 +346,7 @@ const onUpload = function (event) {
                 <template #empty>
                     No records found.
                 </template>
-                
+
                 <Column selectionMode="multiple" headerStyle="width: 3em">
                 </Column>
 

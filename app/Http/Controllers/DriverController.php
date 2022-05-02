@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
-class DriverController extends BaseResourceController
+class DriverController extends BasePersonRoleController
 {
     public function __construct(DriverDataTableInterface $dataTable, DriverRepositoryInterface $repository)
     {

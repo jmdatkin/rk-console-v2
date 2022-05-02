@@ -10,19 +10,12 @@ class Driver extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'firstName',
-        'lastName',
-        'email',
-        'phoneHome',
-        'phoneCell',
-        'notes'
-    ];
+    protected $fillable = [''];
 
     protected $touches = ['person'];
 
     public function person() {
-        return $this->belongsto(person::class);
+        return $this->belongsTo(Person::class);
     }
 
     //Many-to-many linkage between route

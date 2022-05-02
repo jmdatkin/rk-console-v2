@@ -32,10 +32,19 @@ Route::prefix('recipient')->group(function() {
 });
 
 Route::prefix('driver')->group(function() {
+    Route::get('/', [DriverController::class, 'all']);
     Route::post('/store', [DriverController::class, 'store']);
     Route::post('/import', [DriverController::class, 'import']);
     Route::patch('/{id}/update', [DriverController::class, 'update']);
     Route::post('/destroy', [DriverController::class, 'bulkDestroy']);
+});
+
+Route::prefix('person')->group(function() {
+    Route::get('/', [PersonController::class, 'all']);
+    Route::post('/store', [PersonController::class, 'store']);
+    Route::post('/import', [PersonController::class, 'import']);
+    Route::patch('/{id}/update', [PersonController::class, 'update']);
+    Route::post('/destroy', [PersonController::class, 'bulkDestroy']);
 });
 
 Route::prefix('route')->group(function() {
