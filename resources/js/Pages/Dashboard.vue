@@ -52,6 +52,16 @@ import CardLink from '@/Components/CardLink';
                             </CardLink>
                         </div>
                         <div class="col-4">
+                            <CardLink class="p-dashboard-card" href="/datatables/drivers">
+                                <template #title>
+                                    Driver
+                                </template>
+                                <template #content>
+                                    View and modify driver records.
+                                </template>
+                            </CardLink>
+                        </div>
+                        <div class="col-4">
                             <CardLink class="p-dashboard-card" href="/datatables/routes">
                                 <template #title>
                                     Routes

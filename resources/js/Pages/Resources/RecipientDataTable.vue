@@ -7,6 +7,7 @@ import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
+import Loading from '@/Components/Loading';
 import { ref, onMounted, onUpdated } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { Inertia, onSuccess } from '@inertiajs/inertia';
@@ -48,6 +49,11 @@ const filters = ref({
     },
 
     'phoneCell':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
+    'numMeals':
     {
         operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
     },
@@ -136,6 +142,12 @@ const closeNewRecordDialog = function () {
 
 const submitNewRecord = function () {
     newRecordForm.post('/recipient/store', {
+        onBefore: () => {
+            recipientDataLoaded.value = false;
+        },
+        onFinish: () => {
+            fetchData();
+        },
         onSuccess: page => {
             toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
         },
@@ -149,6 +161,12 @@ const onRowEditSave = function (event) {
     let { newData, index } = event;
     Inertia.patch(`/recipient/${newData.id}/update`, newData,
         {
+            onBefore: () => {
+                recipientDataLoaded.value = false;
+            },
+            onFinish: () => {
+                fetchData();
+            },
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
             },
@@ -163,6 +181,12 @@ const destroyRecords = function () {
     let ids = selected.value.map(row => row.id);
     Inertia.post('/recipient/destroy', { ids },
         {
+            onBefore: () => {
+                recipientDataLoaded.value = false;
+            },
+            onFinish: () => {
+                fetchData();
+            },
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
             },
@@ -189,6 +213,12 @@ const onUpload = function (event) {
         Inertia.post('/recipient/import', {
             data: fr.result,
         }, {
+            onBefore: () => {
+                recipientDataLoaded.value = false;
+            },
+            onFinish: () => {
+                fetchData();
+            },
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
             },
@@ -201,19 +231,23 @@ const onUpload = function (event) {
     };
 };
 
-axios.get('/recipient').then(res => {
-    let data = res.data;
-    data = data.map(item => {
-        let {id, ...person} = item.person;
-        // item = {item, ...item.person};
-        console.log(person);
-        Object.assign(item, person);   //Bring properties from nested 'person' object into top level
-        delete item.person;
-        return item;
-    });
-    recipientData.value = data;
-    recipientDataLoaded.value = true;
-}).catch(err => console.error(err));
+const fetchData = function () {
+    recipientDataLoaded.value = false;
+    axios.get('/recipient').then(res => {
+        let data = res.data;
+        data = data.map(item => {
+            let { id, ...person } = item.person;
+            // item = {item, ...item.person};
+            console.log(person);
+            Object.assign(item, person);   //Bring properties from nested 'person' object into top level
+            delete item.person;
+            return item;
+        });
+        recipientData.value = data;
+        recipientDataLoaded.value = true;
+    }).catch(err => console.error(err));
+};
+fetchData();
 </script>
 
 <template>
@@ -295,7 +329,7 @@ axios.get('/recipient').then(res => {
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/recipients/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
-
+                            <Loading :show="!recipientDataLoaded"></Loading>
                         </template>
                         <template #end>
                             <span class="p-input-icon-left ">
