@@ -233,7 +233,7 @@ const onUpload = function (event) {
 
 const fetchData = function () {
     dataLoaded.value = false;
-    axios.get('/recipient').then(res => {
+    axios.get('/recipient/data').then(res => {
         let response = res.data;
         response = response.map(item => {
             let { id, ...person } = item.person;

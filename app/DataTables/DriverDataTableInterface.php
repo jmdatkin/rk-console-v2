@@ -2,5 +2,5 @@
 
 namespace App\DataTables;
 
-interface DriverDataTableInterface extends EloquentDataTableInterface {
+interface DriverDataTableInterface extends PersonRoleDataTableInterface {
 }

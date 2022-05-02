@@ -21,10 +21,11 @@ class DriverController extends BasePersonRoleController
     {
         return Inertia::render(
             'Resources/DriverDataTable',
-            [
-                "data" => $this->dataTable->data()
-            ]
         );
+    }
+
+    public function data() {
+        return $this->dataTable->data();
     }
 
     public function update(Request $request, $id)

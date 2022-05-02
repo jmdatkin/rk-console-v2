@@ -6,7 +6,7 @@ use App\DataTables\DriverDataTableInterface;
 use App\Repository\DriverRepositoryInterface;
 use App\Repository\Eloquent\DriverRepository;
 
-class DriverDataTable extends BaseDataTable implements DriverDataTableInterface
+class DriverDataTable extends BasePersonRoleDataTable implements DriverDataTableInterface
 {
     public function __construct(DriverRepositoryInterface $repository)
     {

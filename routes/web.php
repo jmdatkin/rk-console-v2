@@ -24,6 +24,7 @@ use Inertia\Inertia;
 
 Route::prefix('recipient')->group(function() {
     Route::get('/', [RecipientController::class, 'all']);
+    Route::get('/data', [RecipientController::class, 'data']);
     Route::get('/{id}', [RecipientController::class, 'show']);
     Route::post('/store', [RecipientController::class, 'store']);
     Route::post('/import', [RecipientController::class, 'import']);
@@ -33,6 +34,7 @@ Route::prefix('recipient')->group(function() {
 
 Route::prefix('driver')->group(function() {
     Route::get('/', [DriverController::class, 'all']);
+    Route::get('/data', [DriverController::class, 'data']);
     Route::post('/store', [DriverController::class, 'store']);
     Route::post('/import', [DriverController::class, 'import']);
     Route::patch('/{id}/update', [DriverController::class, 'update']);

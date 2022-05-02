@@ -14,7 +14,7 @@ import { Inertia, onSuccess } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
 
-const props = defineProps(['cols', 'data', 'errors', 'message', 'csrf']);
+const props = defineProps(['errors', 'message', 'csrf']);
 
 const filters = ref({
     'global':
@@ -230,7 +230,7 @@ const onUpload = function (event) {
 
 const fetchData = function () {
     dataLoaded.value = false;
-    axios.get('/driver').then(res => {
+    axios.get('/driver/data').then(res => {
         let response = res.data;
         response = response.map(item => {
             let { id, ...person } = item.person;

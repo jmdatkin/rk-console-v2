@@ -23151,7 +23151,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['cols', 'data', 'errors', 'message', 'csrf'],
+  props: ['errors', 'message', 'csrf'],
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
     expose();
@@ -23429,7 +23429,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
     var fetchData = function fetchData() {
       dataLoaded.value = false;
-      axios.get('/driver').then(function (res) {
+      axios.get('/driver/data').then(function (res) {
         var response = res.data;
         response = response.map(function (item) {
           var _item$person = item.person,
@@ -24228,7 +24228,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
     var fetchData = function fetchData() {
       dataLoaded.value = false;
-      axios.get('/recipient').then(function (res) {
+      axios.get('/recipient/data').then(function (res) {
         var response = res.data;
         response = response.map(function (item) {
           var _item$person = item.person,

@@ -2,5 +2,5 @@
 
 namespace App\DataTables;
 
-interface RecipientDataTableInterface extends EloquentDataTableInterface {
+interface RecipientDataTableInterface extends PersonRoleDataTableInterface {
 }
