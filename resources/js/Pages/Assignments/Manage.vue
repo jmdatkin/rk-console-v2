@@ -17,10 +17,6 @@ import { Inertia, onSuccess } from '@inertiajs/inertia';
 
 import { ref, reactive, computed, onUpdated, onMounted } from 'vue';
 
-let weekdaySelect = function (day) {
-    console.log(day);
-};
-
 const toast = useToast();
 const props = defineProps(['assignment_data', 'recipient_id', 'message']);
 
@@ -47,24 +43,11 @@ const clearFilters = function () {
     };
 };
 
-const sunData = computed(() => assignmentsForDay('sun'));
-const monData = computed(() => assignmentsForDay('mon'));
-const tuesData = computed(() => assignmentsForDay('tues'));
-const wedData = computed(() => assignmentsForDay('wed'));
-const thursData = computed(() => assignmentsForDay('thurs'));
-const friData = computed(() => assignmentsForDay('fri'));
-const satData = computed(() => assignmentsForDay('sat'));
-
 const makeWeekdayCallback = function (day) {
     return function () {
-        console.log("Ay");
         weekdaySelected.value = day;
         routeSelectOpen.value = true;
     };
-};
-
-const makeWeekdayComputed = function (day) {
-    return computed(() => assignmentsForDay(day));
 };
 
 const weekdayFullName = function (abbr) {
@@ -86,20 +69,11 @@ const submitRecipientAssignment = function (day) {
             onFinish: page => {
                 getAssignmentData();
             },
-
-            // onSuccess: page => {
-            //     toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-            // },
-
-            // onError: errors => {
-            //     toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-            // }
         });
 };
 
 const assignmentsForDay = function (day) {
-    // return props.assignment_data.filter(item => item.pivot.weekday === day).map(item => {
-    return assignmentData.value.filter(item => item.pivot.weekday === day).map(item => {
+    return props.assignment_data.filter(item => item.pivot.weekday === day).map(item => {
         return { id: item.id, name: item.name, notes: item.notes }
     });
 };
@@ -128,7 +102,6 @@ axios.get('/route')
     }).catch(err => console.error(err));
 
 onMounted(() => {
-
     toast.add({ severity: props.message.class, summary: props.message.class === 'success' ? 'Successful' : 'Error', detail: props.message.detail, life: 3000 });
 })
 </script>
@@ -160,70 +133,50 @@ onMounted(() => {
             <Column field="notes" header="Notes"></Column>
         </DataTable>
     </Dialog>
-    <AssignmentLayout>
-        <template #header>
-            <span v-if="dataLoaded">
-                {{ recipientData.person.firstName }} {{ recipientData.person.lastName }}
-            </span>
-        </template>
-        <template #body>
-            <!-- <TabView :activeIndex="activeIndex">
-                <TabPanel header="Header I">
-                    Content I
-                </TabPanel>
-                <TabPanel header="Header II">
-                    Content II
-                </TabPanel>
-                <TabPanel header="Header III">
-                    Content III
-                </TabPanel>
-            </TabView> -->
-            <WeekView @weekdaySelect="weekdaySelect">
-                <Weekday :callback="makeWeekdayCallback('sun')" :data="assignmentsForDay('sun')">
-                    <template #head>
-                        Sunday
-                    </template>
-                </Weekday>
-                <Weekday :callback="makeWeekdayCallback('mon')" :data="assignmentsForDay('mon')">
-                    <template #head>
-                        Monday
-                    </template>
 
-                </Weekday>
-                <Weekday :callback="makeWeekdayCallback('tues')" :data="assignmentsForDay('tues')">
-                    <template #head>
-                        Tuesday
-                    </template>
+    <WeekView>
+        <Weekday :callback="makeWeekdayCallback('sun')" :data="assignmentsForDay('sun')">
+            <template #head>
+                Sunday
+            </template>
+        </Weekday>
+        <Weekday :callback="makeWeekdayCallback('mon')" :data="assignmentsForDay('mon')">
+            <template #head>
+                Monday
+            </template>
 
-                </Weekday>
-                <Weekday :callback="makeWeekdayCallback('wed')" :data="assignmentsForDay('wed')">
-                    <template #head>
-                        Wednesday
-                    </template>
+        </Weekday>
+        <Weekday :callback="makeWeekdayCallback('tues')" :data="assignmentsForDay('tues')">
+            <template #head>
+                Tuesday
+            </template>
 
-                </Weekday>
-                <Weekday :callback="makeWeekdayCallback('thurs')" :data="assignmentsForDay('thurs')">
-                    <template #head>
-                        Thursday
-                    </template>
+        </Weekday>
+        <Weekday :callback="makeWeekdayCallback('wed')" :data="assignmentsForDay('wed')">
+            <template #head>
+                Wednesday
+            </template>
 
-                </Weekday>
-                <Weekday :callback="makeWeekdayCallback('fri')" :data="assignmentsForDay('fri')">
-                    <template #head>
-                        Friday
-                    </template>
+        </Weekday>
+        <Weekday :callback="makeWeekdayCallback('thurs')" :data="assignmentsForDay('thurs')">
+            <template #head>
+                Thursday
+            </template>
 
-                </Weekday>
-                <Weekday :callback="makeWeekdayCallback('sat')" :data="assignmentsForDay('sat')">
-                    <template #head>
-                        Saturday
-                    </template>
+        </Weekday>
+        <Weekday :callback="makeWeekdayCallback('fri')" :data="assignmentsForDay('fri')">
+            <template #head>
+                Friday
+            </template>
 
-                </Weekday>
-            </WeekView>
+        </Weekday>
+        <Weekday :callback="makeWeekdayCallback('sat')" :data="assignmentsForDay('sat')">
+            <template #head>
+                Saturday
+            </template>
 
-        </template>
-    </AssignmentLayout>
+        </Weekday>
+    </WeekView>
 </template>
 
 <style scoped lang="scss">

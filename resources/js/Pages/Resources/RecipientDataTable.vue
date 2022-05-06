@@ -432,7 +432,7 @@ fetchData();
                         <InputText v-model="data[field]" autofocus />
                     </template>
                 </Column>
-                <Column :sortable="true" field="notes" header="Notes">
+                <Column :sortable="true" :style="{maxWidth: '600px'}" field="notes" header="Notes">
                     <template #body="{ data }">
                         {{ data.notes }}
                     </template>
@@ -444,7 +444,8 @@ fetchData();
                         <InputText v-model="data[field]" autofocus />
                     </template>
                 </Column>
-                <Column :rowEditor="true" style="width:10%; min-width:8rem" bodyStyle="text-align:center"></Column>
+                <Column :rowEditor="true" style="width:10%; min-width:8rem" bodyStyle="text-align:center">
+                </Column>
             </DataTable>
 
         </template>

@@ -76,7 +76,7 @@ class RecipientController extends BasePersonRoleController
                 'message-class' => 'success',
                 'message' => 'Record(s) successfully deleted.'
             ]);
-        } catch (Exception $e) {
+        } catch (Exception | Error $e) {
             return Redirect::route('datatables.recipients')->with([
                 'message-class' => 'error',
                 'message' => 'An error occurred. One or more record(s) were not deleted.'

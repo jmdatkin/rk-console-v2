@@ -25,7 +25,7 @@ class ManageRecipientController extends Controller
         ]);
     }
 
-    public function makeRecipientAssignment($recipient_id, $route_id, $weekday)
+    public function makeAssignment($recipient_id, $route_id, $weekday)
     {
         try {
             $this->repository->find($recipient_id)->setRoute($route_id, $weekday);

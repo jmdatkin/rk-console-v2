@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AgencyController;
+use App\Http\Controllers\Assignments\ManageDriverController;
 use App\Http\Controllers\Assignments\ManageRecipientController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\PersonController;
@@ -92,8 +93,12 @@ Route::prefix('reports')->middleware(['auth', 'verified'])->group(function() {
 
 Route::prefix('manage')->middleware(['auth', 'verified'])->group(function() {
     Route::get('recipient/{id}/assignments', [ManageRecipientController::class, 'getAssignments']);
-    Route::post('recipient/{recipient_id}/assign/{route_id}/{weekday}', [ManageRecipientController::class, 'makeRecipientAssignment']);
+    Route::post('recipient/{recipient_id}/assign/{route_id}/{weekday}', [ManageRecipientController::class, 'makeAssignment']);
     Route::get('recipient/{id}', [ManageRecipientController::class, 'index'])->name('manage.recipient');
+
+    Route::get('driver/{id}/assignments', [ManageDriverController::class, 'getAssignments']);
+    Route::post('driver/{driver_id}/assign/{route_id}/{weekday}', [ManageDriverController::class, 'makeAssignment']);
+    Route::get('driver/{id}', [ManageDriverController::class, 'index'])->name('manage.driver');
 });
 
 require __DIR__ . '/auth.php';
