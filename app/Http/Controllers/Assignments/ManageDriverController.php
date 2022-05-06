@@ -11,7 +11,6 @@ use Inertia\Inertia;
 
 class ManageDriverController extends Controller
 {
-    //
     public function __construct(DriverRepositoryInterface $repository)
     {
         $this->repository = $repository;

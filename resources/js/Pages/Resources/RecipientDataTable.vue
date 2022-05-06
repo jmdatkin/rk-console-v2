@@ -8,6 +8,7 @@ import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
 import Loading from '@/Components/Loading';
+import ManageRecipient from '@/Components/Assignments/ManageRecipient';
 import { ref, onMounted, onUpdated } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { Inertia, onSuccess } from '@inertiajs/inertia';
@@ -132,13 +133,21 @@ const newRecordForm = useForm({
     notes: null,
 });
 
+const assignId = ref(null);
+const assignDialog = ref(false);
+
+const openAssignDialog = function (id) {
+    assignId.value = id;
+    assignDialog.value = true;
+};
+
 const openNewRecordDialog = function () {
     newRecordDialog.value = true;
-}
+};
 
 const closeNewRecordDialog = function () {
     newRecordDialog.value = true;
-}
+};
 
 const submitNewRecord = function () {
     newRecordForm.post('/recipient/store', {
@@ -155,7 +164,7 @@ const submitNewRecord = function () {
             toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
         }
     })
-}
+};
 
 const onRowEditSave = function (event) {
     let { newData, index } = event;
@@ -304,8 +313,19 @@ fetchData();
 
                 </div>
             </form>
-
         </Dialog>
+
+        <Dialog v-model:visible="assignDialog" :closeOnEscape="true" :closable="true">
+            <template #header>
+                <h5 class="font-medium"></h5>
+            </template>
+            <ManageRecipient :recipient_id="assignId">
+
+            </ManageRecipient>
+        </Dialog>
+
+
+        <!-- BEGIN DT -->
         <template #header>
             Recipients
         </template>
@@ -432,7 +452,7 @@ fetchData();
                         <InputText v-model="data[field]" autofocus />
                     </template>
                 </Column>
-                <Column :sortable="true" :style="{maxWidth: '600px'}" field="notes" header="Notes">
+                <Column :sortable="true" :style="{ maxWidth: '600px' }" field="notes" header="Notes">
                     <template #body="{ data }">
                         {{ data.notes }}
                     </template>
@@ -444,7 +464,15 @@ fetchData();
                         <InputText v-model="data[field]" autofocus />
                     </template>
                 </Column>
-                <Column :rowEditor="true" style="width:10%; min-width:8rem" bodyStyle="text-align:center">
+                <Column style="width:10%; min-width:4rem" bodyStyle="text-align:center">
+                    <template #body="{ data }">
+                        <!-- <a @click="() => openAssignDialog(data.id)">
+                            <i class="pi pi-folder-open"></i>
+                        </a> -->
+                        <Button @click="() => openAssignDialog(data.id)" class="p-button-rounded" icon="pi pi-folder-open"></Button>
+                    </template>
+                </Column>
+                <Column :rowEditor="true" style="width:10%; min-width:4rem" bodyStyle="text-align:center">
                 </Column>
             </DataTable>
 
