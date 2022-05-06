@@ -25,7 +25,6 @@ const filters = ref({
     'id':
     {
         operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-        // value: null, matchMode: FilterMatchMode.CONTAINS
     },
 
     'firstName':
@@ -70,7 +69,6 @@ const initFilters = function () {
         'id':
         {
             operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-            // value: null, matchMode: FilterMatchMode.CONTAINS
         },
 
         'firstName':

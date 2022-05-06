@@ -87,9 +87,7 @@ class RecipientController extends BasePersonRoleController
     public function checkCsvHeaders($headers)
     {
         $cols = array_values($this->dataTable->cols());
-        var_dump($cols);
         foreach ($headers as $header) {
-            error_log($header);
             if (!in_array($header, $cols))
                 return false;
         }

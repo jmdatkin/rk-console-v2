@@ -5,13 +5,11 @@ namespace App\Http\Controllers\Assignments;
 use App\Http\Controllers\Controller;
 use App\Repository\RecipientRepositoryInterface;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class ManageRecipientController extends Controller
 {
-    //
     public function __construct(RecipientRepositoryInterface $repository)
     {
         $this->repository = $repository;

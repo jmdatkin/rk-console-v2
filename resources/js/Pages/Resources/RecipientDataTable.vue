@@ -26,7 +26,6 @@ const filters = ref({
     'id':
     {
         operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-        // value: null, matchMode: FilterMatchMode.CONTAINS
     },
 
     'firstName':
@@ -76,7 +75,6 @@ const initFilters = function () {
         'id':
         {
             operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-            // value: null, matchMode: FilterMatchMode.CONTAINS
         },
 
         'firstName':
@@ -469,7 +467,8 @@ fetchData();
                         <!-- <a @click="() => openAssignDialog(data.id)">
                             <i class="pi pi-folder-open"></i>
                         </a> -->
-                        <Button @click="() => openAssignDialog(data.id)" class="p-button-rounded" icon="pi pi-folder-open"></Button>
+                        <Button @click="() => openAssignDialog(data.id)" class="p-button-rounded"
+                            icon="pi pi-folder-open"></Button>
                     </template>
                 </Column>
                 <Column :rowEditor="true" style="width:10%; min-width:4rem" bodyStyle="text-align:center">

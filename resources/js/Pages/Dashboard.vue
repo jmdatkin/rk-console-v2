@@ -19,18 +19,13 @@ import CardLink from '@/Components/CardLink';
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <!-- <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg"> -->
                 <div class="flex flex-col">
 
                     <div class="grid mb-4">
                         <div class="col-12">
                             <h3>Resources</h3>
                         </div>
-                        <!-- <Divider>
-                            <div class="inline-flex align-items-left">
-                                <b>Resources</b>
-                            </div>
-                        </Divider> -->
+
                         <div class="col-4">
                             <CardLink class="p-dashboard-card" href="/datatables/personnel">
                                 <template #title>
@@ -87,11 +82,7 @@ import CardLink from '@/Components/CardLink';
                         <div class="col-12">
                             <h3>Assignments</h3>
                         </div>
-                        <!-- <Divider>
-                            <div class="inline-flex align-items-left">
-                                <b>Resources</b>
-                            </div>
-                        </Divider> -->
+
                         <div class="col-4">
                             <CardLink class="p-dashboard-card" href="/manage/recipient/1">
                                 <template #title>
@@ -151,7 +142,6 @@ import CardLink from '@/Components/CardLink';
 .p-dashboard-card {
     flex-grow: 1;
     align-items: stretch;
-    // margin: 0.75rem;
     height: 100%;
 }
 

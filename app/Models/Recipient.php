@@ -15,10 +15,6 @@ class Recipient extends Model
 
     protected $touches = ['person'];
 
-    // public function joinPerson() {
-    //     return $this->union($this->person);
-    // }
-
     public function person() {
         return $this->belongsTo(Person::class);
     }
@@ -33,7 +29,6 @@ class Recipient extends Model
     }
 
     public function setRoute($route_id, $weekday) {
-        // $this->routes()->detach();              //Remove existing assignments
         $this->routes()->attach($route_id, [ 'weekday' => $weekday]);     //Set new route id
     }
 }
