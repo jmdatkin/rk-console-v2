@@ -36,6 +36,7 @@ Route::prefix('recipient')->group(function() {
 Route::prefix('driver')->group(function() {
     Route::get('/', [DriverController::class, 'all']);
     Route::get('/data', [DriverController::class, 'data']);
+    Route::get('/{id}', [DriverController::class, 'show']);
     Route::post('/store', [DriverController::class, 'store']);
     Route::post('/import', [DriverController::class, 'import']);
     Route::patch('/{id}/update', [DriverController::class, 'update']);

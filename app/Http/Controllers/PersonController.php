@@ -26,4 +26,11 @@ class PersonController extends BaseResourceController
     public function data() {
         return $this->dataTable->data();
     }
+
+    public function update(Request $request, $id) {
+        $roles = $request->input('roles');
+
+
+        parent::update($request, $id);
+    }
 }

@@ -27,16 +27,16 @@ class ManageDriverController extends Controller
     public function makeAssignment($driver_id, $route_id, $weekday)
     {
         try {
-            $this->repository->find($driver_id)->setRoute($route_id, $weekday);
+            $this->repository->find($driver_id)->assignRoute($route_id, $weekday);
             return Redirect::route('manage.driver', ["id" => $driver_id])->with([
                 'message-class' => 'success',
                 'message' => 'Record successfully created.'
-            ]);;
+            ]);
         } catch (Exception | Error $e) {
             return Redirect::route('manage.driver', ["id" => $driver_id])->with([
                 'message-class' => 'error',
                 'message' => 'An error occurred. Record was not created.'
-            ]);;
+            ]);
         }
     }
 

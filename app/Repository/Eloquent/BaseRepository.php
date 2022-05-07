@@ -44,6 +44,7 @@ class BaseRepository implements EloquentRepositoryInterface
 
     public function update($id, $data): void {
         $this->model->where('id', $id)->update($data);
+        // $this->model->find($id)->fill($data);
     }
 
     public function all(): Collection {

@@ -26,7 +26,6 @@ const filters = ref({
     'id':
     {
         operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-        // value: null, matchMode: FilterMatchMode.CONTAINS
     },
 
     'roles':
@@ -153,7 +152,7 @@ const closeNewRecordDialog = function () {
 }
 
 const submitNewRecord = function () {
-    newRecordForm.post('/drivers/store', {
+    newRecordForm.post('/person/store', {
         onBefore: () => {
             dataLoaded.value = false;
         },
@@ -171,7 +170,7 @@ const submitNewRecord = function () {
 
 const onRowEditSave = function (event) {
     let { newData, index } = event;
-    Inertia.patch(`/drivers/${newData.id}/update`, newData,
+    Inertia.patch(`/person/${newData.id}/update`, newData,
         {
             onBefore: () => {
                 dataLoaded.value = false;
@@ -191,7 +190,7 @@ const onRowEditSave = function (event) {
 
 const destroyRecords = function () {
     let ids = selected.value.map(row => row.id);
-    Inertia.post('/drivers/destroy', { ids },
+    Inertia.post('/person/destroy', { ids },
         {
             onBefore: () => {
                 dataLoaded.value = false;
@@ -223,7 +222,7 @@ const onUpload = function (event) {
     fr.readAsText(files[0]);
 
     fr.onload = () => {
-        Inertia.post('/drivers/import', {
+        Inertia.post('/person/import', {
             data: fr.result,
         }, {
             onBefore: () => {
@@ -375,7 +374,6 @@ fetchData();
                         }">
                             {{ role }}
                         </Chip>
-                        <!-- {{ data.roles[0] }} -->
                     </template>
                     <template #filter="{ filterModel, filterCallback }">
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
