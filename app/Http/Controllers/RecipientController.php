@@ -68,10 +68,10 @@ class RecipientController extends BasePersonRoleController
         }
     }
 
-    public function bulkDestroy(Request $request)
+    public function destroyMany(Request $request)
     {
         try {
-            parent::bulkDestroy($request);
+            parent::destroyMany($request);
             return Redirect::route('datatables.recipients')->with([
                 'message-class' => 'success',
                 'message' => 'Record(s) successfully deleted.'

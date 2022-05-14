@@ -31,7 +31,7 @@ Route::prefix('recipient')->group(function() {
     Route::post('/store', [RecipientController::class, 'store']);
     Route::post('/import', [RecipientController::class, 'import']);
     Route::patch('/{id}/update', [RecipientController::class, 'update']);
-    Route::post('/destroy', [RecipientController::class, 'bulkDestroy']);
+    Route::post('/destroy', [RecipientController::class, 'destroyMany']);
 });
 
 Route::prefix('driver')->group(function() {
@@ -41,7 +41,7 @@ Route::prefix('driver')->group(function() {
     Route::post('/store', [DriverController::class, 'store']);
     Route::post('/import', [DriverController::class, 'import']);
     Route::patch('/{id}/update', [DriverController::class, 'update']);
-    Route::post('/destroy', [DriverController::class, 'bulkDestroy']);
+    Route::post('/destroy', [DriverController::class, 'destroyMany']);
 });
 
 Route::prefix('person')->group(function() {
@@ -50,7 +50,7 @@ Route::prefix('person')->group(function() {
     Route::post('/store', [PersonController::class, 'store']);
     Route::post('/import', [PersonController::class, 'import']);
     Route::patch('/{id}/update', [PersonController::class, 'update']);
-    Route::post('/destroy', [PersonController::class, 'bulkDestroy']);
+    Route::post('/destroy', [PersonController::class, 'destroyMany']);
 });
 
 Route::prefix('route')->group(function() {
@@ -58,14 +58,14 @@ Route::prefix('route')->group(function() {
     Route::post('/store', [RouteController::class, 'store']);
     Route::post('/import', [RouteController::class, 'import']);
     Route::patch('/{id}/update', [RouteController::class, 'update']);
-    Route::post('/destroy', [RouteController::class, 'bulkDestroy']);
+    Route::post('/destroy', [RouteController::class, 'destroyMany']);
 });
 
 Route::prefix('agency')->group(function() {
     Route::post('/store', [AgencyController::class, 'store']);
     Route::post('/import', [AgencyController::class, 'import']);
     Route::patch('/{id}/update', [AgencyController::class, 'update']);
-    Route::post('/destroy', [AgencyController::class, 'bulkDestroy']);
+    Route::post('/destroy', [AgencyController::class, 'destroyMany']);
 });
 
 Route::get('/', function () {

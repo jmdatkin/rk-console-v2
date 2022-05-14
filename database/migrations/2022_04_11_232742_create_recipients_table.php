@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('person_id')->references('id')->on('people');
             $table->foreign('agency_id')->references('id')->on('agencies');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

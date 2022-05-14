@@ -50,9 +50,8 @@ class BaseRepository implements EloquentRepositoryInterface
         return $this->model->all();
     }
 
-    public function destroy($ids) {
-
-        $this->model->destroy($ids);
+    public function destroy($id) {
+        $this->model->destroy($id);
     }
 
     public function destroyMany($ids) {

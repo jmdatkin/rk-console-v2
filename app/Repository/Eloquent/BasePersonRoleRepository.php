@@ -35,13 +35,12 @@ class BasePersonRoleRepository extends BaseRepository implements PersonRoleRepos
 
     public function destroy($id)
     {
-        // foreach ($ids as $id) {
         $model = $this->find($id);
+        error_log($model);
         $person = $model->person;
-        error_log($person);
-        // $model->delete();
-        // $person->delete();
-        // }
+        $person->roles()->detach();
+        $model->delete();
+        $person->delete();
     }
 
     public function destroyMany($ids) {

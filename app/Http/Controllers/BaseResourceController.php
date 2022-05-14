@@ -77,6 +77,7 @@ class BaseResourceController extends Controller
      */
     public function destroy($id)
     {
+        $this->repository->destroy($id);
     }
 
     /**
@@ -85,11 +86,11 @@ class BaseResourceController extends Controller
      * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function bulkDestroy(Request $request)
+    public function destroyMany(Request $request)
     {
         //
         $ids = $request->input('ids');
-        $this->repository->destroy($ids);
+        $this->repository->destroyMany($ids);
     }
 
     /**

@@ -22,4 +22,9 @@ class PersonRepository extends BaseRepository implements PersonRepositoryInterfa
    public function withRoles() {
        return $this->model->with('roles')->get();
    }
+
+   public function destroy($id) {
+       $this->find($id)->roles()->detach();
+       parent::destroy($id);
+   }
 }

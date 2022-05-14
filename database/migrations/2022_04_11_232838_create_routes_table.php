@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('notes')->default('')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
