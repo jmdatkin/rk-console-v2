@@ -3,7 +3,6 @@
 namespace App\DataTables\Eloquent;
 
 use App\DataTables\PersonDataTableInterface;
-use App\Models\Role;
 use App\Repository\PersonRepositoryInterface;
 
 class PersonDataTable extends BaseDataTable implements PersonDataTableInterface
@@ -18,8 +17,6 @@ class PersonDataTable extends BaseDataTable implements PersonDataTableInterface
             $newItem = $item;
             $newItem->roles->transform(function($role) { return $role->name; });
             return $newItem; 
-            // return 3;
         });
-        // return $this->repository->all()->join(Role::class);
     }
 }

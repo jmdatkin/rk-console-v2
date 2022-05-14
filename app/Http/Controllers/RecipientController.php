@@ -77,20 +77,11 @@ class RecipientController extends BasePersonRoleController
                 'message' => 'Record(s) successfully deleted.'
             ]);
         } catch (Exception | Error $e) {
+            error_log($e);
             return Redirect::route('datatables.recipients')->with([
                 'message-class' => 'error',
                 'message' => 'An error occurred. One or more record(s) were not deleted.'
             ]);
         }
-    }
-
-    public function checkCsvHeaders($headers)
-    {
-        $cols = array_values($this->dataTable->cols());
-        foreach ($headers as $header) {
-            if (!in_array($header, $cols))
-                return false;
-        }
-        return true;
     }
 }

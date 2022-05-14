@@ -39,12 +39,11 @@ class BaseRepository implements EloquentRepositoryInterface
     */
     public function find($id): ?Model
     {
-        return $this->model->findOrFail($id);
+        return $this->model->find($id);
     }
 
     public function update($id, $data): void {
         $this->model->where('id', $id)->update($data);
-        // $this->model->find($id)->fill($data);
     }
 
     public function all(): Collection {
@@ -54,5 +53,10 @@ class BaseRepository implements EloquentRepositoryInterface
     public function destroy($ids) {
 
         $this->model->destroy($ids);
+    }
+
+    public function destroyMany($ids) {
+        foreach ($ids as $id)
+            $this->destroy($id);
     }
 }

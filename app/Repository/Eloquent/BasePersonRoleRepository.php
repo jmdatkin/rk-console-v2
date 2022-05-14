@@ -22,6 +22,7 @@ class BasePersonRoleRepository extends BaseRepository implements PersonRoleRepos
         parent::__construct($model);
     }
 
+
     public function findWithPerson($id)
     {
         return $this->model->with('person')->find($id);
@@ -30,6 +31,22 @@ class BasePersonRoleRepository extends BaseRepository implements PersonRoleRepos
     public function allWithPerson()
     {
         return $this->model->with('person')->get();
+    }
+
+    public function destroy($id)
+    {
+        // foreach ($ids as $id) {
+        $model = $this->find($id);
+        $person = $model->person;
+        error_log($person);
+        // $model->delete();
+        // $person->delete();
+        // }
+    }
+
+    public function destroyMany($ids) {
+        foreach ($ids as $id)
+            $this->destroy($id);
     }
 
     /**
@@ -50,7 +67,7 @@ class BasePersonRoleRepository extends BaseRepository implements PersonRoleRepos
         $model->save();
     }
 
-    public function storeWithPerson($data) {
-        
+    public function storeWithPerson($data)
+    {
     }
 }

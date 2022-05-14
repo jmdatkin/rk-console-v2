@@ -78,34 +78,6 @@ import CardLink from '@/Components/CardLink';
                         </div>
                     </div>
                     <Divider />
-                    <div class="grid mb-4">
-                        <div class="col-12">
-                            <h3>Assignments</h3>
-                        </div>
-
-                        <div class="col-4">
-                            <CardLink class="p-dashboard-card" href="/manage/recipient/1">
-                                <template #title>
-                                    Recipients
-                                </template>
-                                <template #content>
-                                    View and mangage recipient route assignments.
-                                </template>
-                            </CardLink>
-                        </div>
-                        <div class="col-4">
-                            <CardLink class="p-dashboard-card" href="/datatables/routes">
-                                <template #title>
-                                    Drivers
-                                </template>
-                                <template #content>
-                                    View and modify driver route assignments.
-                                </template>
-                            </CardLink>
-                        </div>
-
-                    </div>
-                    <Divider />
                     <div class="grid">
                         <div class="col-12">
                             <h3>Reports</h3>
@@ -117,6 +89,16 @@ import CardLink from '@/Components/CardLink';
                                 </template>
                                 <template #content>
                                     Generate report for drivers.
+                                </template>
+                            </CardLink>
+                        </div>
+                        <div class="col-4">
+                            <CardLink class="p-dashboard-card" href="/reports/texter">
+                                <template #title>
+                                    Texter Report
+                                </template>
+                                <template #content>
+                                    Generate report for texter.
                                 </template>
                             </CardLink>
                         </div>

@@ -7,6 +7,7 @@ use App\Http\Controllers\DriverController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\RecipientController;
 use App\Http\Controllers\Reports\DriverReportController;
+use App\Http\Controllers\Reports\TexterReportController;
 use App\Http\Controllers\RouteController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -90,6 +91,7 @@ Route::prefix('datatables')->middleware(['auth', 'verified'])->group(function ()
 
 Route::prefix('reports')->middleware(['auth', 'verified'])->group(function() {
     Route::get('driver', [DriverReportController::class, 'index']);
+    Route::get('texter', [TexterReportController::class, 'index']);
 });
 
 Route::prefix('manage')->middleware(['auth', 'verified'])->group(function() {

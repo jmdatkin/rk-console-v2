@@ -2,9 +2,7 @@
 
 namespace App\DataTables\Eloquent;
 
-use App\DataTables\EloquentDataTableInterface;
 use App\DataTables\PersonRoleDataTableInterface;
-use App\Repository\EloquentRepositoryInterface;
 use App\Repository\PersonRoleRepositoryInterface;
 
 class BasePersonRoleDataTable implements PersonRoleDataTableInterface
@@ -16,6 +14,6 @@ class BasePersonRoleDataTable implements PersonRoleDataTableInterface
 
     public function data()
     {
-        return $this->repository->allWithPerson();
+        return $this->repository->all()->load('person');
     }
 }

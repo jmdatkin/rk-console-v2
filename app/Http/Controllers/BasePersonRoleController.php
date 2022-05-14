@@ -14,11 +14,12 @@ class BasePersonRoleController extends BaseResourceController
     }
 
     public function show($id) {
-        return $this->repository->findWithPerson($id);
+        return $this->repository->find($id)->load('person');
     }
 
     public function all() {
-        return $this->repository->allWithPerson();
+        // return $this->repository->allWithPerson();
+        return $this->repository->all()->load('person');
     }
 
     public function update(Request $request, $id) {
@@ -27,8 +28,7 @@ class BasePersonRoleController extends BaseResourceController
     }
 
     public function store(Request $request) {
-        $data = $request->all();
-        return $this->repository->storeWithPerson($data);
+        return $this->repository->storeWithPerson($request->all());
     }
 
 }
