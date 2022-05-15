@@ -17,6 +17,8 @@ class Recipient extends Model
 
     public function person() {
         return $this->belongsTo(Person::class);
+        // return $this->morphOne(Person::class, 'subclass');
+        // return $this->morphOne(Person::class, '');
     }
 
     public function agency() {

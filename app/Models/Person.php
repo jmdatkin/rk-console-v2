@@ -18,6 +18,14 @@ class Person extends Model
         'notes'
     ];
 
+    public function driver() {
+        return $this->hasOne(Driver::class);
+    }
+
+    public function recipient() {
+        return $this->hasOne(Recipient::class);
+    }
+
     public function user() {
         return $this->belongsTo(User::class);
     }

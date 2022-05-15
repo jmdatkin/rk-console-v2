@@ -61,10 +61,10 @@ class DriverController extends BasePersonRoleController
         }
     }
 
-    public function bulkDestroy(Request $request)
+    public function destroyMany(Request $request)
     {
         try {
-            parent::bulkDestroy($request);
+            parent::destroyMany($request);
             return Redirect::route('datatables.drivers')->with([
                 'message-class' => 'success',
                 'message' => 'Record(s) successfully deleted.'

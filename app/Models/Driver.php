@@ -16,6 +16,7 @@ class Driver extends Model
 
     public function person() {
         return $this->belongsTo(Person::class);
+        // return $this->morphOne(Person::class, 'subclass');
     }
 
     //Many-to-many linkage between route
