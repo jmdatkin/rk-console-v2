@@ -24538,6 +24538,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
           dataLoaded.value = false;
         },
         onFinish: function onFinish() {
+          selected.value = null;
           fetchData();
         },
         onSuccess: function onSuccess(page) {
@@ -24949,6 +24950,7 @@ __webpack_require__.r(__webpack_exports__);
           dataLoaded.value = false;
         },
         onFinish: function onFinish() {
+          selected.value = null;
           fetchData();
         },
         onSuccess: function onSuccess(page) {
@@ -25347,6 +25349,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
           dataLoaded.value = false;
         },
         onFinish: function onFinish() {
+          selected.value = null;
           fetchData();
         },
         onSuccess: function onSuccess(page) {
@@ -25657,6 +25660,9 @@ __webpack_require__.r(__webpack_exports__);
       _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_10__.Inertia.post('/route/destroy', {
         ids: ids
       }, {
+        onFinish: function onFinish() {
+          selected.value = null;
+        },
         onSuccess: function onSuccess(page) {
           toast.add({
             severity: props.message["class"],

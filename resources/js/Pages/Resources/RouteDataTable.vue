@@ -114,6 +114,9 @@ const destroyRecords = function () {
     let ids = selected.value.map(row => row.id);
     Inertia.post('/route/destroy', { ids },
         {
+            onFinish: () => {
+                selected.value = null;
+            },
             onSuccess: page => {
                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
             },

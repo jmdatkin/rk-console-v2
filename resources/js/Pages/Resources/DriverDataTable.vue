@@ -187,6 +187,7 @@ const destroyRecords = function () {
                 dataLoaded.value = false;
             },
             onFinish: () => {
+                selected.value = null;
                 fetchData();
             },
             onSuccess: page => {
