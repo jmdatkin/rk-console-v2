@@ -23409,11 +23409,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primevue_inputtext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primevue/inputtext */ "./node_modules/primevue/inputtext/inputtext.esm.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var primevue_api__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! primevue/api */ "./node_modules/primevue/api/api.esm.js");
-var _excluded = ["id"];
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/util */ "./resources/js/util.js");
 
 
 
@@ -23428,20 +23424,29 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     var expose = _ref.expose;
     expose();
     var props = __props;
+    console.log(props.data); // const dataXform = computed(() => {
+    //     console.log(props.data);
+    //     return props.data.map(item => {
+    //         console.log(item);
+    //         let { id, ...person } = item.person;
+    //         Object.assign(item, person);   //Bring properties from nested 'person' object into top level
+    //         delete item.person;
+    //         return item;
+    //     });
+    // });
+
     var dataXform = (0,vue__WEBPACK_IMPORTED_MODULE_5__.computed)(function () {
-      console.log(props.data);
-      return props.data.map(function (item) {
-        console.log(item);
-
-        var _item$person = item.person,
-            id = _item$person.id,
-            person = _objectWithoutProperties(_item$person, _excluded);
-
-        Object.assign(item, person); //Bring properties from nested 'person' object into top level
-
-        delete item.person;
-        return item;
+      var x = props.data.map(function (route) {
+        console.log(route);
+        var routeName = route.routeName;
+        var recipients = route.recipients.map(function (recipient) {
+          var newRecipient = (0,_util__WEBPACK_IMPORTED_MODULE_7__.mergePersonObject)(recipient);
+          newRecipient['routeName'] = routeName;
+          return newRecipient;
+        });
+        return recipients;
       });
+      return Array.prototype.concat.apply([], x);
     });
     var filters = (0,vue__WEBPACK_IMPORTED_MODULE_5__.ref)({
       'global': {
@@ -23581,7 +23586,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       onMounted: vue__WEBPACK_IMPORTED_MODULE_5__.onMounted,
       computed: vue__WEBPACK_IMPORTED_MODULE_5__.computed,
       FilterMatchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode,
-      FilterOperator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator
+      FilterOperator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator,
+      mergePersonObject: _util__WEBPACK_IMPORTED_MODULE_7__.mergePersonObject
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -28492,6 +28498,9 @@ var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNod
 
 var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" No records found. ");
 
+var _hoisted_6 = {
+  "class": "font-medium"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Loading");
 
@@ -28513,6 +28522,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         editMode: "row",
         showGridlines: "",
         resizableColumns: true,
+        groupRowsBy: "routeName",
+        rowGroupMode: "subheader",
         columnResizeMode: "fit",
         filters: $setup.filters,
         "onUpdate:filters": _cache[2] || (_cache[2] = function ($event) {
@@ -28585,11 +28596,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         empty: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [_hoisted_5];
         }),
+        groupheader: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (slotProps) {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(slotProps.data.routeName), 1
+          /* TEXT */
+          )];
+        }),
+        groupfooter: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function (slotProps) {
+          return [];
+        }),
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Column"], {
-            selectionMode: "multiple",
-            headerStyle: "width: 3em"
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Column"], {
             sortable: true,
             field: "id",
             header: "id",
@@ -28939,13 +28955,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             _: 1
             /* STABLE */
 
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Column"], {
-            rowEditor: true,
-            style: {
-              "width": "10%",
-              "min-width": "4rem"
-            },
-            bodyStyle: "text-align:center"
           })];
         }),
         _: 1

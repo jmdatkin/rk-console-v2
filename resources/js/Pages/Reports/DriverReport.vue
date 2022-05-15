@@ -6,18 +6,35 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import { ref, onMounted, computed } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
+import { mergePersonObject } from '@/util';
 
 const props = defineProps(['data']);
 
+console.log(props.data);
+
+// const dataXform = computed(() => {
+//     console.log(props.data);
+//     return props.data.map(item => {
+//         console.log(item);
+//         let { id, ...person } = item.person;
+//         Object.assign(item, person);   //Bring properties from nested 'person' object into top level
+//         delete item.person;
+//         return item;
+//     });
+// });
+
 const dataXform = computed(() => {
-    console.log(props.data);
-    return props.data.map(item => {
-        console.log(item);
-        let { id, ...person } = item.person;
-        Object.assign(item, person);   //Bring properties from nested 'person' object into top level
-        delete item.person;
-        return item;
+    let x = props.data.map(route => {
+        console.log(route);
+        let routeName = route.routeName;
+        let recipients = route.recipients.map(recipient => {
+            let newRecipient = mergePersonObject(recipient);
+            newRecipient['routeName'] = routeName;
+            return newRecipient;
+        });
+        return recipients;
     });
+    return Array.prototype.concat.apply([], x);
 });
 
 const filters = ref({
@@ -128,8 +145,8 @@ onMounted(() => {
             <DataTable :value="dataXform" :paginator="true" :rows="10" class="p-datatable-recipients"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
-                columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
-                @row-edit-save="onRowEditSave" v-model:selection="selected">
+                groupRowsBy="routeName" rowGroupMode="subheader" columnResizeMode="fit" v-model:filters="filters"
+                v-model:editingRows="editingRows" @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
                     <Toolbar class="p-0">
                         <template #start>
@@ -161,10 +178,6 @@ onMounted(() => {
                 <template #empty>
                     No records found.
                 </template>
-
-
-                <Column selectionMode="multiple" headerStyle="width: 3em">
-                </Column>
 
                 <Column :sortable="true" field="id" header="id" style="text-align: center">
                     <template #body="{ data }">
@@ -259,8 +272,11 @@ onMounted(() => {
                         <InputText v-model="data[field]" autofocus />
                     </template>
                 </Column>
-                <Column :rowEditor="true" style="width:10%; min-width:4rem" bodyStyle="text-align:center">
-                </Column>
+                <template #groupheader="slotProps">
+                    <span class="font-medium">{{ slotProps.data.routeName }}</span>
+                </template>
+                <template #groupfooter="slotProps">
+                </template>
             </DataTable>
         </template>
     </ReportLayout>
