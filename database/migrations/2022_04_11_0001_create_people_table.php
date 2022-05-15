@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('people', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('subclass_id')->nullable();
-            $table->string('subclass_type')->nullable();
+            // $table->unsignedBigInteger('subclass_id')->nullable();
+            // $table->string('subclass_type')->nullable();
             $table->string('firstName');
             $table->string('lastName');
             $table->string('email');

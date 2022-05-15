@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('person_id');
+            $table->unsignedBigInteger('person_id')->nullable();
             $table->foreign('person_id')->references('id')->on('people');
             $table->timestamps();
             $table->softDeletes();

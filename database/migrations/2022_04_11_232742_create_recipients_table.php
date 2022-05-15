@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('recipients', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('agency_id')->nullable();
-            $table->unsignedBigInteger('person_id');
-            $table->integer('numMeals');
+            $table->unsignedBigInteger('person_id')->nullable();
+            $table->integer('numMeals')->default(0);
             $table->foreign('person_id')->references('id')->on('people');
             $table->foreign('agency_id')->references('id')->on('agencies');
             $table->timestamps();

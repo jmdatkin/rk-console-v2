@@ -24296,11 +24296,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
 /* harmony import */ var primevue_usetoast__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! primevue/usetoast */ "./node_modules/primevue/usetoast/usetoast.esm.js");
-var _excluded = ["id"];
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/util */ "./resources/js/util.js");
 
 
 
@@ -24604,16 +24600,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       dataLoaded.value = false;
       axios.get('/driver/data').then(function (res) {
         var response = res.data;
-        response = response.map(function (item) {
-          var _item$person = item.person,
-              id = _item$person.id,
-              person = _objectWithoutProperties(_item$person, _excluded);
-
-          Object.assign(item, person); //Bring properties from nested 'person' object into top level
-
-          delete item.person;
-          return item;
-        });
+        response = response.map(_util__WEBPACK_IMPORTED_MODULE_15__.mergePersonObject);
         data.value = response;
         dataLoaded.value = true;
       })["catch"](function (err) {
@@ -24663,7 +24650,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       Inertia: _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_12__.Inertia,
       onSuccess: _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_12__.onSuccess,
       useForm: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_13__.useForm,
-      useToast: primevue_usetoast__WEBPACK_IMPORTED_MODULE_14__.useToast
+      useToast: primevue_usetoast__WEBPACK_IMPORTED_MODULE_14__.useToast,
+      mergePersonObject: _util__WEBPACK_IMPORTED_MODULE_15__.mergePersonObject
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -25100,11 +25088,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
 /* harmony import */ var _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @inertiajs/inertia-vue3 */ "./node_modules/@inertiajs/inertia-vue3/dist/index.js");
 /* harmony import */ var primevue_usetoast__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! primevue/usetoast */ "./node_modules/primevue/usetoast/usetoast.esm.js");
-var _excluded = ["id"];
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @/util */ "./resources/js/util.js");
 
 
 
@@ -25415,16 +25399,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       dataLoaded.value = false;
       axios.get('/recipient/data').then(function (res) {
         var response = res.data;
-        response = response.map(function (item) {
-          var _item$person = item.person,
-              id = _item$person.id,
-              person = _objectWithoutProperties(_item$person, _excluded);
-
-          Object.assign(item, person); //Bring properties from nested 'person' object into top level
-
-          delete item.person;
-          return item;
-        });
+        response = response.map(_util__WEBPACK_IMPORTED_MODULE_15__.mergePersonObject);
         data.value = response;
         dataLoaded.value = true;
       })["catch"](function (err) {
@@ -25474,7 +25449,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       Inertia: _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_12__.Inertia,
       onSuccess: _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_12__.onSuccess,
       useForm: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_13__.useForm,
-      useToast: primevue_usetoast__WEBPACK_IMPORTED_MODULE_14__.useToast
+      useToast: primevue_usetoast__WEBPACK_IMPORTED_MODULE_14__.useToast,
+      mergePersonObject: _util__WEBPACK_IMPORTED_MODULE_15__.mergePersonObject
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -32968,6 +32944,38 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/util.js":
+/*!******************************!*\
+  !*** ./resources/js/util.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "mergePersonObject": () => (/* binding */ mergePersonObject)
+/* harmony export */ });
+var _excluded = ["id"];
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+var mergePersonObject = function mergePersonObject(item) {
+  var _ref = item.person || {},
+      id = _ref.id,
+      person = _objectWithoutProperties(_ref, _excluded);
+
+  Object.assign(item, person); //Bring properties from nested 'person' object into top level
+
+  delete item.person;
+  return item;
+};
+
+
 
 /***/ }),
 

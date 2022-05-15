@@ -7,6 +7,8 @@ use App\Models\Person;
 use App\Models\Recipient;
 use App\Models\Role;
 use App\Models\Route;
+use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -33,5 +35,13 @@ class DatabaseSeeder extends Seeder
         // Recipient::factory(144)->create();
         // Driver::factory(80)->create();
         Route::factory(32)->create();
+
+        User::create([
+            'name' => 'Julian',
+            'email' => 'jatkindev@gmail.com',
+            'email_verified_at' => now(),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'remember_token' => Str::random(10),
+        ]);
     }
 }

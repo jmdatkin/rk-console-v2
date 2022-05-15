@@ -14,6 +14,6 @@ class BasePersonRoleDataTable implements PersonRoleDataTableInterface
 
     public function data()
     {
-        return $this->repository->all()->load('person');
+        return $this->repository->all();
     }
 }

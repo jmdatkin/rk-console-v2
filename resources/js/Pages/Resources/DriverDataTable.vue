@@ -14,6 +14,7 @@ import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { Inertia, onSuccess } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
+import { mergePersonObject } from '@/util';
 
 const props = defineProps(['errors', 'message', 'csrf']);
 
@@ -240,12 +241,7 @@ const fetchData = function () {
     dataLoaded.value = false;
     axios.get('/driver/data').then(res => {
         let response = res.data;
-        response = response.map(item => {
-            let { id, ...person } = item.person;
-            Object.assign(item, person);   //Bring properties from nested 'person' object into top level
-            delete item.person;
-            return item;
-        });
+        response = response.map(mergePersonObject);
         data.value = response;
         dataLoaded.value = true;
     }).catch(err => console.error(err));
