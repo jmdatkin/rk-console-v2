@@ -104,4 +104,8 @@ Route::prefix('manage')->middleware(['auth', 'verified'])->group(function() {
     Route::get('driver/{id}', [ManageDriverController::class, 'index'])->name('manage.driver');
 });
 
+Route::get('calendar', function() {
+    return Inertia::render('CalendarPage');
+});
+
 require __DIR__ . '/auth.php';
