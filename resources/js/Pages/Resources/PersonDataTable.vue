@@ -189,6 +189,7 @@ const onRowEditSave = function (event) {
     Inertia.patch(`/person/${newData.id}/update`, newData,
         {
             onBefore: () => {
+                selected.value = [];
                 dataLoaded.value = false;
             },
             onFinish: () => {
@@ -216,7 +217,7 @@ const destroyRecords = function (ids) {
                         dataLoaded.value = false;
                     },
                     onFinish: () => {
-                        selected.value = null;
+                        selected.value = [];
                         fetchData();
                     },
                     onSuccess: page => {
@@ -349,8 +350,8 @@ fetchData();
             <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-persons"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
-                columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
-                contextMenu v-model:contextMenuSelection="cmSelection" @rowContextmenu="onRowContextMenu"
+                columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows" contextMenu
+                v-model:contextMenuSelection="cmSelection" @rowContextmenu="onRowContextMenu"
                 @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
                     <Toolbar class="p-0">
@@ -359,8 +360,8 @@ fetchData();
                                 class="p-button-outlined" @click="initFilters()" />
                             <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
                                 @click="openNewRecordDialog" />
-                            <Button :disabled="!selected|| !selected.length" type="button" icon="pi pi-trash" label="Delete Records" class="p-button-alert"
-                                @click="destroySelected" />
+                            <Button :disabled="!selected || !selected.length" type="button" icon="pi pi-trash"
+                                label="Delete Records" class="p-button-alert" @click="destroySelected" />
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/drivers/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" /> -->

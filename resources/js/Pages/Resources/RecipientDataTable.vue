@@ -203,6 +203,7 @@ const onRowEditSave = function (event) {
                 dataLoaded.value = false;
             },
             onFinish: () => {
+                selected.value = [];
                 fetchData();
             },
             onSuccess: page => {
@@ -227,7 +228,7 @@ const destroyRecords = function (ids) {
                         dataLoaded.value = false;
                     },
                     onFinish: () => {
-                        selected.value = null;
+                        selected.value = [];
                         fetchData();
                     },
                     onSuccess: page => {
@@ -396,7 +397,7 @@ fetchData();
                                 class="p-button-outlined" @click="initFilters()" />
                             <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
                                 @click="openNewRecordDialog" />
-                            <Button type="button" icon="pi pi-trash" label="Delete Records" class="p-button-alert"
+                            <Button :disabled="!selected || !selected.length" type="button" icon="pi pi-trash" label="Delete Records" class="p-button-alert"
                                 @click="destroySelected" />
                             <Loading :show="!dataLoaded"></Loading>
                         </template>

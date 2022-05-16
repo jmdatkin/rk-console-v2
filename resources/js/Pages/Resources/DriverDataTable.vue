@@ -189,6 +189,7 @@ const onRowEditSave = function (event) {
                 dataLoaded.value = false;
             },
             onFinish: () => {
+                selected.value = [];
                 fetchData();
             },
             onSuccess: page => {
@@ -217,7 +218,7 @@ const destroyRecords = function (ids) {
                         dataLoaded.value = false;
                     },
                     onFinish: () => {
-                        selected.value = null;
+                        selected.value = [];
                         fetchData();
                     },
                     onSuccess: page => {
@@ -372,8 +373,8 @@ fetchData();
                                 class="p-button-outlined" @click="initFilters()" />
                             <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
                                 @click="openNewRecordDialog" />
-                            <Button type="button" icon="pi pi-trash" label="Delete Records" class="p-button-alert"
-                                @click="destroySelected" />
+                            <Button :disabled="!selected || !selected.length" type="button" icon="pi pi-trash"
+                                label="Delete Records" class="p-button-alert" @click="destroySelected" />
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/drivers/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
@@ -483,11 +484,11 @@ fetchData();
                 </Column>
                 <Column style="width:10%; min-width:4rem" bodyStyle="text-align:center">
                     <template #body="{ data }">
-                        <!-- <a @click="() => openAssignDialog(data.id)">
+                        <a @click="() => openAssignDialog(data.id)">
                             <i class="pi pi-folder-open"></i>
-                        </a> -->
-                        <Button @click="() => openAssignDialog(data.id)" class="p-button-rounded"
-                            icon="pi pi-folder-open"></Button>
+                        </a>
+                        <!-- <Button @click="() => openAssignDialog(data.id)" class="p-button-rounded"
+                            icon="pi pi-folder-open"></Button> -->
                     </template>
                 </Column>
                 <Column :rowEditor="true" style="width:10%; min-width:8rem" bodyStyle="text-align:center"></Column>
