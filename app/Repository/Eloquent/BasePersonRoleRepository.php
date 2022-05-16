@@ -28,18 +28,18 @@ class BasePersonRoleRepository extends BaseRepository implements PersonRoleRepos
         parent::__construct($model);
     }
 
-    public function find($id): ?Model
-    {
-        // return $this->model->with('person')->find($id);
-        return parent::find($id)->load('person');
-    }
+    // public function find($id): ?Model
+    // {
+    //     // return $this->model->with('person')->find($id);
+    //     return parent::find($id)->load('person');
+    // }
 
-    // public function allWithPerson()
-    public function all(): Collection
-    {
-        // return $this->model->with('person')->get();
-        return parent::all()->load('person');
-    }
+    // // public function allWithPerson()
+    // public function all(): Collection
+    // {
+    //     // return $this->model->with('person')->get();
+    //     return parent::all()->load('person');
+    // }
 
     public function destroy($id)
     {
@@ -60,13 +60,8 @@ class BasePersonRoleRepository extends BaseRepository implements PersonRoleRepos
     {
         $model = $this->model->find($id);
 
-        $model->fill($attr);
-
-        $person = $model->person;
-        $person->fill($attr);
-
-        $person->save();
-        $model->save();
+        $model->fill($attr)->save();
+        $model->person->fill($attr)->save();
     }
 
     public function store($data)

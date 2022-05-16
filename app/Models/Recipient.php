@@ -5,20 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Recipient extends Model
+class Recipient extends BasePersonRole
 {
     use HasFactory;
 
     protected $fillable = [
-        'numMeals'
+        'numMeals',
+        'address'
     ];
 
     protected $touches = ['person'];
 
     public function person() {
         return $this->belongsTo(Person::class);
-        // return $this->morphOne(Person::class, 'subclass');
-        // return $this->morphOne(Person::class, '');
     }
 
     public function agency() {
