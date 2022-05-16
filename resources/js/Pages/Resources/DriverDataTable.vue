@@ -8,6 +8,7 @@ import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
 import Loading from '@/Components/Loading';
+import ContextMenu from 'primevue/contextmenu';
 import ManageDriver from '@/Components/Assignments/ManageDriver';
 import { ref, onMounted, onUpdated } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
@@ -113,6 +114,21 @@ onMounted(() => {
 const data = ref();
 const dataLoaded = ref(false);
 
+const menuModel = ref([
+    {label: 'View report', icon: 'pi pi-fw pi-search', command: () => goToReport(cmSelection)}
+]);
+
+const goToReport = function(selection) {
+    // console.log(selection);
+    Inertia.visit('/reports/driver?did='+selection.value.id);
+};
+
+const onRowContextMenu = event => {
+    cm.value.show(event.originalEvent);
+};
+
+const cmSelection = ref();
+const cm = ref();
 const toast = useToast();
 const loading = ref(true);
 const editingRows = ref([]);
@@ -328,6 +344,9 @@ fetchData();
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
+                contextMenu
+                v-model:contextMenuSelection="cmSelection"
+                @rowContextmenu="onRowContextMenu"
                 @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
                     <Toolbar class="p-0">
@@ -455,6 +474,8 @@ fetchData();
                     </template>
                 </Column>
                 <Column :rowEditor="true" style="width:10%; min-width:8rem" bodyStyle="text-align:center"></Column>
+
+                <ContextMenu :model="menuModel" ref="cm"></ContextMenu>
 
             </DataTable>
 
