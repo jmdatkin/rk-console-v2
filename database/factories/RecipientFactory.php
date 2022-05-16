@@ -19,6 +19,7 @@ class RecipientFactory extends Factory
         return [
             //
             'numMeals' => $this->faker->numberBetween(2,108),
+            'address' => $this->faker->address()
         ];
     }
 }

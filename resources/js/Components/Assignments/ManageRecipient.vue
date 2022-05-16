@@ -18,7 +18,7 @@ import { Inertia, onSuccess } from '@inertiajs/inertia';
 import { ref, reactive, computed, onUpdated, onMounted } from 'vue';
 
 const toast = useToast();
-const props = defineProps(['assignment_data', 'recipient_id', 'message']);
+const props = defineProps(['assignment_data', 'recipient_id', 'recipientData', 'message']);
 
 const recipientData = ref(null);
 const dataLoaded = ref(false);
@@ -135,10 +135,13 @@ onUpdated(() => {
                 </template>
                 <Column field="id" header="id"></Column>
                 <Column field="name" header="Name"></Column>
-                <Column field="notes" header="Notes"></Column>
+                <!-- <Column field="notes" header="Notes"></Column> -->
             </DataTable>
         </Dialog>
         <WeekView v-if="assignmentDataLoaded">
+            <template #header>
+                Route assignments for {{ recipientData.person.firstName }} {{ recipientData.person.lastName }}
+            </template>
             <Weekday :callback="makeWeekdayCallback('sun')" :data="assignmentsForDay('sun')">
                 <template #head>
                     Sunday

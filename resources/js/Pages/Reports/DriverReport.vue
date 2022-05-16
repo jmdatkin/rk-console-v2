@@ -59,6 +59,11 @@ const filters = ref({
         operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
     },
 
+        'address':
+        {
+            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+        },
+
     'email':
     {
         operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
@@ -108,6 +113,11 @@ const initFilters = function () {
             operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
         },
 
+        'address':
+        {
+            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+        },
+
         'email':
         {
             operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
@@ -144,7 +154,7 @@ onMounted(() => {
         <template #report>
 
             <DataTable :value="dataXform" :paginator="true" :rows="10" class="p-datatable-recipients"
-                :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
+                :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'address', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 groupRowsBy="routeName" rowGroupMode="subheader" columnResizeMode="fit" v-model:filters="filters"
                 v-model:editingRows="editingRows" @row-edit-save="onRowEditSave" v-model:selection="selected">
@@ -212,6 +222,18 @@ onMounted(() => {
                     <template #filter="{ filterModel, filterCallback }">
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search by e-mail address"></InputText>
+                    </template>
+                    <template #editor="{ data, field }">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
+                </Column>
+                <Column :sortable="true" field="address" header="Address">
+                    <template #body="{ data }">
+                        {{ data.address }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search by address"></InputText>
                     </template>
                     <template #editor="{ data, field }">
                         <InputText v-model="data[field]" autofocus />

@@ -1,5 +1,6 @@
 <script setup>
 import OverlayPanel from 'primevue/overlaypanel';
+import Panel from 'primevue/panel';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Card from 'primevue/card';
@@ -16,30 +17,33 @@ const toggle = function (e) {
 
 <template>
 
-    <div class="weekday">
-        <OverlayPanel appendTo="body" ref="overlay">
-            <slot name="overlay"></slot>
-        </OverlayPanel>
-        <div class="weekday-inner">
-            <div class="start">
-                <a class="weekday-header" @click="callback">
-                    <slot name="head" />
-                </a>
+    <!-- <Panel> -->
+        <div class="weekday">
+            <OverlayPanel appendTo="body" ref="overlay">
+                <slot name="overlay"></slot>
+            </OverlayPanel>
+            <div class="weekday-inner">
+                <div class="start">
+                    <a class="weekday-header" @click="callback">
+                        <slot name="head" />
+                    </a>
 
+                </div>
+                <div class="end">
+                    <slot name="body">
+
+                        <DataTable class="p-datatable-sm" :value="props.data">
+                            <Column field="id" header="id"></Column>
+                            <Column field="name" header="name"></Column>
+                            <Column field="notes" header="notes"></Column>
+                        </DataTable>
+
+                    </slot>
+                </div>
             </div>
-            <div class="end">
-                <slot name="body">
 
-                    <DataTable class="p-datatable-sm" :value="props.data">
-                        <Column field="id" header="id"></Column>
-                        <Column field="name" header="name"></Column>
-                        <Column field="notes" header="notes"></Column>
-                    </DataTable>
-
-                </slot>
-            </div>
-        </div>
-        <!-- <Card>
+    <!-- </Panel> -->
+    <!-- <Card>
             <template #title>
                 <a @click="callback">
                     <slot name="head" />

@@ -8,6 +8,7 @@ import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
 import Loading from '@/Components/Loading';
+import ContextMenu from 'primevue/contextmenu';
 import ManageRecipient from '@/Components/Assignments/ManageRecipient';
 import { ref, onMounted, onUpdated } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
@@ -37,6 +38,11 @@ const filters = ref({
     'lastName':
     {
         operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'address':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
     },
 
     'email':
@@ -88,6 +94,11 @@ const initFilters = function () {
             operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
         },
 
+        'address':
+        {
+            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+        },
+
         'email':
         {
             operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
@@ -118,6 +129,16 @@ onMounted(() => {
 const data = ref();
 const dataLoaded = ref(false);
 
+const menuModel = ref([
+    {label: 'Edit route assignments', icon: 'pi pi-fw pi-search', command: () => openAssignDialog(cmSelection.value)}
+]);
+
+const onRowContextMenu = event => {
+    cm.value.show(event.originalEvent);
+};
+
+const cmSelection = ref();
+const cm = ref();
 const toast = useToast();
 const loading = ref(true);
 const editingRows = ref([]);
@@ -132,11 +153,13 @@ const newRecordForm = useForm({
     notes: null,
 });
 
+const assignRecipient = ref(null);
 const assignId = ref(null);
 const assignDialog = ref(false);
 
-const openAssignDialog = function (id) {
-    assignId.value = id;
+const openAssignDialog = function (row) {
+    assignRecipient.value = row;
+    assignId.value = row.id;
     assignDialog.value = true;
 };
 
@@ -310,11 +333,14 @@ fetchData();
             </form>
         </Dialog>
 
-        <Dialog v-model:visible="assignDialog" :closeOnEscape="true" :closable="true">
+        <Dialog v-model:visible="assignDialog" :closeOnEscape="true" :closable="true"
+            :dismissableMask="true"
+            :modal="true"
+        >
             <template #header>
                 <h5 class="font-medium"></h5>
             </template>
-            <ManageRecipient :recipient_id="assignId">
+            <ManageRecipient :recipient_id="assignId" :recipientData="assignRecipient">
 
             </ManageRecipient>
         </Dialog>
@@ -326,9 +352,12 @@ fetchData();
         </template>
         <template #table>
             <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-recipients"
-                :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
+                :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'address', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
+                contextMenu
+                v-model:contextMenuSelection="cmSelection"
+                @rowContextmenu="onRowContextMenu"
                 @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
                     <Toolbar class="p-0">
@@ -411,6 +440,18 @@ fetchData();
                         <InputText v-model="data[field]" autofocus />
                     </template>
                 </Column>
+                <Column :sortable="true" field="address" header="Address">
+                    <template #body="{ data }">
+                        {{ data.address }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search by address"></InputText>
+                    </template>
+                    <template #editor="{ data, field }">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
+                </Column>
                 <Column :sortable="true" field="phoneHome" header="Home #">
                     <template #body="{ data }">
                         {{ data.phoneHome }}
@@ -464,12 +505,14 @@ fetchData();
                         <!-- <a @click="() => openAssignDialog(data.id)">
                             <i class="pi pi-folder-open"></i>
                         </a> -->
-                        <Button @click="() => openAssignDialog(data.id)" class="p-button-rounded"
+                        <Button @click="() => openAssignDialog(data)" class="p-button-rounded"
                             icon="pi pi-folder-open"></Button>
                     </template>
                 </Column>
                 <Column :rowEditor="true" style="width:10%; min-width:4rem" bodyStyle="text-align:center">
                 </Column>
+
+                <ContextMenu :model="menuModel" ref="cm"></ContextMenu>
             </DataTable>
 
         </template>

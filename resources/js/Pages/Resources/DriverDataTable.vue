@@ -115,12 +115,13 @@ const data = ref();
 const dataLoaded = ref(false);
 
 const menuModel = ref([
-    {label: 'View report', icon: 'pi pi-fw pi-search', command: () => goToReport(cmSelection)}
+    { label: 'View report', icon: 'pi pi-fw pi-search', command: () => goToReport(cmSelection) },
+    { label: 'Edit route assignments', icon: 'pi pi-fw pi-search', command: () => openAssignDialog(cmSelection.value.id) }
 ]);
 
-const goToReport = function(selection) {
+const goToReport = function (selection) {
     // console.log(selection);
-    Inertia.visit('/reports/driver?did='+selection.value.id);
+    Inertia.visit('/reports/driver?did=' + selection.value.id);
 };
 
 const onRowContextMenu = event => {
@@ -325,7 +326,9 @@ fetchData();
 
         </Dialog>
 
-        <Dialog v-model:visible="assignDialog" :closeOnEscape="true" :closable="true">
+        <Dialog v-model:visible="assignDialog" :closeOnEscape="true" :closable="true"
+            :modal="true"
+        :dismissableMask="true">
             <template #header>
                 <h5 class="font-medium"></h5>
             </template>
@@ -343,10 +346,8 @@ fetchData();
             <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-drivers"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
-                columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
-                contextMenu
-                v-model:contextMenuSelection="cmSelection"
-                @rowContextmenu="onRowContextMenu"
+                columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows" contextMenu
+                v-model:contextMenuSelection="cmSelection" @rowContextmenu="onRowContextMenu"
                 @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
                     <Toolbar class="p-0">
