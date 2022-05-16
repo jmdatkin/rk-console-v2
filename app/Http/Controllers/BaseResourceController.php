@@ -21,6 +21,22 @@ class BaseResourceController extends Controller
         $this->repository = $repository;
     }
 
+    public function flashMessages($function, $success_msg, $error_msg)
+    {
+        try {
+            $function();
+            return redirect()->back()->with([
+                'message-class' => 'success',
+                'message' => $success_msg
+            ]);
+        } catch (Exception | Error $e) {
+            return redirect()->back()->with([
+                'message-class' => 'error',
+                'message' => $error_msg.$e
+            ]);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *

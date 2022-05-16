@@ -54,12 +54,13 @@ class RecipientController extends BasePersonRoleController
     public function update(Request $request, $id)
     {
         try {
+            throw new Error();
             parent::update($request, $id);
             return Redirect::route('datatables.recipients')->with([
                 'message-class' => 'success',
                 'message' => 'Record successfully edited.'
             ]);
-        } catch (Exception $e) {
+        } catch (Exception | Error $e) {
             error_log($e);
             return Redirect::route('datatables.recipients')->with([
                 'message-class' => 'error',

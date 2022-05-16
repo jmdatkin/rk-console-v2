@@ -29,8 +29,7 @@ class PersonController extends BaseResourceController
 
     public function update(Request $request, $id) {
         $roles = $request->input('roles');
-
-
-        parent::update($request, $id);
+        $this->flashMessages(function() use ($request, $id) { return parent::update($request, $id);}, "Success", "Error");
+        // parent::update($request, $id);
     }
 }

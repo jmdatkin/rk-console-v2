@@ -23,4 +23,8 @@ class TexterReport extends BaseReport {
         }
     }
 
+    public function report($day) {
+
+    }
+
 }
