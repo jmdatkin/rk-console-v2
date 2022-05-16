@@ -46,7 +46,7 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
                             </div> -->
                         </div>
                     </div>
-                    <div class="report-wrapper flex card">
+                    <div class="report-wrapper card">
                         <slot name="report"></slot>
                     </div>
                 </div>

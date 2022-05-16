@@ -17,7 +17,14 @@ class TexterReport extends BaseReport {
     public function report($weekday) {
         return array_values($this->repository->all()->filter(function($recipient) use ($weekday) {
             return !$recipient->routes()->wherePivot('weekday', $weekday)->get()->isEmpty();
-        })->toArray());
+        })->map(function($recipient) {
+            $recipient->concat(
+            [
+                'routeName' => $recipient->routes->first()
+            ]);
+            return $recipient;
+        })
+        ->toArray());
     }
 
 }

@@ -25,4 +25,9 @@ class TexterReportController extends Controller
             ]
         );
     }
+
+    public function data(Request $request) {
+        $weekday = $request->input('weekday');
+        return $this->report->report($weekday);
+    }
 }

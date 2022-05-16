@@ -4,25 +4,14 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
+import Calendar from '@/Components/Calendar';
 import { ref, onMounted, computed } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { mergePersonObject } from '@/util';
 
 const props = defineProps(['data']);
 
-const dataXform = computed(() => {
-    console.log(props.data);
-    return props.data.map(mergePersonObject);
-    // return props.data.map(item => {
-    //     console.log(item);
-    //     let { id, ...person } = item.person;
-    //     Object.assign(item, person);   //Bring properties from nested 'person' object into top level
-    //     delete item.person;
-    //     return item;
-    // });
-});
-
-
+const dataXform = computed(() => props.data.map(mergePersonObject));
 
 const filters = ref({
     'global':
@@ -117,6 +106,43 @@ const initFilters = function () {
     }
 };
 
+const dayLookup = {
+    0: 'sun',
+    1: 'mon',
+    2: 'tues',
+    3: 'wed',
+    4: 'thurs',
+    5: 'fri',
+    6: 'sat'
+};
+
+const selectedDate = ref(null);
+const isDateSelected = ref(false);
+
+const selectDateCallback = function (date) {
+    selectedDate.value = date.start;
+    isDateSelected.value = true;
+    getRecipientData();
+    console.log(date);
+};
+
+const openDateSelection = function () {
+    isDateSelected.value = false;
+};
+
+const recipientData = ref();
+const recipientDataLoaded = ref(false);
+
+const getRecipientData = function () {
+    let weekday = dayLookup[selectedDate.value.getDay()];
+    recipientDataLoaded.value = false;
+    axios.get('/reports/texter/data?weekday='+weekday)
+        .then((res) => {
+            recipientData.value = res.data.map(mergePersonObject);
+            recipientDataLoaded.value = true;
+        });
+};
+
 onMounted(() => {
     initFilters();
 });
@@ -128,15 +154,17 @@ onMounted(() => {
             Texter Report
         </template>
         <template #report>
+            <Button @click="openDateSelection">Choose Date</Button>
+            <Calendar v-if="!isDateSelected && !assignmentDataLoaded" :onSelectCallback="selectDateCallback">
+            </Calendar>
 
-
-
-            <DataTable :value="dataXform" :paginator="true" :rows="10" class="p-datatable-recipients"
+            <DataTable v-else :value="recipientData" :paginator="true" :rows="10" class="p-datatable-recipients"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
                 @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
+                    {{ selectedDate.toDateString() }}
                     <Toolbar class="p-0">
                         <template #start>
                             <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
