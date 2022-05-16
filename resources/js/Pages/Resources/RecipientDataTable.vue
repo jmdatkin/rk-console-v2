@@ -148,8 +148,10 @@ const newRecordForm = useForm({
     firstName: null,
     lastName: null,
     email: null,
+    address: null,
     phoneHome: null,
     phoneCell: null,
+    numMeals: null,
     notes: null,
 });
 
@@ -318,6 +320,20 @@ fetchData();
                             <label for="newRecord.phoneCell">Cell Phone</label>
                             <InputText class="p-form-input" id="newRecord.phoneCell" type="text"
                                 v-model="newRecordForm.phoneCell" />
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-12">
+                            <label for="newRecord.email">Address</label>
+                            <InputText class="p-form-input" id="newRecord.address" type="text"
+                                v-model="newRecordForm.address" />
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-12">
+                            <label for="newRecord.email">Num. Meals</label>
+                            <InputText class="p-form-input" id="newRecord.numMeals" type="text"
+                                v-model="newRecordForm.numMeals" />
                         </div>
                     </div>
                     <div class="grid">
