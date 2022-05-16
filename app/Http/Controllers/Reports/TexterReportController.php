@@ -17,10 +17,11 @@ class TexterReportController extends Controller
 
     public function index(Request $request)
     {
+        $weekday = $request->input('weekday');
         return Inertia::render(
             'Reports/TexterReport',
             [
-                "data" => $this->report->data()
+                "data" => $this->report->report('mon')
             ]
         );
     }

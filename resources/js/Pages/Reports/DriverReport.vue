@@ -3,12 +3,13 @@ import ReportLayout from '@/Layouts/ReportLayout';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
+import Toolbar from 'primevue/toolbar';
 import InputText from 'primevue/inputtext';
 import { ref, onMounted, computed } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { mergePersonObject } from '@/util';
 
-const props = defineProps(['data']);
+const props = defineProps(['data', 'driverData']);
 
 console.log(props.data);
 
@@ -150,15 +151,7 @@ onMounted(() => {
                 <template #header>
                     <Toolbar class="p-0">
                         <template #start>
-                            <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
-                                class="p-button-outlined" @click="initFilters()" />
-                            <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
-                                @click="openNewRecordDialog" />
-                            <Button type="button" icon="pi pi-plus" label="Delete Records" class="p-button-alert"
-                                @click="destroyRecords" />
-                            <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
-                                label="Import from CSV" chooseLabel="Import from CSV" url="/recipients/import"
-                                class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
+                            <span>Driver: {{ driverData.person.firstName }} {{ driverData.person.lastName }}</span>
                             <Loading :show="!dataLoaded"></Loading>
                         </template>
                         <template #end>

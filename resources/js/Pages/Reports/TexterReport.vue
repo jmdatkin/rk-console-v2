@@ -6,18 +6,20 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import { ref, onMounted, computed } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
+import { mergePersonObject } from '@/util';
 
 const props = defineProps(['data']);
 
 const dataXform = computed(() => {
     console.log(props.data);
-    return props.data.map(item => {
-        console.log(item);
-        let { id, ...person } = item.person;
-        Object.assign(item, person);   //Bring properties from nested 'person' object into top level
-        delete item.person;
-        return item;
-    });
+    return props.data.map(mergePersonObject);
+    // return props.data.map(item => {
+    //     console.log(item);
+    //     let { id, ...person } = item.person;
+    //     Object.assign(item, person);   //Bring properties from nested 'person' object into top level
+    //     delete item.person;
+    //     return item;
+    // });
 });
 
 
@@ -123,7 +125,7 @@ onMounted(() => {
 <template>
     <ReportLayout>
         <template #header>
-            Driver Report
+            Texter Report
         </template>
         <template #report>
 
@@ -165,10 +167,6 @@ onMounted(() => {
                 <template #empty>
                     No records found.
                 </template>
-
-
-                <Column selectionMode="multiple" headerStyle="width: 3em">
-                </Column>
 
                 <Column :sortable="true" field="id" header="id" style="text-align: center">
                     <template #body="{ data }">
@@ -262,8 +260,6 @@ onMounted(() => {
                     <template #editor="{ data, field }">
                         <InputText v-model="data[field]" autofocus />
                     </template>
-                </Column>
-                <Column :rowEditor="true" style="width:10%; min-width:4rem" bodyStyle="text-align:center">
                 </Column>
             </DataTable>
         </template>

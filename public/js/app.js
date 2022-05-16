@@ -23406,10 +23406,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primevue_datatable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! primevue/datatable */ "./node_modules/primevue/datatable/datatable.esm.js");
 /* harmony import */ var primevue_column__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primevue/column */ "./node_modules/primevue/column/column.esm.js");
 /* harmony import */ var primevue_button__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primevue/button */ "./node_modules/primevue/button/button.esm.js");
-/* harmony import */ var primevue_inputtext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primevue/inputtext */ "./node_modules/primevue/inputtext/inputtext.esm.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var primevue_api__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! primevue/api */ "./node_modules/primevue/api/api.esm.js");
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/util */ "./resources/js/util.js");
+/* harmony import */ var primevue_toolbar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primevue/toolbar */ "./node_modules/primevue/toolbar/toolbar.esm.js");
+/* harmony import */ var primevue_inputtext__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! primevue/inputtext */ "./node_modules/primevue/inputtext/inputtext.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var primevue_api__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! primevue/api */ "./node_modules/primevue/api/api.esm.js");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/util */ "./resources/js/util.js");
+
 
 
 
@@ -23419,7 +23421,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['data'],
+  props: ['data', 'driverData'],
   setup: function setup(__props, _ref) {
     var expose = _ref.expose;
     expose();
@@ -23435,12 +23437,12 @@ __webpack_require__.r(__webpack_exports__);
     //     });
     // });
 
-    var dataXform = (0,vue__WEBPACK_IMPORTED_MODULE_5__.computed)(function () {
+    var dataXform = (0,vue__WEBPACK_IMPORTED_MODULE_6__.computed)(function () {
       var x = props.data.map(function (route) {
         console.log(route);
         var routeName = route.routeName;
         var recipients = route.recipients.map(function (recipient) {
-          var newRecipient = (0,_util__WEBPACK_IMPORTED_MODULE_7__.mergePersonObject)(recipient);
+          var newRecipient = (0,_util__WEBPACK_IMPORTED_MODULE_8__.mergePersonObject)(recipient);
           newRecipient['routeName'] = routeName;
           return newRecipient;
         });
@@ -23448,65 +23450,65 @@ __webpack_require__.r(__webpack_exports__);
       });
       return Array.prototype.concat.apply([], x);
     });
-    var filters = (0,vue__WEBPACK_IMPORTED_MODULE_5__.ref)({
+    var filters = (0,vue__WEBPACK_IMPORTED_MODULE_6__.ref)({
       'global': {
         value: null,
-        matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.CONTAINS
+        matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.CONTAINS
       },
       'id': {
-        operator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator.AND,
+        operator: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterOperator.AND,
         constraints: [{
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.STARTS_WITH
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.STARTS_WITH
         }]
       },
       'firstName': {
-        operator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator.AND,
+        operator: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterOperator.AND,
         constraints: [{
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.STARTS_WITH
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.STARTS_WITH
         }]
       },
       'lastName': {
-        operator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator.AND,
+        operator: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterOperator.AND,
         constraints: [{
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.STARTS_WITH
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.STARTS_WITH
         }]
       },
       'email': {
-        operator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator.AND,
+        operator: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterOperator.AND,
         constraints: [{
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.CONTAINS
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.CONTAINS
         }]
       },
       'phoneHome': {
-        operator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator.AND,
+        operator: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterOperator.AND,
         constraints: [{
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.CONTAINS
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.CONTAINS
         }]
       },
       'phoneCell': {
-        operator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator.AND,
+        operator: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterOperator.AND,
         constraints: [{
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.CONTAINS
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.CONTAINS
         }]
       },
       'numMeals': {
-        operator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator.AND,
+        operator: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterOperator.AND,
         constraints: [{
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.CONTAINS
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.CONTAINS
         }]
       },
       'notes': {
-        operator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator.AND,
+        operator: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterOperator.AND,
         constraints: [{
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.CONTAINS
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.CONTAINS
         }]
       }
     });
@@ -23515,61 +23517,61 @@ __webpack_require__.r(__webpack_exports__);
       filters.value = {
         'global': {
           value: null,
-          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.CONTAINS
+          matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.CONTAINS
         },
         'id': {
-          operator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator.AND,
+          operator: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterOperator.AND,
           constraints: [{
             value: null,
-            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.STARTS_WITH
+            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.STARTS_WITH
           }]
         },
         'firstName': {
-          operator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator.AND,
+          operator: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterOperator.AND,
           constraints: [{
             value: null,
-            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.STARTS_WITH
+            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.STARTS_WITH
           }]
         },
         'lastName': {
-          operator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator.AND,
+          operator: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterOperator.AND,
           constraints: [{
             value: null,
-            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.STARTS_WITH
+            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.STARTS_WITH
           }]
         },
         'email': {
-          operator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator.AND,
+          operator: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterOperator.AND,
           constraints: [{
             value: null,
-            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.CONTAINS
+            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.CONTAINS
           }]
         },
         'phoneHome': {
-          operator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator.AND,
+          operator: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterOperator.AND,
           constraints: [{
             value: null,
-            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.CONTAINS
+            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.CONTAINS
           }]
         },
         'phoneCell': {
-          operator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator.AND,
+          operator: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterOperator.AND,
           constraints: [{
             value: null,
-            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.CONTAINS
+            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.CONTAINS
           }]
         },
         'notes': {
-          operator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator.AND,
+          operator: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterOperator.AND,
           constraints: [{
             value: null,
-            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode.CONTAINS
+            matchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode.CONTAINS
           }]
         }
       };
     };
 
-    (0,vue__WEBPACK_IMPORTED_MODULE_5__.onMounted)(function () {
+    (0,vue__WEBPACK_IMPORTED_MODULE_6__.onMounted)(function () {
       initFilters();
     });
     var __returned__ = {
@@ -23581,13 +23583,14 @@ __webpack_require__.r(__webpack_exports__);
       DataTable: primevue_datatable__WEBPACK_IMPORTED_MODULE_1__["default"],
       Column: primevue_column__WEBPACK_IMPORTED_MODULE_2__["default"],
       Button: primevue_button__WEBPACK_IMPORTED_MODULE_3__["default"],
-      InputText: primevue_inputtext__WEBPACK_IMPORTED_MODULE_4__["default"],
-      ref: vue__WEBPACK_IMPORTED_MODULE_5__.ref,
-      onMounted: vue__WEBPACK_IMPORTED_MODULE_5__.onMounted,
-      computed: vue__WEBPACK_IMPORTED_MODULE_5__.computed,
-      FilterMatchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode,
-      FilterOperator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator,
-      mergePersonObject: _util__WEBPACK_IMPORTED_MODULE_7__.mergePersonObject
+      Toolbar: primevue_toolbar__WEBPACK_IMPORTED_MODULE_4__["default"],
+      InputText: primevue_inputtext__WEBPACK_IMPORTED_MODULE_5__["default"],
+      ref: vue__WEBPACK_IMPORTED_MODULE_6__.ref,
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_6__.onMounted,
+      computed: vue__WEBPACK_IMPORTED_MODULE_6__.computed,
+      FilterMatchMode: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterMatchMode,
+      FilterOperator: primevue_api__WEBPACK_IMPORTED_MODULE_7__.FilterOperator,
+      mergePersonObject: _util__WEBPACK_IMPORTED_MODULE_8__.mergePersonObject
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -23819,11 +23822,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var primevue_inputtext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primevue/inputtext */ "./node_modules/primevue/inputtext/inputtext.esm.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var primevue_api__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! primevue/api */ "./node_modules/primevue/api/api.esm.js");
-var _excluded = ["id"];
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/util */ "./resources/js/util.js");
 
 
 
@@ -23840,18 +23839,13 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
     var props = __props;
     var dataXform = (0,vue__WEBPACK_IMPORTED_MODULE_5__.computed)(function () {
       console.log(props.data);
-      return props.data.map(function (item) {
-        console.log(item);
-
-        var _item$person = item.person,
-            id = _item$person.id,
-            person = _objectWithoutProperties(_item$person, _excluded);
-
-        Object.assign(item, person); //Bring properties from nested 'person' object into top level
-
-        delete item.person;
-        return item;
-      });
+      return props.data.map(_util__WEBPACK_IMPORTED_MODULE_7__.mergePersonObject); // return props.data.map(item => {
+      //     console.log(item);
+      //     let { id, ...person } = item.person;
+      //     Object.assign(item, person);   //Bring properties from nested 'person' object into top level
+      //     delete item.person;
+      //     return item;
+      // });
     });
     var filters = (0,vue__WEBPACK_IMPORTED_MODULE_5__.ref)({
       'global': {
@@ -23991,7 +23985,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
       onMounted: vue__WEBPACK_IMPORTED_MODULE_5__.onMounted,
       computed: vue__WEBPACK_IMPORTED_MODULE_5__.computed,
       FilterMatchMode: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterMatchMode,
-      FilterOperator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator
+      FilterOperator: primevue_api__WEBPACK_IMPORTED_MODULE_6__.FilterOperator,
+      mergePersonObject: _util__WEBPACK_IMPORTED_MODULE_7__.mergePersonObject
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -28504,8 +28499,6 @@ var _hoisted_6 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Loading");
 
-  var _component_Toolbar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Toolbar");
-
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["ReportLayout"], null, {
     header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [_hoisted_1];
@@ -28526,49 +28519,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         rowGroupMode: "subheader",
         columnResizeMode: "fit",
         filters: $setup.filters,
-        "onUpdate:filters": _cache[2] || (_cache[2] = function ($event) {
+        "onUpdate:filters": _cache[1] || (_cache[1] = function ($event) {
           return $setup.filters = $event;
         }),
         editingRows: _ctx.editingRows,
-        "onUpdate:editingRows": _cache[3] || (_cache[3] = function ($event) {
+        "onUpdate:editingRows": _cache[2] || (_cache[2] = function ($event) {
           return _ctx.editingRows = $event;
         }),
         onRowEditSave: _ctx.onRowEditSave,
         selection: _ctx.selected,
-        "onUpdate:selection": _cache[4] || (_cache[4] = function ($event) {
+        "onUpdate:selection": _cache[3] || (_cache[3] = function ($event) {
           return _ctx.selected = $event;
         })
       }, {
         header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Toolbar, {
+          return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Toolbar"], {
             "class": "p-0"
           }, {
             start: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Button"], {
-                type: "button",
-                icon: "pi pi-filter-slash",
-                label: "Clear Filters",
-                "class": "p-button-outlined",
-                onClick: _cache[0] || (_cache[0] = function ($event) {
-                  return $setup.initFilters();
-                })
-              }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Button"], {
-                type: "button",
-                icon: "pi pi-plus",
-                label: "Add Record",
-                "class": "p-button-success",
-                onClick: _ctx.openNewRecordDialog
-              }, null, 8
-              /* PROPS */
-              , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Button"], {
-                type: "button",
-                icon: "pi pi-plus",
-                label: "Delete Records",
-                "class": "p-button-alert",
-                onClick: _ctx.destroyRecords
-              }, null, 8
-              /* PROPS */
-              , ["onClick"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <FileUpload :auto=\"true\" name=\"csv_data\" mode=\"basic\" accept=\".csv\" :maxFileSize=\"1000000\"\n                                label=\"Import from CSV\" chooseLabel=\"Import from CSV\" url=\"/recipients/import\"\n                                class=\"inline-block\" :customUpload=\"true\" @uploader=\"onUpload\" /> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Loading, {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Driver: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.driverData.person.firstName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.driverData.person.lastName), 1
+              /* TEXT */
+              ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Loading, {
                 show: !_ctx.dataLoaded
               }, null, 8
               /* PROPS */
@@ -28577,7 +28548,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             end: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["InputText"], {
                 modelValue: $setup.filters['global'].value,
-                "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+                "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
                   return $setup.filters['global'].value = $event;
                 }),
                 placeholder: "Search all columns"
@@ -29487,7 +29458,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Driver Report ");
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Texter Report ");
 
 var _hoisted_2 = {
   "class": "p-input-icon-left"
@@ -29598,9 +29569,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Column"], {
-            selectionMode: "multiple",
-            headerStyle: "width: 3em"
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Column"], {
             sortable: true,
             field: "id",
             header: "id",
@@ -29950,13 +29918,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             _: 1
             /* STABLE */
 
-          }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Column"], {
-            rowEditor: true,
-            style: {
-              "width": "10%",
-              "min-width": "4rem"
-            },
-            bodyStyle: "text-align:center"
           })];
         }),
         _: 1
