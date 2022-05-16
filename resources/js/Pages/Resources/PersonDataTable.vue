@@ -8,12 +8,14 @@ import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
+import ContextMenu from 'primevue/contextmenu';
 import Loading from '@/Components/Loading';
-import { ref, onMounted, onUpdated } from 'vue';
+import { ref, computed, onMounted, onUpdated } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
-import { Inertia, onSuccess } from '@inertiajs/inertia';
+import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
+import { useConfirm } from 'primevue/useconfirm';
 
 const props = defineProps(['message', 'csrf']);
 
@@ -129,10 +131,24 @@ onMounted(() => {
 const data = ref();
 const dataLoaded = ref(false);
 
+const menuModel = ref([
+    { label: 'Edit record', icon: 'pi pi-fw pi-pencil', command: () => editingRows.value = [...editingRows.value, cmSelection.value] },
+    { label: 'Delete record', icon: 'pi pi-fw pi-trash', command: () => destroyRecords([cmSelection.value.id]) },
+]);
+
+const onRowContextMenu = event => {
+    cm.value.show(event.originalEvent);
+};
+
+const confirm = useConfirm();
+
+const cmSelection = ref();
+const cm = ref();
 const toast = useToast();
 const loading = ref(true);
 const editingRows = ref([]);
 const selected = ref();
+
 const newRecordDialog = ref(false);
 const newRecordForm = useForm({
     firstName: null,
@@ -188,26 +204,39 @@ const onRowEditSave = function (event) {
         });
 };
 
-const destroyRecords = function () {
-    let ids = selected.value.map(row => row.id);
-    Inertia.post('/person/destroy', { ids },
-        {
-            onBefore: () => {
-                dataLoaded.value = false;
-            },
-            onFinish: () => {
-                selected.value = null;
-                fetchData();
-            },
-            onSuccess: page => {
-                toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-            },
+const destroyRecords = function (ids) {
+    confirm.require({
+        message: `Are you sure you want to delete record(s): [${ids.join(', ')}]?`,
+        icon: 'pi pi-exclamation-triangle',
+        acceptClass: 'p-button-danger',
+        accept: () => {
+            Inertia.post('/person/destroy', { ids },
+                {
+                    onBefore: () => {
+                        dataLoaded.value = false;
+                    },
+                    onFinish: () => {
+                        selected.value = null;
+                        fetchData();
+                    },
+                    onSuccess: page => {
+                        toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
+                    },
 
-            onError: errors => {
-                toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-            }
+                    onError: errors => {
+                        toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
+                    }
+                }
+            )
+        },
+        reject: () => {
+            toast.add({ severity: 'info', summary: 'Cancelled', detail: 'Delete operation cancelled by user.', life: 3000 });
         }
-    )
+    });
+};
+
+const destroySelected = function () {
+    destroyRecords(selected.value.map(row => row.id));
 };
 
 const beforeUpload = function (event) {
@@ -321,6 +350,7 @@ fetchData();
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
+                contextMenu v-model:contextMenuSelection="cmSelection" @rowContextmenu="onRowContextMenu"
                 @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
                     <Toolbar class="p-0">
@@ -329,8 +359,8 @@ fetchData();
                                 class="p-button-outlined" @click="initFilters()" />
                             <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
                                 @click="openNewRecordDialog" />
-                            <Button type="button" icon="pi pi-plus" label="Delete Records" class="p-button-alert"
-                                @click="destroyRecords" />
+                            <Button :disabled="!selected|| !selected.length" type="button" icon="pi pi-trash" label="Delete Records" class="p-button-alert"
+                                @click="destroySelected" />
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/drivers/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
@@ -357,7 +387,7 @@ fetchData();
                 <Column selectionMode="multiple" headerStyle="width: 3em">
                 </Column>
 
-                <Column :sortable="true" field="id" header="id" style="text-align: center">
+                <Column :sortable="true" field="id" header="id" style="max-width: 10%; text-align: center">
                     <template #body="{ data }">
                         {{ data.id }}
                     </template>
@@ -458,6 +488,7 @@ fetchData();
                 </Column>
                 <Column :rowEditor="true" style="width:10%; min-width:8rem" bodyStyle="text-align:center"></Column>
 
+                <ContextMenu :model="menuModel" ref="cm"></ContextMenu>
             </DataTable>
 
         </template>

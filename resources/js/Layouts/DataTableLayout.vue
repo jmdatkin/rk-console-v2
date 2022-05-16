@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
+import ConfirmDialog from 'primevue/confirmdialog';
 </script>
 
 <template>
@@ -10,7 +11,7 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
         </template> -->
         <slot></slot>
         <div class="relative flex pt-0 justify-center min-h-screen bg-gray-100 sm:pt-2">
-            <div class="flex flex-col px-0 w-full max-w-screen-2xl">
+            <div class="flex flex-col px-0 w-full">
                 <div class="surface-section px-4 py-5 md:px-6 lg:px-8">
                     <ul class="list-none p-0 m-0 flex align-items-center font-medium mb-3">
                         <li>
@@ -63,6 +64,7 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
                 </template>
             </Toolbar> -->
                 <div class="p-datatable-wrapper flex card">
+                    <ConfirmDialog />
                     <slot name="table"></slot>
                 </div>
             </div>
@@ -71,6 +73,10 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 </template>
 
 <style lang="scss">
+body {
+    overflow-y: hidden;
+}
+
 .p-datatable-wrapper {
     width: 100%;
 }

@@ -31,11 +31,15 @@ class PersonRepository extends BaseRepository implements PersonRepositoryInterfa
         error_log($person);//->load('roles'));
         $person->roles()->detach();
 
-        if ($person->recipient()->exists())
+        if ($person->recipient()->exists()) {
+            $person->recipient->routes()->detach();
             $person->recipient->delete();
+        }
 
-        if ($person->driver()->exists())
+        if ($person->driver()->exists()) {
+            $person->driver->routes()->detach();
             $person->driver->delete();
+        }
 
         parent::destroy($id);
     }
