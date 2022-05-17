@@ -161,6 +161,7 @@ onMounted(() => {
             <DataTable v-else :value="recipientData" :paginator="true" :rows="10" class="p-datatable-recipients"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
+                rowGroupMode="subheader" groupRowsBy="routeName"
                 columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
                 @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
@@ -289,6 +290,11 @@ onMounted(() => {
                         <InputText v-model="data[field]" autofocus />
                     </template>
                 </Column>
+                <template #groupheader="slotProps">
+                    <span class="font-medium">{{ slotProps.data.routeName }}</span>
+                </template>
+                <template #groupfooter="slotProps">
+                </template>
             </DataTable>
         </template>
     </ReportLayout>
