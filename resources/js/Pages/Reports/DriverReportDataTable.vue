@@ -140,7 +140,6 @@ onMounted(() => {
         <template #header>
             <Toolbar class="p-0">
                 <template #start>
-                    <span>Driver: {{ driverData.person.firstName }} {{ driverData.person.lastName }}</span>
                     <Loading :show="!dataLoaded"></Loading>
                 </template>
                 <template #end>

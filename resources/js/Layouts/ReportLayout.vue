@@ -21,29 +21,16 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
                         </li>
                         <li>
                             <span class="text-900 line-height-3">
-                                <slot name="header"></slot>
+                                <slot name="title"></slot>
                             </span>
                         </li>
                     </ul>
                     <div class="flex align-items-start flex-column lg:justify-content-between lg:flex-row">
                         <div>
                             <div class="font-medium text-3xl text-900">
-                                <slot name="header"></slot>
+                                <slot name="title"></slot>
                             </div>
-                            <!-- <div class="flex align-items-center text-700 flex-wrap">
-                                <div class="mr-5 flex align-items-center mt-3">
-                                    <i class="pi pi-users mr-2"></i>
-                                    <span>332 Active Users</span>
-                                </div>
-                                <div class="mr-5 flex align-items-center mt-3">
-                                    <i class="pi pi-globe mr-2"></i>
-                                    <span>9402 Sessions</span>
-                                </div>
-                                <div class="flex align-items-center mt-3">
-                                    <i class="pi pi-clock mr-2"></i>
-                                    <span>2.32m Avg. Duration</span>
-                                </div>
-                            </div> -->
+                            <slot name="header"></slot>
                         </div>
                     </div>
                     <div class="report-wrapper card">
