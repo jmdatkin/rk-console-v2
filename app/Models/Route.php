@@ -18,6 +18,10 @@ class Route extends Model
         return $this->belongsToMany(Recipient::class);
     }
 
+    public function recipientsOnDay($weekday) {
+        return $this->belongsToMany(Recipient::class)->wherePivot('weekday', $weekday);
+    }
+
     public function drivers() {
         return $this->belongsToMany(Driver::class);
     }
