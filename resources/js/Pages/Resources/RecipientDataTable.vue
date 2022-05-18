@@ -31,6 +31,11 @@ const filters = ref({
         operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
     },
 
+    'agency.name':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
     'firstName':
     {
         operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
@@ -83,6 +88,11 @@ const initFilters = function () {
         'id':
         {
             operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+        },
+
+        'agency.name':
+        {
+            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
         },
 
         'firstName':
@@ -397,8 +407,8 @@ fetchData();
                                 class="p-button-outlined" @click="initFilters()" />
                             <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
                                 @click="openNewRecordDialog" />
-                            <Button :disabled="!selected || !selected.length" type="button" icon="pi pi-trash" label="Delete Records" class="p-button-alert"
-                                @click="destroySelected" />
+                            <Button :disabled="!selected || !selected.length" type="button" icon="pi pi-trash"
+                                label="Delete Records" class="p-button-alert" @click="destroySelected" />
                             <Loading :show="!dataLoaded"></Loading>
                         </template>
                         <template #end>
@@ -431,6 +441,18 @@ fetchData();
                         <InputText type="text" v-model="filterModel.value" class="p-column-filter"
                             placeholder="Search by id"></InputText>
                     </template>
+                </Column>
+                <Column :sortable="true" field="agency.name" header="Agency" filterField="agency.name">
+                    <template #body="{ data }">
+                        {{ data.agency.name }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search by first name"></InputText>
+                    </template>
+                    <!-- <template #editor="{ data, field }">
+                        <InputText v-model="data[field]" autofocus />
+                    </template> -->
                 </Column>
                 <Column :sortable="true" field="firstName" header="First Name" filterField="firstName">
                     <template #body="{ data }">

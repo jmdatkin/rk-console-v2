@@ -4,6 +4,7 @@ namespace App\Repository\Eloquent;
 
 use App\Models\Recipient;
 use App\Repository\RecipientRepositoryInterface;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -19,6 +20,14 @@ class RecipientRepository extends BasePersonRoleRepository implements RecipientR
     {
         parent::__construct($model);
     }
+
+    // public function find($id): ?Model {
+    //     return parent::find($id)->load('agency');
+    // }
+
+    // public function all(): Collection {
+    //     return parent::all()->load('agency');
+    // }
 
     public function destroy($id)
     {

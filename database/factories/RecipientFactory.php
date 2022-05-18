@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Agency;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +19,8 @@ class RecipientFactory extends Factory
     {
         return [
             //
-            'numMeals' => $this->faker->numberBetween(2,108),
+            'agency_id' => Agency::all()->random()->id,
+            'numMeals' => $this->faker->numberBetween(2,52),
             'address' => $this->faker->address()
         ];
     }

@@ -103,7 +103,7 @@ import CardLink from '@/Components/CardLink';
                             </CardLink>
                         </div>
                         <div class="col-4">
-                            <CardLink class="p-dashboard-card" href="/datatables/recipients">
+                            <CardLink class="p-dashboard-card" href="/reports/meals">
                                 <template #title>
                                     Meal Report
                                 </template>

@@ -16,11 +16,7 @@ class MealReport extends BaseReport
         $this->routeRepository = $routeRepository;
     }
 
-    public function data()
-    {
-    }
-
-    public function meals($weekday)
+    public function data($weekday)
     {
 
         return Route::whereHas('recipients', function ($query) use ($weekday) {

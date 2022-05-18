@@ -14,7 +14,13 @@ class Recipient extends BasePersonRole
         'address'
     ];
 
+    protected $with = ['person','agency'];
+
     protected $touches = ['person'];
+
+    // public function __construct() {
+    //     $this->with = array_merge(['agency'], parent::$this->with);
+    // }
 
     public function person() {
         return $this->belongsTo(Person::class);

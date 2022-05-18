@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Agency;
 use App\Models\Driver;
 use App\Models\Person;
 use App\Models\Recipient;
@@ -30,6 +31,8 @@ class DatabaseSeeder extends Seeder
         Role::factory()->create([
             'name' => 'recipient'
         ]);
+
+        Agency::factory(10)->create();
         // \App\Models\User::factory(10)->create();
         Person::factory(144)->create();
         // Recipient::factory(144)->create();
