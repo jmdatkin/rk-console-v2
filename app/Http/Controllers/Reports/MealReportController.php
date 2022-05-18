@@ -27,6 +27,6 @@ class MealReportController extends Controller
 
     public function data(Request $request) {
         $weekday = $request->input('weekday');
-        return $this->report->report($weekday);
+        return $this->report->data($weekday);
     }
 }
