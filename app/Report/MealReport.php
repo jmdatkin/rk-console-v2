@@ -7,7 +7,8 @@ use App\Repository\RecipientRepositoryInterface;
 use App\Repository\RouteRepositoryInterface;
 use Illuminate\Support\Facades\Log;
 
-class MealReport extends BaseReport {
+class MealReport extends BaseReport
+{
 
     public function __construct(RecipientRepositoryInterface $repository, RouteRepositoryInterface $routeRepository)
     {
@@ -15,26 +16,42 @@ class MealReport extends BaseReport {
         $this->routeRepository = $routeRepository;
     }
 
-    public function data() {
-
+    public function data()
+    {
     }
 
-    public function meals($weekday) {
+    public function meals($weekday)
+    {
 
-        return $this->routeRepository->all()
-        ->filter(function($route) use ($weekday) {
-            return !$route->recipients()->wherePivot('weekday',$weekday)->get()->isEmpty();
-        })
-        ->values()->map(function($route) use ($weekday) {
-            $aggNumMeals = $route->recipients->reduce(function($carry, $item) {
-                return $carry + $item->numMeals;
-            }, 0);
-            return [
-                'routeName' => $route->name,
-                'aggNumMeals' => $aggNumMeals
-            ];
-            // return $route;
-        });
+        return Route::whereHas('recipients', function ($query) use ($weekday) {
+            return $query->where('weekday', $weekday);
+        })->with(['recipients' => function ($query) use ($weekday) {
+            return $query->wherePivot('weekday', $weekday);
+        }])->get()
+
+            ->map(function ($route) {
+                return [
+                    "routeName" => $route->name,
+                    "aggNumMeals" =>
+                    $route->recipients->reduce(function ($carry, $recipient) {
+                        return $carry + $recipient->numMeals;
+                    }, 0)
+                ];
+            });
+        // return $this->routeRepository->all()
+        // ->filter(function($route) use ($weekday) {
+        //     return !$route->recipients()->wherePivot('weekday',$weekday)->get()->isEmpty();
+        // })
+        // ->values()->map(function($route) use ($weekday) {
+        //     $aggNumMeals = $route->recipients->reduce(function($carry, $item) {
+        //         return $carry + $item->numMeals;
+        //     }, 0);
+        //     return [
+        //         'routeName' => $route->name,
+        //         'aggNumMeals' => $aggNumMeals
+        //     ];
+        //     // return $route;
+        // });
 
 
 
@@ -67,5 +84,4 @@ class MealReport extends BaseReport {
         //     // return $r->union($r->recipients()->wherePivot('weekday',$weekday)->get());
         // })->filter(function($c) { return !$c->isEmpty(); });
     }
-
 }

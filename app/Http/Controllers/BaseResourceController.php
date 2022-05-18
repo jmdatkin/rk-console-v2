@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Repository\EloquentRepositoryInterface;
 use Error;
 use Exception;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
