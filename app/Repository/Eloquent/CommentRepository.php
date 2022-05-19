@@ -17,4 +17,8 @@ class CommentRepository extends BaseRepository implements CommentRepositoryInter
    {
        parent::__construct($model);
    }
+
+   public function whereRecipient($recipient_id) {
+       return parent::all()->where('recipient_id', $recipient_id);
+   }
 }
