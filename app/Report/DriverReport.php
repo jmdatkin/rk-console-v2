@@ -14,15 +14,26 @@ class DriverReport extends BaseReport
         $this->repository = $repository;
     }
 
-    public function driver($driver_id)
+    public function driver($driver_id, $weekday)
     {
         try {
-            return $this->repository->find($driver_id)->routes->map(function ($route) {
-                return [
-                    'routeName' => $route->name,
-                    'recipients' => $route->recipients->load(['person'])
-                ];
-            });
+            return $this->repository->find($driver_id)->routes()->wherePivot('weekday', $weekday)->get()
+                // ->map(function ($route) use ($weekday) {
+                //     return [
+                //         'routeName' => $route->name,
+                //         'recipients' => $route->recipients()->wherePivot('weekday', $weekday)->get()
+                //     ];
+                // });
+                ->flatMap(function ($route) use ($weekday) {
+                    // return [
+                    //     'routeName' => $route->name,
+                    //     'recipients' => $route->recipients()->wherePivot('weekday', $weekday)->get()
+                    // ];
+                    return $route->recipients()->wherePivot('weekday', $weekday)->get()
+                    ->map(function($recipient) use ($route) {
+                        return collect($recipient->toArray())->union(['routeName' => $route->name]);
+                    });
+                });
         } catch (ModelNotFoundException $e) {
             return collect();
         }

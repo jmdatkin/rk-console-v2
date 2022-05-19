@@ -13,7 +13,7 @@ class CommentController extends Controller
     }
 
     public function show($recipient_id) {
-        return $this->repository->whereRecipient($recipient_id);
+        return $this->repository->whereRecipient($recipient_id)->load('driver');
     }
 
     /**

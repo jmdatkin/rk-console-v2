@@ -93,6 +93,7 @@ Route::prefix('datatables')->middleware(['auth', 'verified'])->group(function ()
 
 Route::prefix('reports')->middleware(['auth', 'verified'])->group(function() {
     Route::get('driver', [DriverReportController::class, 'index']);
+    Route::get('driver/data', [DriverReportController::class, 'data']);
     Route::get('texter', [TexterReportController::class, 'index']);
     Route::get('texter/data', [TexterReportController::class, 'data']);
     Route::get('meals', [MealReportController::class, 'index']);

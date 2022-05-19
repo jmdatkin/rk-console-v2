@@ -550,7 +550,7 @@ fetchData();
                         <InputText v-model="data[field]" autofocus />
                     </template>
                 </Column>
-                <Column style="width:10%; min-width:4rem" bodyStyle="text-align:center">
+                <Column frozen alignFrozen="right" style="width:10%; min-width:4rem" bodyStyle="text-align:center">
                     <template #body="{ data }">
                         <a @click="() => openAssignDialog(data)">
                             <i class="pi pi-folder-open"></i>
@@ -559,7 +559,7 @@ fetchData();
                             icon="pi pi-folder-open"></Button> -->
                     </template>
                 </Column>
-                <Column :rowEditor="true" style="width:10%; min-width:4rem" bodyStyle="text-align:center">
+                <Column frozen alignFrozen="right" :rowEditor="true" style="width:10%; min-width:4rem" bodyStyle="text-align:center">
                 </Column>
 
                 <ContextMenu :model="menuModel" ref="cm"></ContextMenu>

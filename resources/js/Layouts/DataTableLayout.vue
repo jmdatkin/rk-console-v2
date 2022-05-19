@@ -73,9 +73,9 @@ import ConfirmDialog from 'primevue/confirmdialog';
 </template>
 
 <style lang="scss">
-body {
-    overflow-y: hidden;
-}
+// body {
+//     overflow-y: hidden;
+// }
 
 .p-datatable-wrapper {
     width: 100%;

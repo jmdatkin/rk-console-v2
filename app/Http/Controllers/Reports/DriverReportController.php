@@ -24,8 +24,14 @@ class DriverReportController extends Controller
             'Reports/DriverReport',
             [
                 "driverData" => $this->repository->find($driver_id),
-                "data" => $this->report->driver($driver_id)
+                // "data" => $this->report->driver($driver_id)
             ]
         );
+    }
+
+    public function data(Request $request) {
+        $driver_id = $request->input('driver_id');
+        $weekday = $request->input('weekday');
+        return $this->report->driver($driver_id, $weekday);
     }
 }
