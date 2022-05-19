@@ -49,7 +49,7 @@ import CardLink from '@/Components/CardLink';
                         <div class="col-4">
                             <CardLink class="p-dashboard-card" href="/datatables/drivers">
                                 <template #title>
-                                    Driver
+                                    Drivers
                                 </template>
                                 <template #content>
                                     View and modify driver records.

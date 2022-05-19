@@ -9,6 +9,12 @@ class Comment extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'body',
+        'driver_id',
+        'recipient_id'
+    ];
+
     public function driver() {
         return $this->belongsTo(Driver::class);
     }

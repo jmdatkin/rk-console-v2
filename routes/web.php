@@ -3,6 +3,7 @@
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\Assignments\ManageDriverController;
 use App\Http\Controllers\Assignments\ManageRecipientController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\RecipientController;
@@ -69,6 +70,13 @@ Route::prefix('agency')->group(function() {
     Route::post('/destroy', [AgencyController::class, 'destroyMany']);
 });
 
+Route::prefix('comment')->group(function() {
+    Route::get('/', [CommentController::class, 'all']);
+    Route::get('/{id}', [CommentController::class, 'show']);
+    Route::get('/recipient/{recipient_id}', [CommentController::class, 'show_recipient']);
+    Route::post('/store', [CommentController::class, 'store']);
+});
+
 Route::get('/', function () {
     // return Inertia::render('Welcome', [
     //     'canLogin' => Route::has('login'),
@@ -109,6 +117,7 @@ Route::prefix('manage')->middleware(['auth', 'verified'])->group(function() {
     Route::post('driver/{driver_id}/assign/{route_id}/{weekday}', [ManageDriverController::class, 'makeAssignment']);
     Route::get('driver/{id}', [ManageDriverController::class, 'index'])->name('manage.driver');
 });
+
 
 Route::get('calendar', function() {
     return Inertia::render('CalendarPage');

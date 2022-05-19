@@ -150,7 +150,7 @@ onMounted(() => {
 
 <template>
     <ReportLayout>
-        <template #header>
+        <template #title>
             Texter Report
         </template>
         <template #report>

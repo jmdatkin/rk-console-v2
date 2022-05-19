@@ -16,6 +16,10 @@ class CommentController extends Controller
         return $this->repository->whereRecipient($recipient_id)->load('driver');
     }
 
+    public function show_recipient($recipient_id) {
+        return $this->repository->whereRecipient($recipient_id)->load('driver');
+    }
+
     /**
      * Create new Comment record
      *  
@@ -23,8 +27,9 @@ class CommentController extends Controller
      * @return void
      */
     public function store(Request $request) {
-        if ($request->has(['driver_id','recipient_id','text'])) {
-            $this->repository->create($request->only(['driver_id','recipient_id','text']));
+        error_log($request->collect());
+        if ($request->has(['driver_id','recipient_id','body'])) {
+            $this->repository->create($request->only(['driver_id','recipient_id','body']));
             return redirect()->back();
         } else {
             return redirect()->back();

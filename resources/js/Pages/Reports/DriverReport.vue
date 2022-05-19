@@ -6,49 +6,13 @@ import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import Calendar from '@/Components/Calendar';
 import InputText from 'primevue/inputtext';
+import DriverComments from '@/Components/DriverComments';
 import DriverReportDataTable from './DriverReportDataTable';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { ref, onMounted, computed } from 'vue';
 import { mergePersonObject } from '@/util';
 
 const props = defineProps(['driverData']);
-
-const dayLookup = {
-    0: 'sun',
-    1: 'mon',
-    2: 'tues',
-    3: 'wed',
-    4: 'thurs',
-    5: 'fri',
-    6: 'sat'
-};
-
-const selectedDate = ref(null);
-const isDateSelected = ref(false);
-
-const selectDateCallback = function (date) {
-    selectedDate.value = date.start;
-    isDateSelected.value = true;
-    getData();
-};
-
-const openDateSelection = function () {
-    isDateSelected.value = false;
-};
-
-const data = ref([]);
-const dataLoaded = ref(false);
-
-
-const getData = function () {
-    let weekday = dayLookup[selectedDate.value.getDay()];
-    dataLoaded.value = false;
-    axios.get(`/reports/driver/data?weekday=${weekday}&driver_id=${props.driverData.id}`)
-        .then((res) => {
-            data.value = res.data.map(mergePersonObject);
-            dataLoaded.value = true;
-        });
-};
 
 const filters = ref({
     'global':
@@ -153,6 +117,52 @@ const initFilters = function () {
     }
 };
 
+const dayLookup = {
+    0: 'sun',
+    1: 'mon',
+    2: 'tues',
+    3: 'wed',
+    4: 'thurs',
+    5: 'fri',
+    6: 'sat'
+};
+
+const selectedDate = ref(null);
+const isDateSelected = ref(false);
+
+const selectDateCallback = function (date) {
+    selectedDate.value = date.start;
+    isDateSelected.value = true;
+    getData();
+};
+
+const openDateSelection = function () {
+    isDateSelected.value = false;
+};
+
+const selectedRecipient = ref();
+const commentsDialog = ref(false);
+
+const openCommentsDialog = function(recipient) {
+    selectedRecipient.value = recipient;
+    commentsDialog.value = true;    
+};
+
+const data = ref([]);
+const dataLoaded = ref(false);
+
+
+const getData = function () {
+    let weekday = dayLookup[selectedDate.value.getDay()];
+    dataLoaded.value = false;
+    axios.get(`/reports/driver/data?weekday=${weekday}&driver_id=${props.driverData.id}`)
+        .then((res) => {
+            data.value = res.data.map(mergePersonObject);
+            dataLoaded.value = true;
+        });
+};
+
+
 onMounted(() => {
     initFilters();
 });
@@ -160,6 +170,12 @@ onMounted(() => {
 
 <template>
     <ReportLayout>
+        <Dialog v-model:visible="commentsDialog">
+        <template #header>
+            Comments for {{selectedRecipient.firstName}} {{selectedRecipient.lastName}}
+        </template>
+            <DriverComments :driverId="props.driverData.id" :recipientId="selectedRecipient.id"></DriverComments>
+        </Dialog>
         <template #title>
             Driver Report
         </template>
@@ -170,7 +186,6 @@ onMounted(() => {
             <Button @click="openDateSelection">Choose Date</Button>
             <Calendar :onSelectCallback="selectDateCallback">
             </Calendar>
-
 
             <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-recipients"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'address', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
@@ -296,15 +311,16 @@ onMounted(() => {
                 </Column>
                 <Column :sortable="true" :style="{ maxWidth: '600px' }" field="notes" header="Notes">
                     <template #body="{ data }">
-                        {{ data.notes }}
+                        <!-- {{ data.notes }} -->
+                        <a @click="() => openCommentsDialog(data)">...</a>
                     </template>
                     <template #filter="{ filterModel, filterCallback }">
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search notes"></InputText>
                     </template>
-                    <template #editor="{ data, field }">
+                    <!-- <template #editor="{ data, field }">
                         <InputText v-model="data[field]" autofocus />
-                    </template>
+                    </template> -->
                 </Column>
                 <template #groupheader="slotProps">
                     <span class="font-medium">{{ slotProps.data.routeName }}</span>

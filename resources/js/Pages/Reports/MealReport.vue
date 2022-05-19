@@ -152,7 +152,7 @@ onMounted(() => {
 
 <template>
     <ReportLayout>
-        <template #header>
+        <template #title>
             Meal Report
         </template>
         <template #report>
