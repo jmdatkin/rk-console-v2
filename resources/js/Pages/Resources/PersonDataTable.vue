@@ -11,112 +11,19 @@ import Dialog from 'primevue/dialog';
 import ContextMenu from 'primevue/contextmenu';
 import Loading from '@/Components/Loading';
 import { ref, computed, onMounted, onUpdated } from 'vue';
-import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
+import { personFilters } from './filters';
 
 const props = defineProps(['message', 'csrf']);
 
-const filters = ref({
-    'global':
-    {
-        value: null, matchMode: FilterMatchMode.CONTAINS
-    },
-
-    'id':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-    },
-
-    'roles':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-    },
-
-    'firstName':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-    },
-
-    'lastName':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-    },
-
-    'email':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-    },
-
-    'phoneHome':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-    },
-
-    'phoneCell':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-    },
-
-    'notes':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-    },
-});
-
-
-const initFilters = function () {
-    filters.value = {
-        'global':
-        {
-            value: null, matchMode: FilterMatchMode.CONTAINS
-        },
-
-        'id':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-            // value: null, matchMode: FilterMatchMode.CONTAINS
-        },
-
-        'roles':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-        },
-
-        'firstName':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-        },
-
-        'lastName':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-        },
-
-        'email':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-        },
-
-        'phoneHome':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-        },
-
-        'phoneCell':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-        },
-
-        'notes':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-        },
-
-    }
-};
+// DataTable data
+const data = ref();
+const dataLoaded = ref(false);
+const selected = ref();
+const loading = ref(true);
 
 const roleNameLookup = {
     'recipient': 'recip.',
@@ -124,31 +31,38 @@ const roleNameLookup = {
     'admin': 'admin'
 };
 
-onMounted(() => {
-    initFilters();
-});
+const fetchData = function () {
+    dataLoaded.value = false;
+    axios.get('/person/data').then(res => {
+        data.value = res.data;
+        dataLoaded.value = true;
+    }).catch(err => console.error(err));
+};
 
-const data = ref();
-const dataLoaded = ref(false);
+// DataTable filters
+const filters = ref(personFilters);
+const initFilters = function () {
+    filters.value = personFilters;
+};
 
+// Confirm dialog
+const confirm = useConfirm();
+
+// Context menu
+const cmSelection = ref();
+const cm = ref();
 const menuModel = ref([
     { label: 'Edit record', icon: 'pi pi-fw pi-pencil', command: () => editingRows.value = [...editingRows.value, cmSelection.value] },
     { label: 'Delete record', icon: 'pi pi-fw pi-trash', command: () => destroyRecords([cmSelection.value.id]) },
 ]);
-
 const onRowContextMenu = event => {
     cm.value.show(event.originalEvent);
 };
 
-const confirm = useConfirm();
-
-const cmSelection = ref();
-const cm = ref();
+// Toast notifications
 const toast = useToast();
-const loading = ref(true);
-const editingRows = ref([]);
-const selected = ref();
 
+// New record form
 const newRecordDialog = ref(false);
 const newRecordForm = useForm({
     firstName: null,
@@ -184,6 +98,9 @@ const submitNewRecord = function () {
     })
 }
 
+
+// Row editing
+const editingRows = ref([]);
 const onRowEditSave = function (event) {
     let { newData, index } = event;
     Inertia.patch(`/person/${newData.id}/update`, newData,
@@ -205,6 +122,7 @@ const onRowEditSave = function (event) {
         });
 };
 
+// Record destroy
 const destroyRecords = function (ids) {
     confirm.require({
         message: `Are you sure you want to delete record(s): [${ids.join(', ')}]?`,
@@ -240,6 +158,7 @@ const destroySelected = function () {
     destroyRecords(selected.value.map(row => row.id));
 };
 
+// CSV upload
 const beforeUpload = function (event) {
     event.xhr.setRequestHeader('Content-type', 'text/csv');
     event.xhr.setRequestHeader('X-CSRF-TOKEN', props.csrf);
@@ -275,13 +194,10 @@ const onUpload = function (event) {
 
 }
 
-const fetchData = function () {
-    dataLoaded.value = false;
-    axios.get('/person/data').then(res => {
-        data.value = res.data;
-        dataLoaded.value = true;
-    }).catch(err => console.error(err));
-};
+onMounted(() => {
+    initFilters();
+});
+
 fetchData();
 </script>
 

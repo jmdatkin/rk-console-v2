@@ -17,127 +17,52 @@ import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import { mergePersonObject } from '@/util';
+import { driverFilters } from './filters';
 
 const props = defineProps(['errors', 'message', 'csrf']);
 
-const filters = ref({
-    'global':
-    {
-        value: null, matchMode: FilterMatchMode.CONTAINS
-    },
-
-    'id':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-    },
-
-    'firstName':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-    },
-
-    'lastName':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-    },
-
-    'email':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-    },
-
-    'phoneHome':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-    },
-
-    'phoneCell':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-    },
-
-    'notes':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-    },
-});
-
-
-const initFilters = function () {
-    filters.value = {
-        'global':
-        {
-            value: null, matchMode: FilterMatchMode.CONTAINS
-        },
-
-        'id':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-        },
-
-        'firstName':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-        },
-
-        'lastName':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-        },
-
-        'email':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-        },
-
-        'phoneHome':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-        },
-
-        'phoneCell':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-        },
-
-        'notes':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-        },
-
-    }
-};
-
-onMounted(() => {
-    initFilters();
-});
-
+//DataTable data
 const data = ref();
 const dataLoaded = ref(false);
+const selected = ref();
+const loading = ref(true);
+const fetchData = function () {
+    dataLoaded.value = false;
+    axios.get('/driver/data').then(res => {
+        let response = res.data;
+        response = response.map(mergePersonObject);
+        data.value = response;
+        dataLoaded.value = true;
+    }).catch(err => console.error(err));
+};
+const goToReport = function (selection) {
+    Inertia.visit('/reports/driver?did=' + selection.value.id);
+};
 
+// DataTable filters
+const filters = ref(driverFilters);
+const initFilters = function () {
+    filters.value = driverFilters;
+};
+
+// Confirm dialog
+const confirm = useConfirm();
+
+// Context menu
+const cmSelection = ref();
+const cm = ref();
 const menuModel = ref([
     { label: 'Edit record', icon: 'pi pi-fw pi-pencil', command: () => editingRows.value = [...editingRows.value, cmSelection.value] },
     { label: 'Delete record', icon: 'pi pi-fw pi-trash', command: () => destroyRecords([cmSelection.value.id]) },
     { label: 'Edit route assignments', icon: 'pi pi-fw pi-search', command: () => openAssignDialog(cmSelection.value.id) },
     { label: 'View report', icon: 'pi pi-fw pi-search', command: () => goToReport(cmSelection) }
 ]);
-
-const goToReport = function (selection) {
-    Inertia.visit('/reports/driver?did=' + selection.value.id);
-};
-
 const onRowContextMenu = event => {
     cm.value.show(event.originalEvent);
 };
 
-const confirm = useConfirm();
-
-const cmSelection = ref();
-const cm = ref();
+// Toast notifications
 const toast = useToast();
-const loading = ref(true);
-const editingRows = ref([]);
-const selected = ref();
 const newRecordDialog = ref(false);
 const newRecordForm = useForm({
     firstName: null,
@@ -148,6 +73,7 @@ const newRecordForm = useForm({
     notes: null,
 });
 
+// Assignments
 const assignId = ref(null);
 const assignDialog = ref(false);
 
@@ -156,13 +82,13 @@ const openAssignDialog = function (id) {
     assignDialog.value = true;
 };
 
+// New record
 const openNewRecordDialog = function () {
     newRecordDialog.value = true;
-}
-
+};
 const closeNewRecordDialog = function () {
     newRecordDialog.value = true;
-}
+};
 
 const submitNewRecord = function () {
     newRecordForm.post('/driver/store', {
@@ -179,8 +105,10 @@ const submitNewRecord = function () {
             toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
         }
     })
-}
+};
 
+//Edit record
+const editingRows = ref([]);
 const onRowEditSave = function (event) {
     let { newData, index } = event;
     Inertia.patch(`/driver/${newData.id}/update`, newData,
@@ -202,6 +130,7 @@ const onRowEditSave = function (event) {
         });
 };
 
+// Destroy record
 const destroySelected = function () {
     destroyRecords(selected.value.map(row => row.id));
 };
@@ -237,6 +166,7 @@ const destroyRecords = function (ids) {
     });
 };
 
+// CSV upload
 const beforeUpload = function (event) {
     event.xhr.setRequestHeader('Content-type', 'text/csv');
     event.xhr.setRequestHeader('X-CSRF-TOKEN', props.csrf);
@@ -272,15 +202,10 @@ const onUpload = function (event) {
 
 }
 
-const fetchData = function () {
-    dataLoaded.value = false;
-    axios.get('/driver/data').then(res => {
-        let response = res.data;
-        response = response.map(mergePersonObject);
-        data.value = response;
-        dataLoaded.value = true;
-    }).catch(err => console.error(err));
-};
+onMounted(() => {
+    initFilters();
+});
+
 fetchData();
 
 </script>

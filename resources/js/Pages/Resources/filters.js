@@ -1,0 +1,151 @@
+import { FilterMatchMode, FilterOperator } from 'primevue/api';
+
+const recipientFilters = {
+    'global':
+    {
+        value: null, matchMode: FilterMatchMode.CONTAINS
+    },
+
+    'id':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'agency.name':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
+    'firstName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'lastName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'address':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
+    'email':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
+    'phoneHome':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
+    'phoneCell':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
+    'numMeals':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
+    'notes':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+};
+
+
+// Person
+const personFilters = {
+    'global':
+    {
+        value: null, matchMode: FilterMatchMode.CONTAINS
+    },
+
+    'id':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'roles':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
+    'firstName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'lastName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'email':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
+    'phoneHome':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
+    'phoneCell':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
+    'notes':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+};
+
+const driverFilters = {
+    'global':
+    {
+        value: null, matchMode: FilterMatchMode.CONTAINS
+    },
+
+    'id':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'firstName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'lastName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'email':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
+    'phoneHome':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
+    'phoneCell':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
+    'notes':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+};
+
+export { recipientFilters, personFilters, driverFilters };
