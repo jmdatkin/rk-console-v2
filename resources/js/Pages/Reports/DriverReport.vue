@@ -6,7 +6,7 @@ import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import Calendar from '@/Components/Calendar';
 import InputText from 'primevue/inputtext';
-import DriverComments from '@/Components/DriverComments';
+import RecipientComments from '@/Components/RecipientComments';
 import DriverReportDataTable from './DriverReportDataTable';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { ref, onMounted, computed } from 'vue';
@@ -143,9 +143,9 @@ const openDateSelection = function () {
 const selectedRecipient = ref();
 const commentsDialog = ref(false);
 
-const openCommentsDialog = function(recipient) {
+const openCommentsDialog = function (recipient) {
     selectedRecipient.value = recipient;
-    commentsDialog.value = true;    
+    commentsDialog.value = true;
 };
 
 const data = ref([]);
@@ -170,11 +170,17 @@ onMounted(() => {
 
 <template>
     <ReportLayout>
-        <Dialog v-model:visible="commentsDialog">
-        <template #header>
-            Comments for {{selectedRecipient.firstName}} {{selectedRecipient.lastName}}
-        </template>
-            <DriverComments :driverId="props.driverData.id" :recipientId="selectedRecipient.id"></DriverComments>
+        <Dialog 
+        :style="{width: '50vw'}"
+        :breakpoints="{
+            '960px': '75vw',
+            '640px': '100vw'
+            }"
+        v-model:visible="commentsDialog">
+            <template #header>
+                Comments for {{ selectedRecipient.firstName }} {{ selectedRecipient.lastName }}
+            </template>
+            <RecipientComments :driverId="props.driverData.id" :recipientId="selectedRecipient.id"></RecipientComments>
         </Dialog>
         <template #title>
             Driver Report

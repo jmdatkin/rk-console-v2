@@ -8,6 +8,7 @@ import PrimeVue from 'primevue/config';
 import DataTable from 'primevue/datatable';
 import ToastService from 'primevue/toastservice';
 import Tooltip from 'primevue/tooltip';
+import VTooltip from 'v-tooltip'
 import ConfirmationService from 'primevue/confirmationservice';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
@@ -30,7 +31,7 @@ createInertiaApp({
             .use(PrimeVue)
             .use(ToastService)
             .use(ConfirmationService)
-            .directive('tooltip', Tooltip)
+            .use(VTooltip)
             .component('DataTable',DataTable)
             .mixin({ methods: { route } })
             .mount(el);

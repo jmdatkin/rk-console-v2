@@ -38,6 +38,7 @@
         "primeicons": "^5.0.0",
         "primevue": "^3.12.4",
         "sass": "^1.50.0",
-        "sass-loader": "^12.6.0"
+        "sass-loader": "^12.6.0",
+        "v-tooltip": "^2.1.3"
     }
 }
