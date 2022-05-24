@@ -148,4 +148,48 @@ const driverFilters = {
     },
 };
 
-export { recipientFilters, personFilters, driverFilters };
+const agencyFilters = {
+    'global':
+    {
+        value: null, matchMode: FilterMatchMode.CONTAINS
+    },
+
+    'id':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+        // value: null, matchMode: FilterMatchMode.CONTAINS
+    },
+
+    'name':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'notes':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+};
+
+const routeFilters = {
+    'global':
+    {
+        value: null, matchMode: FilterMatchMode.CONTAINS
+    },
+
+    'id':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+        // value: null, matchMode: FilterMatchMode.CONTAINS
+    },
+
+    'name':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+    'notes':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+};
+
+export { recipientFilters, personFilters, driverFilters, agencyFilters, routeFilters };

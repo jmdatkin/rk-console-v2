@@ -12,55 +12,15 @@ import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { Inertia, onSuccess } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
+import { agencyFilters } from './filters';
 
 const props = defineProps(['data', 'errors', 'message', 'csrf']);
 
-const filters = ref({
-    'global':
-    {
-        value: null, matchMode: FilterMatchMode.CONTAINS
-    },
-
-    'id':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-        // value: null, matchMode: FilterMatchMode.CONTAINS
-    },
-
-    'name':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-    },
-    'notes':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-    },
-});
+const filters = ref(agencyFilters);
 
 
 const initFilters = function () {
-    filters.value = {
-        'global':
-        {
-            value: null, matchMode: FilterMatchMode.CONTAINS
-        },
-
-        'id':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-        },
-
-        'name':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-        },
-
-        'notes':
-        {
-            operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-        },
-
-    }
+    filters.value = agencyFilters;
 };
 
 onMounted(() => {
