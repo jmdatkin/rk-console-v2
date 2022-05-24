@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DriverStatusBlock;
+use App\Models\DriverStatus;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class DriverStatusBlockController extends Controller
+class DriverStatusController extends Controller
 {
     //
     public function index() {
@@ -15,7 +15,7 @@ class DriverStatusBlockController extends Controller
 
     public function store(Request $request) {
         $request->whenHas(['driver_id','date_start','date_end'], function() use ($request) {
-            DriverStatusBlock::create($request->only(['driver_id','date_start','date_end']));
+            DriverStatus::create($request->only(['driver_id','date_start','date_end']));
         });
     }
 }

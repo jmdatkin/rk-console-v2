@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('driver_status_blocks', function (Blueprint $table) {
+        Schema::create('driver_statuses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('driver_id');
             $table->foreign('driver_id')->references('id')->on('driver');
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('driver_status_blocks');
+        Schema::dropIfExists('driver_statuses');
     }
 };
