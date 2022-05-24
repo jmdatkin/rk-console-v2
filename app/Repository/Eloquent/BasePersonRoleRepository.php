@@ -3,14 +3,10 @@
 namespace App\Repository\Eloquent;
 
 use App\Models\Driver;
-use App\Models\Person;
 use App\Models\Recipient;
 use App\Models\Role;
 use App\Repository\PersonRepositoryInterface;
 use App\Repository\PersonRoleRepositoryInterface;
-use Error;
-use Exception;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 
@@ -28,19 +24,6 @@ class BasePersonRoleRepository extends BaseRepository implements PersonRoleRepos
         parent::__construct($model);
     }
 
-    // public function find($id): ?Model
-    // {
-    //     // return $this->model->with('person')->find($id);
-    //     return parent::find($id)->load('person');
-    // }
-
-    // // public function allWithPerson()
-    // public function all(): Collection
-    // {
-    //     // return $this->model->with('person')->get();
-    //     return parent::all()->load('person');
-    // }
-
     public function destroy($id)
     {
         $model = $this->find($id);
@@ -55,7 +38,6 @@ class BasePersonRoleRepository extends BaseRepository implements PersonRoleRepos
      * @param $id
      * @param $attr
      */
-    // public function updateWithPerson($id, $attr)
     public function update($id, $attr): void
     {
         $model = $this->model->find($id);
@@ -64,6 +46,11 @@ class BasePersonRoleRepository extends BaseRepository implements PersonRoleRepos
         $model->person->fill($attr)->save();
     }
 
+    /**
+     * Insert a new record with a related person
+     * 
+     * @param $data
+     */
     public function store($data)
     {
         $personAttributes = [

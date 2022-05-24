@@ -19,13 +19,11 @@ class BasePersonRoleController extends BaseResourceController
     }
 
     public function all() {
-        // return $this->repository->allWithPerson();
         return $this->repository->all()->load('person');
     }
 
     public function update(Request $request, $id) {
         $data = $request->except('id', 'person_id', 'user_id', 'created_at', 'updated_at', 'deleted_at');
-        // return $this->repository->updateWithPerson($id, $data);
         return $this->repository->update($id, $data);
     }
 
