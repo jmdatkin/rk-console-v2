@@ -48,6 +48,7 @@ Route::prefix('driver')->group(function() {
 });
 
 Route::prefix('driverstatus')->group(function() {
+    Route::get('/', [DriverStatusBlockController::class, 'index']);
     Route::post('/store', [DriverStatusBlockController::class, 'store']);
 });
 
