@@ -5,6 +5,7 @@ use App\Http\Controllers\Assignments\ManageDriverController;
 use App\Http\Controllers\Assignments\ManageRecipientController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\DriverStatusBlockController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\RecipientController;
 use App\Http\Controllers\Reports\DriverReportController;
@@ -46,6 +47,10 @@ Route::prefix('driver')->group(function() {
     Route::post('/destroy', [DriverController::class, 'destroyMany']);
 });
 
+Route::prefix('driverstatus')->group(function() {
+    Route::post('/store', [DriverStatusBlockController::class, 'store']);
+});
+
 Route::prefix('person')->group(function() {
     Route::get('/', [PersonController::class, 'all']);
     Route::get('/data', [PersonController::class, 'data']);
@@ -78,12 +83,6 @@ Route::prefix('comment')->group(function() {
 });
 
 Route::get('/', function () {
-    // return Inertia::render('Welcome', [
-    //     'canLogin' => Route::has('login'),
-    //     'canRegister' => Route::has('register'),
-    //     'laravelVersion' => Application::VERSION,
-    //     'phpVersion' => PHP_VERSION,
-    // ]);
     return redirect()->route('dashboard');
 });
 
