@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('driver_statuses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('driver_id');
-            $table->foreign('driver_id')->references('id')->on('driver');
+            $table->foreign('driver_id')->references('id')->on('drivers');
             $table->date('date_start');
             $table->date('date_end');
             $table->string('notes');

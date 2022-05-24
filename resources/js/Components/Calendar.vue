@@ -5,7 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { ref } from 'vue';
 
-const props = defineProps(['onSelectCallback']);
+const props = defineProps(['onSelectCallback', 'events']);
 
 const calendarOptions = ref({
     plugins: [
@@ -14,7 +14,15 @@ const calendarOptions = ref({
     ],
     initialView: 'dayGridMonth',
     selectable: true,
-    
+    events: props.events, 
+    eventDataTransform: function (eventData) {
+        console.log(eventData);
+        return {
+            start: eventData.date_start,
+            end: eventData.date_end,
+            title: eventData.notes
+        };
+    },
     select: props.onSelectCallback,
     // dateClick: () => console.log("EEEEEE")
 });
