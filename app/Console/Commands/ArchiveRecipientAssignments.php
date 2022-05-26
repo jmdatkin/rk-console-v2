@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -21,19 +22,8 @@ class ArchiveRecipientAssignments extends Command
      */
     protected $description = 'Commit this week\'s recipient assignments to archive';
 
-
-    private $weekdayMap = [
-        'mon' => 'mon',
-        'tues' => 'tue',
-        'wed' => 'wed',
-        'thurs' => 'thu',
-        'fri' => 'fri',
-        'sat' => 'sat',
-        'sun' => 'sun'
-    ];
-
     public function weekdayToDate($weekday) {
-        Carbon::parse($weekdayMap[$weekday]);
+        Carbon::parse($weekday);
     } 
 
 

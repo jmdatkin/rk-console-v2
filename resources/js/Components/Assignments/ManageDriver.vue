@@ -54,9 +54,9 @@ const weekdayFullName = function (abbr) {
     return {
         'sun': 'Sunday',
         'mon': 'Monday',
-        'tues': 'Tuesday',
+        'tue': 'Tuesday',
         'wed': 'Wednesday',
-        'thurs': 'Thursday',
+        'thu': 'Thursday',
         'fri': 'Friday',
         'sat': 'Saturday'
     }[abbr];
@@ -150,7 +150,7 @@ onUpdated(() => {
                 </template>
 
             </Weekday>
-            <Weekday :callback="makeWeekdayCallback('tues')" :data="assignmentsForDay('tues')">
+            <Weekday :callback="makeWeekdayCallback('tue')" :data="assignmentsForDay('tues')">
                 <template #head>
                     Tuesday
                 </template>
@@ -162,7 +162,7 @@ onUpdated(() => {
                 </template>
 
             </Weekday>
-            <Weekday :callback="makeWeekdayCallback('thurs')" :data="assignmentsForDay('thurs')">
+            <Weekday :callback="makeWeekdayCallback('thu')" :data="assignmentsForDay('thurs')">
                 <template #head>
                     Thursday
                 </template>
