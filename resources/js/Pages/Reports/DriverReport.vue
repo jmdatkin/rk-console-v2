@@ -120,9 +120,9 @@ const initFilters = function () {
 const dayLookup = {
     0: 'sun',
     1: 'mon',
-    2: 'tues',
+    2: 'tue',
     3: 'wed',
-    4: 'thurs',
+    4: 'thu',
     5: 'fri',
     6: 'sat'
 };

@@ -150,7 +150,7 @@ onUpdated(() => {
                 </template>
 
             </Weekday>
-            <Weekday :callback="makeWeekdayCallback('tue')" :data="assignmentsForDay('tues')">
+            <Weekday :callback="makeWeekdayCallback('tue')" :data="assignmentsForDay('tue')">
                 <template #head>
                     Tuesday
                 </template>
@@ -162,7 +162,7 @@ onUpdated(() => {
                 </template>
 
             </Weekday>
-            <Weekday :callback="makeWeekdayCallback('thu')" :data="assignmentsForDay('thurs')">
+            <Weekday :callback="makeWeekdayCallback('thu')" :data="assignmentsForDay('thu')">
                 <template #head>
                     Thursday
                 </template>
