@@ -26,4 +26,12 @@ class Route extends Model
         return $this->belongsToMany(Driver::class);
     }
 
+    public function driversOnDay($weekday) {
+        return $this->belongsToMany(Driver::class)->wherePivot('weekday', $weekday);
+    }
+
+    public function driverAlternates() {
+        return $this->belongsToMany(Driver::class, 'driver_route_alt');
+    }
+
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\Reports\DriverReportController;
 use App\Http\Controllers\Reports\MealReportController;
 use App\Http\Controllers\Reports\TexterReportController;
 use App\Http\Controllers\RouteController;
+use App\Http\Controllers\RouteDriverViewController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -97,6 +98,7 @@ Route::prefix('datatables')->middleware(['auth', 'verified'])->group(function ()
     Route::get('drivers', [DriverController::class, 'index'])->name('datatables.drivers');
     Route::get('routes', [RouteController::class, 'index'])->name('datatables.routes');
     Route::get('agencies', [AgencyController::class, 'index'])->name('datatables.agencies');
+    Route::get('routedrivers', [RouteDriverViewController::class, 'index']);
 });
 
 Route::prefix('reports')->middleware(['auth', 'verified'])->group(function() {
@@ -118,6 +120,7 @@ Route::prefix('manage')->middleware(['auth', 'verified'])->group(function() {
     Route::get('driver/{id}', [ManageDriverController::class, 'index'])->name('manage.driver');
 });
 
+Route::get('calendartest', function() { return Inertia::render('CalendarLayoutTest');});
 
 Route::get('calendar', function() {
     return Inertia::render('CalendarPage');
