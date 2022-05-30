@@ -15,15 +15,17 @@ const useCRUD = function (service) {
     };
 
     const store = function (form) {
+        console.log('Storing: ');
+        console.log(service);
         dataLoaded.value = false;
         service.store(form)
             .then(
                 res => {
                     get();
-                    toastBus.emit({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+                    toastBus.emit('add',{ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
                 },
                 res => {
-                    toastBus.emit({ severity: 'error', summary: 'Error', detail: res, life: 3000 });
+                    toastBus.emit('add',{ severity: 'error', summary: 'Error', detail: res, life: 3000 });
                 },
             );
     };
@@ -36,10 +38,10 @@ const useCRUD = function (service) {
                 res => {
                     selected.value = [];
                     get();
-                    toastBus.emit({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+                    toastBus.emit('add',{ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
                 },
                 res => {
-                    toastBus.emit({ severity: 'error', summary: 'Error', detail: res, life: 3000 });
+                    toastBus.emit('add',{ severity: 'error', summary: 'Error', detail: res, life: 3000 });
                 },
             );
     };
@@ -51,10 +53,10 @@ const useCRUD = function (service) {
                 res => {
                     selected.value = [];
                     get();
-                    toastBus.emit({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+                    toastBus.emit('add',{ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
                 },
                 res => {
-                    toastBus.emit({ severity: 'error', summary: 'Error', detail: res, life: 3000 });
+                    toastBus.emit('add',{severity: 'error', summary: 'Error', detail: res, life: 3000 });
                 });
     };
 

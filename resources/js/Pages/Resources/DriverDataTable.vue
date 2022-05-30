@@ -23,7 +23,7 @@ import { useCRUD } from './hooks';
 
 const props = defineProps(['errors', 'message', 'csrf']);
 
-const { data, dataLoaded, CRUD } = useCRUD(DriverService);
+const { data, dataLoaded, selected, CRUD } = useCRUD(DriverService);
 
 const tableData = computed(() => {
     return data.value.map(mergePersonObject);
