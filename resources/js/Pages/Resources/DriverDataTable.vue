@@ -10,6 +10,7 @@ import Dialog from 'primevue/dialog';
 import Loading from '@/Components/Loading';
 import ContextMenu from 'primevue/contextmenu';
 import ManageDriver from '@/Components/Assignments/ManageDriver';
+import DriverAlternates from '@/Components/Assignments/DriverAlternates';
 import { ref, onMounted, onUpdated } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { Inertia } from '@inertiajs/inertia';
@@ -55,6 +56,7 @@ const menuModel = ref([
     { label: 'Edit record', icon: 'pi pi-fw pi-pencil', command: () => editingRows.value = [...editingRows.value, cmSelection.value] },
     { label: 'Delete record', icon: 'pi pi-fw pi-trash', command: () => destroyRecords([cmSelection.value.id]) },
     { label: 'Edit route assignments', icon: 'pi pi-fw pi-search', command: () => openAssignDialog(cmSelection.value.id) },
+    { label: 'Edit alternate routes', icon: 'pi pi-fw pi-search', command: () => openAlternatesDialog(cmSelection.value) },
     { label: 'View report', icon: 'pi pi-fw pi-search', command: () => goToReport(cmSelection) }
 ]);
 const onRowContextMenu = event => {
@@ -80,6 +82,15 @@ const assignDialog = ref(false);
 const openAssignDialog = function (id) {
     assignId.value = id;
     assignDialog.value = true;
+};
+
+// Alternate route assignments
+const driverAlternate = ref(null);
+const alternatesDialog = ref(false);
+
+const openAlternatesDialog = function(driver) {
+    driverAlternate.value = driver;
+    alternatesDialog.value = true;
 };
 
 // New record
@@ -277,6 +288,16 @@ fetchData();
             <ManageDriver :driver_id="assignId">
 
             </ManageDriver>
+        </Dialog>
+
+        <Dialog v-model:visible="alternatesDialog" :closeOnEscape="true" :closable="true" :modal="true"
+            :dismissableMask="true">
+            <template #header>
+                <h5 class="font-medium"></h5>
+            </template>
+            <DriverAlternates :driver_data="driverAlternate">
+
+            </DriverAlternates>
         </Dialog>
 
 

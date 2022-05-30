@@ -25,6 +25,10 @@ class Driver extends BasePersonRole
         return $this->belongsToMany(Route::class, 'driver_route')->withPivot(['weekday']);
     }
 
+    public function alternateRoutes() {
+        return $this->belongsToMany(Route::class, 'driver_route_alt');
+    }
+
     public function routeExceptions() {
         return $this->belongsToMany(Route::class, 'driver_route_exception');
     }

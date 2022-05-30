@@ -18,6 +18,7 @@ mix.options({
     }
 });
 
+// mix.ts('resources/js/app.ts', 'public/js')
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/scss/app.scss', 'public/css')

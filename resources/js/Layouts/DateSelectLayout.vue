@@ -13,7 +13,7 @@ const selectDateCallback = function (date) {
 
 const openDateSelect = function() {
     dateChosen.value = false;
-}
+};
 
 </script>
 
@@ -24,7 +24,7 @@ const openDateSelect = function() {
         </Calendar>
     </div>
     <div v-else>
-        <slot name="content" :date="selectedDate" :openDateSelect="openDateSelect">
+        <slot :date="selectedDate" :openDateSelect="openDateSelect">
 
         </slot>
     </div>

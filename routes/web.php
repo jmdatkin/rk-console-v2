@@ -28,7 +28,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::prefix('recipient')->group(function() {
+Route::prefix('recipient')->group(function () {
     Route::get('/', [RecipientController::class, 'all']);
     Route::get('/data', [RecipientController::class, 'data']);
     Route::get('/{id}', [RecipientController::class, 'show']);
@@ -38,7 +38,7 @@ Route::prefix('recipient')->group(function() {
     Route::post('/destroy', [RecipientController::class, 'destroyMany']);
 });
 
-Route::prefix('driver')->group(function() {
+Route::prefix('driver')->group(function () {
     Route::get('/', [DriverController::class, 'all']);
     Route::get('/data', [DriverController::class, 'data']);
     Route::get('/{id}', [DriverController::class, 'show']);
@@ -46,14 +46,18 @@ Route::prefix('driver')->group(function() {
     Route::post('/import', [DriverController::class, 'import']);
     Route::patch('/{id}/update', [DriverController::class, 'update']);
     Route::post('/destroy', [DriverController::class, 'destroyMany']);
+
+    Route::get('/{id}/alternates', [DriverController::class, 'alternates']);
+    Route::get('/{id}/alternates/attach/{route_id}', [DriverController::class, 'assignAlternate']);
+    Route::get('/{id}/alternates/detach/{route_id}', [DriverController::class, 'deassignAlternate']);
 });
 
-Route::prefix('driverstatus')->group(function() {
+Route::prefix('driverstatus')->group(function () {
     Route::get('/', [DriverStatusController::class, 'index']);
     Route::post('/store', [DriverStatusController::class, 'store']);
 });
 
-Route::prefix('person')->group(function() {
+Route::prefix('person')->group(function () {
     Route::get('/', [PersonController::class, 'all']);
     Route::get('/data', [PersonController::class, 'data']);
     Route::post('/store', [PersonController::class, 'store']);
@@ -62,7 +66,7 @@ Route::prefix('person')->group(function() {
     Route::post('/destroy', [PersonController::class, 'destroyMany']);
 });
 
-Route::prefix('route')->group(function() {
+Route::prefix('route')->group(function () {
     Route::get('/', [RouteController::class, 'all']);
     Route::post('/store', [RouteController::class, 'store']);
     Route::post('/import', [RouteController::class, 'import']);
@@ -70,14 +74,14 @@ Route::prefix('route')->group(function() {
     Route::post('/destroy', [RouteController::class, 'destroyMany']);
 });
 
-Route::prefix('agency')->group(function() {
+Route::prefix('agency')->group(function () {
     Route::post('/store', [AgencyController::class, 'store']);
     Route::post('/import', [AgencyController::class, 'import']);
     Route::patch('/{id}/update', [AgencyController::class, 'update']);
     Route::post('/destroy', [AgencyController::class, 'destroyMany']);
 });
 
-Route::prefix('comment')->group(function() {
+Route::prefix('comment')->group(function () {
     Route::get('/', [CommentController::class, 'all']);
     Route::get('/{id}', [CommentController::class, 'show']);
     Route::get('/recipient/{recipient_id}', [CommentController::class, 'show_recipient']);
@@ -101,7 +105,7 @@ Route::prefix('datatables')->middleware(['auth', 'verified'])->group(function ()
     Route::get('routedrivers', [RouteDriverViewController::class, 'index']);
 });
 
-Route::prefix('reports')->middleware(['auth', 'verified'])->group(function() {
+Route::prefix('reports')->middleware(['auth', 'verified'])->group(function () {
     Route::get('driver', [DriverReportController::class, 'index']);
     Route::get('driver/data', [DriverReportController::class, 'data']);
     Route::get('texter', [TexterReportController::class, 'index']);
@@ -110,7 +114,7 @@ Route::prefix('reports')->middleware(['auth', 'verified'])->group(function() {
     Route::get('meals/data', [MealReportController::class, 'data']);
 });
 
-Route::prefix('manage')->middleware(['auth', 'verified'])->group(function() {
+Route::prefix('manage')->middleware(['auth', 'verified'])->group(function () {
     Route::get('recipient/{id}/assignments', [ManageRecipientController::class, 'getAssignments']);
     Route::post('recipient/{recipient_id}/assign/{route_id}/{weekday}', [ManageRecipientController::class, 'makeAssignment']);
     Route::get('recipient/{id}', [ManageRecipientController::class, 'index'])->name('manage.recipient');
@@ -120,9 +124,15 @@ Route::prefix('manage')->middleware(['auth', 'verified'])->group(function() {
     Route::get('driver/{id}', [ManageDriverController::class, 'index'])->name('manage.driver');
 });
 
-Route::get('calendartest', function() { return Inertia::render('CalendarLayoutTest');});
+Route::prefix('routedriver')->group(function () {
+    Route::get('/', [RouteDriverViewController::class, 'index']); 
+    Route::get('/data', [RouteDriverViewController::class, 'data']); 
+});
 
-Route::get('calendar', function() {
+Route::get('calendartest', function () {
+    return Inertia::render('CalendarLayoutTest');
+});
+Route::get('calendar', function () {
     return Inertia::render('CalendarPage');
 });
 
