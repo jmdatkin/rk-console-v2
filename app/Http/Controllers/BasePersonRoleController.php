@@ -16,16 +16,34 @@ class BasePersonRoleController extends BaseResourceController
         parent::__construct($repository);
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($id)
     {
         return $this->repository->find($id)->load('person');
     }
 
+    /**
+     * Display all resources.
+     *
+     * @return Collection
+     */
     public function all()
     {
         return $this->repository->all()->load('person');
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, $id)
     {
         try {
@@ -37,6 +55,12 @@ class BasePersonRoleController extends BaseResourceController
         }
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         try {
