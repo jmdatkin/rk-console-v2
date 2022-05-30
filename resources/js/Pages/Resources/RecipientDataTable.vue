@@ -17,6 +17,7 @@ import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import { mergePersonObject } from '@/util';
 import { recipientFilters } from './filters';
+import RecipientService from './Recipients/RecipientService';
 
 const props = defineProps(['errors', 'message', 'csrf']);
 
@@ -28,12 +29,18 @@ const loading = ref(true);
 
 const fetchData = function () {
     dataLoaded.value = false;
-    axios.get('/recipient/data').then(res => {
+    RecipientService.get().then(res => {
         let response = res.data;
         response = response.map(mergePersonObject);
         data.value = response;
         dataLoaded.value = true;
-    }).catch(err => console.error(err));
+    });
+    // axios.get('/recipient/data').then(res => {
+    //     let response = res.data;
+    //     response = response.map(mergePersonObject);
+    //     data.value = response;
+    //     dataLoaded.value = true;
+    // }).catch(err => console.error(err));
 };
 
 // DataTable filters
@@ -102,23 +109,32 @@ const submitNewRecord = function () {
 const editingRows = ref([]);
 const onRowEditSave = function (event) {
     let { newData, index } = event;
-    Inertia.patch(`/recipient/${newData.id}/update`, newData,
-        {
-            onBefore: () => {
-                dataLoaded.value = false;
-            },
-            onFinish: () => {
-                selected.value = [];
-                fetchData();
-            },
-            onSuccess: page => {
-                toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-            },
+    // Inertia.patch(`/recipient/${newData.id}/update`, newData,
+    //     {
+    //         onBefore: () => {
+    //             dataLoaded.value = false;
+    //         },
+    //         onFinish: () => {
+    //             selected.value = [];
+    //             fetchData();
+    //         },
+    //         onSuccess: page => {
+    //             toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
+    //         },
 
-            onError: errors => {
-                toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-            }
-        });
+    //         onError: errors => {
+    //             toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
+    //         }
+    //     });
+    dataLoaded.value = false;
+    RecipientService.edit(newData.id, newData)
+        .then(() => {
+            toast.add({ severity: 'success', summary: 'Successful', detail: 'Success', life: 3000 });
+            selected.value = [];
+            fetchData();
+        }, () => {
+            toast.add({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
+        }).catch(err => console.error(err));
 };
 
 // Destroy record
@@ -128,24 +144,34 @@ const destroyRecords = function (ids) {
         icon: 'pi pi-exclamation-triangle',
         acceptClass: 'p-button-danger',
         accept: () => {
-            Inertia.post('/recipient/destroy', { ids },
-                {
-                    onBefore: () => {
-                        dataLoaded.value = false;
-                    },
-                    onFinish: () => {
-                        selected.value = [];
-                        fetchData();
-                    },
-                    onSuccess: page => {
-                        toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-                    },
+            // Inertia.post('/recipient/destroy', { ids },
+            //     {
+            //         onBefore: () => {
+            //             dataLoaded.value = false;
+            //         },
+            //         onFinish: () => {
+            //             selected.value = [];
+            //             fetchData();
+            //         },
+            //         onSuccess: page => {
+            //             toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
+            //         },
 
-                    onError: errors => {
-                        toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-                    }
-                }
-            )
+            //         onError: errors => {
+            //             toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
+            //         }
+            //     }
+            // )
+            dataLoaded.value = false;
+            RecipientService.destroy(ids)
+                .then(() => {
+                    selected.value = [];
+                    fetchData();
+                    toast.add({ severity: 'success', summary: 'Successful', detail: 'Success', life: 3000 });
+                }, () => {
+                    toast.add({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
+
+                });
         },
         reject: () => {
             toast.add({ severity: 'info', summary: 'Cancelled', detail: 'Delete operation cancelled by user.', life: 3000 });
@@ -466,7 +492,8 @@ fetchData();
                             icon="pi pi-folder-open"></Button> -->
                     </template>
                 </Column>
-                <Column frozen alignFrozen="right" :rowEditor="true" style="width:10%; min-width:4rem" bodyStyle="text-align:center">
+                <Column frozen alignFrozen="right" :rowEditor="true" style="width:10%; min-width:4rem"
+                    bodyStyle="text-align:center">
                 </Column>
 
                 <ContextMenu :model="menuModel" ref="cm"></ContextMenu>

@@ -53,18 +53,25 @@ class RecipientController extends BasePersonRoleController
 
     public function update(Request $request, $id)
     {
+        // try {
+        //     throw new Error();
+        //     parent::update($request, $id);
+        //     return Redirect::route('datatables.recipients', null, 200)->with([
+        //         'message-class' => 'success',
+        //         'message' => 'Record successfully edited.'
+        //     ]);
+        // } catch (Exception | Error $e) {
+        //     error_log($e);
+        //     return Redirect::route('datatables.recipients', null, 500)->with([
+        //         'message-class' => 'error',
+        //         'message' => 'An error occurred. Record was not edited.'
+        //     ]);
+        // }
         try {
             parent::update($request, $id);
-            return Redirect::route('datatables.recipients')->with([
-                'message-class' => 'success',
-                'message' => 'Record successfully edited.'
-            ]);
-        } catch (Exception | Error $e) {
-            error_log($e);
-            return Redirect::route('datatables.recipients')->with([
-                'message-class' => 'error',
-                'message' => 'An error occurred. Record was not edited.'
-            ]);
+            return response()->json([], 200);
+        } catch (Error | Exception $e) {
+            return response()->json([], 500);
         }
     }
 
@@ -72,16 +79,22 @@ class RecipientController extends BasePersonRoleController
     {
         try {
             parent::destroyMany($request);
-            return Redirect::route('datatables.recipients')->with([
-                'message-class' => 'success',
-                'message' => 'Record(s) successfully deleted.'
-            ]);
-        } catch (Exception | Error $e) {
-            error_log($e);
-            return Redirect::route('datatables.recipients')->with([
-                'message-class' => 'error',
-                'message' => 'An error occurred. One or more record(s) were not deleted.'
-            ]);
+            return response()->json([], 200);
+        } catch (Error | Exception $e) {
+            return response()->json([], 500);
         }
+        // try {
+        //     parent::destroyMany($request);
+        //     return Redirect::route('datatables.recipients')->with([
+        //         'message-class' => 'success',
+        //         'message' => 'Record(s) successfully deleted.'
+        //     ]);
+        // } catch (Exception | Error $e) {
+        //     error_log($e);
+        //     return Redirect::route('datatables.recipients')->with([
+        //         'message-class' => 'error',
+        //         'message' => 'An error occurred. One or more record(s) were not deleted.'
+        //     ]);
+        // }
     }
 }
