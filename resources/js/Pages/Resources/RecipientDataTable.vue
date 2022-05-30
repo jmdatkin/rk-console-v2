@@ -10,7 +10,7 @@ import Dialog from 'primevue/dialog';
 import Loading from '@/Components/Loading';
 import ContextMenu from 'primevue/contextmenu';
 import ManageRecipient from '@/Components/Assignments/ManageRecipient';
-import { ref, onMounted, onUpdated } from 'vue';
+import { ref, onMounted, onUpdated, reactive } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
@@ -69,7 +69,7 @@ const toast = useToast();
 
 // New record
 const newRecordDialog = ref(false);
-const newRecordForm = useForm({
+const newRecordForm = reactive({
     firstName: null,
     lastName: null,
     email: null,
@@ -89,43 +89,23 @@ const closeNewRecordDialog = function () {
 };
 
 const submitNewRecord = function () {
-    newRecordForm.post('/recipient/store', {
-        onBefore: () => {
-            dataLoaded.value = false;
-        },
-        onFinish: () => {
-            fetchData();
-        },
-        onSuccess: page => {
-            toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-        },
-        onError: errors => {
-            toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-        }
-    })
+    RecipientService.store(newRecordForm)
+        .then(
+            () => {
+                fetchData();
+                toast.add({ severity: 'success', summary: 'Successful', detail: 'Success', life: 3000 });
+            },
+            () => {
+                toast.add({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
+
+            },
+        );
 };
 
 // Edit record
 const editingRows = ref([]);
 const onRowEditSave = function (event) {
     let { newData, index } = event;
-    // Inertia.patch(`/recipient/${newData.id}/update`, newData,
-    //     {
-    //         onBefore: () => {
-    //             dataLoaded.value = false;
-    //         },
-    //         onFinish: () => {
-    //             selected.value = [];
-    //             fetchData();
-    //         },
-    //         onSuccess: page => {
-    //             toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-    //         },
-
-    //         onError: errors => {
-    //             toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-    //         }
-    //     });
     dataLoaded.value = false;
     RecipientService.edit(newData.id, newData)
         .then(() => {
@@ -144,24 +124,6 @@ const destroyRecords = function (ids) {
         icon: 'pi pi-exclamation-triangle',
         acceptClass: 'p-button-danger',
         accept: () => {
-            // Inertia.post('/recipient/destroy', { ids },
-            //     {
-            //         onBefore: () => {
-            //             dataLoaded.value = false;
-            //         },
-            //         onFinish: () => {
-            //             selected.value = [];
-            //             fetchData();
-            //         },
-            //         onSuccess: page => {
-            //             toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-            //         },
-
-            //         onError: errors => {
-            //             toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-            //         }
-            //     }
-            // )
             dataLoaded.value = false;
             RecipientService.destroy(ids)
                 .then(() => {
@@ -170,7 +132,6 @@ const destroyRecords = function (ids) {
                     toast.add({ severity: 'success', summary: 'Successful', detail: 'Success', life: 3000 });
                 }, () => {
                     toast.add({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
-
                 });
         },
         reject: () => {

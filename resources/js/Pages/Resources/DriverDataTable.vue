@@ -11,7 +11,7 @@ import Loading from '@/Components/Loading';
 import ContextMenu from 'primevue/contextmenu';
 import ManageDriver from '@/Components/Assignments/ManageDriver';
 import DriverAlternates from '@/Components/Assignments/DriverAlternates';
-import { ref, onMounted, onUpdated } from 'vue';
+import { ref, onMounted, onUpdated, reactive } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
@@ -19,6 +19,7 @@ import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import { mergePersonObject } from '@/util';
 import { driverFilters } from './filters';
+import DriverService from './Drivers/DriverService';
 
 const props = defineProps(['errors', 'message', 'csrf']);
 
@@ -27,9 +28,10 @@ const data = ref();
 const dataLoaded = ref(false);
 const selected = ref();
 const loading = ref(true);
+
 const fetchData = function () {
     dataLoaded.value = false;
-    axios.get('/driver/data').then(res => {
+    DriverService.get().then(res => {
         let response = res.data;
         response = response.map(mergePersonObject);
         data.value = response;
@@ -66,7 +68,7 @@ const onRowContextMenu = event => {
 // Toast notifications
 const toast = useToast();
 const newRecordDialog = ref(false);
-const newRecordForm = useForm({
+const newRecordForm = reactive({
     firstName: null,
     lastName: null,
     email: null,
@@ -88,7 +90,7 @@ const openAssignDialog = function (id) {
 const driverAlternate = ref(null);
 const alternatesDialog = ref(false);
 
-const openAlternatesDialog = function(driver) {
+const openAlternatesDialog = function (driver) {
     driverAlternate.value = driver;
     alternatesDialog.value = true;
 };
@@ -102,43 +104,35 @@ const closeNewRecordDialog = function () {
 };
 
 const submitNewRecord = function () {
-    newRecordForm.post('/driver/store', {
-        onBefore: () => {
-            dataLoaded.value = false;
-        },
-        onFinish: () => {
-            fetchData();
-        },
-        onSuccess: page => {
-            toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-        },
-        onError: errors => {
-            toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-        }
-    })
+    dataLoaded.value = false;
+    DriverService.store(newRecordForm)
+        .then(
+            () => {
+                fetchData();
+                toast.add({ severity: 'success', summary: 'Successful', detail: 'Success', life: 3000 });
+            },
+            () => {
+                toast.add({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
+            },
+        );
 };
 
 //Edit record
 const editingRows = ref([]);
 const onRowEditSave = function (event) {
     let { newData, index } = event;
-    Inertia.patch(`/driver/${newData.id}/update`, newData,
-        {
-            onBefore: () => {
-                dataLoaded.value = false;
-            },
-            onFinish: () => {
+    dataLoaded.value = false;
+    DriverService.edit(newData.id, newData)
+        .then(
+            () => {
                 selected.value = [];
                 fetchData();
+                toast.add({ severity: 'success', summary: 'Successful', detail: 'Success', life: 3000 });
             },
-            onSuccess: page => {
-                toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
+            () => {
+                toast.add({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
             },
-
-            onError: errors => {
-                toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-            }
-        });
+        );
 };
 
 // Destroy record
@@ -152,24 +146,17 @@ const destroyRecords = function (ids) {
         icon: 'pi pi-exclamation-triangle',
         acceptClass: 'p-button-danger',
         accept: () => {
-            Inertia.post('/driver/destroy', { ids },
-                {
-                    onBefore: () => {
-                        dataLoaded.value = false;
-                    },
-                    onFinish: () => {
+            dataLoaded.value = false;
+            DriverService.destroy(ids)
+                .then(
+                    () => {
                         selected.value = [];
                         fetchData();
+                        toast.add({ severity: 'success', summary: 'Successful', detail: 'Success', life: 3000 });
                     },
-                    onSuccess: page => {
-                        toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-                    },
-
-                    onError: errors => {
-                        toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-                    }
-                }
-            )
+                    () => {
+                        toast.add({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
+                    });
         },
         reject: () => {
             toast.add({ severity: 'info', summary: 'Cancelled', detail: 'Delete operation cancelled by user.', life: 3000 });

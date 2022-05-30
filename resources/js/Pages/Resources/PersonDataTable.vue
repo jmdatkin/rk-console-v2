@@ -10,12 +10,13 @@ import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
 import ContextMenu from 'primevue/contextmenu';
 import Loading from '@/Components/Loading';
-import { ref, computed, onMounted, onUpdated } from 'vue';
+import { ref, computed, onMounted, onUpdated, reactive } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import { personFilters } from './filters';
+import PersonService from './Personnel/PersonService';
 
 const props = defineProps(['message', 'csrf']);
 
@@ -33,10 +34,11 @@ const roleNameLookup = {
 
 const fetchData = function () {
     dataLoaded.value = false;
-    axios.get('/person/data').then(res => {
-        data.value = res.data;
+    PersonService.get().then(res => {
+        let response = res.data;
+        data.value = response;
         dataLoaded.value = true;
-    }).catch(err => console.error(err));
+    });
 };
 
 // DataTable filters
@@ -64,7 +66,7 @@ const toast = useToast();
 
 // New record form
 const newRecordDialog = ref(false);
-const newRecordForm = useForm({
+const newRecordForm = reactive({
     firstName: null,
     lastName: null,
     email: null,
@@ -82,20 +84,17 @@ const closeNewRecordDialog = function () {
 }
 
 const submitNewRecord = function () {
-    newRecordForm.post('/person/store', {
-        onBefore: () => {
-            dataLoaded.value = false;
-        },
-        onFinish: () => {
-            fetchData();
-        },
-        onSuccess: page => {
-            toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-        },
-        onError: errors => {
-            toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-        }
-    })
+    PersonService.store(newRecordForm)
+        .then(
+            () => {
+                fetchData();
+                toast.add({ severity: 'success', summary: 'Successful', detail: 'Success', life: 3000 });
+            },
+            () => {
+                toast.add({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
+
+            },
+        );
 }
 
 
@@ -103,23 +102,14 @@ const submitNewRecord = function () {
 const editingRows = ref([]);
 const onRowEditSave = function (event) {
     let { newData, index } = event;
-    Inertia.patch(`/person/${newData.id}/update`, newData,
-        {
-            onBefore: () => {
-                selected.value = [];
-                dataLoaded.value = false;
-            },
-            onFinish: () => {
-                fetchData();
-            },
-            onSuccess: page => {
-                toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-            },
-
-            onError: errors => {
-                toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-            }
-        });
+    PersonService.edit(newData.id, newData)
+        .then(() => {
+            toast.add({ severity: 'success', summary: 'Successful', detail: 'Success', life: 3000 });
+            selected.value = [];
+            fetchData();
+        }, () => {
+            toast.add({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
+        }).catch(err => console.error(err));
 };
 
 // Record destroy
@@ -129,24 +119,17 @@ const destroyRecords = function (ids) {
         icon: 'pi pi-exclamation-triangle',
         acceptClass: 'p-button-danger',
         accept: () => {
-            Inertia.post('/person/destroy', { ids },
-                {
-                    onBefore: () => {
-                        dataLoaded.value = false;
-                    },
-                    onFinish: () => {
+            dataLoaded.value = false;
+            PersonService.destroy(ids)
+                .then(
+                    () => {
                         selected.value = [];
                         fetchData();
+                        toast.add({ severity: 'success', summary: 'Successful', detail: 'Success', life: 3000 });
                     },
-                    onSuccess: page => {
-                        toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-                    },
-
-                    onError: errors => {
-                        toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-                    }
-                }
-            )
+                    () => {
+                        toast.add({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
+                    });
         },
         reject: () => {
             toast.add({ severity: 'info', summary: 'Cancelled', detail: 'Delete operation cancelled by user.', life: 3000 });

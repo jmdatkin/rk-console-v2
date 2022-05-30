@@ -31,7 +31,7 @@ class BaseResourceController extends Controller
         } catch (Exception | Error $e) {
             return redirect()->back()->with([
                 'message-class' => 'error',
-                'message' => $error_msg.$e
+                'message' => $error_msg . $e
             ]);
         }
     }
@@ -80,8 +80,13 @@ class BaseResourceController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $data = $request->except('id', 'created_at', 'updated_at', 'deleted_at');
-        $this->repository->update($id, $data);
+        try {
+            $data = $request->except('id', 'created_at', 'updated_at', 'deleted_at');
+            $this->repository->update($id, $data);
+            return response('Success', 200);
+        } catch (Error | Exception $e) {
+            return response('Error: ' . $e, 500);
+        }
     }
 
     /**
@@ -92,7 +97,12 @@ class BaseResourceController extends Controller
      */
     public function destroy($id)
     {
-        $this->repository->destroy($id);
+        try {
+            $this->repository->destroy($id);
+            return response('Success', 200);
+        } catch (Error | Exception $e) {
+            return response('Error: ' . $e, 500);
+        }
     }
 
     /**
@@ -104,8 +114,13 @@ class BaseResourceController extends Controller
     public function destroyMany(Request $request)
     {
         //
-        $ids = $request->input('ids');
-        $this->repository->destroyMany($ids);
+        try {
+            $ids = $request->input('ids');
+            $this->repository->destroyMany($ids);
+            return response('Success', 200);
+        } catch (Error | Exception $e) {
+            return response('Error: ' . $e, 500);
+        }
     }
 
     /**

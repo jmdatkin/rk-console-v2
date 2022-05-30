@@ -28,7 +28,6 @@ class ArchiveRecipientAssignments extends Command
         return Carbon::parse($weekday." this week");
     } 
 
-
     /**
      * Execute the console command.
      *

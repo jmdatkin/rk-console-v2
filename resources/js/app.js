@@ -14,6 +14,7 @@ import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import 'primevue/resources/themes/md-light-indigo/theme.css';
 import { Inertia } from '@inertiajs/inertia';
+import AxiosNProgress from './axios-nprogress';
 import { noopDirectiveTransform } from '@vue/compiler-core';
 // import 'primevue/resources/themes/fluent-light/theme.css';
 // import 'primevue/resources/themes/arya-green/theme.css';
@@ -37,6 +38,8 @@ createInertiaApp({
             .mount(el);
     },
 });
+
+AxiosNProgress();
 
 InertiaProgress.init({ color: '#4B5563' });
 
