@@ -16,30 +16,12 @@ import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import { personFilters } from './filters';
+import { useCRUD } from './hooks';
 import PersonService from './Personnel/PersonService';
 
 const props = defineProps(['message', 'csrf']);
 
-// DataTable data
-const data = ref();
-const dataLoaded = ref(false);
-const selected = ref();
-const loading = ref(true);
-
-const roleNameLookup = {
-    'recipient': 'recip.',
-    'driver': 'driver',
-    'admin': 'admin'
-};
-
-const fetchData = function () {
-    dataLoaded.value = false;
-    PersonService.get().then(res => {
-        let response = res.data;
-        data.value = response;
-        dataLoaded.value = true;
-    });
-};
+const { data, dataLoaded, selected, CRUD } = useCRUD(PersonService);
 
 // DataTable filters
 const filters = ref(personFilters);
@@ -84,34 +66,14 @@ const closeNewRecordDialog = function () {
 }
 
 const submitNewRecord = function () {
-    PersonService.store(newRecordForm)
-        .then(
-            res => {
-                fetchData();
-                toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
-            },
-            res => {
-                toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
-
-            },
-        );
-}
+    CRUD.store(newRecordForm);
+};
 
 
 // Row editing
 const editingRows = ref([]);
 const onRowEditSave = function (event) {
-    let { newData, index } = event;
-    PersonService.edit(newData.id, newData)
-        .then(
-            res => {
-                toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
-                selected.value = [];
-                fetchData();
-            },
-            res => {
-                toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
-            }).catch(err => console.error(err));
+    CRUD.update(event.newData);
 };
 
 // Record destroy
@@ -121,17 +83,7 @@ const destroyRecords = function (ids) {
         icon: 'pi pi-exclamation-triangle',
         acceptClass: 'p-button-danger',
         accept: () => {
-            dataLoaded.value = false;
-            PersonService.destroy(ids)
-                .then(
-                    res => {
-                        selected.value = [];
-                        fetchData();
-                        toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
-                    },
-                    res => {
-                        toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
-                    });
+            CRUD.destroy(ids);
         },
         reject: () => {
             toast.add({ severity: 'info', summary: 'Cancelled', detail: 'Delete operation cancelled by user.', life: 3000 });
@@ -144,46 +96,45 @@ const destroySelected = function () {
 };
 
 // CSV upload
-const beforeUpload = function (event) {
-    event.xhr.setRequestHeader('Content-type', 'text/csv');
-    event.xhr.setRequestHeader('X-CSRF-TOKEN', props.csrf);
-};
+// const beforeUpload = function (event) {
+//     event.xhr.setRequestHeader('Content-type', 'text/csv');
+//     event.xhr.setRequestHeader('X-CSRF-TOKEN', props.csrf);
+// };
 
-const onUpload = function (event) {
-    let { files } = event;
-    let fr = new FileReader();
+// const onUpload = function (event) {
+//     let { files } = event;
+//     let fr = new FileReader();
 
 
-    fr.readAsText(files[0]);
+//     fr.readAsText(files[0]);
 
-    fr.onload = () => {
-        Inertia.post('/person/import', {
-            data: fr.result,
-        }, {
-            onBefore: () => {
-                dataLoaded.value = false;
-            },
-            onFinish: () => {
-                fetchData();
-            },
-            onSuccess: page => {
-                toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-            },
+//     fr.onload = () => {
+//         Inertia.post('/person/import', {
+//             data: fr.result,
+//         }, {
+//             onBefore: () => {
+//                 dataLoaded.value = false;
+//             },
+//             onFinish: () => {
+//                 fetchData();
+//             },
+//             onSuccess: page => {
+//                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
+//             },
 
-            onError: errors => {
-                toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-            }
-        })
+//             onError: errors => {
+//                 toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
+//             }
+//         })
 
-    };
+//     };
 
-}
+// }
+CRUD.get();
 
 onMounted(() => {
     initFilters();
 });
-
-fetchData();
 </script>
 
 <template>

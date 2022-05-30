@@ -23,21 +23,12 @@ import { useCRUD } from './hooks';
 
 const props = defineProps(['errors', 'message', 'csrf']);
 
-const { data, dataLoaded, selected, get, store, update, destroy } = useCRUD(DriverService);
+const { data, dataLoaded, CRUD } = useCRUD(DriverService);
 
 const tableData = computed(() => {
     return data.value.map(mergePersonObject);
 });
 
-// const fetchData = function () {
-//     dataLoaded.value = false;
-//     DriverService.get().then(res => {
-//         let response = res.data;
-//         response = response.map(mergePersonObject);
-//         data.value = response;
-//         dataLoaded.value = true;
-//     }).catch(err => console.error(err));
-// };
 const goToReport = function (selection) {
     Inertia.visit('/reports/driver?did=' + selection.value.id);
 };
@@ -105,13 +96,13 @@ const closeNewRecordDialog = function () {
 };
 
 const submitNewRecord = function () {
-    store(newRecordForm);
+    CRUD.store(newRecordForm);
 };
 
 //Edit record
 const editingRows = ref([]);
 const onRowEditSave = function (event) {
-    update(event.newData);
+    CRUD.update(event.newData);
 };
 
 // Destroy record
@@ -125,7 +116,7 @@ const destroyRecords = function (ids) {
         icon: 'pi pi-exclamation-triangle',
         acceptClass: 'p-button-danger',
         accept: () => {
-            destroy(ids);
+            CRUD.destroy(ids);
         },
         reject: () => {
             toast.add({ severity: 'info', summary: 'Cancelled', detail: 'Delete operation cancelled by user.', life: 3000 });
@@ -174,7 +165,7 @@ onMounted(() => {
 });
 
 // fetchData();
-get();
+CRUD.get();
 
 </script>
 

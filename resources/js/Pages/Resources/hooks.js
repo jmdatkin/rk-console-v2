@@ -56,9 +56,17 @@ const useCRUD = function (service) {
                 res => {
                     toastBus.emit({ severity: 'error', summary: 'Error', detail: res, life: 3000 });
                 });
-    }
+    };
 
-    return { data, dataLoaded, selected, get, store, update, destroy };
+    return {
+        data, dataLoaded, selected,
+        CRUD: {
+            get,
+            store,
+            update,
+            destroy
+        }
+    };
 };
 
 export { useCRUD };

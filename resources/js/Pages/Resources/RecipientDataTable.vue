@@ -10,38 +10,21 @@ import Dialog from 'primevue/dialog';
 import Loading from '@/Components/Loading';
 import ContextMenu from 'primevue/contextmenu';
 import ManageRecipient from '@/Components/Assignments/ManageRecipient';
-import { ref, onMounted, onUpdated, reactive } from 'vue';
-import { Inertia } from '@inertiajs/inertia';
-import { useForm } from '@inertiajs/inertia-vue3';
+import { ref, onMounted, onUpdated, reactive, computed } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import { mergePersonObject } from '@/util';
 import { recipientFilters } from './filters';
+import { useCRUD } from './hooks';
 import RecipientService from './Recipients/RecipientService';
 
 const props = defineProps(['errors', 'message', 'csrf']);
 
-// DataTable data
-const data = ref();
-const dataLoaded = ref(false);
-const selected = ref();
-const loading = ref(true);
+const { data, dataLoaded, selected, CRUD } = useCRUD(RecipientService);
 
-const fetchData = function () {
-    dataLoaded.value = false;
-    RecipientService.get().then(res => {
-        let response = res.data;
-        response = response.map(mergePersonObject);
-        data.value = response;
-        dataLoaded.value = true;
-    });
-    // axios.get('/recipient/data').then(res => {
-    //     let response = res.data;
-    //     response = response.map(mergePersonObject);
-    //     data.value = response;
-    //     dataLoaded.value = true;
-    // }).catch(err => console.error(err));
-};
+const tableData = computed(() => {
+    return data.value.map(mergePersonObject);
+});
 
 // DataTable filters
 const filters = ref(recipientFilters);
@@ -89,37 +72,13 @@ const closeNewRecordDialog = function () {
 };
 
 const submitNewRecord = function () {
-    RecipientService.store(newRecordForm)
-        .then(
-            res => {
-                fetchData();
-                toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
-            },
-            res => {
-                toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
-            },
-        );
+    CRUD.store(newRecordForm);
 };
 
 // Edit record
 const editingRows = ref([]);
 const onRowEditSave = function (event) {
-    let { newData, index } = event;
-    dataLoaded.value = false;
-    RecipientService.edit(newData.id, newData)
-        .then(
-            res => {
-                toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
-                selected.value = [];
-                fetchData();
-            },
-            res => {
-                console.log(res);
-                toast.add({ severity: 'error', summary: 'Error', detail: res, life: 3000 });
-            }).catch(res => {
-                console.log(res);
-                toast.add({ severity: 'error', summary: 'Error', detail: res, life: 3000 });
-});
+    CRUD.update(event.newData);
 };
 
 // Destroy record
@@ -129,17 +88,7 @@ const destroyRecords = function (ids) {
         icon: 'pi pi-exclamation-triangle',
         acceptClass: 'p-button-danger',
         accept: () => {
-            dataLoaded.value = false;
-            RecipientService.destroy(ids)
-                .then(
-                    res => {
-                        selected.value = [];
-                        fetchData();
-                        toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
-                    },
-                    res => {
-                        toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
-                    });
+            CRUD.destroy(ids);
         },
         reject: () => {
             toast.add({ severity: 'info', summary: 'Cancelled', detail: 'Delete operation cancelled by user.', life: 3000 });
@@ -165,38 +114,38 @@ const openAssignDialog = function (row) {
 
 
 // CSV Upload
-const beforeUpload = function (event) {
-    event.xhr.setRequestHeader('Content-type', 'text/csv');
-    event.xhr.setRequestHeader('X-CSRF-TOKEN', props.csrf);
-};
+// const beforeUpload = function (event) {
+//     event.xhr.setRequestHeader('Content-type', 'text/csv');
+//     event.xhr.setRequestHeader('X-CSRF-TOKEN', props.csrf);
+// };
 
-const onUpload = function (event) {
-    let { files } = event;
-    let fr = new FileReader();
+// const onUpload = function (event) {
+//     let { files } = event;
+//     let fr = new FileReader();
 
-    fr.readAsText(files[0]);
+//     fr.readAsText(files[0]);
 
-    fr.onload = () => {
-        Inertia.post('/recipient/import', {
-            data: fr.result,
-        }, {
-            onBefore: () => {
-                dataLoaded.value = false;
-            },
-            onFinish: () => {
-                fetchData();
-            },
-            onSuccess: page => {
-                toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-            },
+//     fr.onload = () => {
+//         Inertia.post('/recipient/import', {
+//             data: fr.result,
+//         }, {
+//             onBefore: () => {
+//                 dataLoaded.value = false;
+//             },
+//             onFinish: () => {
+//                 fetchData();
+//             },
+//             onSuccess: page => {
+//                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
+//             },
 
-            onError: errors => {
-                toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-            }
-        })
+//             onError: errors => {
+//                 toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
+//             }
+//         })
 
-    };
-};
+//     };
+// };
 
 // Lifecycle hooks
 onMounted(() => {
@@ -204,7 +153,7 @@ onMounted(() => {
 });
 
 // Setup
-fetchData();
+CRUD.get();
 </script>
 
 <template>
@@ -295,7 +244,7 @@ fetchData();
             Recipients
         </template>
         <template #table>
-            <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-recipients"
+            <DataTable :value="tableData" :paginator="true" :rows="10" class="p-datatable-recipients"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'address', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows" contextMenu
