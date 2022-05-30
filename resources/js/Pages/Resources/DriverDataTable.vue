@@ -11,7 +11,7 @@ import Loading from '@/Components/Loading';
 import ContextMenu from 'primevue/contextmenu';
 import ManageDriver from '@/Components/Assignments/ManageDriver';
 import DriverAlternates from '@/Components/Assignments/DriverAlternates';
-import { ref, onMounted, onUpdated, reactive } from 'vue';
+import { ref, onMounted, onUpdated, reactive, computed } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
@@ -20,13 +20,20 @@ import { useConfirm } from 'primevue/useconfirm';
 import { mergePersonObject } from '@/util';
 import { driverFilters } from './filters';
 import DriverService from './Drivers/DriverService';
+import { useCRUD } from './hooks';
 
 const props = defineProps(['errors', 'message', 'csrf']);
 
+const { data, dataLoaded, selected, get, store, update, destroy } = useCRUD(DriverService);
+
+const tableData = computed(() => {
+    return data.value.map(mergePersonObject);
+});
+
 //DataTable data
-const data = ref();
-const dataLoaded = ref(false);
-const selected = ref();
+// const data = ref();
+// const dataLoaded = ref(false);
+// const selected = ref();
 const loading = ref(true);
 
 const fetchData = function () {
@@ -120,19 +127,20 @@ const submitNewRecord = function () {
 //Edit record
 const editingRows = ref([]);
 const onRowEditSave = function (event) {
-    let { newData, index } = event;
-    dataLoaded.value = false;
-    DriverService.edit(newData.id, newData)
-        .then(
-            res => {
-                selected.value = [];
-                fetchData();
-                toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
-            },
-            res => {
-                toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
-            },
-        );
+    // let { newData, index } = event;
+    // dataLoaded.value = false;
+    // DriverService.edit(newData.id, newData)
+    //     .then(
+    //         res => {
+    //             selected.value = [];
+    //             fetchData();
+    //             toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+    //         },
+    //         res => {
+    //             toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
+    //         },
+    //     );
+    update(event.newData);
 };
 
 // Destroy record
@@ -146,17 +154,18 @@ const destroyRecords = function (ids) {
         icon: 'pi pi-exclamation-triangle',
         acceptClass: 'p-button-danger',
         accept: () => {
-            dataLoaded.value = false;
-            DriverService.destroy(ids)
-                .then(
-                    res => {
-                        selected.value = [];
-                        fetchData();
-                        toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
-                    },
-                    res => {
-                        toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
-                    });
+            // dataLoaded.value = false;
+            // DriverService.destroy(ids)
+            //     .then(
+            //         res => {
+            //             selected.value = [];
+            //             fetchData();
+            //             toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+            //         },
+            //         res => {
+            //             toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
+            //         });
+            destroy(ids);
         },
         reject: () => {
             toast.add({ severity: 'info', summary: 'Cancelled', detail: 'Delete operation cancelled by user.', life: 3000 });
@@ -293,7 +302,7 @@ fetchData();
             Drivers
         </template>
         <template #table>
-            <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-drivers"
+            <DataTable :value="tableData" :paginator="true" :rows="10" class="p-datatable-drivers"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows" contextMenu
