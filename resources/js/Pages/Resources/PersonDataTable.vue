@@ -86,12 +86,12 @@ const closeNewRecordDialog = function () {
 const submitNewRecord = function () {
     PersonService.store(newRecordForm)
         .then(
-            () => {
+            res => {
                 fetchData();
-                toast.add({ severity: 'success', summary: 'Successful', detail: 'Success', life: 3000 });
+                toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
             },
-            () => {
-                toast.add({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
+            res => {
+                toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
 
             },
         );
@@ -103,13 +103,15 @@ const editingRows = ref([]);
 const onRowEditSave = function (event) {
     let { newData, index } = event;
     PersonService.edit(newData.id, newData)
-        .then(() => {
-            toast.add({ severity: 'success', summary: 'Successful', detail: 'Success', life: 3000 });
-            selected.value = [];
-            fetchData();
-        }, () => {
-            toast.add({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
-        }).catch(err => console.error(err));
+        .then(
+            res => {
+                toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+                selected.value = [];
+                fetchData();
+            },
+            res => {
+                toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
+            }).catch(err => console.error(err));
 };
 
 // Record destroy
@@ -122,13 +124,13 @@ const destroyRecords = function (ids) {
             dataLoaded.value = false;
             PersonService.destroy(ids)
                 .then(
-                    () => {
+                    res => {
                         selected.value = [];
                         fetchData();
-                        toast.add({ severity: 'success', summary: 'Successful', detail: 'Success', life: 3000 });
+                        toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
                     },
-                    () => {
-                        toast.add({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
+                    res => {
+                        toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
                     });
         },
         reject: () => {

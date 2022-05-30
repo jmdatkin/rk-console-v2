@@ -91,13 +91,12 @@ const closeNewRecordDialog = function () {
 const submitNewRecord = function () {
     RecipientService.store(newRecordForm)
         .then(
-            () => {
+            res => {
                 fetchData();
-                toast.add({ severity: 'success', summary: 'Successful', detail: 'Success', life: 3000 });
+                toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
             },
-            () => {
-                toast.add({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
-
+            res => {
+                toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
             },
         );
 };
@@ -108,13 +107,19 @@ const onRowEditSave = function (event) {
     let { newData, index } = event;
     dataLoaded.value = false;
     RecipientService.edit(newData.id, newData)
-        .then(() => {
-            toast.add({ severity: 'success', summary: 'Successful', detail: 'Success', life: 3000 });
-            selected.value = [];
-            fetchData();
-        }, () => {
-            toast.add({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
-        }).catch(err => console.error(err));
+        .then(
+            res => {
+                toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+                selected.value = [];
+                fetchData();
+            },
+            res => {
+                console.log(res);
+                toast.add({ severity: 'error', summary: 'Error', detail: res, life: 3000 });
+            }).catch(res => {
+                console.log(res);
+                toast.add({ severity: 'error', summary: 'Error', detail: res, life: 3000 });
+});
 };
 
 // Destroy record
@@ -126,13 +131,15 @@ const destroyRecords = function (ids) {
         accept: () => {
             dataLoaded.value = false;
             RecipientService.destroy(ids)
-                .then(() => {
-                    selected.value = [];
-                    fetchData();
-                    toast.add({ severity: 'success', summary: 'Successful', detail: 'Success', life: 3000 });
-                }, () => {
-                    toast.add({ severity: 'error', summary: 'Error', detail: 'Error', life: 3000 });
-                });
+                .then(
+                    res => {
+                        selected.value = [];
+                        fetchData();
+                        toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+                    },
+                    res => {
+                        toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
+                    });
         },
         reject: () => {
             toast.add({ severity: 'info', summary: 'Cancelled', detail: 'Delete operation cancelled by user.', life: 3000 });

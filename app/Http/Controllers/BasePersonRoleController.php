@@ -31,19 +31,20 @@ class BasePersonRoleController extends BaseResourceController
         try {
             $data = $request->except('id', 'person_id', 'user_id', 'created_at', 'updated_at', 'deleted_at');
             $this->repository->update($id, $data);
-            return response('Success', 200);
+            return response('Record successfully edited.', 200);
         } catch (Error | Exception $e) {
-            return response('Error: ' . $e, 500);
+            return response('An error occurred. Record was not edited.', 409);
         }
     }
 
     public function store(Request $request)
     {
         try {
+            throw new Exception();
             $this->repository->store($request->collect());
-            return response('Success', 200);
+            return response('Record successfully created.', 200);
         } catch (Error | Exception $e) {
-            return response('Error: ' . $e, 500);
+            return response('An error occurred. Record was not created.', 409);
         }
     }
 }

@@ -20,22 +20,6 @@ class BaseResourceController extends Controller
         $this->repository = $repository;
     }
 
-    public function flashMessages($function, $success_msg, $error_msg)
-    {
-        try {
-            $function();
-            return redirect()->back()->with([
-                'message-class' => 'success',
-                'message' => $success_msg
-            ]);
-        } catch (Exception | Error $e) {
-            return redirect()->back()->with([
-                'message-class' => 'error',
-                'message' => $error_msg . $e
-            ]);
-        }
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -45,7 +29,12 @@ class BaseResourceController extends Controller
     public function store(Request $request)
     {
         //
-        $this->repository->create($request->all());
+        try {
+            $this->repository->create($request->all());
+            return response('Record successfully created.', 200);
+        } catch (Error | Exception $e) {
+            return response('An error occurred. Record was not created.', 409);
+        }
     }
 
     /**
@@ -83,9 +72,9 @@ class BaseResourceController extends Controller
         try {
             $data = $request->except('id', 'created_at', 'updated_at', 'deleted_at');
             $this->repository->update($id, $data);
-            return response('Success', 200);
+            return response('Record successfully edited.', 200);
         } catch (Error | Exception $e) {
-            return response('Error: ' . $e, 500);
+            return response('An error occurred. Record was not edited.', 409);
         }
     }
 
@@ -99,9 +88,9 @@ class BaseResourceController extends Controller
     {
         try {
             $this->repository->destroy($id);
-            return response('Success', 200);
+            return response('Record(s) successfully deleted.', 200);
         } catch (Error | Exception $e) {
-            return response('Error: ' . $e, 500);
+            return response('An error occurred. Record(s) were not deleted.' . $e, 409);
         }
     }
 
@@ -117,9 +106,9 @@ class BaseResourceController extends Controller
         try {
             $ids = $request->input('ids');
             $this->repository->destroyMany($ids);
-            return response('Success', 200);
+            return response('Record(s) successfully deleted.', 200);
         } catch (Error | Exception $e) {
-            return response('Error: ' . $e, 500);
+            return response('An error occurred. Record(s) were not deleted.' . $e, 409);
         }
     }
 
