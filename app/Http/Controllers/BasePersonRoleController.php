@@ -64,7 +64,6 @@ class BasePersonRoleController extends BaseResourceController
     public function store(Request $request)
     {
         try {
-            throw new Exception();
             $this->repository->store($request->collect());
             return response('Record successfully created.', 200);
         } catch (Error | Exception $e) {

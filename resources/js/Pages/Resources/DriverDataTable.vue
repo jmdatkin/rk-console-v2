@@ -12,7 +12,6 @@ import ContextMenu from 'primevue/contextmenu';
 import ManageDriver from '@/Components/Assignments/ManageDriver';
 import DriverAlternates from '@/Components/Assignments/DriverAlternates';
 import { ref, onMounted, onUpdated, reactive, computed } from 'vue';
-import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
@@ -30,21 +29,15 @@ const tableData = computed(() => {
     return data.value.map(mergePersonObject);
 });
 
-//DataTable data
-// const data = ref();
-// const dataLoaded = ref(false);
-// const selected = ref();
-const loading = ref(true);
-
-const fetchData = function () {
-    dataLoaded.value = false;
-    DriverService.get().then(res => {
-        let response = res.data;
-        response = response.map(mergePersonObject);
-        data.value = response;
-        dataLoaded.value = true;
-    }).catch(err => console.error(err));
-};
+// const fetchData = function () {
+//     dataLoaded.value = false;
+//     DriverService.get().then(res => {
+//         let response = res.data;
+//         response = response.map(mergePersonObject);
+//         data.value = response;
+//         dataLoaded.value = true;
+//     }).catch(err => console.error(err));
+// };
 const goToReport = function (selection) {
     Inertia.visit('/reports/driver?did=' + selection.value.id);
 };
@@ -74,6 +67,7 @@ const onRowContextMenu = event => {
 
 // Toast notifications
 const toast = useToast();
+
 const newRecordDialog = ref(false);
 const newRecordForm = reactive({
     firstName: null,
@@ -111,35 +105,12 @@ const closeNewRecordDialog = function () {
 };
 
 const submitNewRecord = function () {
-    dataLoaded.value = false;
-    DriverService.store(newRecordForm)
-        .then(
-            res => {
-                fetchData();
-                toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
-            },
-            res => {
-                toast.add({ severity: 'error', summary: 'Error', detail: res, life: 3000 });
-            },
-        );
+    store(newRecordForm);
 };
 
 //Edit record
 const editingRows = ref([]);
 const onRowEditSave = function (event) {
-    // let { newData, index } = event;
-    // dataLoaded.value = false;
-    // DriverService.edit(newData.id, newData)
-    //     .then(
-    //         res => {
-    //             selected.value = [];
-    //             fetchData();
-    //             toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
-    //         },
-    //         res => {
-    //             toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
-    //         },
-    //     );
     update(event.newData);
 };
 
@@ -154,17 +125,6 @@ const destroyRecords = function (ids) {
         icon: 'pi pi-exclamation-triangle',
         acceptClass: 'p-button-danger',
         accept: () => {
-            // dataLoaded.value = false;
-            // DriverService.destroy(ids)
-            //     .then(
-            //         res => {
-            //             selected.value = [];
-            //             fetchData();
-            //             toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
-            //         },
-            //         res => {
-            //             toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
-            //         });
             destroy(ids);
         },
         reject: () => {
@@ -174,46 +134,47 @@ const destroyRecords = function (ids) {
 };
 
 // CSV upload
-const beforeUpload = function (event) {
-    event.xhr.setRequestHeader('Content-type', 'text/csv');
-    event.xhr.setRequestHeader('X-CSRF-TOKEN', props.csrf);
-};
+// const beforeUpload = function (event) {
+//     event.xhr.setRequestHeader('Content-type', 'text/csv');
+//     event.xhr.setRequestHeader('X-CSRF-TOKEN', props.csrf);
+// };
 
-const onUpload = function (event) {
-    let { files } = event;
-    let fr = new FileReader();
+// const onUpload = function (event) {
+//     let { files } = event;
+//     let fr = new FileReader();
 
 
-    fr.readAsText(files[0]);
+//     fr.readAsText(files[0]);
 
-    fr.onload = () => {
-        Inertia.post('/driver/import', {
-            data: fr.result,
-        }, {
-            onBefore: () => {
-                dataLoaded.value = false;
-            },
-            onFinish: () => {
-                fetchData();
-            },
-            onSuccess: page => {
-                toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-            },
+//     fr.onload = () => {
+//         Inertia.post('/driver/import', {
+//             data: fr.result,
+//         }, {
+//             onBefore: () => {
+//                 dataLoaded.value = false;
+//             },
+//             onFinish: () => {
+//                 fetchData();
+//             },
+//             onSuccess: page => {
+//                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
+//             },
 
-            onError: errors => {
-                toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-            }
-        })
+//             onError: errors => {
+//                 toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
+//             }
+//         })
 
-    };
+//     };
 
-}
+// }
 
 onMounted(() => {
     initFilters();
 });
 
-fetchData();
+// fetchData();
+get();
 
 </script>
 

@@ -1,7 +1,5 @@
 import { ref } from "vue";
-import { useToast } from 'primevue/usetoast';
-
-// const toast = useToast();
+import { toastBus } from "../../app";
 
 const useCRUD = function (service) {
     const data = ref([]);
@@ -22,10 +20,10 @@ const useCRUD = function (service) {
             .then(
                 res => {
                     get();
-                    // toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+                    toastBus.emit({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
                 },
                 res => {
-                    // toast.add({ severity: 'error', summary: 'Error', detail: res, life: 3000 });
+                    toastBus.emit({ severity: 'error', summary: 'Error', detail: res, life: 3000 });
                 },
             );
     };
@@ -33,15 +31,15 @@ const useCRUD = function (service) {
     const update = function (form) {
         let id = form.id;
         dataLoaded.value = false;
-        service.edit(id, data)
+        service.edit(id, form)
             .then(
                 res => {
                     selected.value = [];
                     get();
-                    // toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+                    toastBus.emit({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
                 },
                 res => {
-                    // toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
+                    toastBus.emit({ severity: 'error', summary: 'Error', detail: res, life: 3000 });
                 },
             );
     };
@@ -53,10 +51,10 @@ const useCRUD = function (service) {
                 res => {
                     selected.value = [];
                     get();
-                    // toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+                    toastBus.emit({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
                 },
                 res => {
-                    // toast.add({ severity: 'error', summary: 'Error', detail: res.data, life: 3000 });
+                    toastBus.emit({ severity: 'error', summary: 'Error', detail: res, life: 3000 });
                 });
     }
 
