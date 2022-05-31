@@ -48,8 +48,9 @@ const cm = ref();
 const menuModel = ref([
     { label: 'Edit record', icon: 'pi pi-fw pi-pencil', command: () => editingRows.value = [...editingRows.value, cmSelection.value] },
     { label: 'Delete record', icon: 'pi pi-fw pi-trash', command: () => destroyRecords([cmSelection.value.id]) },
-    { label: 'Edit route assignments', icon: 'pi pi-fw pi-search', command: () => openAssignDialog(cmSelection.value.id) },
-    { label: 'Edit alternate routes', icon: 'pi pi-fw pi-search', command: () => openAlternatesDialog(cmSelection.value) },
+    { label: 'Edit route assignments', icon: 'pi pi-fw pi-pencil', command: () => openAssignDialog(cmSelection.value.id) },
+    { label: 'Edit alternate routes', icon: 'pi pi-fw pi-pencil', command: () => openAlternatesDialog(cmSelection.value) },
+    { label: 'Schedule unavailability', icon: 'pi pi-fw pi-pencil', command: () => visitDriverStatus(cmSelection.value.id) },
     { label: 'View report', icon: 'pi pi-fw pi-search', command: () => goToReport(cmSelection) }
 ]);
 const onRowContextMenu = event => {
@@ -85,6 +86,11 @@ const alternatesDialog = ref(false);
 const openAlternatesDialog = function (driver) {
     driverAlternate.value = driver;
     alternatesDialog.value = true;
+};
+
+// Driver status
+const visitDriverStatus = function(id) {
+    Inertia.visit('/driverstatus?did='+id);
 };
 
 // New record

@@ -81,4 +81,9 @@ class RouteController extends BaseResourceController
             ]);
         }
     }
+
+    public function alternateDrivers($id)
+    {
+        return $this->repository->find($id)->driverAlternates;
+    }
 }

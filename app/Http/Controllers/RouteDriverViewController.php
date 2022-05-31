@@ -31,10 +31,6 @@ class RouteDriverViewController extends Controller
         }
     }
 
-    public function driverAlternatesForRoute($route)
-    {
-    }
-
     public function index()
     {
         return Inertia::render('RouteDriver/Index', [

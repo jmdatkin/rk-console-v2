@@ -72,6 +72,7 @@ Route::prefix('route')->group(function () {
     Route::post('/import', [RouteController::class, 'import']);
     Route::patch('/{id}/update', [RouteController::class, 'update']);
     Route::post('/destroy', [RouteController::class, 'destroyMany']);
+    Route::get('/{id}/alternates', [RouteController::class, 'alternateDrivers']);
 });
 
 Route::prefix('agency')->group(function () {

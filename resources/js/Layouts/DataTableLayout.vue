@@ -63,7 +63,7 @@ import ConfirmDialog from 'primevue/confirmdialog';
                     <Button icon="pi pi-times" class="p-button-danger" />
                 </template>
             </Toolbar> -->
-                <div class="p-datatable-wrapper flex card">
+                <div class="p-datatable-wrapper card">
                     <ConfirmDialog />
                     <slot name="table"></slot>
                 </div>

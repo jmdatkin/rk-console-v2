@@ -18,18 +18,17 @@ class DriverStatusController extends Controller
         $this->repository = $repository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $driver_id = $request->input('did');
         return Inertia::render('DriverStatus', [
-            'driverData' => $this->repository->find(1),
-            'statuses' => DriverStatus::where('driver_id', 1)->get()
+            'driverData' => $this->repository->find($driver_id),
+            'statuses' => DriverStatus::where('driver_id', $driver_id)->get()
         ]);
     }
 
     public function store(Request $request)
     {
-        error_log("hi owo");
-        error_log($request->collect());
         $request->whenHas(['driver_id', 'date_start', 'date_end'], function () use ($request) {
             try {
                 DriverStatus::create($request->only(['driver_id', 'date_start', 'date_end', 'notes']));

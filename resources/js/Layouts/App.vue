@@ -15,7 +15,6 @@ toastBus.on('*', (type, args) => {
 });
 
 onBeforeUnmount(() => {
-    // toastBus.off("*");
     toastBus.all.clear();
 });
 </script>

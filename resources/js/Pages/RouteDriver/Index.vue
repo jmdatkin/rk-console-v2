@@ -1,5 +1,5 @@
 <script setup>
-// import DataTableLayout from '@/Layouts/DataTableLayout';
+import DataTableLayout from '@/Layouts/DataTableLayout';
 import DateSelectLayout from '@/Layouts/DateSelectLayout';
 // import  from '@/Layouts/Authenticated';
 import DataTable from 'primevue/datatable';
@@ -16,14 +16,18 @@ const props = defineProps(['date', 'openDateSelect']);
 </script>
 
 <template>
-    <DateSelectLayout>
-        <!-- <DateSelect> -->
-        <template v-slot="{ date, openDateSelect }">
-            <Button @click="openDateSelect">Change Date</Button>
-            <RouteDriverTable :date="date" :openDateSelect="openDateSelect"></RouteDriverTable>
+    <DataTableLayout>
+        <!-- <DateSelectLayout> -->
+        <template #table>
+            <DateSelect>
+                <template v-slot="{ date, openDateSelect }">
+                    <Button @click="openDateSelect">Change Date</Button>
+                    <RouteDriverTable :date="date" :openDateSelect="openDateSelect"></RouteDriverTable>
+                </template>
+
+            </DateSelect>
         </template>
 
-        <!-- </DateSelect> -->
-
-    </DateSelectLayout>
+        <!-- </DateSelectLayout> -->
+    </DataTableLayout>
 </template>
