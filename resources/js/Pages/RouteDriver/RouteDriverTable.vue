@@ -5,11 +5,23 @@ import ColumnGroup from 'primevue/columngroup';
 import Row from 'primevue/row';
 import Dialog from 'primevue/dialog';
 import { formatDate } from '@fullcalendar/common';
+import { useConfirm } from 'primevue/useconfirm';
 import { ref, onUpdated, onMounted, computed } from 'vue';
 
 const props = defineProps(['date', 'openDateSelect']);
+const weekday = computed(() => {
+    return formatDate(props.date, {weekday: 'short'}).toLowerCase();
+});
 
 const data = ref([]);
+const getData = function () {
+    console.log(weekday.value);
+    axios.get('/routedriver/data?weekday='+weekday.value)
+        .then(res => {
+            data.value = res.data;
+        });
+};
+
 const tableData = computed(() => {
     return data.value.map(route => {
         let isDriver = typeof route.drivers[0] !== 'undefined';
@@ -23,6 +35,8 @@ const tableData = computed(() => {
         };
     });
 });
+
+const confirm = useConfirm();
 
 const altDriverDialog = ref(false);
 const selectedRoute = ref();
@@ -43,36 +57,36 @@ const getAlternateDriversData = function (id) {
         });
 };
 
-
-const getData = function () {
-    axios.get('/routedriver/data?weekday=' + formatDate(props.date, {
-        weekday: 'short'
-        // month: '2-digit',
-        // year: 'numeric',
-        // day: 'numeric'
-    }).toLowerCase())
-        .then(res => {
-            data.value = res.data;
-        });
+const switchDriverAssignment = function(routeId, driverId) {
+    confirm.require({
+        message: `Are you sure you want to assign driver '${driverId}' to route '${routeId}?`,
+        icon: 'pi pi-exclamation-triangle',
+        acceptClass: 'p-button-info',
+        accept: () => {
+            axios.post(`/driver/${driverId}/assign/${routeId}?weekday=${weekday.value}`)
+            .then(() => getData());
+        },
+    });
 };
 
 onMounted(() => {
-    console.log('updated');
     getData();
 });
-
 </script>
 <template>
     <Dialog v-model:visible="altDriverDialog" :closeOnEscape="true" :closable="true" :dismissableMask="true"
         :modal="true" :breakpoints="{
-                '960px': '75vw',
-                '640px': '100vw'
-            }" :style="{ width: '50vw' }" >
+            '960px': '75vw',
+            '640px': '100vw'
+        }" :style="{ width: '50vw' }">
         <template #header><strong>Alternate Drivers for Route: {{ selectedRoute.name }}</strong></template>
         <DataTable :value="altDriverData">
             <Column header="id" field="id">
             </Column>
             <Column header="firstName" field="person.firstName">
+                <template #body="{ data }">
+                    <a @click="() => switchDriverAssignment(selectedRoute.id, data.id)">{{ data.person.firstName }}</a>
+                </template>
             </Column>
             <Column header="lastName" field="person.lastName">
             </Column>

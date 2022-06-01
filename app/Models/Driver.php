@@ -43,10 +43,10 @@ class Driver extends BasePersonRole
         }
     }
 
-    public function deassignRoute($route_id)
+    public function deassignRoute($route_id, $weekday)
     {
         try {
-            $this->routes()->deatch($route_id);
+            $this->routes()->wherePivot('weekday',$weekday)->detach($route_id);
         } catch (Exception $e) {
             error_log($e);
         }

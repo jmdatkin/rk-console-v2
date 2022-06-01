@@ -47,6 +47,8 @@ Route::prefix('driver')->group(function () {
     Route::patch('/{id}/update', [DriverController::class, 'update']);
     Route::post('/destroy', [DriverController::class, 'destroyMany']);
 
+    Route::post('/{driver_id}/assign/{route_id}', [DriverController::class, 'assign']);
+
     Route::get('/{id}/alternates', [DriverController::class, 'alternates']);
     Route::get('/{id}/alternates/attach/{route_id}', [DriverController::class, 'assignAlternate']);
     Route::get('/{id}/alternates/detach/{route_id}', [DriverController::class, 'deassignAlternate']);

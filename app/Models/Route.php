@@ -26,6 +26,20 @@ class Route extends Model
         return $this->belongsToMany(Driver::class);
     }
 
+    public function assignDriver($driver_id, $weekday) {
+        $this->drivers()->attach($driver_id, ['weekday' => $weekday]);
+    }
+
+    public function deassignDriver($weekday) {
+        $this->drivers()->wherePivot('weekday',$weekday)->detach();
+    }
+    // public function deassignDriver($driver_id, $weekday) {
+    //     return $this->drivers()->
+    //     where('driver_id',$driver_id)->
+    //     wherePivot('weekday',$weekday)->
+    //     detach();
+    // }
+
     public function driversOnDay($weekday) {
         return $this->belongsToMany(Driver::class)->wherePivot('weekday', $weekday);
     }

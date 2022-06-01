@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\DriverDataTableInterface;
 use App\Repository\DriverRepositoryInterface;
+use App\Repository\RouteRepositoryInterface;
 use Error;
 use Exception;
 use Illuminate\Http\Request;
@@ -31,6 +32,27 @@ class DriverController extends BasePersonRoleController
 
     public function alternates($driver_id) {
         return $this->repository->find($driver_id)->alternateRoutes;
+    }
+
+    public function assign(Request $request, RouteRepositoryInterface $routeRepository, $driver_id, $route_id) {
+        try {
+            $weekday = $request->input('weekday');
+            // $this->repository->find($driver_id)->deassignRoute($route_id, $weekday);
+            $routeRepository->find($route_id)->deassignDriver($weekday);
+            $this->repository->find($driver_id)->assignRoute($route_id, $weekday);
+            return response()->json([], 200);
+        } catch (Error | Exception $e) {
+            return response()->json([], 500);
+        }
+    }
+
+    public function deassign($driver_id, $route_id) {
+        try {
+            $this->repository->find($driver_id)->routes()->detach($route_id);
+            return response()->json([], 200);
+        } catch (Error | Exception $e) {
+            return response()->json([], 500);
+        }
     }
 
     public function assignAlternate($driver_id, $route_id) {
