@@ -10,6 +10,7 @@ class Recipient extends BasePersonRole
     use HasFactory;
 
     protected $fillable = [
+        'agency_id',
         'numMeals',
         'address'
     ];

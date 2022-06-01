@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\RecipientDataTableInterface;
+use App\Repository\AgencyRepositoryInterface;
 use App\Repository\RecipientRepositoryInterface;
 use Error;
 use Exception;
@@ -22,11 +23,14 @@ class RecipientController extends BasePersonRoleController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(AgencyRepositoryInterface $agencyRepository)
     {
         //
         return Inertia::render(
             'Resources/RecipientDataTable',
+            [
+                "agencies" => $agencyRepository->all()
+            ]
         );
     }
 

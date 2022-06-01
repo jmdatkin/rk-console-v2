@@ -6,6 +6,7 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
+import Dropdown from 'primevue/dropdown';
 import Dialog from 'primevue/dialog';
 import Loading from '@/Components/Loading';
 import ContextMenu from 'primevue/contextmenu';
@@ -18,7 +19,7 @@ import { recipientFilters } from './filters';
 import { useCRUD } from './hooks';
 import RecipientService from './Recipients/RecipientService';
 
-const props = defineProps(['errors', 'message', 'csrf']);
+const props = defineProps(['agencies', 'errors', 'message', 'csrf']);
 
 const { data, dataLoaded, selected, CRUD } = useCRUD(RecipientService);
 
@@ -53,6 +54,7 @@ const toast = useToast();
 // New record
 const newRecordDialog = ref(false);
 const newRecordForm = reactive({
+    agency_id: null,
     firstName: null,
     lastName: null,
     email: null,
@@ -213,6 +215,13 @@ CRUD.get();
                             <label for="newRecord.email">Num. Meals</label>
                             <InputText class="p-form-input" id="newRecord.numMeals" type="text"
                                 v-model="newRecordForm.numMeals" />
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-12">
+                            <label for="newRecord.agency_id">Agency</label>
+                            <Dropdown id="newRecord.agency_id" v-model="newRecordForm.agency_id" :options="props.agencies" optionValue="id" :filter="true" optionLabel="name"
+                                placeholder="Select agency" />
                         </div>
                     </div>
                     <div class="grid">
