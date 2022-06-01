@@ -82,16 +82,16 @@ import CardLink from '@/Components/CardLink';
                         <div class="col-12">
                             <h3>Views</h3>
                         </div>
-                        <!-- <div class="col-4"> -->
-                            <!-- <CardLink class="p-dashboard-card" href="/reports/driver">
+                        <div class="col-4">
+                            <CardLink class="p-dashboard-card" href="/exceptions">
                                 <template #title>
-                                    Driver Report
+                                    Driver Exceptions
                                 </template>
                                 <template #content>
-                                    Generate report for drivers.
+                                    Schedule driver exceptions.
                                 </template>
-                            </CardLink> -->
-                        <!-- </div> -->
+                            </CardLink>
+                        </div>
                         <div class="col-4">
                             <CardLink class="p-dashboard-card" href="/routedriver">
                                 <template #title>

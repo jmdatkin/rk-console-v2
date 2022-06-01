@@ -53,7 +53,7 @@ class Driver extends BasePersonRole
     }
 
     public function exceptions($date) {
-        DriverStatus::where('driver_id',$this->id)->get()
+        DriverException::where('driver_id',$this->id)->get()
         ->filter(function($status) use ($date) {
             return $status->contains($date);
         });

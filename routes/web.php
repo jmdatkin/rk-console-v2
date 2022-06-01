@@ -5,6 +5,7 @@ use App\Http\Controllers\Assignments\ManageDriverController;
 use App\Http\Controllers\Assignments\ManageRecipientController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\DriverExceptionController;
 use App\Http\Controllers\DriverStatusController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\RecipientController;
@@ -54,9 +55,9 @@ Route::prefix('driver')->group(function () {
     Route::get('/{id}/alternates/detach/{route_id}', [DriverController::class, 'deassignAlternate']);
 });
 
-Route::prefix('driverstatus')->group(function () {
-    Route::get('/', [DriverStatusController::class, 'index']);
-    Route::post('/store', [DriverStatusController::class, 'store']);
+Route::prefix('exceptions')->group(function () {
+    Route::get('/', [DriverExceptionController::class, 'index']);
+    Route::post('/store', [DriverExceptionController::class, 'store']);
 });
 
 Route::prefix('person')->group(function () {
