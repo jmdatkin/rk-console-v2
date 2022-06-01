@@ -4,19 +4,20 @@ import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';
 import Row from 'primevue/row';
 import Dialog from 'primevue/dialog';
+import ContextMenu from 'primevue/contextmenu';
 import { formatDate } from '@fullcalendar/common';
 import { useConfirm } from 'primevue/useconfirm';
 import { ref, onUpdated, onMounted, computed } from 'vue';
 
 const props = defineProps(['date', 'openDateSelect']);
 const weekday = computed(() => {
-    return formatDate(props.date, {weekday: 'short'}).toLowerCase();
+    return formatDate(props.date, { weekday: 'short' }).toLowerCase();
 });
 
 const data = ref([]);
 const getData = function () {
     console.log(weekday.value);
-    axios.get('/routedriver/data?weekday='+weekday.value)
+    axios.get('/routedriver/data?weekday=' + weekday.value)
         .then(res => {
             data.value = res.data;
         });
@@ -38,6 +39,17 @@ const tableData = computed(() => {
 
 const confirm = useConfirm();
 
+// Context menu
+const cmSelection = ref();
+const cm = ref();
+const menuModel = ref([
+    { label: 'Change driver', icon: 'pi pi-fw pi-pencil', command: () => editingRows.value = [...editingRows.value, cmSelection.value] },
+    { label: 'Sub driver', icon: 'pi pi-fw pi-trash', command: () => destroyRecords([cmSelection.value.id]) },
+]);
+const onRowContextMenu = event => {
+    cm.value.show(event.originalEvent);
+};
+
 const altDriverDialog = ref(false);
 const selectedRoute = ref();
 const openAlternateDriversDialog = function (routeData) {
@@ -57,14 +69,14 @@ const getAlternateDriversData = function (id) {
         });
 };
 
-const switchDriverAssignment = function(routeId, driverId) {
+const switchDriverAssignment = function (routeId, driverId) {
     confirm.require({
         message: `Are you sure you want to assign driver '${driverId}' to route '${routeId}?`,
         icon: 'pi pi-exclamation-triangle',
         acceptClass: 'p-button-info',
         accept: () => {
             axios.post(`/driver/${driverId}/assign/${routeId}?weekday=${weekday.value}`)
-            .then(() => getData());
+                .then(() => getData());
         },
     });
 };
@@ -133,6 +145,7 @@ onMounted(() => {
             </template>
         </Column>
     </DataTable>
+    <ContextMenu :model="menuModel" ref="cm"></ContextMenu>
 </template>
 
 <style lang="scss" scoped>

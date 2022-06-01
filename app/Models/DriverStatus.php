@@ -23,6 +23,9 @@ class DriverStatus extends Model
     //         set: fn ($value) => Carbon::parse($value);
     //     );
     // }
+    public function contains($date) {
+        return Carbon::parse($date)->between($this->date_start,$this->date_end);
+    }
 
     protected function setDateStartAttribute($value) {
         $this->attributes['date_start'] = Carbon::parse($value);

@@ -18,9 +18,12 @@ const calendarOptions = ref({
     eventDataTransform: function (eventData) {
         console.log(eventData);
         return {
+            groupId: 1,
             start: eventData.date_start,
             end: eventData.date_end,
-            title: eventData.notes
+            title: eventData.notes,
+            display: 'background',
+            backgroundColor: 'red'
         };
     },
     select: props.onSelectCallback,
@@ -36,5 +39,7 @@ const calendarOptions = ref({
 </template>
 
 <style lang="scss" scoped>
-
+.fc-bgevent {
+    background-color: red;
+}
 </style>

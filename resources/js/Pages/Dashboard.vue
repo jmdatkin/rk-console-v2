@@ -80,6 +80,32 @@ import CardLink from '@/Components/CardLink';
                     <Divider />
                     <div class="grid">
                         <div class="col-12">
+                            <h3>Views</h3>
+                        </div>
+                        <!-- <div class="col-4"> -->
+                            <!-- <CardLink class="p-dashboard-card" href="/reports/driver">
+                                <template #title>
+                                    Driver Report
+                                </template>
+                                <template #content>
+                                    Generate report for drivers.
+                                </template>
+                            </CardLink> -->
+                        <!-- </div> -->
+                        <div class="col-4">
+                            <CardLink class="p-dashboard-card" href="/routedriver">
+                                <template #title>
+                                    Route Driver View
+                                </template>
+                                <template #content>
+                                    View drivers for route.
+                                </template>
+                            </CardLink>
+                        </div>
+                    </div>
+                    <Divider />
+                    <div class="grid">
+                        <div class="col-12">
                             <h3>Reports</h3>
                         </div>
                         <!-- <div class="col-4"> -->

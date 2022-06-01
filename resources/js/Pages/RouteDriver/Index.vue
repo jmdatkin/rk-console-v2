@@ -17,6 +17,9 @@ const props = defineProps(['date', 'openDateSelect']);
 
 <template>
     <DataTableLayout>
+        <template #header>
+            Route Driver View
+        </template>
         <!-- <DateSelectLayout> -->
         <template #table>
             <DateSelect>
