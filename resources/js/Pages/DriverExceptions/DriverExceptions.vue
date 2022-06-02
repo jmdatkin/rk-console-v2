@@ -44,9 +44,12 @@ onMounted(() => {
 <template>
     <Dialog v-model:visible="dialogOpen">
         <form @submit.prevent="driverExceptionSubmit">
-            <PrimeVueCalendar v-model="driverExceptionForm.date_start"></PrimeVueCalendar>
-            <PrimeVueCalendar v-model="driverExceptionForm.date_end"></PrimeVueCalendar>
-            <Textarea v-model="driverExceptionForm.notes"></Textarea>
+            <label for="dateStart">Date Start</label>
+            <PrimeVueCalendar id="dateStart" v-model="driverExceptionForm.date_start"></PrimeVueCalendar>
+            <label for="dateEnd">Date End</label>
+            <PrimeVueCalendar id="dateEnd" v-model="driverExceptionForm.date_end"></PrimeVueCalendar>
+            <label for="dateNotes">Notes</label>
+            <Textarea id="dateNotes" v-model="driverExceptionForm.notes"></Textarea>
             <Button type="submit">Submit</Button>
         </form>
     </Dialog>

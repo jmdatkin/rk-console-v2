@@ -3,9 +3,11 @@ import '@fullcalendar/core/vdom';
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { ref } from 'vue';
+import { onUpdated, ref } from 'vue';
 
 const props = defineProps(['onSelectCallback', 'events']);
+
+const calendar = ref();
 
 const calendarOptions = ref({
     plugins: [
@@ -15,6 +17,7 @@ const calendarOptions = ref({
     initialView: 'dayGridMonth',
     selectable: true,
     events: props.events, 
+    eventsSet: function(a) {console.log(a)},
     eventDataTransform: function (eventData) {
         console.log(eventData);
         return {
@@ -30,10 +33,14 @@ const calendarOptions = ref({
     // dateClick: () => console.log("EEEEEE")
 });
 
+onUpdated(() => {
+    calendar.value.getApi().refetchEvents();
+});
+
 </script>
 
 <template>
-    <FullCalendar :options="calendarOptions">
+    <FullCalendar ref="calendar" :options="calendarOptions">
 
     </FullCalendar>
 </template>
