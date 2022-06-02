@@ -57,6 +57,7 @@ Route::prefix('driver')->group(function () {
 
 Route::prefix('exceptions')->group(function () {
     Route::get('/', [DriverExceptionController::class, 'index']);
+    Route::get('/{driver_id}/data', [DriverExceptionController::class, 'data']);
     Route::post('/store', [DriverExceptionController::class, 'store']);
 });
 
