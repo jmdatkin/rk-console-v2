@@ -141,4 +141,8 @@ Route::get('calendar', function () {
     return Inertia::render('CalendarPage');
 });
 
+Route::get('ndashboard', function() {
+    return Inertia::render('NewDashboard');
+});
+
 require __DIR__ . '/auth.php';

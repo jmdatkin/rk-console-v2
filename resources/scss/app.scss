@@ -2,6 +2,10 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+html {
+    font-size: 14pt;
+}
+
 .p-hidden-accessible {
     /* display: none; */
     border: 0;
