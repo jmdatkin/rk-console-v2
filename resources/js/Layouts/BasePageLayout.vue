@@ -8,10 +8,19 @@ import Panel from 'primevue/panel';
         <section>
             <Panel>
                 <template #header>
-                    <slot name="header"></slot>
+                    <span class="page-header">
+                        <slot name="header"></slot>
+                    </span>
                 </template>
                 <slot></slot>
             </Panel>
         </section>
     </Authenticated>
 </template>
+
+<style lang="scss">
+.page-header {
+    font-weight: 600;
+    font-size: 2rem;
+}
+</style>

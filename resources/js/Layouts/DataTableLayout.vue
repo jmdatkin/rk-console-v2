@@ -108,6 +108,14 @@ import Panel from 'primevue/panel';
     width: 100%;
 }
 
+.p-datatable-header .p-toolbar {
+    border: 0;
+}
+
+.p-column-filter-overlay {
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
+}
+
 .p-dialog-titlebar-close {}
 
 .p-datatable {
