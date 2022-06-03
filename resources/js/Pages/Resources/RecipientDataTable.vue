@@ -220,7 +220,8 @@ CRUD.get();
                     <div class="grid">
                         <div class="col-12">
                             <label for="newRecord.agency_id">Agency</label>
-                            <Dropdown id="newRecord.agency_id" v-model="newRecordForm.agency_id" :options="props.agencies" optionValue="id" :filter="true" optionLabel="name"
+                            <Dropdown id="newRecord.agency_id" v-model="newRecordForm.agency_id"
+                                :options="props.agencies" optionValue="id" :filter="true" optionLabel="name"
                                 placeholder="Select agency" />
                         </div>
                     </div>

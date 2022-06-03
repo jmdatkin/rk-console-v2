@@ -1,37 +1,44 @@
 <script setup>
 import { ref } from 'vue';
-import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
+// import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
+import BasePageLayout from '@/Layouts/BasePageLayout';
 import ConfirmDialog from 'primevue/confirmdialog';
+import Panel from 'primevue/panel';
 </script>
 
 <template>
-    <AuthenticatedLayout>
+    <BasePageLayout>
+        <template #header>
+            Table
+            <slot name="header"></slot>
+        </template>
         <!-- <template #header>
             <slot name="header"></slot>
         </template> -->
         <slot></slot>
+        <!-- OLD
         <div class="relative flex pt-0 justify-center min-h-screen bg-gray-100 sm:pt-2">
-            <div class="flex flex-col px-0 w-full">
-                <div class="surface-section px-4 py-5 md:px-6 lg:px-8">
-                    <ul class="list-none p-0 m-0 flex align-items-center font-medium mb-3">
-                        <li>
-                            <a class="text-500 no-underline line-height-3 cursor-pointer">Tables</a>
-                        </li>
-                        <li class="px-2">
-                            <i class="pi pi-angle-right text-500 line-height-3"></i>
-                        </li>
-                        <li>
-                            <span class="text-900 line-height-3">
-                                <slot name="header"></slot>
-                            </span>
-                        </li>
-                    </ul>
-                    <div class="flex align-items-start flex-column lg:justify-content-between lg:flex-row">
-                        <div>
-                            <div class="font-medium text-3xl text-900">
-                                <slot name="header"></slot>
-                            </div>
-                            <!-- <div class="flex align-items-center text-700 flex-wrap">
+            <div class="flex flex-col px-0 w-5/6">
+                    <div class="surface-section px-4 py-5 md:px-6 lg:px-8">
+                        <ul class="list-none p-0 m-0 flex align-items-center font-medium mb-3">
+                            <li>
+                                <a class="text-500 no-underline line-height-3 cursor-pointer">Tables</a>
+                            </li>
+                            <li class="px-2">
+                                <i class="pi pi-angle-right text-500 line-height-3"></i>
+                            </li>
+                            <li>
+                                <span class="text-900 line-height-3">
+                                    <slot name="header"></slot>
+                                </span>
+                            </li>
+                        </ul>
+                        <div class="flex align-items-start flex-column lg:justify-content-between lg:flex-row">
+                            <div>
+                                <div class="font-medium text-3xl text-900">
+                                    <slot name="header"></slot>
+                                </div>
+                                 <div class="flex align-items-center text-700 flex-wrap">
                                 <div class="mr-5 flex align-items-center mt-3">
                                     <i class="pi pi-users mr-2"></i>
                                     <span>332 Active Users</span>
@@ -44,12 +51,12 @@ import ConfirmDialog from 'primevue/confirmdialog';
                                     <i class="pi pi-clock mr-2"></i>
                                     <span>2.32m Avg. Duration</span>
                                 </div>
-                            </div> -->
+                            </div> 
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- <Toolbar>
+                     <Toolbar>
                 <template #start>
                     <Button label="New" icon="pi pi-plus" class="mr-2" />
                     <Button label="Upload" icon="pi pi-upload" class="p-button-success" />
@@ -62,14 +69,18 @@ import ConfirmDialog from 'primevue/confirmdialog';
                     <Button icon="pi pi-calendar" class="p-button-success mr-2" />
                     <Button icon="pi pi-times" class="p-button-danger" />
                 </template>
-            </Toolbar> -->
-                <div class="p-datatable-wrapper card">
-                    <ConfirmDialog />
-                    <slot name="table"></slot>
-                </div>
+            </Toolbar> 
+                    <div class="p-datatable-wrapper card">
+                        <ConfirmDialog />
+                        <slot name="table"></slot>
+                    </div>
             </div>
+        </div> -->
+        <div class="p-datatable-wrapper card">
+            <ConfirmDialog />
+            <slot name="table"></slot>
         </div>
-    </AuthenticatedLayout>
+    </BasePageLayout>
 </template>
 
 <style lang="scss">
@@ -151,6 +162,7 @@ import ConfirmDialog from 'primevue/confirmdialog';
         text-transform: uppercase;
     }
 }
+
 .p-button.p-fileupload-choose {
     overflow: initial !important;
     cursor: pointer;

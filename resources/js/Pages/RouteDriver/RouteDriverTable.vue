@@ -2,9 +2,11 @@
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';
+import Button from 'primevue/button';
 import Row from 'primevue/row';
 import Dialog from 'primevue/dialog';
 import ContextMenu from 'primevue/contextmenu';
+import moment from 'moment';
 import { formatDate } from '@fullcalendar/common';
 import { useConfirm } from 'primevue/useconfirm';
 import { ref, onUpdated, onMounted, computed } from 'vue';
@@ -15,7 +17,7 @@ const weekday = computed(() => {
 });
 
 const rowClass = (data) => {
-    return data.exceptions.length > 0 ? 'in-exception' : null;
+    return data.inException ? 'in-exception' : null;
 };
 
 const data = ref([]);
@@ -42,7 +44,11 @@ const tableData = computed(() => {
             firstName: isDriver ? driver.person.firstName : '',
             lastName: isDriver ? driver.person.lastName : '',
             driver: isDriver ? route.drivers[0] : {},
-            exceptions: isDriver ? route.drivers[0].exceptions : []
+            exceptions: isDriver ? route.drivers[0].exceptions : [],
+            inException: isDriver ? route.drivers[0].exceptions.reduce((prev, curr) => {
+                console.log(curr.date_start);
+                return prev || moment(props.date).isBetween(curr.date_start, curr.date_end);
+            }, false) : false
         };
     });
 });
@@ -114,8 +120,13 @@ onMounted(() => {
             </Column>
         </DataTable>
     </Dialog>
-    <DataTable :value="tableData" :paginator="true" :rowClass="rowClass" :rows="10" responsiveLayout="scroll" columnResizeMode="fit"
-        :showGridlines="true">
+    <DataTable :value="tableData" :paginator="true" :rowClass="rowClass" :rows="10" responsiveLayout="scroll"
+        columnResizeMode="fit" :showGridlines="true">
+        <template #header>
+
+            <Button label="Change Date" icon="pi pi-calendar" @click="openDateSelect" />
+            {{ date }}
+        </template>
         <ColumnGroup type="header">
             <Row>
                 <Column header="Route" field="name" :rowspan="2">

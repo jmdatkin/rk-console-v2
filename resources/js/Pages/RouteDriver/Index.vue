@@ -24,7 +24,7 @@ const props = defineProps(['date', 'openDateSelect']);
         <template #table>
             <DateSelect>
                 <template v-slot="{ date, openDateSelect }">
-                    <Button @click="openDateSelect">Change Date</Button>
+                    <!-- <Button @click="openDateSelect">Change Date</Button> -->
                     <RouteDriverTable :date="date" :openDateSelect="openDateSelect"></RouteDriverTable>
                 </template>
 
