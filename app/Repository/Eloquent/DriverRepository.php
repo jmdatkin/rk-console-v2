@@ -22,6 +22,7 @@ class DriverRepository extends BasePersonRoleRepository implements DriverReposit
 
    public function destroy($id) {
        $model = $this->find($id);
+       $model->routes()->detach();
        $model->alternateRoutes()->detach();
        parent::destroy($id);
    }

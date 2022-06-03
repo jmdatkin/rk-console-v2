@@ -14,10 +14,19 @@ const weekday = computed(() => {
     return formatDate(props.date, { weekday: 'short' }).toLowerCase();
 });
 
+const rowClass = (data) => {
+    return data.exceptions.length > 0 ? 'in-exception' : null;
+};
+
 const data = ref([]);
 const getData = function () {
-    console.log(weekday.value);
-    axios.get('/routedriver/data?weekday=' + weekday.value)
+    let dateString = formatDate(props.date, {
+        month: 'numeric',
+        year: 'numeric',
+        day: 'numeric'
+    });
+
+    axios.get('/routedriver/data?date=' + dateString)
         .then(res => {
             data.value = res.data;
         });
@@ -32,7 +41,8 @@ const tableData = computed(() => {
             name: route.name,
             firstName: isDriver ? driver.person.firstName : '',
             lastName: isDriver ? driver.person.lastName : '',
-            driver: isDriver ? route.drivers[0] : {}
+            driver: isDriver ? route.drivers[0] : {},
+            exceptions: isDriver ? route.drivers[0].exceptions : []
         };
     });
 });
@@ -104,7 +114,7 @@ onMounted(() => {
             </Column>
         </DataTable>
     </Dialog>
-    <DataTable :value="tableData" :paginator="true" :rows="10" responsiveLayout="scroll" columnResizeMode="fit"
+    <DataTable :value="tableData" :paginator="true" :rowClass="rowClass" :rows="10" responsiveLayout="scroll" columnResizeMode="fit"
         :showGridlines="true">
         <ColumnGroup type="header">
             <Row>
@@ -132,7 +142,7 @@ onMounted(() => {
         </Column>
         <Column :sortable="true" field="firstName">
             <template #body="{ data }">
-                <a @click="() => openAlternateDriversDialog(data)">
+                <a :class="rowClass(data)" @click="() => openAlternateDriversDialog(data)">
                     {{ data.firstName }}
                 </a>
             </template>
@@ -155,5 +165,14 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+.in-exception {
+    // color: var(--red-800);
+}
+
+
+::v-deep .in-exception {
+    background-color: var(--red-200) !important;
 }
 </style>

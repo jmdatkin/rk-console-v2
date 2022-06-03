@@ -43,6 +43,10 @@ class Driver extends BasePersonRole
         }
     }
 
+    public function exceptions() {
+        return $this->hasMany(DriverException::class);
+    }
+
     public function deassignRoute($route_id, $weekday)
     {
         try {
@@ -52,12 +56,12 @@ class Driver extends BasePersonRole
         }
     }
 
-    public function exceptions($date) {
-        DriverException::where('driver_id',$this->id)->get()
-        ->filter(function($status) use ($date) {
-            return $status->contains($date);
-        });
-    }
+    // public function exceptions($date) {
+    //     DriverException::where('driver_id',$this->id)->get()
+    //     ->filter(function($status) use ($date) {
+    //         return $status->contains($date);
+    //     });
+    // }
 
     public function makeException($route_id, $date) {
         try {

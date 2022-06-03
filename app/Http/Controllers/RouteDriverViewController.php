@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Route;
 use App\Repository\DriverRepositoryInterface;
 use App\Repository\RouteRepositoryInterface;
+use Carbon\Carbon;
 use Error;
 use Exception;
 use Illuminate\Http\Request;
@@ -22,10 +23,11 @@ class RouteDriverViewController extends Controller
     public function data(Request $request)
     {
         try {
-            $weekday = $request->input('weekday');
+            $date = Carbon::parse($request->input('date'));
+            $weekday = strtolower($date->shortDayName);
             return Route::with(['drivers' => function ($query) use ($weekday) {
                 $query->where('weekday', $weekday);
-            }])->get();
+            }])->get()->load('drivers.exceptions');
         } catch (Error | Exception $e) {
             error_log($e);
         }
