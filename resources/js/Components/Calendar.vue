@@ -17,7 +17,6 @@ const calendarOptions = ref({
     initialView: 'dayGridMonth',
     selectable: true,
     events: props.events, 
-    eventsSet: function(a) {console.log(a)},
     eventDataTransform: function (eventData) {
         console.log(eventData);
         return {
@@ -33,13 +32,20 @@ const calendarOptions = ref({
     // dateClick: () => console.log("EEEEEE")
 });
 
-onUpdated(() => {
+const foo = function() {
+    // console.log(calendar.value.getApi().getEvents());
     calendar.value.getApi().refetchEvents();
+};
+
+onUpdated(() => {
+    calendarOptions.value.events = [ ...props.events];
+    // calendar.value.getApi().refetchEvents();
 });
 
 </script>
 
 <template>
+<a @click="foo">Click me</a>
     <FullCalendar ref="calendar" :options="calendarOptions">
 
     </FullCalendar>

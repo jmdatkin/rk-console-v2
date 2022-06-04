@@ -9,7 +9,6 @@ import Panel from 'primevue/panel';
 <template>
     <BasePageLayout>
         <template #header>
-            Table
             <slot name="header"></slot>
         </template>
         <!-- <template #header>
@@ -77,7 +76,6 @@ import Panel from 'primevue/panel';
             </div>
         </div> -->
         <div class="p-datatable-wrapper card">
-            <ConfirmDialog />
             <slot name="table"></slot>
         </div>
     </BasePageLayout>
@@ -113,7 +111,7 @@ import Panel from 'primevue/panel';
 }
 
 .p-column-filter-overlay {
-    box-shadow: 0 0 3px rgba(0,0,0,0.2);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
 }
 
 .p-dialog-titlebar-close {}

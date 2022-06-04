@@ -1,6 +1,7 @@
 <script setup>
 import Authenticated from './Authenticated';
 import Panel from 'primevue/panel';
+import Divider from 'primevue/divider';
 </script>
 
 <template>

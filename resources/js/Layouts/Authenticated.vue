@@ -46,13 +46,6 @@ const items = ref([
                 label: 'Agencies',
                 icon: 'pi pi-fw pi-building',
                 command: () => Inertia.visit('/datatables/agencies')
-            },
-            {
-                separator: true
-            },
-            {
-                label: 'Export',
-                icon: 'pi pi-fw pi-external-link'
             }
         ]
     },

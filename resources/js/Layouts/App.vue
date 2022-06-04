@@ -1,5 +1,6 @@
 <script setup>
 import Toast from 'primevue/toast';
+import ConfirmDialog from 'primevue/confirmdialog';
 import { useToast } from 'primevue/usetoast';
 import { inject, onBeforeUnmount } from 'vue';
 
@@ -19,8 +20,9 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
-        <Toast></Toast>
-        <slot>
+    <Toast></Toast>
+    <ConfirmDialog />
+    <slot>
 
-        </slot>
+    </slot>
 </template>

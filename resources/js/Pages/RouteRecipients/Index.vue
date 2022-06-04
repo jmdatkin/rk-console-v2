@@ -1,5 +1,6 @@
 <script setup>
 import DataTableLayout from '@/Layouts/DataTableLayout';
+import SidebarLayout from '../../Layouts/SidebarLayout';
 import DateSelectLayout from '@/Layouts/DateSelectLayout';
 // import  from '@/Layouts/Authenticated';
 import DataTable from 'primevue/datatable';
@@ -14,7 +15,7 @@ import RouteRecipientsTable from './RouteRecipientsTable';
 <template>
     <DataTableLayout>
         <template #header>
-            Route Driver View
+            Recipients by Route
         </template>
         <!-- <DateSelectLayout> -->
         <template #table>
