@@ -12,4 +12,8 @@ class RecipientDataTable extends BasePersonRoleDataTable implements RecipientDat
     {
         parent::__construct($repository);
     }
+
+    public function data() {
+        return parent::data()->load('routes');
+    }
 }

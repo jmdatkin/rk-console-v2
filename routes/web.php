@@ -14,6 +14,7 @@ use App\Http\Controllers\Reports\MealReportController;
 use App\Http\Controllers\Reports\TexterReportController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\RouteDriverViewController;
+use App\Http\Controllers\RouteRecipientsViewController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -132,6 +133,11 @@ Route::prefix('manage')->middleware(['auth', 'verified'])->group(function () {
 Route::prefix('routedriver')->group(function () {
     Route::get('/', [RouteDriverViewController::class, 'index']); 
     Route::get('/data', [RouteDriverViewController::class, 'data']); 
+});
+
+Route::prefix('routerecipients')->group(function () {
+    Route::get('/', [RouteRecipientsViewController::class, 'index']); 
+    Route::get('/data', [RouteRecipientsViewController::class, 'data']); 
 });
 
 Route::get('calendartest', function () {

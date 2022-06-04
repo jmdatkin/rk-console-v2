@@ -61,11 +61,15 @@ const items = ref([
         icon: 'pi pi-fw pi-database',
         items: [
             {
-                label: 'Substitutes',
+                label: 'Recipients by Route',
+                command: () => Inertia.visit('/routerecipients')
+            },
+            {
+                label: 'Schedule Exceptions',
                 command: () => Inertia.visit('/exceptions')
             },
             {
-                label: 'Route Driver View',
+                label: 'Assign Substitutes',
                 command: () => Inertia.visit('/routedriver')
             },
         ]
@@ -75,20 +79,19 @@ const items = ref([
         icon: 'pi pi-fw pi-file',
         items: [
             {
-                label: 'Left',
-                icon: 'pi pi-fw pi-align-left'
+                label: 'Driver Report',
+                icon: 'pi pi-fw pi-align-file',
+                command: () => Inertia.visit('/reports/driver')
             },
             {
-                label: 'Right',
-                icon: 'pi pi-fw pi-align-right'
+                label: 'Texter Report',
+                icon: 'pi pi-fw pi-align-file',
+                command: () => Inertia.visit('/reports/texter')
             },
             {
-                label: 'Center',
-                icon: 'pi pi-fw pi-align-center'
-            },
-            {
-                label: 'Justify',
-                icon: 'pi pi-fw pi-align-justify'
+                label: 'Meal Report',
+                icon: 'pi pi-fw pi-align-file',
+                command: () => Inertia.visit('/reports/meals')
             },
         ]
     }

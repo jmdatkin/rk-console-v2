@@ -11,9 +11,9 @@ import { Inertia } from '@inertiajs/inertia';
 const props = defineProps(['driverData']);
 
 const exceptions = ref([]);
-const getExceptions = function() {
+const getExceptions = function () {
     axios.get(`/exceptions/${props.driverData.id}/data`)
-    .then(res => exceptions.value = res.data);
+        .then(res => exceptions.value = res.data);
 };
 
 const dialogOpen = ref(false);
@@ -42,16 +42,40 @@ onMounted(() => {
 </script>
 
 <template>
-    <Dialog v-model:visible="dialogOpen">
+    <Dialog v-model:visible="dialogOpen" :modal="true" :dismissableMask="true" :closeOnEscape="true" :breakpoints="{
+        '960px': '75vw',
+        '640px': '100vw'
+    }" :style="{ width: '50vw' }">
+        <template #header>
+            {{ driverData.person.firstName }} {{ driverData.person.lastName }}
+        </template>
         <form @submit.prevent="driverExceptionSubmit">
-            <label for="dateStart">Date Start</label>
-            <PrimeVueCalendar id="dateStart" v-model="driverExceptionForm.date_start"></PrimeVueCalendar>
-            <label for="dateEnd">Date End</label>
-            <PrimeVueCalendar id="dateEnd" v-model="driverExceptionForm.date_end"></PrimeVueCalendar>
-            <label for="dateNotes">Notes</label>
-            <Textarea id="dateNotes" v-model="driverExceptionForm.notes"></Textarea>
-            <Button type="submit">Submit</Button>
+            <div class="grid">
+                <div class="col-12">
+                    <!-- <label for="dateStart">Date Start</label> -->
+                    <h3>Date Start</h3>
+                    <PrimeVueCalendar id="dateStart" v-model="driverExceptionForm.date_start"></PrimeVueCalendar>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="col-12">
+                    <h3>Date End</h3>
+                    <PrimeVueCalendar id="dateEnd" v-model="driverExceptionForm.date_end"></PrimeVueCalendar>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="col-12">
+                    <h3>Notes</h3>
+                    <Textarea id="dateNotes" v-model="driverExceptionForm.notes"></Textarea>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="col-12">
+                    <Button type="submit">Submit</Button>
+                </div>
+            </div>
         </form>
     </Dialog>
+    {{ driverData.person.firstName }} {{ driverData.person.lastName }}
     <Calendar :events="exceptions" :onSelectCallback="dateSelectCallback"></Calendar>
 </template>
