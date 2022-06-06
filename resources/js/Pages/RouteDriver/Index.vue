@@ -10,6 +10,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import DateSelect from '@/Components/DateSelect';
 import RouteDriverTable from './RouteDriverTable';
+import Content from './Content';
 
 const props = defineProps(['date', 'openDateSelect']);
 
@@ -25,18 +26,7 @@ const props = defineProps(['date', 'openDateSelect']);
         <template #table>
             <DateSelect>
                 <template v-slot="{ date, openDateSelect }">
-                    <div class="grid">
-                        <div class="col-12 sm:col-8">
-                            <Panel>
-                                <RouteDriverTable :date="date" :openDateSelect="openDateSelect"></RouteDriverTable>
-                            </Panel>
-
-                        </div>
-                        <div class="col-12 sm:col-4">
-                            <Panel>
-                            </Panel>
-                        </div>
-                    </div>
+                    <Content :openDateSelect="openDateSelect" :date="date"></Content>
                 </template>
             </DateSelect>
         </template>

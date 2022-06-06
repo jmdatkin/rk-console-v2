@@ -11,7 +11,7 @@ import { formatDate } from '@fullcalendar/common';
 import { useConfirm } from 'primevue/useconfirm';
 import { ref, onUpdated, onMounted, computed } from 'vue';
 
-const props = defineProps(['date', 'openDateSelect']);
+const props = defineProps(['onRowSelect', 'selection', 'date', 'openDateSelect', 'value', 'getData']);
 const weekday = computed(() => {
     return formatDate(props.date, { weekday: 'short' }).toLowerCase();
 });
@@ -19,39 +19,6 @@ const weekday = computed(() => {
 const rowClass = (data) => {
     return data.inException ? 'in-exception' : null;
 };
-
-const data = ref([]);
-const getData = function () {
-    let dateString = formatDate(props.date, {
-        month: 'numeric',
-        year: 'numeric',
-        day: 'numeric'
-    });
-
-    axios.get('/routedriver/data?date=' + dateString)
-        .then(res => {
-            data.value = res.data;
-        });
-};
-
-const tableData = computed(() => {
-    return data.value.map(route => {
-        let isDriver = typeof route.drivers[0] !== 'undefined';
-        let driver = route.drivers[0] || {};
-        return {
-            id: route.id,
-            name: route.name,
-            firstName: isDriver ? driver.person.firstName : '',
-            lastName: isDriver ? driver.person.lastName : '',
-            driver: isDriver ? route.drivers[0] : {},
-            exceptions: isDriver ? route.drivers[0].exceptions : [],
-            inException: isDriver ? route.drivers[0].exceptions.reduce((prev, curr) => {
-                console.log(curr.date_start);
-                return prev || moment(props.date).isBetween(curr.date_start, curr.date_end);
-            }, false) : false
-        };
-    });
-});
 
 const confirm = useConfirm();
 
@@ -66,13 +33,14 @@ const onRowContextMenu = event => {
     cm.value.show(event.originalEvent);
 };
 
-const altDriverDialog = ref(false);
 const selectedRoute = ref();
 const openAlternateDriversDialog = function (routeData) {
     selectedRoute.value = routeData;
     getAlternateDriversData(routeData.id);
 };
 
+const altDriverDialog = ref(false);
+const altDriverSelection = ref();
 const altDriverData = ref([]);
 const altDriverDataLoaded = ref(false);
 
@@ -92,14 +60,11 @@ const switchDriverAssignment = function (routeId, driverId) {
         acceptClass: 'p-button-info',
         accept: () => {
             axios.post(`/driver/${driverId}/assign/${routeId}?weekday=${weekday.value}`)
-                .then(() => getData());
+                .then(() => props.getData());
         },
     });
 };
 
-onMounted(() => {
-    getData();
-});
 </script>
 <template>
     <Dialog v-model:visible="altDriverDialog" :closeOnEscape="true" :closable="true" :dismissableMask="true"
@@ -108,7 +73,7 @@ onMounted(() => {
             '640px': '100vw'
         }" :style="{ width: '50vw' }">
         <template #header><strong>Alternate Drivers for Route: {{ selectedRoute.name }}</strong></template>
-        <DataTable :value="altDriverData">
+        <DataTable @rowSelect="(event) => switchDriverAssignment(selectedRoute.id, event.data.id)" v-model:selection="altDriverSelection" selectionMode="single" :value="altDriverData">
             <Column header="id" field="id">
             </Column>
             <Column header="firstName" field="person.firstName">
@@ -120,7 +85,7 @@ onMounted(() => {
             </Column>
         </DataTable>
     </Dialog>
-    <DataTable :value="tableData" :paginator="true" :rowClass="rowClass" :rows="10" responsiveLayout="scroll"
+    <DataTable @row-select="e => onRowSelect(e.data)" v-model:selection="selection" selectionMode="single" :value="value" :paginator="true" :rowClass="rowClass" :rows="10" responsiveLayout="scroll"
         columnResizeMode="fit" :showGridlines="true">
         <template #header>
 

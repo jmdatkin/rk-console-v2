@@ -1,9 +1,12 @@
 <script setup>
 import BasePageLayout from '@/Layouts/BasePageLayout';
+import RouteRecipientsTable from './RouteRecipients/RouteRecipientsTable';
+import moment from 'moment';
 import Card from 'primevue/card';
 import Divider from 'primevue/divider';
 import { Link, Head } from '@inertiajs/inertia-vue3';
 import CardLink from '@/Components/CardLink';
+
 import Panel from 'primevue/panel';
 </script>
 
@@ -17,7 +20,11 @@ import Panel from 'primevue/panel';
                 Dashboard
             </h2>
         </template>
-
+        <div class="grid">
+            <div class="col-12">
+                <RouteRecipientsTable :date="moment(Date.now())"></RouteRecipientsTable>
+            </div>
+        </div>
         <div class="grid">
             <div class="col-6">
                 <Panel header="Resources">

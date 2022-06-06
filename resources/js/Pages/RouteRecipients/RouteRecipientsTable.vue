@@ -7,14 +7,11 @@ import Row from 'primevue/row';
 import Dialog from 'primevue/dialog';
 import ContextMenu from 'primevue/contextmenu';
 import moment from 'moment';
-import { formatDate } from '@fullcalendar/common';
+// import { formatDate } from '@fullcalendar/common';
 import { useConfirm } from 'primevue/useconfirm';
 import { ref, onUpdated, onMounted, computed } from 'vue';
 
 const props = defineProps(['date', 'openDateSelect']);
-const weekday = computed(() => {
-    return formatDate(props.date, { weekday: 'short' }).toLowerCase();
-});
 
 const rowClass = (data) => {
     return data.inException ? 'in-exception' : null;
@@ -22,11 +19,13 @@ const rowClass = (data) => {
 
 const data = ref([]);
 const getData = function () {
-    let dateString = formatDate(props.date, {
-        month: 'numeric',
-        year: 'numeric',
-        day: 'numeric'
-    });
+    // let dateString = formatDate(props.date, {
+    //     month: 'numeric',
+    //     year: 'numeric',
+    //     day: 'numeric'
+    // });
+    let dateString = moment(props.date).format('mmdyyyy');
+    // let dateString = '';
 
     axios.get('/routerecipients/data?date=' + dateString)
         .then(res => {

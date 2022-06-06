@@ -17,6 +17,12 @@ class DriverException extends Model
         'notes'
     ];
 
+    protected $with = ['driver'];
+
+    public function driver() {
+        return $this->belongsTo(Driver::class);
+    }
+
     public function contains($date) {
         return Carbon::parse($date)->between($this->date_start,$this->date_end);
     }
