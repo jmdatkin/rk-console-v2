@@ -33,3 +33,7 @@ html {
 h2 {
     font-size: 2rem;
 }
+
+.p-datatable-tbody>tr>td {
+    padding: 0.25rem 0.5rem !important;
+}

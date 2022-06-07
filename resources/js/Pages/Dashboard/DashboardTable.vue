@@ -12,6 +12,12 @@ import { ref, onUpdated, onMounted, computed } from 'vue';
 
 const props = defineProps(['onRowSelect', 'selection', 'date', 'openDateSelect', 'value', 'getData']);
 
+const tableData = computed(() => {
+    return props.value.map(row => {
+        return { driver: row.drivers[0] || {}, ...row };
+    });
+});
+
 const confirm = useConfirm();
 
 // Context menu
@@ -25,50 +31,45 @@ const onRowContextMenu = event => {
     cm.value.show(event.originalEvent);
 };
 
-const selectedRoute = ref();
 
 </script>
 <template>
-    <DataTable @row-select="e => onRowSelect(e.data)" v-model:selection="selection" selectionMode="single" :value="value" :paginator="true" :rowClass="rowClass" :rows="10" responsiveLayout="scroll"
+    <DataTable @row-select="e => onRowSelect(e.data)" v-model:selection="selection" selectionMode="single"
+        :value="tableData" :paginator="true" :rowClass="rowClass" :rows="5" responsiveLayout="scroll"
         columnResizeMode="fit" :showGridlines="true">
-        <template #header>
-
-            <Button label="Change Date" icon="pi pi-calendar" @click="openDateSelect" />
-            {{ date }}
-        </template>
         <ColumnGroup type="header">
             <Row>
-                <Column header="Route" field="name" :rowspan="2">
+                <Column header="Route" field="routeName" :rowspan="1" :colspan="2">
                 </Column>
-                <Column header="Driver" :colspan="3">
+                <Column header="Driver" :colspan="6">
                 </Column>
             </Row>
             <Row>
                 <Column header="id" field="id"></Column>
-                <Column header="First Name" field="firstName"></Column>
-                <Column header="Last Name" field="lastName"></Column>
+                <Column header="Name" field="name"></Column>
+                <Column header="id" field="driver.id"></Column>
+                <Column header="First Name" field="driver.person.firstName"></Column>
+                <Column header="Last Name" field="driver.person.lastName"></Column>
+                <Column header="Email" field="driver.person.email"></Column>
+                <Column header="Home Phone" field="driver.person.phoneHome"></Column>
+                <Column header="Cell Phone" field="driver.person.phoneCell"></Column>
             </Row>
         </ColumnGroup>
+        <Column header="id" field="id">
+        </Column>
         <Column header="Route" field="name">
         </Column>
         <Column :sortable="true" field="driver.id" header="id" style="max-width: 10%; text-align: center">
-            <template #body="{ data }">
-                {{ data.driver.id || '' }}
-            </template>
-            <template #filter="{ filterModel }">
-                <InputText type="text" v-model="filterModel.value" class="p-column-filter" placeholder="Search by id">
-                </InputText>
-            </template>
         </Column>
-        <Column :sortable="true" field="person.firstName">
+        <Column :sortable="true" field="driver.person.firstName">
         </Column>
-        <Column :sortable="true" field="person.lastName">
+        <Column :sortable="true" field="driver.person.lastName">
         </Column>
-        <Column :sortable="true" field="person.email">
+        <Column :sortable="true" field="driver.person.email">
         </Column>
-        <Column :sortable="true" field="person.phoneHome">
+        <Column :sortable="true" field="driver.person.phoneHome">
         </Column>
-        <Column :sortable="true" field="person.phoneCell">
+        <Column :sortable="true" field="driver.person.phoneCell">
         </Column>
     </DataTable>
     <ContextMenu :model="menuModel" ref="cm"></ContextMenu>

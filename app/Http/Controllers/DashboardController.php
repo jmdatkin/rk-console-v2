@@ -11,6 +11,10 @@ class DashboardController extends Controller
 {
     //
     public function index(DashboardReport $report) {
-        return Inertia::render('Dashboard/Index', ['data' => $report->data(Carbon::today())]);
+        return Inertia::render('Dashboard/Index',
+        [
+            'routeDriver_data' => $report->routeDrivers(Carbon::today()->format("mdY")),
+            'routeRecipient_data' => $report->routeRecipients(Carbon::today()->format("mdY"))
+        ]);
     }
 }

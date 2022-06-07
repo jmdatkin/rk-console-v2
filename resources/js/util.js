@@ -5,4 +5,6 @@ const mergePersonObject = function (item) {
     return item;
 }
 
-export { mergePersonObject };
+const momentFormatString = "MMDDYYYY";
+
+export { mergePersonObject, momentFormatString };

@@ -16,7 +16,7 @@ class RouteRecipients extends BaseReport
 
     public function data($date)
     {
-        $weekday = strtolower(Carbon::parse($date)->shortDayName);
+        $weekday = strtolower(Carbon::createFromFormat("mdY",$date)->shortDayName);
         return Route::with(['recipients' => function ($query) use ($weekday) {
             return $query->where('weekday', $weekday);
         }])

@@ -9,6 +9,7 @@ import ContextMenu from 'primevue/contextmenu';
 import moment from 'moment';
 // import { formatDate } from '@fullcalendar/common';
 import { useConfirm } from 'primevue/useconfirm';
+import { momentFormatString } from '../../util';
 import { ref, onUpdated, onMounted, computed } from 'vue';
 
 const props = defineProps(['date', 'openDateSelect']);
@@ -24,7 +25,7 @@ const getData = function () {
     //     year: 'numeric',
     //     day: 'numeric'
     // });
-    let dateString = moment(props.date).format('mmdyyyy');
+    let dateString = moment(props.date).format(momentFormatString);
     // let dateString = '';
 
     axios.get('/routerecipients/data?date=' + dateString)

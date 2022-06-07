@@ -1,16 +1,17 @@
 <script setup>
 import BasePageLayout from '@/Layouts/BasePageLayout';
 import DashboardTable from './DashboardTable';
-import RouteRecipientsTable from '@/Pages/RouteRecipients/RouteRecipientsTable';
+import RouteRecipientsTable from './RouteRecipientsTable';
 import moment from 'moment';
 import Card from 'primevue/card';
 import Divider from 'primevue/divider';
 import { Link, Head } from '@inertiajs/inertia-vue3';
 import CardLink from '@/Components/CardLink';
+import { momentFormatString } from '../../util';
 
 import Panel from 'primevue/panel';
 
-defineProps(['data'])
+defineProps(['routeDriver_data', 'routeRecipient_data'])
 </script>
 
 <template>
@@ -25,8 +26,29 @@ defineProps(['data'])
         </template>
         <div class="grid">
             <div class="col-12">
-                <!-- <RouteRecipientsTable :date="moment(Date.now())"></RouteRecipientsTable> -->
-                <DashboardTable :value="data" :date="moment(Date.now())"></DashboardTable>
+                <h3>{{ moment(Date.now()).format("dddd DD MMM YYYY") }}</h3>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-12">
+                <Panel>
+                    <template #header>
+                        Today's Drivers
+                    </template>
+                    <!-- <RouteRecipientsTable :date="moment(Date.now())"></RouteRecipientsTable> -->
+                    <DashboardTable :value="routeDriver_data" :date="moment(Date.now()).format(momentFormatString)"></DashboardTable>
+                </Panel>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-12">
+                <Panel>
+                    <template #header>
+                        Today's Recipients
+                    </template>
+                    <!-- <RouteRecipientsTable :date="moment(Date.now())"></RouteRecipientsTable> -->
+                    <RouteRecipientsTable :value="routeRecipient_data" :date="moment(Date.now()).format(momentFormatString)"></RouteRecipientsTable>
+                </Panel>
             </div>
         </div>
         <div class="grid">
@@ -47,7 +69,7 @@ defineProps(['data'])
                 </Panel>
             </div>
         </div>
-        
+
     </BasePageLayout>
 </template>
 
