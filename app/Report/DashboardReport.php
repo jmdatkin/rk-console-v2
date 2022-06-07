@@ -27,9 +27,14 @@ class DashboardReport
         ])
             ->get()
             ->flatMap(function ($route) {
-                return $route->recipients->map(function ($recipient) use ($route) {
-                    return collect($recipient->toArray())->union([
-                        'routeName' => $route->name
+                // return $route->recipients->map(function ($recipient) use ($route) {
+                //     return collect($recipient->toArray())->union([
+                //         'routeName' => $route->name,
+                //     ]);
+                // });
+                return $route->drivers->map(function ($driver) use ($route) {
+                    return collect($driver->toArray())->union([
+                        'routeName' => $route->name,
                     ]);
                 });
             })->values();

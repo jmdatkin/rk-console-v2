@@ -11,6 +11,7 @@ import axios from 'axios';
 import DateSelect from '@/Components/DateSelect';
 import RouteRecipientsTable from './RouteRecipientsTable';
 
+
 </script>
 <template>
     <DataTableLayout>

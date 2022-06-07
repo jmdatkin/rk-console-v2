@@ -4,6 +4,7 @@ use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\Assignments\ManageDriverController;
 use App\Http\Controllers\Assignments\ManageRecipientController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\DriverExceptionController;
 use App\Http\Controllers\DriverStatusController;
@@ -152,8 +153,6 @@ Route::get('/calendar/events', function(Request $request) {
     
 });
 
-Route::get('ndashboard', function() {
-    return Inertia::render('NewDashboard');
-});
+Route::get('ndashboard', [DashboardController::class, 'index']);
 
 require __DIR__ . '/auth.php';
