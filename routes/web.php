@@ -16,6 +16,7 @@ use App\Http\Controllers\RouteController;
 use App\Http\Controllers\RouteDriverViewController;
 use App\Http\Controllers\RouteRecipientsViewController;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -145,6 +146,10 @@ Route::get('calendartest', function () {
 });
 Route::get('calendar', function () {
     return Inertia::render('CalendarPage');
+});
+
+Route::get('/calendar/events', function(Request $request) {
+    
 });
 
 Route::get('ndashboard', function() {
