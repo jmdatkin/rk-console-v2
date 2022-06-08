@@ -102,6 +102,9 @@ const items = ref([
                     </Link>
                 </template>
                 <template #end>
+                    <Link :href="route('logout')" method="post" as="button">
+                        Log Out
+                    </Link>
                 </template>
             </MenuBar>
 

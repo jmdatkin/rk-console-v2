@@ -4,16 +4,13 @@ import DriverExceptionList from './DriverExceptionList';
 import moment from 'moment';
 import { formatDate } from '@fullcalendar/common';
 import { ref, onMounted, computed } from 'vue';
+import { momentFormatString } from '../../util';
 
 const props = defineProps(['date', 'openDateSelect']);
 
 const data = ref([]);
 const getData = function () {
-    let dateString = formatDate(props.date, {
-        month: 'numeric',
-        year: 'numeric',
-        day: 'numeric'
-    });
+    let dateString = moment(props.date).format(momentFormatString);
 
     axios.get('/routedriver/data?date=' + dateString)
         .then(res => {
