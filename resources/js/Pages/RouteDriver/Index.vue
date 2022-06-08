@@ -20,9 +20,8 @@ const props = defineProps(['date', 'openDateSelect']);
 <template>
     <DataTableLayout>
         <template #header>
-            Substitute Drivers
+            Drivers by Route
         </template>
-        <!-- <DateSelectLayout> -->
         <template #table>
             <DateSelect>
                 <template v-slot="{ date, openDateSelect }">
@@ -30,7 +29,5 @@ const props = defineProps(['date', 'openDateSelect']);
                 </template>
             </DateSelect>
         </template>
-
-        <!-- </DateSelectLayout> -->
     </DataTableLayout>
 </template>

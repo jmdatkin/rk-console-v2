@@ -42,7 +42,7 @@ const fullName = `${props.data.person.firstName} ${props.data.person.lastName}`;
         <div class="grid">
             <div class=col-12>
                 <span>Notes</span>
-                <h4>{{ data.notes }}</h4>
+                <h4>{{ data.person.notes }}</h4>
             </div>
         </div>
     </SingleResourceLayout>
