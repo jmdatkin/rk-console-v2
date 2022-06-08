@@ -26,15 +26,28 @@ class DriverController extends BasePersonRoleController
         );
     }
 
-    public function data() {
+    public function show($id)
+    {
+        return Inertia::render(
+            'Resources/Driver',
+            [
+                "data" => $this->get($id)
+            ]
+        );
+    }
+
+    public function data()
+    {
         return $this->dataTable->data();
     }
 
-    public function alternates($driver_id) {
+    public function alternates($driver_id)
+    {
         return $this->repository->find($driver_id)->alternateRoutes;
     }
 
-    public function assign(Request $request, RouteRepositoryInterface $routeRepository, $driver_id, $route_id) {
+    public function assign(Request $request, RouteRepositoryInterface $routeRepository, $driver_id, $route_id)
+    {
         try {
             $weekday = $request->input('weekday');
             // $this->repository->find($driver_id)->deassignRoute($route_id, $weekday);
@@ -46,7 +59,8 @@ class DriverController extends BasePersonRoleController
         }
     }
 
-    public function deassign($driver_id, $route_id) {
+    public function deassign($driver_id, $route_id)
+    {
         try {
             $this->repository->find($driver_id)->routes()->detach($route_id);
             return response()->json([], 200);
@@ -55,7 +69,8 @@ class DriverController extends BasePersonRoleController
         }
     }
 
-    public function assignAlternate($driver_id, $route_id) {
+    public function assignAlternate($driver_id, $route_id)
+    {
         try {
             $this->repository->find($driver_id)->alternateRoutes()->attach($route_id);
             return response()->json([], 200);
@@ -64,7 +79,8 @@ class DriverController extends BasePersonRoleController
         }
     }
 
-    public function deassignAlternate($driver_id, $route_id) {
+    public function deassignAlternate($driver_id, $route_id)
+    {
         try {
             $this->repository->find($driver_id)->alternateRoutes()->detach($route_id);
             return response()->json([], 200);

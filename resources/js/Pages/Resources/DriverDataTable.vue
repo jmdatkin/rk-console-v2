@@ -46,6 +46,7 @@ const confirm = useConfirm();
 const cmSelection = ref();
 const cm = ref();
 const menuModel = ref([
+    { label: 'View record', icon: 'pi pi-fw pi-search', command: () => viewRecord(cmSelection.value) },
     { label: 'Edit record', icon: 'pi pi-fw pi-pencil', command: () => editingRows.value = [...editingRows.value, cmSelection.value] },
     { label: 'Delete record', icon: 'pi pi-fw pi-trash', command: () => destroyRecords([cmSelection.value.id]) },
     { label: 'Edit route assignments', icon: 'pi pi-fw pi-pencil', command: () => openAssignDialog(cmSelection.value.id) },
@@ -55,6 +56,10 @@ const menuModel = ref([
 ]);
 const onRowContextMenu = event => {
     cm.value.show(event.originalEvent);
+};
+
+const viewRecord = function(record) {
+    Inertia.visit(`/driver/${record.id}`);
 };
 
 // Toast notifications

@@ -78,7 +78,7 @@ const assignmentsForDay = function (day) {
     });
 };
 
-axios.get(`/recipient/${props.recipient_id}`)
+axios.get(`/recipient/${props.recipient_id}/data`)
     .then(res => {
         recipientData.value = res.data;
         dataLoaded.value = true;

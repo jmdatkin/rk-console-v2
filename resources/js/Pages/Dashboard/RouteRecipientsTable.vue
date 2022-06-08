@@ -22,6 +22,9 @@ const rowClass = (data) => {
 
     <DataTable :value="value" rowGroupMode="rowspan" :paginator="true" :rowClass="rowClass" :rows="10" responsiveLayout="scroll"
         columnResizeMode="fit" :showGridlines="true" groupRowsBy="routeName">
+        <template #empty>
+            No records found.
+        </template>
         <Column :sortable="true" header="Route" field="routeName">
         </Column>
         <Column :sortable="true" field="id" header="id" style="max-width: 10%; text-align: center">

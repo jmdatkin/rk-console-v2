@@ -37,6 +37,9 @@ const onRowContextMenu = event => {
     <DataTable @row-select="e => onRowSelect(e.data)" v-model:selection="selection" selectionMode="single"
         :value="tableData" :paginator="true" :rowClass="rowClass" :rows="5" responsiveLayout="scroll"
         columnResizeMode="fit" :showGridlines="true">
+        <template #empty>
+            No records found.
+        </template>
         <ColumnGroup type="header">
             <Row>
                 <Column header="Route" field="routeName" :rowspan="1" :colspan="2">

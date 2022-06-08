@@ -18,6 +18,7 @@ import { mergePersonObject } from '@/util';
 import { recipientFilters } from './filters';
 import { useCRUD } from './hooks';
 import RecipientService from './Recipients/RecipientService';
+import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps(['agencies', 'errors', 'message', 'csrf']);
 
@@ -40,12 +41,17 @@ const confirm = useConfirm();
 const cmSelection = ref();
 const cm = ref();
 const menuModel = ref([
+    { label: 'View record', icon: 'pi pi-fw pi-search', command: () => viewRecord(cmSelection.value) },
     { label: 'Edit record', icon: 'pi pi-fw pi-pencil', command: () => editingRows.value = [...editingRows.value, cmSelection.value] },
     { label: 'Delete record', icon: 'pi pi-fw pi-trash', command: () => destroyRecords([cmSelection.value.id]) },
-    { label: 'Edit route assignments', icon: 'pi pi-fw pi-search', command: () => openAssignDialog(cmSelection.value) }
+    { label: 'Edit route assignments', icon: 'pi pi-fw pi-pencil', command: () => openAssignDialog(cmSelection.value) }
 ]);
 const onRowContextMenu = event => {
     cm.value.show(event.originalEvent);
+};
+
+const viewRecord = function(record) {
+    Inertia.visit(`/recipient/${record.id}`);
 };
 
 // Toast notifications

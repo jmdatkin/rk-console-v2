@@ -22,7 +22,7 @@ class BasePersonRoleController extends BaseResourceController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function get($id)
     {
         return $this->repository->find($id)->load('person');
     }

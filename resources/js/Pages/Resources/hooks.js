@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { toastBus } from "../../app";
 
 const useCRUD = function (service) {
@@ -71,4 +71,6 @@ const useCRUD = function (service) {
     };
 };
 
-export { useCRUD };
+const fullName = props => computed(() => `${props.firstName} ${props.lastName}`);
+
+export { useCRUD, fullName };

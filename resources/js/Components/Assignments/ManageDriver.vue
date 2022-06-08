@@ -78,7 +78,7 @@ const assignmentsForDay = function (day) {
     });
 };
 
-axios.get(`/driver/${props.driver_id}`)
+axios.get(`/driver/${props.driver_id}/data`)
     .then(res => {
         driverData.value = res.data;
         dataLoaded.value = true;
