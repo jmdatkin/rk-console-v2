@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Route;
+use App\Report\DriverExceptionReport;
 use App\Repository\DriverRepositoryInterface;
 use App\Repository\RouteRepositoryInterface;
 use Carbon\Carbon;
@@ -20,43 +21,9 @@ class RouteDriverViewController extends Controller
         $this->driverRepository = $driverRepository;
     }
 
-    // public function data(Request $request)
-    // {
-    //     try {
-    //         $date = Carbon::createFromFormat("mdY", $request->input('date'));
-    //         $weekday = strtolower($date->shortDayName);
-    //         error_log($weekday);
-    //         return Route::with(['drivers' => function ($query) use ($weekday) {
-    //             $query->where('weekday', $weekday);
-    //         }])->get()->load('drivers.exceptions');
-    //     } catch (Error | Exception $e) {
-    //         error_log($e);
-    //     }
-    // }
-
-    public function data(Request $request)
+    public function data(Request $request, DriverExceptionReport $report)
     {
-        try {
-            $date = Carbon::createFromFormat("mdY", $request->input('date'));
-            $weekday = strtolower($date->shortDayName);
-            error_log($weekday);
-            return Route::with(
-                [
-                    'drivers' => function ($query) use ($weekday) {
-                        return $query->where('weekday', $weekday)->with('exceptions');
-                    }
-                    // 'drivers.exceptions' => function ($query) use ($weekday) {
-                    //     // $query->where('weekday', $weekday);
-                    // }
-                ]
-            )->get();//->load('drivers.exceptions');
-            // return Route::whereHas('drivers.exceptions', function($query) use ($weekday) {
-            // return Route::has('drivers.exceptions')->get();
-            // return $query->where()
-            // });
-        } catch (Error | Exception $e) {
-            error_log($e);
-        }
+        return $report->data($request->input('date'));
     }
 
     public function index()
