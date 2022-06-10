@@ -60,9 +60,16 @@ return [
     */
 
     'providers' => [
+        // 'users' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\User::class,
+        // ],
+
         'users' => [
-            'driver' => 'eloquent',
+            'driver' => 'person_user_provider',
             'model' => App\Models\User::class,
+            // 'foreign_model' => App\Models\Person::class
+            'foreign_model' => 'person'
         ],
 
         // 'users' => [

@@ -33,6 +33,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
+    protected $with = [
+        'person'
+    ];
+
     /**
      * The attributes that should be cast.
      *
@@ -42,7 +46,23 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function person() {
+    public function person()
+    {
         return $this->hasOne(Person::class);
+    }
+
+    public function getEmailAttribute()
+    {
+        return $this->person->getAttribute('email');
+    }
+
+    public function getFirstNameAttribute()
+    {
+        return $this->person->getAttribute('firstName');
+    }
+
+    public function getLastNameAttribute()
+    {
+        return $this->person->getAttribute('lastName');
     }
 }
