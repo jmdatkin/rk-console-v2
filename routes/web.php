@@ -1,19 +1,21 @@
 <?php
 
-use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\Assignments\ManageDriverController;
 use App\Http\Controllers\Assignments\ManageRecipientController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DriverController;
 use App\Http\Controllers\DriverExceptionController;
 use App\Http\Controllers\DriverStatusController;
-use App\Http\Controllers\PersonController;
-use App\Http\Controllers\RecipientController;
+use App\Http\Controllers\Report\DashboardController;
+use App\Http\Controllers\Report\DriversByRouteViewController;
+use App\Http\Controllers\Report\RecipientsByRouteViewController;
 use App\Http\Controllers\Reports\DriverReportController;
 use App\Http\Controllers\Reports\MealReportController;
 use App\Http\Controllers\Reports\TexterReportController;
-use App\Http\Controllers\RouteController;
+use App\Http\Controllers\Resources\AgencyController;
+use App\Http\Controllers\Resources\DriverController;
+use App\Http\Controllers\Resources\PersonController;
+use App\Http\Controllers\Resources\RecipientController;
+use App\Http\Controllers\Resources\RouteController;
 use App\Http\Controllers\RouteDriverViewController;
 use App\Http\Controllers\RouteRecipientsViewController;
 use Illuminate\Foundation\Application;
@@ -32,70 +34,72 @@ use Inertia\Inertia;
 |
 */
 
-Route::prefix('recipient')->group(function () {
-    Route::get('/', [RecipientController::class, 'all']);
-    Route::get('/data', [RecipientController::class, 'data']);
-    Route::get('/{id}', [RecipientController::class, 'show']);
-    Route::get('/{id}/data', [RecipientController::class, 'get']);
-    Route::post('/store', [RecipientController::class, 'store']);
-    Route::post('/import', [RecipientController::class, 'import']);
-    Route::patch('/{id}/update', [RecipientController::class, 'update']);
-    Route::post('/destroy', [RecipientController::class, 'destroyMany']);
-});
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('recipient')->group(function () {
+        Route::get('/', [RecipientController::class, 'all']);
+        Route::get('/data', [RecipientController::class, 'data']);
+        Route::get('/{id}', [RecipientController::class, 'show']);
+        Route::get('/{id}/data', [RecipientController::class, 'get']);
+        Route::post('/store', [RecipientController::class, 'store']);
+        Route::post('/import', [RecipientController::class, 'import']);
+        Route::patch('/{id}/update', [RecipientController::class, 'update']);
+        Route::post('/destroy', [RecipientController::class, 'destroyMany']);
+    });
 
-Route::prefix('driver')->group(function () {
-    Route::get('/', [DriverController::class, 'all']);
-    Route::get('/data', [DriverController::class, 'data']);
-    Route::get('/{id}', [DriverController::class, 'show']);
-    Route::get('/{id}/data', [DriverController::class, 'get']);
-    Route::post('/store', [DriverController::class, 'store']);
-    Route::post('/import', [DriverController::class, 'import']);
-    Route::patch('/{id}/update', [DriverController::class, 'update']);
-    Route::post('/destroy', [DriverController::class, 'destroyMany']);
+    Route::prefix('driver')->group(function () {
+        Route::get('/', [DriverController::class, 'all']);
+        Route::get('/data', [DriverController::class, 'data']);
+        Route::get('/{id}', [DriverController::class, 'show']);
+        Route::get('/{id}/data', [DriverController::class, 'get']);
+        Route::post('/store', [DriverController::class, 'store']);
+        Route::post('/import', [DriverController::class, 'import']);
+        Route::patch('/{id}/update', [DriverController::class, 'update']);
+        Route::post('/destroy', [DriverController::class, 'destroyMany']);
 
-    Route::post('/{driver_id}/assign/{route_id}', [DriverController::class, 'assign']);
+        Route::post('/{driver_id}/assign/{route_id}', [DriverController::class, 'assign']);
 
-    Route::get('/{id}/alternates', [DriverController::class, 'alternates']);
-    Route::get('/{id}/alternates/attach/{route_id}', [DriverController::class, 'assignAlternate']);
-    Route::get('/{id}/alternates/detach/{route_id}', [DriverController::class, 'deassignAlternate']);
-});
+        Route::get('/{id}/alternates', [DriverController::class, 'alternates']);
+        Route::get('/{id}/alternates/attach/{route_id}', [DriverController::class, 'assignAlternate']);
+        Route::get('/{id}/alternates/detach/{route_id}', [DriverController::class, 'deassignAlternate']);
+    });
 
-Route::prefix('exceptions')->group(function () {
-    Route::get('/', [DriverExceptionController::class, 'index']);
-    Route::get('/{driver_id}/data', [DriverExceptionController::class, 'data']);
-    Route::post('/store', [DriverExceptionController::class, 'store']);
-});
+    Route::prefix('exceptions')->group(function () {
+        Route::get('/', [DriverExceptionController::class, 'index']);
+        Route::get('/{driver_id}/data', [DriverExceptionController::class, 'data']);
+        Route::post('/store', [DriverExceptionController::class, 'store']);
+    });
 
-Route::prefix('person')->group(function () {
-    Route::get('/', [PersonController::class, 'all']);
-    Route::get('/data', [PersonController::class, 'data']);
-    Route::post('/store', [PersonController::class, 'store']);
-    Route::post('/import', [PersonController::class, 'import']);
-    Route::patch('/{id}/update', [PersonController::class, 'update']);
-    Route::post('/destroy', [PersonController::class, 'destroyMany']);
-});
+    Route::prefix('person')->group(function () {
+        Route::get('/', [PersonController::class, 'all']);
+        Route::get('/data', [PersonController::class, 'data']);
+        Route::post('/store', [PersonController::class, 'store']);
+        Route::post('/import', [PersonController::class, 'import']);
+        Route::patch('/{id}/update', [PersonController::class, 'update']);
+        Route::post('/destroy', [PersonController::class, 'destroyMany']);
+    });
 
-Route::prefix('route')->group(function () {
-    Route::get('/', [RouteController::class, 'all']);
-    Route::post('/store', [RouteController::class, 'store']);
-    Route::post('/import', [RouteController::class, 'import']);
-    Route::patch('/{id}/update', [RouteController::class, 'update']);
-    Route::post('/destroy', [RouteController::class, 'destroyMany']);
-    Route::get('/{id}/alternates', [RouteController::class, 'alternateDrivers']);
-});
+    Route::prefix('route')->group(function () {
+        Route::get('/', [RouteController::class, 'all']);
+        Route::post('/store', [RouteController::class, 'store']);
+        Route::post('/import', [RouteController::class, 'import']);
+        Route::patch('/{id}/update', [RouteController::class, 'update']);
+        Route::post('/destroy', [RouteController::class, 'destroyMany']);
+        Route::get('/{id}/alternates', [RouteController::class, 'alternateDrivers']);
+    });
 
-Route::prefix('agency')->group(function () {
-    Route::post('/store', [AgencyController::class, 'store']);
-    Route::post('/import', [AgencyController::class, 'import']);
-    Route::patch('/{id}/update', [AgencyController::class, 'update']);
-    Route::post('/destroy', [AgencyController::class, 'destroyMany']);
-});
+    Route::prefix('agency')->group(function () {
+        Route::post('/store', [AgencyController::class, 'store']);
+        Route::post('/import', [AgencyController::class, 'import']);
+        Route::patch('/{id}/update', [AgencyController::class, 'update']);
+        Route::post('/destroy', [AgencyController::class, 'destroyMany']);
+    });
 
-Route::prefix('comment')->group(function () {
-    Route::get('/', [CommentController::class, 'all']);
-    Route::get('/{id}', [CommentController::class, 'show']);
-    Route::get('/recipient/{recipient_id}', [CommentController::class, 'show_recipient']);
-    Route::post('/store', [CommentController::class, 'store']);
+    Route::prefix('comment')->group(function () {
+        Route::get('/', [CommentController::class, 'all']);
+        Route::get('/{id}', [CommentController::class, 'show']);
+        Route::get('/recipient/{recipient_id}', [CommentController::class, 'show_recipient']);
+        Route::post('/store', [CommentController::class, 'store']);
+    });
 });
 
 Route::get('/', function () {
@@ -112,7 +116,7 @@ Route::prefix('datatables')->middleware(['auth', 'verified'])->group(function ()
     Route::get('drivers', [DriverController::class, 'index'])->name('datatables.drivers');
     Route::get('routes', [RouteController::class, 'index'])->name('datatables.routes');
     Route::get('agencies', [AgencyController::class, 'index'])->name('datatables.agencies');
-    Route::get('routedrivers', [RouteDriverViewController::class, 'index']);
+    Route::get('routedrivers', [DriversByRouteViewController::class, 'index']);
 });
 
 Route::prefix('reports')->middleware(['auth', 'verified'])->group(function () {
@@ -135,13 +139,13 @@ Route::prefix('manage')->middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::prefix('routedriver')->group(function () {
-    Route::get('/', [RouteDriverViewController::class, 'index']); 
-    Route::get('/data', [RouteDriverViewController::class, 'data']); 
+    Route::get('/', [RouteDriverViewController::class, 'index']);
+    Route::get('/data', [RouteDriverViewController::class, 'data']);
 });
 
 Route::prefix('routerecipients')->group(function () {
-    Route::get('/', [RouteRecipientsViewController::class, 'index']); 
-    Route::get('/data', [RouteRecipientsViewController::class, 'data']); 
+    Route::get('/', [RecipientsByRouteViewController::class, 'index']);
+    Route::get('/data', [RecipientsByRouteViewController::class, 'data']);
 });
 
 Route::get('calendartest', function () {
@@ -151,8 +155,7 @@ Route::get('calendar', function () {
     return Inertia::render('CalendarPage');
 });
 
-Route::get('/calendar/events', function(Request $request) {
-    
+Route::get('/calendar/events', function (Request $request) {
 });
 
 Route::get('ndashboard', [DashboardController::class, 'index']);

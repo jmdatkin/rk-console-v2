@@ -16,7 +16,6 @@ class Driver extends BasePersonRole
 
     public function person() {
         return $this->belongsTo(Person::class);
-        // return $this->morphOne(Person::class, 'subclass');
     }
 
     //Many-to-many linkage between route
@@ -28,11 +27,6 @@ class Driver extends BasePersonRole
     public function alternateRoutes() {
         return $this->belongsToMany(Route::class, 'driver_route_alt');
     }
-
-    public function routeExceptions() {
-        return $this->belongsToMany(Route::class, 'driver_route_exception');
-    }
-
 
     public function assignRoute($route_id, $weekday)
     {
@@ -51,21 +45,6 @@ class Driver extends BasePersonRole
     {
         try {
             $this->routes()->wherePivot('weekday',$weekday)->detach($route_id);
-        } catch (Exception $e) {
-            error_log($e);
-        }
-    }
-
-    // public function exceptions($date) {
-    //     DriverException::where('driver_id',$this->id)->get()
-    //     ->filter(function($status) use ($date) {
-    //         return $status->contains($date);
-    //     });
-    // }
-
-    public function makeException($route_id, $date) {
-        try {
-            $this->routeExceptions()->attach($route_id, [ "date" => $date]);
         } catch (Exception $e) {
             error_log($e);
         }

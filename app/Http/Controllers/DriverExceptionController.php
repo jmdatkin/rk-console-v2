@@ -29,7 +29,7 @@ class DriverExceptionController extends Controller
     }
 
     public function data($driver_id) {
-        return DriverException::where('driver_id', $driver_id)->get();
+        return $this->repository->find($driver_id)->exceptions;
     }
 
     public function store(Request $request)
