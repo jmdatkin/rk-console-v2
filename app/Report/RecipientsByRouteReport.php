@@ -6,8 +6,9 @@ use App\Models\Route;
 use App\Repository\RouteRepositoryInterface;
 use Carbon\Carbon;
 use Facades\App\Facade\DateHandler;
+use Illuminate\Http\Request;
 
-class RecipientsByRouteReport extends BaseReport
+class RecipientsByRouteReport implements ReportInterface
 {
 
     public function __construct(RouteRepositoryInterface $repository)
@@ -15,8 +16,10 @@ class RecipientsByRouteReport extends BaseReport
         $this->repository = $repository;
     }
 
-    public function data($date)
+    // public function data($date)
+    public function data($input)
     {
+        $date = $input['date'];
         $carbon_date = DateHandler::intakeDate($date);
         $weekday = strtolower($carbon_date->shortDayName);
         return Route::with(['recipients' => function ($query) use ($weekday) {

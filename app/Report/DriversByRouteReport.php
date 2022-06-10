@@ -7,8 +7,9 @@ use App\Repository\RouteRepositoryInterface;
 use Carbon\Carbon;
 use Error;
 use Exception;
+use Illuminate\Http\Request;
 
-class DriversByRouteReport
+class DriversByRouteReport implements ReportInterface
 {
 
     public function __construct(RouteRepositoryInterface $repository)
@@ -16,8 +17,9 @@ class DriversByRouteReport
         $this->repository = $repository;
     }
 
-    public function data($date)
+    public function data($input)
     {
+        $date = $input['date'];
         $carbon_date = Carbon::createFromFormat("mdY", $date);
         if ($carbon_date->isBefore(Carbon::today()->startOfWeek())) {
             return Route::with(

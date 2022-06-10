@@ -7,17 +7,20 @@ use App\Report\DriversByRouteReport;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class DriversByRouteViewController extends Controller
+class DriversByRouteViewController extends BaseReportController
 {
     //
-    public function index()
+    public function __construct(DriversByRouteReport $report)
     {
-        return Inertia::render('RouteDriver/Index', [
-        ]);
+        parent::__construct($report);
     }
 
-    public function data(Request $request, DriversByRouteReport $report)
+    public function index()
     {
-        return $report->data($request->input('date'));
+        return Inertia::render('RouteDriver/Index');
+    }
+
+    public function data(Request $request) {
+        return $this->report->data($request->only(['date']));
     }
 }

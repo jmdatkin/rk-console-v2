@@ -6,12 +6,29 @@ use App\Repository\DriverRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
-class DriverReport extends BaseReport
+class DriverReport implements ReportInterface
 {
 
     public function __construct(DriverRepositoryInterface $repository)
     {
         $this->repository = $repository;
+    }
+
+    public function data($input)
+    {
+        $driver_id = $input['driver_id'];
+        $weekday = $input['weekday'];
+        try {
+            return $this->repository->find($driver_id)->routes()->wherePivot('weekday', $weekday)->get()
+                ->flatMap(function ($route) use ($weekday) {
+                    return $route->recipients()->wherePivot('weekday', $weekday)->get()
+                        ->map(function ($recipient) use ($route) {
+                            return collect($recipient->toArray())->union(['routeName' => $route->name]);
+                        });
+                });
+        } catch (ModelNotFoundException $e) {
+            return collect();
+        }
     }
 
     public function driver($driver_id, $weekday)
@@ -30,9 +47,9 @@ class DriverReport extends BaseReport
                     //     'recipients' => $route->recipients()->wherePivot('weekday', $weekday)->get()
                     // ];
                     return $route->recipients()->wherePivot('weekday', $weekday)->get()
-                    ->map(function($recipient) use ($route) {
-                        return collect($recipient->toArray())->union(['routeName' => $route->name]);
-                    });
+                        ->map(function ($recipient) use ($route) {
+                            return collect($recipient->toArray())->union(['routeName' => $route->name]);
+                        });
                 });
         } catch (ModelNotFoundException $e) {
             return collect();

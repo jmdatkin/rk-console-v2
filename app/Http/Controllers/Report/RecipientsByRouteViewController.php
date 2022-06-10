@@ -7,11 +7,12 @@ use App\Report\RecipientsByRouteReport;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class RecipientsByRouteViewController extends Controller
+class RecipientsByRouteViewController extends BaseReportController
 {
     //
     public function __construct(RecipientsByRouteReport $report) {
-        $this->report = $report;
+        // $this->report = $report;
+        parent::__construct($report);
     }
     
     public function index() {
@@ -19,7 +20,6 @@ class RecipientsByRouteViewController extends Controller
     }
 
     public function data(Request $request) {
-        $date = $request->input('date');
-        return $this->report->data($date);
+        return $this->report->data($request->only(['date']));
     }
 }

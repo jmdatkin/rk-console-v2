@@ -4,21 +4,17 @@ use App\Http\Controllers\Assignments\ManageDriverController;
 use App\Http\Controllers\Assignments\ManageRecipientController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DriverExceptionController;
-use App\Http\Controllers\DriverStatusController;
 use App\Http\Controllers\Report\DashboardController;
 use App\Http\Controllers\Report\DriversByRouteViewController;
 use App\Http\Controllers\Report\RecipientsByRouteViewController;
-use App\Http\Controllers\Reports\DriverReportController;
-use App\Http\Controllers\Reports\MealReportController;
-use App\Http\Controllers\Reports\TexterReportController;
+use App\Http\Controllers\Report\DriverReportController;
+use App\Http\Controllers\Report\MealReportController;
+use App\Http\Controllers\Report\TexterReportController;
 use App\Http\Controllers\Resources\AgencyController;
 use App\Http\Controllers\Resources\DriverController;
 use App\Http\Controllers\Resources\PersonController;
 use App\Http\Controllers\Resources\RecipientController;
 use App\Http\Controllers\Resources\RouteController;
-use App\Http\Controllers\RouteDriverViewController;
-use App\Http\Controllers\RouteRecipientsViewController;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -139,8 +135,8 @@ Route::prefix('manage')->middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::prefix('routedriver')->group(function () {
-    Route::get('/', [RouteDriverViewController::class, 'index']);
-    Route::get('/data', [RouteDriverViewController::class, 'data']);
+    Route::get('/', [DriversByRouteViewController::class, 'index']);
+    Route::get('/data', [DriversByRouteViewController::class, 'data']);
 });
 
 Route::prefix('routerecipients')->group(function () {

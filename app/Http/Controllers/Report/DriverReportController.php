@@ -8,13 +8,14 @@ use App\Repository\DriverRepositoryInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class DriverReportController extends Controller
+class DriverReportController extends BaseReportController
 {
     //
     public function __construct(DriverReport $report, DriverRepositoryInterface $repository)
     {
-       $this->report = $report; 
-       $this->repository = $repository;
+        //    $this->report = $report; 
+        parent::__construct($report);
+        $this->repository = $repository;
     }
 
     public function index(Request $request)
@@ -29,9 +30,10 @@ class DriverReportController extends Controller
         );
     }
 
-    public function data(Request $request) {
-        $driver_id = $request->input('driver_id');
-        $weekday = $request->input('weekday');
-        return $this->report->driver($driver_id, $weekday);
+    public function data(Request $request)
+    {
+        // $driver_id = $request->input('driver_id');
+        // $weekday = $request->input('weekday');
+        return $this->report->data($request->only(['driver_id', 'weekday']));
     }
 }
