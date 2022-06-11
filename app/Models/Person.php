@@ -10,6 +10,7 @@ class Person extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'firstName',
         'lastName',
         'email',
@@ -27,7 +28,8 @@ class Person extends Model
     }
 
     public function user() {
-        return $this->belongsTo(User::class);
+        // return $this->belongsTo(User::class);
+        return $this->hasOne(User::class);
     }
 
     public function roles() {

@@ -11,6 +11,8 @@ use Illuminate\Support\ServiceProvider;
 class PersonUserProvider extends EloquentUserProvider
 {
 
+    private $foreign_model;
+
     public function __construct(HasherContract $hasher, $model, $foreign_model)
     {
         parent::__construct($hasher, $model);

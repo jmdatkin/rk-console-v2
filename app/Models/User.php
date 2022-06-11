@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Error;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,9 +19,16 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
+        'person_id',
         'name',
         'email',
         'password',
+    ];
+
+    protected $appends = [
+        'email',
+        'firstName',
+        'lastName'
     ];
 
     /**
@@ -48,12 +56,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function person()
     {
-        return $this->hasOne(Person::class);
+        // return $this->hasOne(Person::class);
+        // return $this->belongsTo(Person::class, 'person_id');
+        return $this->belongsTo('App\Models\Person', 'person_id');
     }
 
     public function getEmailAttribute()
     {
         return $this->person->getAttribute('email');
+        // return $this->person()->get(['email']);
+        // This is terrible
+        // return Person::where('id',$this->person_id)->first()->email;
     }
 
     public function getFirstNameAttribute()
@@ -65,4 +78,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->person->getAttribute('lastName');
     }
+
+    // public function getAuthIdentifier()
+    // {
+    //     return $this->email;
+    // }
+
+    // public function getAuthIdentifierName()
+    // {
+    //     return 'email';
+    // }
 }
