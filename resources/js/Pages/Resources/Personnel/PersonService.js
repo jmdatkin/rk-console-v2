@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const get = function () {
-    return axios.get('/person/data');
+    // return axios.get('/person/data');
+    return axios.get(route('datatables.personnel.data'));
 };
 
 const store = function(data) {

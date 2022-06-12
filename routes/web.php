@@ -11,6 +11,11 @@ use App\Http\Controllers\Report\DriverReportController;
 use App\Http\Controllers\Report\MealReportController;
 use App\Http\Controllers\Report\TexterReportController;
 use App\Http\Controllers\Resources\AgencyController;
+use App\Http\Controllers\Resources\DataTables\AgencyDataTableController;
+use App\Http\Controllers\Resources\DataTables\DriverDataTableController;
+use App\Http\Controllers\Resources\DataTables\PersonDataTableController;
+use App\Http\Controllers\Resources\DataTables\RecipientDataTableController;
+use App\Http\Controllers\Resources\DataTables\RouteDataTableController;
 use App\Http\Controllers\Resources\DriverController;
 use App\Http\Controllers\Resources\PersonController;
 use App\Http\Controllers\Resources\RecipientController;
@@ -108,20 +113,20 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('datatables')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/personnel', [PersonController::class, 'index'])->name('datatables.personnel');
-    Route::get('/personnel/data', [PersonController::class, 'data'])->name('datatables.personnel.data');
+    Route::get('/personnel', [PersonDataTableController::class, 'index'])->name('datatables.personnel');
+    Route::get('/personnel/data', [PersonDataTableController::class, 'data'])->name('datatables.personnel.data');
 
-    Route::get('/recipients', [RecipientController::class, 'index'])->name('datatables.recipients');
-    Route::get('/recipients/data', [RecipientController::class, 'data'])->name('datatables.recipients.data');
+    Route::get('/recipients', [RecipientDataTableController::class, 'index'])->name('datatables.recipients');
+    Route::get('/recipients/data', [RecipientDataTableController::class, 'data'])->name('datatables.recipients.data');
     
-    Route::get('/drivers', [DriverController::class, 'index'])->name('datatables.drivers');
-    Route::get('/drivers/data', [DriverController::class, 'data'])->name('datatables.drivers.data');
+    Route::get('/drivers', [DriverDataTableController::class, 'index'])->name('datatables.drivers');
+    Route::get('/drivers/data', [DriverDataTableController::class, 'data'])->name('datatables.drivers.data');
 
-    Route::get('/routes', [RouteController::class, 'index'])->name('datatables.routes');
-    Route::get('/routes/data', [RouteController::class, 'data'])->name('datatables.routes.data');
+    Route::get('/routes', [RouteDataTableController::class, 'index'])->name('datatables.routes');
+    Route::get('/routes/data', [RouteDataTableController::class, 'data'])->name('datatables.routes.data');
 
-    Route::get('/agencies', [AgencyController::class, 'index'])->name('datatables.agencies');
-    Route::get('/agencies/data', [AgencyController::class, 'data'])->name('datatables.agencies.data');
+    Route::get('/agencies', [AgencyDataTableController::class, 'index'])->name('datatables.agencies');
+    Route::get('/agencies/data', [AgencyDataTableController::class, 'data'])->name('datatables.agencies.data');
 
     Route::get('/routedrivers', [DriversByRouteViewController::class, 'index']);
 });

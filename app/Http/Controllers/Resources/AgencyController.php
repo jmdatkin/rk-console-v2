@@ -21,16 +21,6 @@ class AgencyController extends BaseResourceController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-        return Inertia::render(
-            'Resources/AgencyDataTable',
-            [
-                "data" => $this->dataTable->data()
-            ]
-        );
-    }
 
     public function store(Request $request)
     {

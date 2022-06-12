@@ -43,9 +43,4 @@ class RecipientController extends BasePersonRoleController
             ]
         );
     }
-
-    public function data()
-    {
-        return $this->dataTable->data();
-    }
 }

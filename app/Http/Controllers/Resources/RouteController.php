@@ -21,16 +21,6 @@ class RouteController extends BaseResourceController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-        return Inertia::render(
-            'Resources/RouteDataTable',
-            [
-                "data" => $this->dataTable->data()
-            ]
-        );
-    }
 
     public function store(Request $request)
     {

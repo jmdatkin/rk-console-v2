@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const get = function () {
-    return axios.get('/driver/data');
+    // return axios.get('/driver/data');
+    return axios.get(route('datatables.drivers.data'));
 };
 
 const store = function(data) {

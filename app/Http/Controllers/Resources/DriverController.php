@@ -13,17 +13,9 @@ use Inertia\Inertia;
 
 class DriverController extends BasePersonRoleController
 {
-    public function __construct(DriverDataTableInterface $dataTable, DriverRepositoryInterface $repository)
+    public function __construct( DriverRepositoryInterface $repository)
     {
-        $this->dataTable = $dataTable;
         parent::__construct($repository);
-    }
-
-    public function index()
-    {
-        return Inertia::render(
-            'Resources/DriverDataTable',
-        );
     }
 
     public function show($id)
@@ -34,11 +26,6 @@ class DriverController extends BasePersonRoleController
                 "data" => $this->get($id)
             ]
         );
-    }
-
-    public function data()
-    {
-        return $this->dataTable->data();
     }
 
     public function alternates($driver_id)
