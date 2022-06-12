@@ -71,6 +71,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/store', [PersonController::class, 'store']);
         Route::post('/import', [PersonController::class, 'import']);
         Route::patch('/{id}/update', [PersonController::class, 'update']);
+        Route::patch('/{id}/role', [PersonController::class, 'assignRole']);
         Route::post('/destroy', [PersonController::class, 'destroyMany']);
     });
 
@@ -107,12 +108,22 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('datatables')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('personnel', [PersonController::class, 'index'])->name('datatables.personnel');
-    Route::get('recipients', [RecipientController::class, 'index'])->name('datatables.recipients');
-    Route::get('drivers', [DriverController::class, 'index'])->name('datatables.drivers');
-    Route::get('routes', [RouteController::class, 'index'])->name('datatables.routes');
-    Route::get('agencies', [AgencyController::class, 'index'])->name('datatables.agencies');
-    Route::get('routedrivers', [DriversByRouteViewController::class, 'index']);
+    Route::get('/personnel', [PersonController::class, 'index'])->name('datatables.personnel');
+    Route::get('/personnel/data', [PersonController::class, 'data'])->name('datatables.personnel.data');
+
+    Route::get('/recipients', [RecipientController::class, 'index'])->name('datatables.recipients');
+    Route::get('/recipients/data', [RecipientController::class, 'data'])->name('datatables.recipients.data');
+    
+    Route::get('/drivers', [DriverController::class, 'index'])->name('datatables.drivers');
+    Route::get('/drivers/data', [DriverController::class, 'data'])->name('datatables.drivers.data');
+
+    Route::get('/routes', [RouteController::class, 'index'])->name('datatables.routes');
+    Route::get('/routes/data', [RouteController::class, 'data'])->name('datatables.routes.data');
+
+    Route::get('/agencies', [AgencyController::class, 'index'])->name('datatables.agencies');
+    Route::get('/agencies/data', [AgencyController::class, 'data'])->name('datatables.agencies.data');
+
+    Route::get('/routedrivers', [DriversByRouteViewController::class, 'index']);
 });
 
 Route::prefix('reports')->middleware(['auth', 'verified'])->group(function () {
