@@ -21,6 +21,7 @@ class PersonUserProvider extends EloquentUserProvider
 
     public function retrieveByCredentials(array $credentials)
     {
+
         if (
             empty($credentials) ||
             (count($credentials) === 1 &&
@@ -39,17 +40,18 @@ class PersonUserProvider extends EloquentUserProvider
                 continue;
             }
 
-            //Change to reference Person model
             if (is_array($value) || $value instanceof Arrayable) {
-                $query->with([$this->foreign_model => function ($query) use ($key, $value) {
-                    $query->whereIn($key, $value);
-                }]);
+                // Search based on email column under 'person' relation
+                $query->whereHas($this->foreign_model, function($q) use ($key, $value) {
+                    $q->where($key, $value);
+                })->with($this->foreign_model);
             } elseif ($value instanceof Closure) {
                 $value($query);
             } else {
-                $query->with([$this->foreign_model => function ($query) use ($key, $value) {
-                    $query->where($key, $value);
-                }]);
+                // Search based on email column under 'person' relation
+                $query->whereHas($this->foreign_model, function($q) use ($key, $value) {
+                    $q->where($key, $value);
+                })->with($this->foreign_model);
             }
         }
 

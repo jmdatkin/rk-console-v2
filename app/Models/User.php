@@ -41,9 +41,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
-    protected $with = [
-        'person'
-    ];
+    // protected $with = [
+    //     'person'
+    // ];
 
     /**
      * The attributes that should be cast.
@@ -57,13 +57,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function person()
     {
         // return $this->hasOne(Person::class);
-        // return $this->belongsTo(Person::class, 'person_id');
-        return $this->belongsTo('App\Models\Person', 'person_id');
+        return $this->belongsTo(Person::class, 'person_id');
+        // return $this->belongsTo('App\Models\Person', 'person_id');
     }
 
     public function getEmailAttribute()
     {
-        return $this->person->getAttribute('email');
+        // dd($this->person()->get(['email']));
+        return optional($this->person)->getAttribute('email');
         // return $this->person()->get(['email']);
         // This is terrible
         // return Person::where('id',$this->person_id)->first()->email;
@@ -71,21 +72,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getFirstNameAttribute()
     {
-        return $this->person->getAttribute('firstName');
+        return optional($this->person)->getAttribute('firstName');
     }
 
     public function getLastNameAttribute()
     {
-        return $this->person->getAttribute('lastName');
+        return optional($this->person)->getAttribute('lastName');
     }
 
-    // public function getAuthIdentifier()
-    // {
-    //     return $this->email;
-    // }
-
-    // public function getAuthIdentifierName()
-    // {
-    //     return 'email';
-    // }
 }
