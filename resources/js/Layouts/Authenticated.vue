@@ -102,6 +102,10 @@ const items = ref([
                     </Link>
                 </template>
                 <template #end>
+                    <Link :href="route('profile')" method="get" as="button">
+                    <i class="pi pi-user"></i>
+                        Profile
+                    </Link>
                     <Link :href="route('logout')" method="post" as="button">
                         Log Out
                     </Link>

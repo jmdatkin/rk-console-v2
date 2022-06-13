@@ -20,6 +20,7 @@ use App\Http\Controllers\Resources\DriverController;
 use App\Http\Controllers\Resources\PersonController;
 use App\Http\Controllers\Resources\RecipientController;
 use App\Http\Controllers\Resources\RouteController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -36,6 +37,15 @@ use Inertia\Inertia;
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
+    Route::get('/', function () {
+        return redirect()->route('dashboard');
+    });
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/profile', [UserProfileController::class, 'index'])->name('profile');
+
     Route::prefix('recipient')->group(function () {
         Route::get('/', [RecipientController::class, 'all']);
         Route::get('/data', [RecipientController::class, 'data']);
@@ -102,42 +112,34 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/recipient/{recipient_id}', [CommentController::class, 'show_recipient']);
         Route::post('/store', [CommentController::class, 'store']);
     });
-});
 
-Route::get('/', function () {
-    return redirect()->route('dashboard');
-});
+    Route::prefix('datatables')->group(function () {
+        Route::get('/personnel', [PersonDataTableController::class, 'index'])->name('datatables.personnel');
+        Route::get('/personnel/data', [PersonDataTableController::class, 'data'])->name('datatables.personnel.data');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+        Route::get('/recipients', [RecipientDataTableController::class, 'index'])->name('datatables.recipients');
+        Route::get('/recipients/data', [RecipientDataTableController::class, 'data'])->name('datatables.recipients.data');
 
-Route::prefix('datatables')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/personnel', [PersonDataTableController::class, 'index'])->name('datatables.personnel');
-    Route::get('/personnel/data', [PersonDataTableController::class, 'data'])->name('datatables.personnel.data');
+        Route::get('/drivers', [DriverDataTableController::class, 'index'])->name('datatables.drivers');
+        Route::get('/drivers/data', [DriverDataTableController::class, 'data'])->name('datatables.drivers.data');
 
-    Route::get('/recipients', [RecipientDataTableController::class, 'index'])->name('datatables.recipients');
-    Route::get('/recipients/data', [RecipientDataTableController::class, 'data'])->name('datatables.recipients.data');
-    
-    Route::get('/drivers', [DriverDataTableController::class, 'index'])->name('datatables.drivers');
-    Route::get('/drivers/data', [DriverDataTableController::class, 'data'])->name('datatables.drivers.data');
+        Route::get('/routes', [RouteDataTableController::class, 'index'])->name('datatables.routes');
+        Route::get('/routes/data', [RouteDataTableController::class, 'data'])->name('datatables.routes.data');
 
-    Route::get('/routes', [RouteDataTableController::class, 'index'])->name('datatables.routes');
-    Route::get('/routes/data', [RouteDataTableController::class, 'data'])->name('datatables.routes.data');
+        Route::get('/agencies', [AgencyDataTableController::class, 'index'])->name('datatables.agencies');
+        Route::get('/agencies/data', [AgencyDataTableController::class, 'data'])->name('datatables.agencies.data');
 
-    Route::get('/agencies', [AgencyDataTableController::class, 'index'])->name('datatables.agencies');
-    Route::get('/agencies/data', [AgencyDataTableController::class, 'data'])->name('datatables.agencies.data');
+        Route::get('/routedrivers', [DriversByRouteViewController::class, 'index']);
+    });
 
-    Route::get('/routedrivers', [DriversByRouteViewController::class, 'index']);
-});
-
-Route::prefix('reports')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('driver', [DriverReportController::class, 'index']);
-    Route::get('driver/data', [DriverReportController::class, 'data']);
-    Route::get('texter', [TexterReportController::class, 'index']);
-    Route::get('texter/data', [TexterReportController::class, 'data']);
-    Route::get('meals', [MealReportController::class, 'index']);
-    Route::get('meals/data', [MealReportController::class, 'data']);
+    Route::prefix('reports')->group(function () {
+        Route::get('driver', [DriverReportController::class, 'index']);
+        Route::get('driver/data', [DriverReportController::class, 'data']);
+        Route::get('texter', [TexterReportController::class, 'index']);
+        Route::get('texter/data', [TexterReportController::class, 'data']);
+        Route::get('meals', [MealReportController::class, 'index']);
+        Route::get('meals/data', [MealReportController::class, 'data']);
+    });
 });
 
 Route::prefix('manage')->middleware(['auth', 'verified'])->group(function () {
@@ -160,16 +162,8 @@ Route::prefix('routerecipients')->group(function () {
     Route::get('/data', [RecipientsByRouteViewController::class, 'data']);
 });
 
-Route::get('calendartest', function () {
-    return Inertia::render('CalendarLayoutTest');
-});
-Route::get('calendar', function () {
-    return Inertia::render('CalendarPage');
-});
-
 Route::get('/calendar/events', function (Request $request) {
 });
 
-Route::get('ndashboard', [DashboardController::class, 'index']);
 
 require __DIR__ . '/auth.php';
