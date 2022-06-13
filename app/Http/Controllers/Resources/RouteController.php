@@ -16,6 +16,18 @@ class RouteController extends BaseResourceController
         $this->dataTable = $dataTable;
         parent::__construct($repository);
     }
+
+    public function show($id) {
+        $route = $this->repository->find($id);
+        $drivers = $route->drivers;
+        $recipients = $route->recipients;
+        return Inertia::render('Resources/Route', [
+            "data" => $route,
+            "drivers" => $drivers,
+            "recipients" => $recipients
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *

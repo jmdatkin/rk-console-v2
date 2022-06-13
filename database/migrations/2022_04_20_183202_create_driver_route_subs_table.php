@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('driver_id');
             $table->unsignedBigInteger('route_id');
-            $table->date('date');
+            // $table->date('date');
+            $table->date('date_start');
+            $table->date('date_end');
             $table->foreign('driver_id')->references('id')->on('drivers');
             $table->foreign('route_id')->references('id')->on('routes');
             $table->timestamps();

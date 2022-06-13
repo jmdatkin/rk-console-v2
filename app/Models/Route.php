@@ -17,7 +17,7 @@ class Route extends Model
 
     public function recipients()
     {
-        return $this->belongsToMany(Recipient::class);
+        return $this->belongsToMany(Recipient::class)->withPivot('weekday');
     }
 
     public function recipientsOnDay($weekday)
@@ -27,7 +27,7 @@ class Route extends Model
 
     public function drivers()
     {
-        return $this->belongsToMany(Driver::class);
+        return $this->belongsToMany(Driver::class)->withPivot('weekday');
     }
 
     public function driverHistory()

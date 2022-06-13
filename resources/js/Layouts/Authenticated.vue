@@ -15,7 +15,7 @@ const showingNavigationDropdown = ref(false);
 const items = ref([
     {
         label: 'Dashboard',
-        command: () => Inertia.visit('/ndashboard')
+        command: () => Inertia.visit(route('dashboard'))
     },
     {
         label: 'Resources',
@@ -24,28 +24,28 @@ const items = ref([
             {
                 label: 'Personnel',
                 icon: 'pi pi-fw pi-user',
-                command: () => Inertia.visit('/datatables/personnel')
+                command: () => Inertia.visit(route('datatables.personnel'))
             },
             {
                 label: 'Recipients',
                 icon: 'pi pi-fw pi-box',
-                command: () => Inertia.visit('/datatables/recipients')
+                command: () => Inertia.visit(route('datatables.recipients'))
 
             },
             {
                 label: 'Drivers',
                 icon: 'pi pi-fw pi-car',
-                command: () => Inertia.visit('/datatables/drivers')
+                command: () => Inertia.visit(route('datatables.drivers'))
             },
             {
                 label: 'Routes',
                 icon: 'pi pi-fw pi-map',
-                command: () => Inertia.visit('/datatables/routes')
+                command: () => Inertia.visit(route('datatables.routes'))
             },
             {
                 label: 'Agencies',
                 icon: 'pi pi-fw pi-building',
-                command: () => Inertia.visit('/datatables/agencies')
+                command: () => Inertia.visit(route('datatables.agencies'))
             }
         ]
     },

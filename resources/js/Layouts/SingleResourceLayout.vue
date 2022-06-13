@@ -5,9 +5,9 @@ import Card from 'primevue/card';
 
 <template>
     <AuthenticatedVue>
-        <div class="container w-full flex justify-content-center">
-            <div class="content w-6">
-                <Card>
+        <div class="container w-full m-auto flex justify-content-center">
+            <div class="content w-8 sm:w-full">
+                <Card class="mt-4">
                     <template #content>
                         <slot />
                     </template>
@@ -16,3 +16,9 @@ import Card from 'primevue/card';
         </div>
     </AuthenticatedVue>
 </template>
+
+<style lang="scss" scoped>
+.card {
+    line-height: 2;
+}
+</style>

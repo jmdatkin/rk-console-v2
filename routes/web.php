@@ -92,6 +92,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('route')->group(function () {
         Route::get('/', [RouteController::class, 'all']);
+        Route::get('/{id}', [RouteController::class, 'show']);
         Route::post('/store', [RouteController::class, 'store']);
         Route::post('/import', [RouteController::class, 'import']);
         Route::patch('/{id}/update', [RouteController::class, 'update']);
