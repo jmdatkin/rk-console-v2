@@ -38,7 +38,7 @@ class Driver extends BasePersonRole
     }
 
     public function exceptions() {
-        return $this->hasMany(DriverException::class);
+        return $this->hasMany(DriverException::class, 'driver_id');
     }
 
     public function deassignRoute($route_id, $weekday)

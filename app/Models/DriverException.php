@@ -12,15 +12,20 @@ class DriverException extends Model
 
     protected $fillable = [
         'driver_id',
+        'substitute_driver_id',
         'date_start',
         'date_end',
         'notes'
     ];
 
-    protected $with = ['driver'];
+    protected $with = ['driver', 'substituteDriver'];
 
     public function driver() {
-        return $this->belongsTo(Driver::class);
+        return $this->belongsTo(Driver::class, 'driver_id');
+    }
+
+    public function substituteDriver() {
+        return $this->belongsTo(Driver::class, 'substitute_driver_id');
     }
 
     public function contains($date) {
