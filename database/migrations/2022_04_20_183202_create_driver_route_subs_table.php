@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('driver_route_subs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('driver_id');
+            $table->unsignedBigInteger('replaced_driver_id');
             $table->unsignedBigInteger('route_id');
             // $table->date('date');
             $table->date('date_start');

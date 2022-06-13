@@ -30,6 +30,20 @@ class Route extends Model
         return $this->belongsToMany(Driver::class)->withPivot('weekday');
     }
 
+    public function driversWithSubs()
+    {
+        $drivers = $this->drivers;
+        $merged_drivers = $drivers->map(function ($driver) {
+            $carbon_day = Carbon::parse($driver->pivot->weekday . ' this week');
+            $subs = DriverRouteSub::covers($carbon_day)->replacesDriver($driver->id)->get();
+            if ($subs->isNotEmpty())
+                return $subs;
+            return $driver;
+        });
+
+        return $merged_drivers;
+    }
+
     public function driverHistory()
     {
         return $this->belongsToMany(Driver::class, 'driver_route_history');

@@ -4,6 +4,7 @@ use App\Http\Controllers\Assignments\ManageDriverController;
 use App\Http\Controllers\Assignments\ManageRecipientController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DriverExceptionController;
+use App\Http\Controllers\DriverRouteSubsController;
 use App\Http\Controllers\Report\DashboardController;
 use App\Http\Controllers\Report\DriversByRouteViewController;
 use App\Http\Controllers\Report\RecipientsByRouteViewController;
@@ -45,6 +46,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile');
+
+    Route::get('/substitutes', [DriverRouteSubsController::class, 'index'])->name('substitutes');
 
     Route::prefix('recipient')->group(function () {
         Route::get('/', [RecipientController::class, 'all']);

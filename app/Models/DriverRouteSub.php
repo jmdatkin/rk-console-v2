@@ -14,6 +14,7 @@ class DriverRouteSub extends Model
     protected $fillable = [
         'driver_id',
         'route_id',
+        'replaced_driver_id',
         'date_start',
         'date_end',
     ];
@@ -22,5 +23,9 @@ class DriverRouteSub extends Model
         return $query
         ->where('date_start', '<=', $date)
         ->where('date_end', '>', $date);
+    }
+
+    public function scopeReplacesDriver($query, $driver_id) {
+        return $query->where('replaced_driver_id', $driver_id);
     }
 }
