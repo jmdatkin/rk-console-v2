@@ -2,6 +2,8 @@
 import Calendar from "@/Components/Calendar";
 import { ref } from 'vue';
 
+defineProps(['limitSelect']);
+
 const selectedDate = ref(null);
 const dateChosen = ref(false);
 
@@ -17,7 +19,7 @@ const openDateSelect = function() {
 </script>
 <template>
     <div v-if="!dateChosen">
-        <Calendar :onSelectCallback="selectDateCallback">
+        <Calendar :limitSelect="limitSelect" :onSelectCallback="selectDateCallback">
         </Calendar>
     </div>
     <div v-else>

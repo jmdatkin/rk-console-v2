@@ -1,11 +1,12 @@
 <script setup>
 import '@fullcalendar/core/vdom';
+import moment from 'moment';
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { onUpdated, ref } from 'vue';
 
-const props = defineProps(['onSelectCallback', 'events']);
+const props = defineProps(['onSelectCallback', 'events', 'limitSelect']);
 
 const calendar = ref();
 
@@ -16,6 +17,19 @@ const calendarOptions = ref({
     ],
     initialView: 'dayGridMonth',
     selectable: true,
+    dayCellClassNames: function(arg) {
+        let { date } = arg;
+        if (!props.limitSelect) return [];
+        if (moment().startOf('week').isAfter(date)) {
+            // cell.style.backgroundColor = "#222";
+            return ['fc-before-current-week'];
+        }
+    },
+    // selectConstraint: 
+    selectAllow: function (selectInfo) {
+        return props.limitSelect && 
+        moment().startOf('week').isSameOrBefore(selectInfo.start);
+    },
     events: props.events,
     eventDataTransform: function (eventData) {
         console.log(eventData);
@@ -50,11 +64,14 @@ onUpdated(() => {
     </FullCalendar>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .fc-bgevent {
     background-color: red;
 }
 
+.fc-before-current-week {
+    background-color: #eee;
+}
 .p-submenu-list {
     background-color: red;
     z-index: 2 !important;

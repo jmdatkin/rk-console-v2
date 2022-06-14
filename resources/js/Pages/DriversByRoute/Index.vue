@@ -23,7 +23,7 @@ const props = defineProps(['date', 'openDateSelect']);
             Drivers by Route
         </template>
         <template #table>
-            <DateSelect>
+            <DateSelect :limitSelect="true">
                 <template v-slot="{ date, openDateSelect }">
                     <Content :openDateSelect="openDateSelect" :date="date"></Content>
                 </template>
