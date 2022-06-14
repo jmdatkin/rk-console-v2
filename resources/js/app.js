@@ -17,6 +17,7 @@ import AxiosNProgress from './axios-nprogress';
 import { noopDirectiveTransform } from '@vue/compiler-core';
 import { useToast } from 'primevue/usetoast';
 import mitt from 'mitt';
+import moment from 'moment-timezone';
 // import 'primevue/resources/themes/md-light-indigo/theme.css';
 // import 'primevue/resources/themes/mdc-light-indigo/theme.css';
 
@@ -30,6 +31,8 @@ import 'primevue/resources/themes/tailwind-light/theme.css';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 const toastBus = mitt();
+
+moment.tz.setDefault('Etc/UTC');
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

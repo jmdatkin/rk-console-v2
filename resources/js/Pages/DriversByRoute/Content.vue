@@ -1,7 +1,7 @@
 <script setup>
 import RouteDriverTable from './RouteDriverTable';
 import DriverExceptionList from './DriverExceptionList';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { formatDate } from '@fullcalendar/common';
 import { ref, onMounted, computed } from 'vue';
 import { DateAdapter } from '../../util';

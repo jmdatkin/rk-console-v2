@@ -1,5 +1,6 @@
 <script setup>
 import Calendar from "@/Components/Calendar";
+import moment from 'moment-timezone';
 import { ref } from 'vue';
 
 defineProps(['limitSelect']);
@@ -8,7 +9,7 @@ const selectedDate = ref(null);
 const dateChosen = ref(false);
 
 const selectDateCallback = function (date) {
-    selectedDate.value = date.start;
+    selectedDate.value = moment(date.start);
     dateChosen.value = true;
 };
 

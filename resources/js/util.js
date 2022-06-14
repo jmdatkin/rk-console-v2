@@ -1,4 +1,6 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
+
+moment.tz.setDefault('Etc/UTC');
 
 const mergePersonObject = function (item) {
     let { id, ...person } = item.person || {};
@@ -8,8 +10,8 @@ const mergePersonObject = function (item) {
 }
 
 const DateAdapter = {
-    make: function(date) {
-        return moment(date).format(momentFormatString);
+    make: function (date) {
+        return moment(date).tz('Etc/UTC').format(momentFormatString);
     }
 };
 
