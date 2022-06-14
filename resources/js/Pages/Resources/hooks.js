@@ -15,8 +15,6 @@ const useCRUD = function (service) {
     };
 
     const store = function (form) {
-        console.log('Storing: ');
-        console.log(service);
         dataLoaded.value = false;
         service.store(form)
             .then(
