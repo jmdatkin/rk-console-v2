@@ -12,7 +12,8 @@ const data = ref([]);
 const getData = function () {
     let dateString = DateAdapter.make(props.date);
 
-    axios.get('/routedriver/data?date=' + dateString)
+    // axios.get('/routedriver/data?date=' + dateString)
+    axios.get(route('driversbyroute.data', { date: dateString }))
         .then(res => {
             data.value = res.data;
         });

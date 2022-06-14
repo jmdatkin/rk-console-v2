@@ -17,7 +17,7 @@ class DriversByRouteViewController extends BaseReportController
 
     public function index()
     {
-        return Inertia::render('RouteDriver/Index');
+        return Inertia::render('DriversByRoute/Index');
     }
 
     public function data(Request $request) {

@@ -3,7 +3,6 @@
 use App\Http\Controllers\Assignments\ManageDriverController;
 use App\Http\Controllers\Assignments\ManageRecipientController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\DriverExceptionController;
 use App\Http\Controllers\DriverRouteSubsController;
 use App\Http\Controllers\Report\DashboardController;
 use App\Http\Controllers\Report\DriversByRouteViewController;
@@ -18,6 +17,7 @@ use App\Http\Controllers\Resources\DataTables\PersonDataTableController;
 use App\Http\Controllers\Resources\DataTables\RecipientDataTableController;
 use App\Http\Controllers\Resources\DataTables\RouteDataTableController;
 use App\Http\Controllers\Resources\DriverController;
+use App\Http\Controllers\Resources\DriverExceptionController;
 use App\Http\Controllers\Resources\PersonController;
 use App\Http\Controllers\Resources\RecipientController;
 use App\Http\Controllers\Resources\RouteController;
@@ -48,6 +48,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile');
 
     Route::get('/substitutes', [DriverRouteSubsController::class, 'index'])->name('substitutes');
+
+    Route::prefix('driversbyroute')->group(function () {
+        Route::get('/', [DriversByRouteViewController::class, 'index'])->name('driversbyroute');
+        Route::get('/data', [DriversByRouteViewController::class, 'data'])->name('driversbyroute.data');
+    });
+
+    Route::prefix('recipientsbyroute')->group(function () {
+        Route::get('/', [RecipientsByRouteViewController::class, 'index'])->name('recipientsbyroute');
+        Route::get('/data', [RecipientsByRouteViewController::class, 'data'])->name('recipientsbyroute.data');
+    });
 
     Route::prefix('recipient')->group(function () {
         Route::get('/', [RecipientController::class, 'all']);
@@ -81,6 +91,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [DriverExceptionController::class, 'index']);
         Route::get('/{driver_id}/data', [DriverExceptionController::class, 'data']);
         Route::post('/store', [DriverExceptionController::class, 'store']);
+        Route::post('/{exception_id}/sub/{substitute_driver_id}', [DriverExceptionController::class, 'makeSubstitute']);
     });
 
     Route::prefix('person')->group(function () {
@@ -156,15 +167,6 @@ Route::prefix('manage')->middleware(['auth', 'verified'])->group(function () {
     Route::get('driver/{id}', [ManageDriverController::class, 'index'])->name('manage.driver');
 });
 
-Route::prefix('routedriver')->group(function () {
-    Route::get('/', [DriversByRouteViewController::class, 'index']);
-    Route::get('/data', [DriversByRouteViewController::class, 'data']);
-});
-
-Route::prefix('routerecipients')->group(function () {
-    Route::get('/', [RecipientsByRouteViewController::class, 'index']);
-    Route::get('/data', [RecipientsByRouteViewController::class, 'data']);
-});
 
 Route::get('/calendar/events', function (Request $request) {
 });

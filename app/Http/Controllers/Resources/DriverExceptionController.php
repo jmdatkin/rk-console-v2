@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Resources;
 use App\Http\Controllers\Controller;
 use App\Models\DriverException;
 use App\Models\DriverStatus;
+use App\Repository\DriverExceptionRepositoryInterface;
 use App\Repository\DriverRepositoryInterface;
 use Error;
 use Exception;
@@ -15,16 +16,17 @@ use Inertia\Inertia;
 class DriverExceptionController extends Controller
 {
     //
-    public function __construct(DriverRepositoryInterface $repository)
+    public function __construct(DriverExceptionRepositoryInterface $repository, DriverRepositoryInterface $driverRepository)
     {
         $this->repository = $repository;
+        $this->driverRepository = $driverRepository;
     }
 
     public function index(Request $request)
     {
         $driver_id = $request->input('did');
         return Inertia::render('DriverExceptions/Index', [
-            'driverData' => $this->repository->find($driver_id),
+            'driverData' => $this->driverRepository->find($driver_id),
             'exceptions' => DriverException::where('driver_id', $driver_id)->get()
         ]);
     }
@@ -44,5 +46,9 @@ class DriverExceptionController extends Controller
                 return back();
             }
         });
+    }
+
+    public function makeSubstitute($exception_id, $substitute_driver_id) {
+        $this->repository->find($exception_id)->substituteDriver()->associate($substitute_driver_id);
     }
 }

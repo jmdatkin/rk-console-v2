@@ -55,15 +55,15 @@ const items = ref([
         items: [
             {
                 label: 'Recipients by Route',
-                command: () => Inertia.visit('/routerecipients')
+                command: () => Inertia.visit(route('recipientsbyroute'))
+            },
+            {
+                label: 'Drivers by Route',
+                command: () => Inertia.visit(route('driversbyroute'))
             },
             {
                 label: 'Schedule Exceptions',
                 command: () => Inertia.visit('/exceptions')
-            },
-            {
-                label: 'Assign Substitutes',
-                command: () => Inertia.visit('/routedriver')
             },
         ]
     },
