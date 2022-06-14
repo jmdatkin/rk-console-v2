@@ -7,7 +7,7 @@ import Card from 'primevue/card';
 import Divider from 'primevue/divider';
 import { Link, Head } from '@inertiajs/inertia-vue3';
 import CardLink from '@/Components/CardLink';
-import { momentFormatString } from '../../util';
+import { DateAdapter } from '../../util';
 
 import Panel from 'primevue/panel';
 
@@ -36,7 +36,7 @@ defineProps(['routeDriver_data', 'routeRecipient_data'])
                         Today's Drivers
                     </template>
                     <!-- <RouteRecipientsTable :date="moment(Date.now())"></RouteRecipientsTable> -->
-                    <DashboardTable :value="routeDriver_data" :date="moment(Date.now()).format(momentFormatString)"></DashboardTable>
+                    <DashboardTable :value="routeDriver_data" :date="DateAdapter.make(Date.now())"></DashboardTable>
                 </Panel>
             </div>
         </div>
@@ -47,7 +47,7 @@ defineProps(['routeDriver_data', 'routeRecipient_data'])
                         Today's Recipients
                     </template>
                     <!-- <RouteRecipientsTable :date="moment(Date.now())"></RouteRecipientsTable> -->
-                    <RouteRecipientsTable :value="routeRecipient_data" :date="moment(Date.now()).format(momentFormatString)"></RouteRecipientsTable>
+                    <RouteRecipientsTable :value="routeRecipient_data" :date="DateAdapter.make(Date.now())"></RouteRecipientsTable>
                 </Panel>
             </div>
         </div>

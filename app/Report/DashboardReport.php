@@ -2,7 +2,7 @@
 
 namespace App\Report;
 
-use Facades\App\Facade\DateHandler;
+use Facades\App\Facade\DateAdapter;
 use App\Models\Route;
 use App\Repository\RouteRepositoryInterface;
 use Carbon\Carbon;
@@ -18,7 +18,7 @@ class DashboardReport
     public function routeDrivers($date)
     {
         // $weekday = strtolower(Carbon::createFromFormat("mdY",$date)->shortDayName);
-        $carbon_date = DateHandler::intakeDate($date);
+        $carbon_date = DateAdapter::make($date);
         $weekday = strtolower($carbon_date->shortDayName);
         return Route::with([
             'drivers' => function ($query) use ($weekday) {
@@ -34,7 +34,7 @@ class DashboardReport
 
     public function routeRecipients($date)
     {
-        $carbon_date = DateHandler::intakeDate($date);
+        $carbon_date = DateAdapter::make($date);
         $weekday = strtolower($carbon_date->shortDayName);
         return Route::with([
             'recipients' => function ($query) use ($weekday) {

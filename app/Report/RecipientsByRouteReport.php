@@ -2,10 +2,10 @@
 
 namespace App\Report;
 
+use Facades\App\Facade\DateAdapter;
 use App\Models\Route;
 use App\Repository\RouteRepositoryInterface;
 use Carbon\Carbon;
-use Facades\App\Facade\DateHandler;
 use Illuminate\Http\Request;
 
 class RecipientsByRouteReport implements ReportInterface
@@ -20,7 +20,7 @@ class RecipientsByRouteReport implements ReportInterface
     public function data($input)
     {
         $date = $input['date'];
-        $carbon_date = DateHandler::intakeDate($date);
+        $carbon_date = DateAdapter::make($date);
         $weekday = strtolower($carbon_date->shortDayName);
         return Route::with(['recipients' => function ($query) use ($weekday) {
             return $query->where('weekday', $weekday);

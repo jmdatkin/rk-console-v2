@@ -4,8 +4,8 @@ namespace App\Facade;
 
 use Carbon\Carbon;
 
-class DateHandler {
-    public function intakeDate($date) {
+class DateAdapter {
+    public function make($date) {
         return Carbon::createFromFormat("mdY", $date);
     }
 }
