@@ -270,11 +270,11 @@ CRUD.get();
                     <Toolbar class="p-0">
                         <template #start>
                             <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
-                                class="p-button-outlined" @click="initFilters()" />
-                            <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
+                                class="p-button-outlined p-button-sm" @click="initFilters()" />
+                            <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success p-button-sm"
                                 @click="openNewRecordDialog" />
                             <Button :disabled="!selected || !selected.length" type="button" icon="pi pi-trash"
-                                label="Delete Records" class="p-button-alert" @click="destroySelected" />
+                                label="Delete Records" class="p-button-alert p-button-sm" @click="destroySelected" />
                             <Loading :show="!dataLoaded"></Loading>
                         </template>
                         <template #end>

@@ -16,6 +16,7 @@ const calendarOptions = ref({
         interactionPlugin
     ],
     initialView: 'dayGridMonth',
+    contentHeight: 'auto',
     selectable: true,
     dayCellClassNames: function(arg) {
         let { date } = arg;
@@ -61,7 +62,8 @@ onUpdated(() => {
 }
 
 .fc-before-current-week {
-    background-color: #eee;
+    // background-color: #eee;
+    background-color: var(--surface-100);
 }
 .p-submenu-list {
     background-color: red;

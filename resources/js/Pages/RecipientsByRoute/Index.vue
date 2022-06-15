@@ -20,7 +20,7 @@ import RecipientsByRouteTable from './RecipientsByRouteTable';
         </template>
         <!-- <DateSelectLayout> -->
         <template #table>
-            <DateSelect>
+            <DateSelect :limitSelect="true" >
                 <template v-slot="{ date, openDateSelect }">
                     <!-- <Button @click="openDateSelect">Change Date</Button> -->
                     <RecipientsByRouteTable :date="date" :openDateSelect="openDateSelect"></RecipientsByRouteTable>

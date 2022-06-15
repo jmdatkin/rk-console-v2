@@ -1,17 +1,35 @@
 <script setup>
 import BasePageLayout from '@/Layouts/BasePageLayout';
-import DashboardTable from './DashboardTable';
+import Dialog from 'primevue/dialog';
+import RouteDriversTable from './RouteDriversTable';
 import RouteRecipientsTable from './RouteRecipientsTable';
 import moment from 'moment';
-import Card from 'primevue/card';
 import Divider from 'primevue/divider';
 import { Link, Head } from '@inertiajs/inertia-vue3';
-import CardLink from '@/Components/CardLink';
+import Panel from 'primevue/panel';
+import RecipientInfo from '../Resources/Recipients/RecipientInfo';
+import DriverInfo from '../Resources/Drivers/DriverInfo';
+import { ref } from 'vue';
+
 import { DateAdapter } from '../../util';
 
-import Panel from 'primevue/panel';
-
 defineProps(['routeDriver_data', 'routeRecipient_data'])
+
+const recipientData = ref([]);
+const driverData = ref([]);
+
+const recipientDialogOpen = ref(false);
+const driverDialogOpen = ref(false);
+
+const openRecipientDialog = function(row) {
+    recipientData.value = row.data;
+    recipientDialogOpen.value = true;
+};
+
+const openDriverDialog = function(row) {
+    driverData.value = row.data.driver;
+    driverDialogOpen.value = true;
+};
 </script>
 
 <template>
@@ -19,8 +37,22 @@ defineProps(['routeDriver_data', 'routeRecipient_data'])
     <Head title="Dashboard" />
 
     <BasePageLayout>
+    <!-- Driver Dialog -->
+        <Dialog :modal="true" :dismissableMask="true" closeOnEscape="true" v-model:visible="driverDialogOpen">
+            <template #header>
+                &nbsp;
+            </template>
+            <DriverInfo :data="driverData"></DriverInfo> 
+        </Dialog>
+    <!-- Recipient Dialog -->
+        <Dialog :modal="true" :dismissableMask="true" closeOnEscape="true" v-model:visible="recipientDialogOpen">
+            <template #header>
+                &nbsp;
+            </template>
+            <RecipientInfo :data="recipientData"></RecipientInfo> 
+        </Dialog>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl leading-tight mb-4">
                 Dashboard
             </h2>
         </template>
@@ -30,24 +62,29 @@ defineProps(['routeDriver_data', 'routeRecipient_data'])
             </div>
         </div>
         <div class="grid">
-            <div class="col-12">
+            <div class="col-12 lg:col-6">
                 <Panel>
                     <template #header>
+                        <span>
+                        <i class="pi pi-car"></i>
                         Today's Drivers
+                        </span>
                     </template>
                     <!-- <RouteRecipientsTable :date="moment(Date.now())"></RouteRecipientsTable> -->
-                    <DashboardTable :value="routeDriver_data" :date="DateAdapter.make(Date.now())"></DashboardTable>
+                    <RouteDriversTable :onSelect="openDriverDialog" :value="routeDriver_data" :date="DateAdapter.make(Date.now())"></RouteDriversTable>
                 </Panel>
             </div>
-        </div>
-        <div class="grid">
-            <div class="col-12">
+            <div class="col-12 lg:col-6">
                 <Panel>
                     <template #header>
-                        Today's Recipients
+                        <span>
+                            <i class="pi pi-box"></i>
+                            Today's Recipients
+                        </span>
                     </template>
                     <!-- <RouteRecipientsTable :date="moment(Date.now())"></RouteRecipientsTable> -->
-                    <RouteRecipientsTable :value="routeRecipient_data" :date="DateAdapter.make(Date.now())"></RouteRecipientsTable>
+                    <RouteRecipientsTable :onSelect="openRecipientDialog" :value="routeRecipient_data" :date="DateAdapter.make(Date.now())">
+                    </RouteRecipientsTable>
                 </Panel>
             </div>
         </div>

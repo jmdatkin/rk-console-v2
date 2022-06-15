@@ -6,6 +6,10 @@ html {
     font-size: 14pt;
 }
 
+body {
+    background-color: var(--surface-ground);
+}
+
 .p-hidden-accessible {
     /* display: none; */
     border: 0;

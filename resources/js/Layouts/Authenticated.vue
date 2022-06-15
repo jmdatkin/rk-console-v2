@@ -3,6 +3,7 @@ import { inject, ref } from 'vue';
 import App from './App';
 import MenuBar from 'primevue/menubar';
 import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue';
+import Button from 'primevue/button';
 import BreezeDropdown from '@/Components/Dropdown.vue';
 import BreezeDropdownLink from '@/Components/DropdownLink.vue';
 import BreezeNavLink from '@/Components/NavLink.vue';
@@ -94,21 +95,23 @@ const items = ref([
 
 <template>
     <App>
-        <div>
-            <MenuBar :model="items">
+        <div class="app-wrapper">
+            <MenuBar class="mb-2" :model="items">
                 <template #start>
                     <Link :href="route('dashboard')">
                     <BreezeApplicationLogo class="block h-9 w-auto" />
                     </Link>
                 </template>
                 <template #end>
-                    <Link :href="route('profile')" method="get" as="button">
+                    <Button label="Profile" icon="pi pi-user" class="p-button-text p-button-plain" @click="() => Inertia.get(route('profile'))"></Button>
+                    <Button label="Log Out" class="p-button-text p-button-plain" @click="() => Inertia.post(route('logout'))"></Button>
+                    <!-- <Link :href="route('profile')" method="get" as="button">
                     <i class="pi pi-user"></i>
                         Profile
                     </Link>
                     <Link :href="route('logout')" method="post" as="button">
                         Log Out
-                    </Link>
+                    </Link> -->
                 </template>
             </MenuBar>
 
@@ -120,3 +123,9 @@ const items = ref([
 
     </App>
 </template>
+
+<style lang="scss">
+    .app-wrapper {
+        padding: 10px;
+    }
+</style>

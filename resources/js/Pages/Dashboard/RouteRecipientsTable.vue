@@ -11,7 +11,7 @@ import moment from 'moment';
 import { useConfirm } from 'primevue/useconfirm';
 import { ref, onUpdated, onMounted, computed } from 'vue';
 
-const props = defineProps(['value']);
+const props = defineProps(['value', 'onSelect']);
 
 const rowClass = (data) => {
     return data.inException ? 'in-exception' : null;
@@ -20,7 +20,7 @@ const rowClass = (data) => {
 </script>
 <template>
 
-    <DataTable :value="value" rowGroupMode="rowspan" :paginator="true" :rowClass="rowClass" :rows="10" responsiveLayout="scroll"
+    <DataTable @row-select="onSelect" :value="value" selectionMode="single" rowGroupMode="rowspan" :paginator="true" :rowClass="rowClass" :rows="10" responsiveLayout="scroll"
         columnResizeMode="fit" :showGridlines="true" groupRowsBy="routeName">
         <template #empty>
             No records found.
