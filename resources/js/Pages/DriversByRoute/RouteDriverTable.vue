@@ -13,7 +13,8 @@ import { ref, onUpdated, onMounted, computed } from 'vue';
 
 const props = defineProps(['onRowSelect', 'selection', 'date', 'openDateSelect', 'value', 'getData']);
 const weekday = computed(() => {
-    return formatDate(props.date, { weekday: 'short' }).toLowerCase();
+    // return formatDate(props.date, { weekday: 'short' }).toLowerCase();
+    return moment(props.date).format('ddd').toLowerCase();
 });
 
 const rowClass = (data) => {

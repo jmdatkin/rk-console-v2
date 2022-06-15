@@ -1,25 +1,45 @@
 <script setup>
 import Card from 'primevue/card';
+import InfoItem from '@/Components/InfoItem';
+import Divider from 'primevue/divider';
 
 defineProps(['data']);
 </script>
 <template>
     <Card class="mb-2">
-        <template #title>
+        <!-- <template #title>
             {{ data.driver.person.firstName }} {{ data.driver.person.lastName }}
-        </template>
+        </template> -->
         <template #content>
-            <div class="flex flex-col">
-                <span>
-                From: {{ data.date_start }}
+            <div class="p-driver-exception flex flex-col">
+                {{ data.driver.person.firstName }} {{ data.driver.person.lastName }}
+                <div class="flex flex-row">
+                    <InfoItem title="From" class="mr-6">
+                        {{ data.date_start }}
+                    </InfoItem>
+                    <InfoItem title="To">
+                        {{ data.date_end }}
+                    </InfoItem>
+                </div>
+                <InfoItem icon="pi pi-file" title="Notes">
+                    {{ data.notes }}
+                </InfoItem>
+                <!-- <span>
+                    From: {{ data.date_start }}
                 </span>
                 <span>
-                To: {{ data.date_end }}
+                    To: {{ data.date_end }}
                 </span>
                 <span>
-                Notes: {{ data.notes }}
-                </span>
+                    Notes: {{ data.notes }}
+                </span> -->
             </div>
         </template>
     </Card>
 </template>
+
+<style lang="scss">
+.p-driver-exception > * {
+    margin: 0.75rem 0;
+}
+</style>
