@@ -34,58 +34,9 @@ const onRowContextMenu = event => {
     cm.value.show(event.originalEvent);
 };
 
-const selectedRoute = ref();
-const openAlternateDriversDialog = function (routeData) {
-    selectedRoute.value = routeData;
-    getAlternateDriversData(routeData.id);
-};
-
-const altDriverDialog = ref(false);
-const altDriverSelection = ref();
-const altDriverData = ref([]);
-const altDriverDataLoaded = ref(false);
-
-const getAlternateDriversData = function (id) {
-    axios.get(`/route/${id}/alternates`)
-        .then(res => {
-            altDriverData.value = res.data;
-            altDriverDataLoaded.value = true;
-            altDriverDialog.value = true;
-        });
-};
-
-const switchDriverAssignment = function (routeId, driverId) {
-    confirm.require({
-        message: `Are you sure you want to assign driver '${driverId}' to route '${routeId}?`,
-        icon: 'pi pi-exclamation-triangle',
-        acceptClass: 'p-button-info',
-        accept: () => {
-            axios.post(`/driver/${driverId}/assign/${routeId}?weekday=${weekday.value}`)
-                .then(() => props.getData());
-        },
-    });
-};
 
 </script>
 <template>
-    <Dialog v-model:visible="altDriverDialog" :closeOnEscape="true" :closable="true" :dismissableMask="true"
-        :modal="true" :breakpoints="{
-            '960px': '75vw',
-            '640px': '100vw'
-        }" :style="{ width: '50vw' }">
-        <template #header><strong>Alternate Drivers for Route: {{ selectedRoute.name }}</strong></template>
-        <DataTable @rowSelect="(event) => switchDriverAssignment(selectedRoute.id, event.data.id)" v-model:selection="altDriverSelection" selectionMode="single" :value="altDriverData">
-            <Column header="id" field="id">
-            </Column>
-            <Column header="firstName" field="person.firstName">
-                <template #body="{ data }">
-                    <a @click="() => switchDriverAssignment(selectedRoute.id, data.id)">{{ data.person.firstName }}</a>
-                </template>
-            </Column>
-            <Column header="lastName" field="person.lastName">
-            </Column>
-        </DataTable>
-    </Dialog>
     <DataTable @row-select="e => onRowSelect(e.data)" v-model:selection="selection" selectionMode="single" :value="value" :paginator="true" :rowClass="rowClass" :rows="10" responsiveLayout="scroll"
         columnResizeMode="fit" :showGridlines="true">
         <template #header>

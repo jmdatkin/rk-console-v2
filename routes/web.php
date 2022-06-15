@@ -87,11 +87,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{id}/alternates/detach/{route_id}', [DriverController::class, 'deassignAlternate']);
     });
 
-    Route::prefix('exceptions')->group(function () {
+    Route::prefix('exception')->group(function () {
         Route::get('/', [DriverExceptionController::class, 'index']);
         Route::get('/{driver_id}/data', [DriverExceptionController::class, 'data']);
         Route::post('/store', [DriverExceptionController::class, 'store']);
-        Route::post('/{exception_id}/sub/{substitute_driver_id}', [DriverExceptionController::class, 'makeSubstitute']);
+        Route::post('/{exception_id}/sub/{substitute_driver_id}', [DriverExceptionController::class, 'makeSubstitute'])->name('exception.sub');
     });
 
     Route::prefix('person')->group(function () {

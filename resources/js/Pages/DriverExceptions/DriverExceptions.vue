@@ -12,7 +12,7 @@ const props = defineProps(['driverData']);
 
 const exceptions = ref([]);
 const getExceptions = function () {
-    axios.get(`/exceptions/${props.driverData.id}/data`)
+    axios.get(`/exception/${props.driverData.id}/data`)
         .then(res => exceptions.value = res.data);
 };
 
