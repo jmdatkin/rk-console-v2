@@ -90,9 +90,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::prefix('exception')->group(function () {
-        Route::get('/', [DriverExceptionController::class, 'index']);
-        Route::get('/{driver_id}/data', [DriverExceptionController::class, 'data']);
-        Route::post('/store', [DriverExceptionController::class, 'store']);
+        Route::get('/', [DriverExceptionController::class, 'index'])->name('exception.index');
+        Route::get('/{driver_id}/data', [DriverExceptionController::class, 'data'])->name('exception.driver');
+        Route::post('/store', [DriverExceptionController::class, 'store'])->name('exception.store');
         Route::post('/{exception_id}/sub/{substitute_driver_id}', [DriverExceptionController::class, 'makeSubstitute'])->name('exception.sub');
     });
 

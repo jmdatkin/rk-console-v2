@@ -9,6 +9,7 @@ use App\Repository\DriverExceptionRepositoryInterface;
 use App\Repository\DriverRepositoryInterface;
 use Error;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,7 +33,7 @@ class DriverExceptionController extends Controller
     }
 
     public function data($driver_id) {
-        return $this->repository->find($driver_id)->exceptions;
+        return $this->driverRepository->find($driver_id)->exceptions;
     }
 
     public function store(Request $request)

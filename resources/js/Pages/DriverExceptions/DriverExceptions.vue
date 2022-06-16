@@ -5,14 +5,17 @@ import PrimeVueCalendar from 'primevue/calendar';
 import Dialog from 'primevue/dialog';
 import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
+import { useToast } from 'primevue/usetoast';
 import { ref, reactive, computed, onMounted } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
+import axios from 'axios';
 
 const props = defineProps(['driverData']);
+const toast = useToast();
 
 const exceptions = ref([]);
 const getExceptions = function () {
-    axios.get(`/exception/${props.driverData.id}/data`)
+    axios.get(route('exception.driver', { driver_id: props.driverData.id }))
         .then(res => exceptions.value = res.data);
 };
 
@@ -32,7 +35,18 @@ const driverExceptionForm = reactive({
 });
 
 const driverExceptionSubmit = function () {
-    Inertia.post('/exceptions/store', driverExceptionForm);
+    // Inertia.post('/exceptions/store', driverExceptionForm);
+    axios.post(route('exception.store', driverExceptionForm))
+        .then(
+            () => {
+                getExceptions();
+                toast.add({ severity: 'success', summary: 'Successful', detail: 'Driver exception successfully created.', life: 3000 });
+            },
+            () => {
+                toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred. Driver exception was not successfully created.', life: 3000 });
+            }
+
+        )
 };
 
 onMounted(() => {

@@ -64,7 +64,7 @@ const items = ref([
             },
             {
                 label: 'Schedule Exceptions',
-                command: () => Inertia.visit('/exceptions')
+                command: () => Inertia.visit(route('exception.index'))
             },
         ]
     },
