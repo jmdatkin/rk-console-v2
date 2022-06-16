@@ -18,6 +18,10 @@ class Driver extends BasePersonRole
         return $this->belongsTo(Person::class);
     }
 
+    public function getSubAttribute() {
+        return $this->exceptions()->whereHas('substituteDriver')->get()->sortBy('length')->first()->substituteDriver;
+    }
+
     //Many-to-many linkage between route
     public function routes()
     {

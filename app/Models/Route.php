@@ -30,30 +30,17 @@ class Route extends Model
         return $this->belongsToMany(Driver::class)->withPivot('weekday');
     }
 
-    // public function driversWithSubs()
-    // {
-    //     $drivers = $this->drivers;
-    //     $merged_drivers = $drivers->map(function ($driver) {
-    //         $carbon_day = Carbon::parse($driver->pivot->weekday . ' this week');
-    //         $subs = DriverRouteSub::covers($carbon_day)->replacesDriver($driver->id)->get();
-    //         if ($subs->isNotEmpty())
-    //             return $subs;
-    //         return $driver;
-    //     });
-
-    //     return $merged_drivers;
-    // }
-
-    public function driversWithSubs()
-    {
-        return $this->drivers->map(function ($driver) {
-            $substitutions = $driver->exceptions->whereNotNull('substitute_driver_id');
-            $substitutions = $substitutions->filter(function ($substitution) use ($driver) {
-                return $substitution->contains(Carbon::parse($driver->pivot->weekday . ' this week'));
-            });
-            if ($substitutions->isEmpty())
-                return $driver;
-            return $substitutions->first();
+    public function getDriversWithSubsAttribute() {
+        return $this->drivers->map(function($driver) {
+            if (is_null($driver->sub)) {
+                return collect($driver)->merge([
+                    'isSub' => false
+                ]);
+            } else {
+                return collect($driver->sub)->merge([
+                    'isSub' => true
+                ]);
+            }
         });
     }
 

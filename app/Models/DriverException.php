@@ -19,6 +19,13 @@ class DriverException extends Model
     ];
 
     protected $with = ['driver', 'substituteDriver'];
+    
+    protected $appends = ['length'];
+
+    protected $casts = [
+        'date_start' => 'datetime',
+        'date_end' => 'datetime'
+    ];
 
     public function driver() {
         return $this->belongsTo(Driver::class, 'driver_id');
@@ -26,6 +33,11 @@ class DriverException extends Model
 
     public function substituteDriver() {
         return $this->belongsTo(Driver::class, 'substitute_driver_id');
+    }
+
+    public function getLengthAttribute() {
+        // Number of days between dates
+        return $this->date_start->diff($this->date_end)->days;
     }
 
     // public function setSubstituteDriver() {
