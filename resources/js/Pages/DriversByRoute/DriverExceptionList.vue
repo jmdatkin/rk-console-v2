@@ -2,8 +2,13 @@
 import DriverException from './DriverException';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
+import { computed } from 'vue';
 
-const props = defineProps(['exceptions', 'onExceptionSelect']);
+const props = defineProps(['selectedDriver', 'onExceptionSelect']);
+const exceptions = computed(() => {
+    return props.selectedDriver.exceptions;
+});
+
 </script>
 
 <template>
@@ -17,7 +22,7 @@ const props = defineProps(['exceptions', 'onExceptionSelect']);
                 <span>{{ exception.notes }}</span>
             </div>
         </template>
-        <DriverException :onSelect="onExceptionSelect" :data="exception"></DriverException>
+        <DriverException :routeId="props.selectedDriver.routeId" :onSelect="onExceptionSelect" :data="exception"></DriverException>
     </AccordionTab>
 </Accordion>
 <!-- <DriverException v-for="exception in exceptions" :onSelect="onExceptionSelect" :data="exception">

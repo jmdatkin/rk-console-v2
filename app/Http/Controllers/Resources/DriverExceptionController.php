@@ -50,6 +50,10 @@ class DriverExceptionController extends Controller
     }
 
     public function makeSubstitute($exception_id, $substitute_driver_id) {
-        $this->repository->find($exception_id)->substituteDriver()->associate($substitute_driver_id);
+        $exception = $this->repository->find($exception_id);
+        $exception->update(['substitute_driver_id' => $substitute_driver_id]);
+        // $substitute_driver = $this->driverRepository->find($substitute_driver_id);
+        // $exception->substituteDriver()->associate($substitute_driver);
+        // $this->repository->find($exception_id)->substituteDriver()->associate($substitute_driver_id);
     }
 }

@@ -4,7 +4,7 @@ import Button from 'primevue/button';
 import InfoItem from '@/Components/InfoItem';
 import Divider from 'primevue/divider';
 
-const props = defineProps(['data', 'onSelect']);
+const props = defineProps(['data', 'routeId', 'onSelect']);
 
 
 
@@ -28,7 +28,7 @@ const props = defineProps(['data', 'onSelect']);
         <InfoItem icon="pi pi-file" title="Notes">
             {{ data.notes }}
         </InfoItem>
-        <Button @click="() => onSelect(props.data)">Assign Substitute</Button>
+        <Button @click="() => onSelect({ routeId, ...data})">Assign Substitute</Button>
         <!-- <span>
                     From: {{ data.date_start }}
                 </span>

@@ -1,6 +1,8 @@
 <script setup>
 import RouteDriverTable from './RouteDriverTable';
 import DriverExceptionList from './DriverExceptionList';
+import AlternateDriversDataTable from '../../Components/DataTables/AlternateDriversDataTable';
+import Dialog from 'primevue/dialog';
 import moment from 'moment-timezone';
 import { formatDate } from '@fullcalendar/common';
 import { ref, onMounted, computed } from 'vue';
@@ -26,6 +28,7 @@ const getData = function () {
 
 const selectedDriver = ref(null);
 const onRowSelect = function (row) {
+    console.log(row);
     selectedDriver.value = row;
 };
 
@@ -34,14 +37,13 @@ const tableData = computed(() => {
         let isDriver = typeof route.drivers[0] !== 'undefined';
         let driver = route.drivers[0] || {};
         return {
-            id: route.id,
-            name: route.name,
+            routeId: route.id,
+            routeName: route.name,
             firstName: isDriver ? driver.person.firstName : '',
             lastName: isDriver ? driver.person.lastName : '',
             driver: isDriver ? route.drivers[0] : {},
             exceptions: isDriver ? route.drivers[0].exceptions : [],
             inException: isDriver ? route.drivers[0].exceptions.reduce((prev, curr) => {
-                console.log(curr.date_start);
                 return prev || moment(props.date).isBetween(curr.date_start, curr.date_end);
             }, false) : false
         };
@@ -51,19 +53,16 @@ const tableData = computed(() => {
 const confirm = useConfirm();
 
 const selectedException = ref();
-const onExceptionSelect = function(exception) {
+const onExceptionSelect = function (exception) {
+    console.log(exception);
     selectedException.value = exception;
-    openAlternateDriversDialog(exception);
+    selectedRoute.value = exception.routeId;
+    getAlternateDriversData(exception.routeId);
 };
 
 const selectedRoute = ref();
-const openAlternateDriversDialog = function (routeData) {
-    selectedRoute.value = routeData;
-    getAlternateDriversData(routeData.id);
-};
 
 const altDriverDialog = ref(false);
-const altDriverSelection = ref();
 const altDriverData = ref([]);
 const altDriverDataLoaded = ref(false);
 
@@ -75,6 +74,7 @@ const getAlternateDriversData = function (id) {
             altDriverDialog.value = true;
         });
 };
+
 
 // const switchDriverAssignment = function (routeId, driverId) {
 //     confirm.require({
@@ -89,7 +89,7 @@ const getAlternateDriversData = function (id) {
 // };
 const assignSub = function (exceptionId, substituteDriverId) {
     confirm.require({
-        message: `Are you sure you want to assign driver '${driverId}' to route '${routeId}?`,
+        message: `Are you sure you want to assign driver '${substituteDriverId}' as a substitute?`,//to route '${routeId}?`,
         icon: 'pi pi-exclamation-triangle',
         acceptClass: 'p-button-info',
         accept: () => {
@@ -115,7 +115,7 @@ onMounted(() => {
             '640px': '100vw'
         }" :style="{ width: '50vw' }">
         <template #header><strong>Alternate Drivers for Route: {{ selectedRoute.name }}</strong></template>
-        <DataTable @rowSelect="(event) => switchDriverAssignment(selectedRoute.id, event.data.id)"
+        <!-- <DataTable @rowSelect="(event) => assignSub(selectedRoute.id, event.data.id)"
             v-model:selection="altDriverSelection" selectionMode="single" :value="altDriverData">
             <Column header="id" field="id">
             </Column>
@@ -126,7 +126,9 @@ onMounted(() => {
             </Column>
             <Column header="lastName" field="person.lastName">
             </Column>
-        </DataTable>
+        </DataTable> -->
+        <AlternateDriversDataTable :data="altDriverData"
+            :onSelect="(event) => assignSub(selectedException.id, event.data.id)"></AlternateDriversDataTable>
     </Dialog>
     <div class="grid">
         <div class="col-12 sm:col-8">
@@ -135,7 +137,8 @@ onMounted(() => {
         </div>
         <div class="col-12 sm:col-4">
             <h3>Exceptions</h3>
-            <DriverExceptionList v-if="selectedDriver" :onExceptionSelect="onExceptionSelect" :exceptions="selectedDriver.exceptions"></DriverExceptionList>
+            <DriverExceptionList v-if="selectedDriver" :onExceptionSelect="onExceptionSelect"
+                :selectedDriver="selectedDriver"></DriverExceptionList>
         </div>
     </div>
 

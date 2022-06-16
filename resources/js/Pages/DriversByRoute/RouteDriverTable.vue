@@ -40,7 +40,7 @@ const onRowContextMenu = event => {
         </template>
         <ColumnGroup type="header">
             <Row>
-                <Column header="Route" field="name" :rowspan="2">
+                <Column header="Route" field="routeName" :rowspan="2">
                 </Column>
                 <Column header="Driver" :colspan="3">
                 </Column>
@@ -51,7 +51,7 @@ const onRowContextMenu = event => {
                 <Column header="Last Name" field="lastName"></Column>
             </Row>
         </ColumnGroup>
-        <Column header="Route" field="name">
+        <Column header="Route" field="routeName">
         </Column>
         <Column :sortable="true" field="driver.id" header="id" style="max-width: 10%; text-align: center">
             <template #body="{ data }">

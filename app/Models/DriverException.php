@@ -28,6 +28,10 @@ class DriverException extends Model
         return $this->belongsTo(Driver::class, 'substitute_driver_id');
     }
 
+    // public function setSubstituteDriver() {
+    //         $this->substituteDriver()->associate()
+    // }
+
     public function contains($date) {
         return Carbon::parse($date)->between($this->date_start,$this->date_end);
     }
