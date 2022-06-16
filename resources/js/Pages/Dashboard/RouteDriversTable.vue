@@ -14,9 +14,13 @@ const props = defineProps(['onSelect', 'selection', 'date', 'openDateSelect', 'v
 
 const tableData = computed(() => {
     return props.value.map(row => {
-        return { driver: row.drivers[0] || {}, ...row };
+        return { driver: row.driversWithSubs[0] || {}, ...row };
     });
 });
+
+const rowClass = (data) => {
+    return data.driver.isSub ? 'is-sub' : ''
+};
 
 const confirm = useConfirm();
 
@@ -36,7 +40,8 @@ const onRowContextMenu = event => {
 <template>
     <DataTable @row-select="onSelect" v-model:selection="selection" selectionMode="single"
         :value="tableData" :paginator="true" :rowClass="rowClass" :rows="5" responsiveLayout="scroll"
-        columnResizeMode="fit" :showGridlines="true">
+        columnResizeMode="fit" :showGridlines="true"
+        >
         <template #empty>
             No records found.
         </template>
@@ -91,5 +96,10 @@ a:hover {
 
 ::v-deep .in-exception {
     background-color: var(--red-200) !important;
+}
+
+::v-deep .is-sub {
+    background-color: var(--yellow-300) !important;
+    color: var(--yellow-900) !important;
 }
 </style>
