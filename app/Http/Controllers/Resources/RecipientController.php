@@ -7,6 +7,7 @@ use App\Repository\AgencyRepositoryInterface;
 use App\Repository\RecipientRepositoryInterface;
 use Error;
 use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -23,16 +24,6 @@ class RecipientController extends BasePersonRoleController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(AgencyRepositoryInterface $agencyRepository)
-    {
-        //
-        return Inertia::render(
-            'Resources/RecipientDataTable',
-            [
-                "agencies" => $agencyRepository->all()
-            ]
-        );
-    }
 
     public function show($id)
     {
@@ -42,5 +33,20 @@ class RecipientController extends BasePersonRoleController
                 "data" => $this->get($id)
             ]
         );
+    }
+
+    public function assign($recipient_id, $route_id, Request $request)
+    {
+        $weekday = $request->input('weekday');
+        try {
+            $this->repository->find($recipient_id)->setRoute($route_id, $weekday);
+        } catch (QueryException $e) {
+            error_log($e);
+            return response($e, 409);
+        }
+    }
+
+    public function routes($recipient_id) {
+        return $this->repository->find($recipient_id)->routes;
     }
 }

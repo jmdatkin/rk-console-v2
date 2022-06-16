@@ -8,20 +8,14 @@ import Dialog from 'primevue/dialog';
 import ContextMenu from 'primevue/contextmenu';
 import moment from 'moment';
 import { formatDate } from '@fullcalendar/common';
-import { useConfirm } from 'primevue/useconfirm';
 import { ref, onUpdated, onMounted, computed } from 'vue';
 
 const props = defineProps(['onRowSelect', 'selection', 'date', 'openDateSelect', 'value', 'getData']);
-const weekday = computed(() => {
-    // return formatDate(props.date, { weekday: 'short' }).toLowerCase();
-    return moment(props.date).format('ddd').toLowerCase();
-});
 
 const rowClass = (data) => {
     return data.inException ? 'in-exception' : null;
 };
 
-const confirm = useConfirm();
 
 // Context menu
 const cmSelection = ref();
@@ -102,5 +96,14 @@ a:hover {
 
 ::v-deep .in-exception {
     background-color: var(--red-200) !important;
+}
+
+
+::v-deep .p-datatable .p-datatable-tbody tr.in-exception:focus {
+    outline-color: var(--red-800) !important;
+}
+
+::v-deep .in-exception.p-highlight {
+    outline-color: var(--red-800) !important;
 }
 </style>

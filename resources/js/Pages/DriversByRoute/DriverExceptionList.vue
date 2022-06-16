@@ -9,7 +9,7 @@ const props = defineProps(['exceptions', 'onExceptionSelect']);
 <template>
 
 
-<Accordion>
+<Accordion :activeIndex="0">
     <AccordionTab v-for="exception in exceptions">
         <template #header>
             <div class="flex justify-between">

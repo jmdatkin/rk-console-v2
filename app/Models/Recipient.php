@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Error;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
 
 class Recipient extends BasePersonRole
 {
@@ -15,7 +18,7 @@ class Recipient extends BasePersonRole
         'address'
     ];
 
-    protected $with = ['person','agency'];
+    protected $with = ['person', 'agency'];
 
     protected $touches = ['person'];
 
@@ -23,20 +26,36 @@ class Recipient extends BasePersonRole
     //     $this->with = array_merge(['agency'], parent::$this->with);
     // }
 
-    public function person() {
+    public function person()
+    {
         return $this->belongsTo(Person::class);
     }
 
-    public function agency() {
+    public function agency()
+    {
         return $this->belongsTo(Agency::class);
     }
 
     //Many-to-many linkage between route
-    public function routes() {
+    public function routes()
+    {
         return $this->belongsToMany(Route::class)->withPivot(['weekday']);
     }
 
-    public function setRoute($route_id, $weekday) {
-        $this->routes()->attach($route_id, [ 'weekday' => $weekday]);     //Set new route id
+    /**
+     * Sets a recipient's assigned route for the given weekday
+     * 
+     * @param route_id
+     * @param weekday
+     */
+    public function setRoute($route_id, $weekday)
+    {
+        try {
+            $this->routes()->wherePivot('weekday', $weekday)->detach();
+            $this->routes()->attach($route_id, ['weekday' => $weekday]);     //Set new route id
+        } catch (QueryException $e) {
+            error_log($e);
+            return response($e, 409);
+        }
     }
 }

@@ -7,11 +7,7 @@ import Card from 'primevue/card';
     <AuthenticatedVue>
         <div class="container w-full m-auto flex justify-content-center">
             <div class="content w-8 sm:w-full">
-                <Card class="mt-4">
-                    <template #content>
-                        <slot />
-                    </template>
-                </Card>
+                <slot />
             </div>
         </div>
     </AuthenticatedVue>

@@ -4,6 +4,7 @@ import Column from 'primevue/column';
 import Toolbar from 'primevue/toolbar';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
+import InputMask from 'primevue/inputmask';
 import Textarea from 'primevue/textarea';
 import FileUpload from 'primevue/fileupload';
 import Dropdown from 'primevue/dropdown';
@@ -11,6 +12,7 @@ import Dialog from 'primevue/dialog';
 import Loading from '@/Components/Loading';
 import ContextMenu from 'primevue/contextmenu';
 import ManageRecipient from '@/Components/Assignments/ManageRecipient';
+import RecipientRouteAssignments from '@/Components/Assignments/RecipientRouteAssignments';
 import { ref, onMounted, onUpdated, reactive, computed } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
@@ -19,6 +21,7 @@ import { recipientFilters } from './filters';
 import { useCRUD } from './hooks';
 import RecipientService from './Recipients/RecipientService';
 import { Inertia } from '@inertiajs/inertia';
+import RecipientRouteAssignmentsVue from '../../Components/Assignments/RecipientRouteAssignments.vue';
 
 const props = defineProps(['agencies', 'errors', 'message', 'csrf']);
 
@@ -50,7 +53,7 @@ const onRowContextMenu = event => {
     cm.value.show(event.originalEvent);
 };
 
-const viewRecord = function(record) {
+const viewRecord = function (record) {
     Inertia.visit(`/recipient/${record.id}`);
 };
 
@@ -179,12 +182,12 @@ CRUD.get();
             <form @submit.prevent="submitNewRecord">
                 <div>
                     <div class="grid p-field">
-                        <div class="col-12">
+                        <div class="col-12 sm:col-6">
                             <label for="newRecord.firstName">First Name</label>
                             <InputText class="p-form-input" id="newRecord.firstName" type="text"
                                 v-model="newRecordForm.firstName" />
                         </div>
-                        <div class="col-12">
+                        <div class="col-12 sm:col-6">
                             <label for="newRecord.lastName">Last Name</label>
                             <InputText class="p-form-input" id="newRecord.lastName" type="text"
                                 v-model="newRecordForm.lastName" />
@@ -197,7 +200,7 @@ CRUD.get();
                                 v-model="newRecordForm.email" />
                         </div>
                     </div>
-                    <div class="grid">
+                    <div class="grid p-field">
                         <div class="col-12">
                             <label for="newRecord.phoneHome">Home Phone</label>
                             <InputText class="p-form-input" id="newRecord.phoneHome" type="text"
@@ -205,8 +208,10 @@ CRUD.get();
                         </div>
                         <div class="col-12">
                             <label for="newRecord.phoneCell">Cell Phone</label>
-                            <InputText class="p-form-input" id="newRecord.phoneCell" type="text"
-                                v-model="newRecordForm.phoneCell" />
+                            <!-- <InputText class="p-form-input" id="newRecord.phoneCell" type="text"
+                                v-model="newRecordForm.phoneCell" /> -->
+                            <InputMask class="p-form-input" :id="'newRecord.phoneCell'" v-model="newRecordForm.phoneCell"
+                                mask="(999) 999-9999? x99999"></InputMask>
                         </div>
                     </div>
                     <div class="grid">
@@ -245,13 +250,17 @@ CRUD.get();
         </Dialog>
 
         <Dialog v-model:visible="assignDialog" :closeOnEscape="true" :closable="true" :dismissableMask="true"
-            :modal="true">
+            :modal="true" :breakpoints="{
+                '960px': '75vw',
+                '640px': '100vw'
+            }" :style="{ width: '50vw' }" >
             <template #header>
                 <h5 class="font-medium"></h5>
             </template>
-            <ManageRecipient :recipient_id="assignId" :recipientData="assignRecipient">
+            <!-- <ManageRecipient :recipient_id="assignId" :recipientData="assignRecipient">
 
-            </ManageRecipient>
+            </ManageRecipient> -->
+            <RecipientRouteAssignments :recipientData="assignRecipient"></RecipientRouteAssignments>
         </Dialog>
 
 
@@ -271,8 +280,8 @@ CRUD.get();
                         <template #start>
                             <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
                                 class="p-button-outlined p-button-sm" @click="initFilters()" />
-                            <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success p-button-sm"
-                                @click="openNewRecordDialog" />
+                            <Button type="button" icon="pi pi-plus" label="Add Record"
+                                class="p-button-success p-button-sm" @click="openNewRecordDialog" />
                             <Button :disabled="!selected || !selected.length" type="button" icon="pi pi-trash"
                                 label="Delete Records" class="p-button-alert p-button-sm" @click="destroySelected" />
                             <Loading :show="!dataLoaded"></Loading>
