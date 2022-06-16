@@ -19,7 +19,12 @@ class Driver extends BasePersonRole
     }
 
     public function getSubAttribute() {
-        return $this->exceptions()->whereHas('substituteDriver')->get()->sortBy('length')->first()->substituteDriver;
+        if ($this->exceptions->isEmpty()) return;
+        $subs = $this->exceptions()->whereHas('substituteDriver')->get();
+        
+        if ($subs->isEmpty()) return;
+        return $subs->sortBy('length')->first()->substituteDriver;
+        // return 'E';
     }
 
     //Many-to-many linkage between route

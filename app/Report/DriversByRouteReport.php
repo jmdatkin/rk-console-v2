@@ -25,6 +25,25 @@ class DriversByRouteReport implements ReportInterface
      * @param input
      * @return Collection
      */
+    public function data($input) {
+        $date = DateAdapter::make($input['date']);
+        $weekday = DateAdapter::weekday($date);
+
+        // return Route::all()->each(function ($route) use ($weekday) {
+        //     return $route->append('driversWithSubs');
+        //     // ->filter()
+        // });
+
+        // return Route::all()->each->append('driversWithSubs')
+        // ->filter(function ($route) use ($weekday) {
+        //     return $route->
+        // })
+
+        return Route::with(['drivers' => function($q) use ($weekday) {
+            return $q->where('weekday', $weekday);
+        }])->get()->each->append('driversWithSubs');
+    }
+    /*
     public function data($input)
     {
         $date = $input['date'];
@@ -53,5 +72,5 @@ class DriversByRouteReport implements ReportInterface
             }
         }
         // return Route::with('driversOnDay', $date);
-    }
+    }*/
 }

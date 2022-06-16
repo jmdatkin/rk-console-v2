@@ -30,6 +30,9 @@ class Route extends Model
         return $this->belongsToMany(Driver::class)->withPivot('weekday');
     }
 
+    /**
+     * Returns drivers linked to this route, with 
+     */
     public function getDriversWithSubsAttribute() {
         return $this->drivers->map(function($driver) {
             if (is_null($driver->sub)) {
@@ -38,6 +41,8 @@ class Route extends Model
                 ]);
             } else {
                 return collect($driver->sub)->merge([
+                    'pivot' => $driver->pivot,  //Retain original route relation, only replace driver info
+                    //Note: 'driver_id' in pivot will refer to original driver id
                     'isSub' => true
                 ]);
             }
