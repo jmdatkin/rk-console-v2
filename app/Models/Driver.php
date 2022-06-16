@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,8 +24,30 @@ class Driver extends BasePersonRole
         $subs = $this->exceptions()->whereHas('substituteDriver')->get();
         
         if ($subs->isEmpty()) return;
-        return $subs->sortBy('length')->first()->substituteDriver;
+        $firstSub = $subs->sortBy('length')->first();
+        
+        return $firstSub->substituteDriver;
+        // if ($firstSub->contains)
+        // ->substituteDriver;
         // return 'E';
+    }
+
+    public function getSub($date) {
+        if ($this->exceptions->isEmpty()) return;
+        $exceptions = $this->exceptions()->whereHas('substituteDriver')->get();
+        
+        if ($exceptions->isEmpty()) return;
+
+        $exceptionsContainingDate = $exceptions->filter(function($exception) use ($date) {
+            return $exception->contains(Carbon::parse($date));
+        });
+
+        if ($exceptionsContainingDate->isEmpty()) return;
+
+        $firstException = $exceptionsContainingDate->sortBy('length')->first();
+        
+        return $firstException->substituteDriver;
+        
     }
 
     //Many-to-many linkage between route

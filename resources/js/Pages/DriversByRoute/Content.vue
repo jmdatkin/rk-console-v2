@@ -33,22 +33,32 @@ const onRowSelect = function (row) {
 };
 
 const tableData = computed(() => {
-    return data.value.map(route => {
-        let isDriver = typeof route.drivers[0] !== 'undefined';
-        let driver = route.drivers[0] || {};
-        return {
-            routeId: route.id,
-            routeName: route.name,
-            firstName: isDriver ? driver.person.firstName : '',
-            lastName: isDriver ? driver.person.lastName : '',
-            driver: isDriver ? route.drivers[0] : {},
-            exceptions: isDriver ? route.drivers[0].exceptions : [],
-            inException: isDriver ? route.drivers[0].exceptions.reduce((prev, curr) => {
-                return prev || moment(props.date).isBetween(curr.date_start, curr.date_end);
-            }, false) : false
-        };
+    return data.value.map(row => {
+        return { 
+            driver: row.driversWithSubs[0] || {},
+            routeId: row.id,
+            routeName: row.name,
+            ...row };
     });
 });
+
+// const tableData = computed(() => {
+//     return data.value.map(route => {
+//         let isDriver = typeof route.drivers[0] !== 'undefined';
+//         let driver = route.drivers[0] || {};
+//         return {
+//             routeId: route.id,
+//             routeName: route.name,
+//             firstName: isDriver ? driver.person.firstName : '',
+//             lastName: isDriver ? driver.person.lastName : '',
+//             driver: isDriver ? route.drivers[0] : {},
+//             exceptions: isDriver ? route.drivers[0].exceptions : [],
+//             inException: isDriver ? route.drivers[0].exceptions.reduce((prev, curr) => {
+//                 return prev || moment(props.date).isBetween(curr.date_start, curr.date_end);
+//             }, false) : false
+//         };
+//     });
+// });
 
 const confirm = useConfirm();
 

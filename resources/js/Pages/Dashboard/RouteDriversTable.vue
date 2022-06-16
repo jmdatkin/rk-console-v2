@@ -92,8 +92,6 @@ a:hover {
     text-decoration: underline;
 }
 
-
-
 ::v-deep .in-exception {
     background-color: var(--red-200) !important;
 }

@@ -1227,6 +1227,13 @@ h2 {
   text-transform: uppercase;
   font-weight: 600;
 }
+::v-deep .in-exception {
+  background-color: var(--red-200) !important;
+}
+::v-deep .is-sub {
+  background-color: var(--yellow-300) !important;
+  color: var(--yellow-900) !important;
+}
 .hover\:border-gray-300:hover {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));

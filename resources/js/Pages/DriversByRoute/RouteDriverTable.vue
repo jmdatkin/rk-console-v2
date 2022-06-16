@@ -13,7 +13,17 @@ import { ref, onUpdated, onMounted, computed } from 'vue';
 const props = defineProps(['onRowSelect', 'selection', 'date', 'openDateSelect', 'value', 'getData']);
 
 const rowClass = (data) => {
-    return data.inException ? 'in-exception' : null;
+    let classString = '';
+
+    if (data.inException)
+        classString += 'in-exception ';
+
+    if (data.driver.isSub)
+        classString += 'is-sub ';
+
+    return classString;
+    // return data.inException ? 'in-exception' : null;
+
 };
 
 
@@ -31,7 +41,8 @@ const onRowContextMenu = event => {
 
 </script>
 <template>
-    <DataTable @row-select="e => onRowSelect(e.data)" v-model:selection="selection" selectionMode="single" :value="value" :paginator="true" :rowClass="rowClass" :rows="10" responsiveLayout="scroll"
+    <DataTable @row-select="e => onRowSelect(e.data)" v-model:selection="selection" selectionMode="single"
+        :value="value" :paginator="true" :rowClass="rowClass" :rows="10" responsiveLayout="scroll"
         columnResizeMode="fit" :showGridlines="true">
         <template #header>
 
@@ -47,8 +58,8 @@ const onRowContextMenu = event => {
             </Row>
             <Row>
                 <Column header="id" field="driver.id"></Column>
-                <Column header="First Name" field="firstName"></Column>
-                <Column header="Last Name" field="lastName"></Column>
+                <Column header="First Name" field="driver.person.firstName"></Column>
+                <Column header="Last Name" field="driver.person.lastName"></Column>
             </Row>
         </ColumnGroup>
         <Column header="Route" field="routeName">
@@ -62,19 +73,9 @@ const onRowContextMenu = event => {
                 </InputText>
             </template>
         </Column>
-        <Column :sortable="true" field="firstName">
-            <template #body="{ data }">
-                <a :class="rowClass(data)" @click="() => openAlternateDriversDialog(data)">
-                    {{ data.firstName }}
-                </a>
-            </template>
+        <Column :sortable="true" field="driver.person.firstName">
         </Column>
-        <Column :sortable="true" field="lastName">
-            <template #body="{ data }">
-                <a @click="() => openAlternateDriversDialog(data)">
-                    {{ data.lastName }}
-                </a>
-            </template>
+        <Column :sortable="true" field="driver.person.lastName">
         </Column>
     </DataTable>
     <ContextMenu :model="menuModel" ref="cm"></ContextMenu>
@@ -89,13 +90,13 @@ a:hover {
     text-decoration: underline;
 }
 
-.in-exception {
-    // color: var(--red-800);
-}
-
-
 ::v-deep .in-exception {
     background-color: var(--red-200) !important;
+}
+
+::v-deep .is-sub {
+    background-color: var(--yellow-300) !important;
+    color: var(--yellow-900) !important;
 }
 
 
