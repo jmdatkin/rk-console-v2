@@ -49,6 +49,22 @@ class Route extends Model
         });
     }
 
+    public function getDriversWithSubs($date) {
+        return $this->drivers->map(function($driver) use ($date) {
+            if (is_null($driver->getSub($date))) {
+                return collect($driver)->merge([
+                    'isSub' => false
+                ]);
+            } else {
+                return collect($driver->getSub($date))->merge([
+                    'pivot' => $driver->pivot,  //Retain original route relation, only replace driver info
+                    //Note: 'driver_id' in pivot will refer to original driver id
+                    'isSub' => true
+                ]);
+            }
+        });
+    }
+
     public function driverHistory()
     {
         return $this->belongsToMany(Driver::class, 'driver_route_history');
