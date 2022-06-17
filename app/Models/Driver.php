@@ -44,16 +44,35 @@ class Driver extends BasePersonRole
         ->as('exception');
     }
 
-    public function scopeWithSubs($query, $date) {
+    public function scopeWithSubbedBy($query, $date) {
         $carbon_date = Carbon::parse($date);
         $query->with([
             'subbedBy' => function($q) use ($carbon_date) {
                 $q->contains($carbon_date);
-            },
+            }
+        ]);
+    }
+
+    public function scopeWithSubbing($query, $date) {
+        $carbon_date = Carbon::parse($date);
+        $query->with([
             'subbing' => function($q) use ($carbon_date) {
                 $q->contains($carbon_date);
             }
         ]);
+    }
+
+    public function scopeWithSubs($query, $date) {
+        $carbon_date = Carbon::parse($date);
+        // $query->with([
+        //     'subbedBy' => function($q) use ($carbon_date) {
+        //         $q->contains($carbon_date);
+        //     },
+        //     'subbing' => function($q) use ($carbon_date) {
+        //         $q->contains($carbon_date);
+        //     }
+        // ]);
+        $query->withSubbedBy($date)->withSubbing($date);
     }
 
     public function scopeContains($query, $date) {
