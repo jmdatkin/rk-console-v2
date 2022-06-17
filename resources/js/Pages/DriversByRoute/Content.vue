@@ -3,6 +3,7 @@ import RouteDriverTable from './RouteDriverTable';
 import DriverExceptionList from './DriverExceptionList';
 import AlternateDriversDataTable from '../../Components/DataTables/AlternateDriversDataTable';
 import Dialog from 'primevue/dialog';
+import Panel from 'primevue/panel';
 import moment from 'moment-timezone';
 import { formatDate } from '@fullcalendar/common';
 import { ref, onMounted, computed } from 'vue';
@@ -26,10 +27,12 @@ const getData = function () {
         });
 };
 
+const showExceptions = ref(false);
 const selectedDriver = ref(null);
 const onRowSelect = function (row) {
     console.log(row);
     selectedDriver.value = row;
+    showExceptions.value = true;
 };
 
 const tableData = computed(() => {
@@ -46,7 +49,7 @@ const tableData = computed(() => {
         if (driver.exceptions && driver.exceptions.length > 0) {
             inException = true;
         }
-        
+
         return {
             driver,
             isSub,
@@ -167,14 +170,20 @@ onMounted(() => {
             :onSelect="(event) => assignSub(selectedException.id, event.data.id)"></AlternateDriversDataTable>
     </Dialog>
     <div class="grid">
-        <div class="col-12 sm:col-8">
+        <div :class="{ 'col-12': true, 'sm:col-8': showExceptions }">
             <RouteDriverTable :onRowSelect="onRowSelect" v-model:selection="selectedDriver" :date="date"
                 :openDateSelect="openDateSelect" :value="tableData" :getData="getData"></RouteDriverTable>
         </div>
-        <div class="col-12 sm:col-4">
-            <h3>Exceptions</h3>
-            <DriverExceptionList v-if="selectedDriver" :onExceptionSelect="onExceptionSelect"
-                :selectedDriver="selectedDriver"></DriverExceptionList>
+        <div v-show="showExceptions" class="col-12 sm:col-4">
+            <Panel header="Exceptions">
+                <template #icons>
+                    <button class="p-panel-header-icon p-link mr-2" @click="() => showExceptions = false">
+                        <span class="pi pi-times"></span>
+                    </button>
+                </template>
+                <DriverExceptionList v-if="selectedDriver" :onExceptionSelect="onExceptionSelect"
+                    :selectedDriver="selectedDriver"></DriverExceptionList>
+            </Panel>
         </div>
     </div>
 
