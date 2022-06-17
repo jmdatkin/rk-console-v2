@@ -34,13 +34,39 @@ const onRowSelect = function (row) {
 
 const tableData = computed(() => {
     return data.value.map(row => {
-        return { 
-            driver: row.driversWithSubs[0] || {},
+        let isSub = false,
+            inException = false;
+        let driver = row.drivers[0] || {};
+
+        if (driver.subbed_by && driver.subbed_by.length > 0) {
+            driver = driver.subbed_by[0];
+            isSub = true;
+        }
+
+        if (driver.exceptions && driver.exceptions.length > 0) {
+            inException = true;
+        }
+        
+        return {
+            driver,
+            isSub,
+            inException,
             routeId: row.id,
             routeName: row.name,
-            ...row };
+            ...row
+        };
     });
 });
+
+// const tableData = computed(() => {
+//     return data.value.map(row => {
+//         return { 
+//             driver: row.driversWithSubs[0] || {},
+//             routeId: row.id,
+//             routeName: row.name,
+//             ...row };
+//     });
+// });
 
 // const tableData = computed(() => {
 //     return data.value.map(route => {

@@ -14,12 +14,29 @@ const props = defineProps(['onSelect', 'selection', 'date', 'openDateSelect', 'v
 
 const tableData = computed(() => {
     return props.value.map(row => {
-        return { driver: row.driversWithSubs[0] || {}, ...row };
+        let isSub = false,
+            inException = false;
+        let driver = row.drivers[0] || {};
+
+        if (driver.subbed_by && driver.subbed_by.length > 0) {
+            driver = driver.subbed_by[0];
+            isSub = true;
+        }
+
+        if (driver.exceptions && driver.exceptions.length > 0) {
+            inException = true;
+        }
+        
+        return {
+            driver,
+            isSub,
+            ...row
+        };
     });
 });
 
 const rowClass = (data) => {
-    return data.driver.isSub ? 'is-sub' : ''
+    return data.isSub ? 'is-sub' : ''
 };
 
 const confirm = useConfirm();

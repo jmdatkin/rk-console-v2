@@ -18,7 +18,7 @@ const rowClass = (data) => {
     if (data.inException)
         classString += 'in-exception ';
 
-    if (data.driver.isSub)
+    if (data.isSub)
         classString += 'is-sub ';
 
     return classString;

@@ -12,6 +12,8 @@ class DriverException extends Pivot
 {
     use HasFactory;
 
+    protected $table = 'driver_exceptions';
+
     protected $fillable = [
         'driver_id',
         'substitute_driver_id',
