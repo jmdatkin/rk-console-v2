@@ -63,15 +63,6 @@ class Driver extends BasePersonRole
     }
 
     public function scopeWithSubs($query, $date) {
-        $carbon_date = Carbon::parse($date);
-        // $query->with([
-        //     'subbedBy' => function($q) use ($carbon_date) {
-        //         $q->contains($carbon_date);
-        //     },
-        //     'subbing' => function($q) use ($carbon_date) {
-        //         $q->contains($carbon_date);
-        //     }
-        // ]);
         $query->withSubbedBy($date)->withSubbing($date);
     }
 
