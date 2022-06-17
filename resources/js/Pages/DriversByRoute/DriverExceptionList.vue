@@ -6,7 +6,7 @@ import { computed } from 'vue';
 
 const props = defineProps(['selectedDriver', 'onExceptionSelect']);
 const exceptions = computed(() => {
-    return props.selectedDriver.exceptions;
+    return props.selectedDriver.driver.exceptions;
 });
 
 </script>

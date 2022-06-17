@@ -19,6 +19,49 @@ class Driver extends BasePersonRole
         return $this->belongsTo(Person::class);
     }
 
+
+    public function exceptions() {
+        return $this->hasMany(DriverException::class, 'driver_id');
+    }
+
+    /**
+     * All drivers currently replacing this driver
+     */
+    public function subbedBy() {
+        return $this->belongsToMany(Driver::class, 'driver_exceptions', 'driver_id', 'substitute_driver_id')
+        ->using(DriverException::class)
+        ->withPivot('id','date_start','date_end','notes')
+        ->as('exception');
+    }
+
+    /**
+     * All drivers currently replaced by this driver
+     */
+    public function subbing() {
+        return $this->belongsToMany(Driver::class, 'driver_exceptions', 'substitute_driver_id', 'driver_id',)
+        ->using(DriverException::class)
+        ->withPivot('id','date_start','date_end','notes')
+        ->as('exception');
+    }
+
+    public function scopeWithSubs($query, $date) {
+        $carbon_date = Carbon::parse($date);
+        $query->with([
+            'subbedBy' => function($q) use ($carbon_date) {
+                $q->contains($carbon_date);
+            },
+            'subbing' => function($q) use ($carbon_date) {
+                $q->contains($carbon_date);
+            }
+        ]);
+    }
+
+    public function scopeContains($query, $date) {
+        $query
+        ->where('driver_exceptions.date_start', '<=', $date)
+        ->where('driver_exceptions.date_end', '>', $date);
+    }
+
     public function getSubAttribute() {
         if ($this->exceptions->isEmpty()) return;
         $subs = $this->exceptions()->whereHas('substituteDriver')->get();
@@ -67,10 +110,6 @@ class Driver extends BasePersonRole
         } catch (Exception $e) {
             error_log($e);
         }
-    }
-
-    public function exceptions() {
-        return $this->hasMany(DriverException::class, 'driver_id');
     }
 
     public function deassignRoute($route_id, $weekday)
