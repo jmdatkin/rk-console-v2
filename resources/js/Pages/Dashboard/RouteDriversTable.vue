@@ -7,33 +7,36 @@ import Row from 'primevue/row';
 import Dialog from 'primevue/dialog';
 import ContextMenu from 'primevue/contextmenu';
 import moment from 'moment';
+import { parseSubstitutes } from '../../util';
 import { useConfirm } from 'primevue/useconfirm';
 import { ref, onUpdated, onMounted, computed } from 'vue';
 
 const props = defineProps(['onSelect', 'selection', 'date', 'openDateSelect', 'value', 'getData']);
 
-const tableData = computed(() => {
-    return props.value.map(row => {
-        let isSub = false,
-            inException = false;
-        let driver = row.drivers[0] || {};
+const tableData = parseSubstitutes(props.value);
 
-        if (driver.subbed_by && driver.subbed_by.length > 0) {
-            driver = driver.subbed_by[0];
-            isSub = true;
-        }
+// const tableData = computed(() => {
+//     return props.value.map(row => {
+//         let isSub = false,
+//             inException = false;
+//         let driver = row.drivers[0] || {};
 
-        if (driver.exceptions && driver.exceptions.length > 0) {
-            inException = true;
-        }
+//         if (driver.subbed_by && driver.subbed_by.length > 0) {
+//             driver = driver.subbed_by[0];
+//             isSub = true;
+//         }
+
+//         if (driver.exceptions && driver.exceptions.length > 0) {
+//             inException = true;
+//         }
         
-        return {
-            driver,
-            isSub,
-            ...row
-        };
-    });
-});
+//         return {
+//             driver,
+//             isSub,
+//             ...row
+//         };
+//     });
+// });
 
 const rowClass = (data) => {
     return data.isSub ? 'is-sub' : ''
