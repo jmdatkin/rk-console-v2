@@ -12,21 +12,15 @@ const exceptions = computed(() => {
 </script>
 
 <template>
-
-
-<Accordion :activeIndex="0">
-    <AccordionTab v-for="exception in exceptions">
-        <template #header>
-            <div class="flex justify-between">
-                <!-- <span>{{ exception.driver.person.firstName }} {{ exception.driver.person.lastName }}</span> -->
-                <span>{{ exception.notes }}</span>
-            </div>
-        </template>
-        <DriverException :routeId="props.selectedDriver.routeId" :onSelect="onExceptionSelect" :data="exception"></DriverException>
-    </AccordionTab>
-</Accordion>
-<!-- <DriverException v-for="exception in exceptions" :onSelect="onExceptionSelect" :data="exception">
-</DriverException> -->
-
-
+    <Accordion :activeIndex="0">
+        <AccordionTab v-for="exception in exceptions">
+            <template #header>
+                <div class="flex justify-between">
+                    <!-- <span>{{ exception.driver.person.firstName }} {{ exception.driver.person.lastName }}</span> -->
+                    <span>{{ exception.notes }}</span>
+                </div>
+            </template>
+            <DriverException :driver="props.selectedDriver" :onSelect="onExceptionSelect" :exception="exception"></DriverException>
+        </AccordionTab>
+    </Accordion>
 </template>

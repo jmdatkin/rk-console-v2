@@ -10,7 +10,7 @@ import moment from 'moment';
 import { formatDate } from '@fullcalendar/common';
 import { ref, onUpdated, onMounted, computed } from 'vue';
 
-const props = defineProps(['onRowSelect', 'selection', 'date', 'openDateSelect', 'value', 'getData']);
+const props = defineProps(['onRowSelect', 'selection', 'date', 'openDateSelect', 'value']);
 
 const rowClass = (data) => {
     let classString = '';

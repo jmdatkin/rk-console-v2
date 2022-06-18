@@ -27,13 +27,6 @@ const getData = function () {
         });
 };
 
-const showExceptions = ref(false);
-const selectedDriver = ref(null);
-const onRowSelect = function (row) {
-    console.log(row);
-    selectedDriver.value = row;
-    showExceptions.value = true;
-};
 
 const tableData = computed(() => {
     return data.value.map(row => {
@@ -54,12 +47,15 @@ const tableData = computed(() => {
                 exception = driver.exceptions[0];
 
                 if (typeof exception.substitutes !== 'undefined' && exception.substitutes.length > 0) {
-                    substitute = exception.substitutes[0];
+                    // substitute = exception.substitutes[0];
+                    substitute = exception.substitutes.find(val => val.substitute.route_id === routeId);
 
-                    if (substitute.substitute.route_id === routeId) {
+                    if (substitute) {
                         driver = substitute;
                         isSub = true;
                     }
+
+
 
 
                 }
@@ -69,6 +65,7 @@ const tableData = computed(() => {
 
         return {
             driver,
+            exception,
             isSub,
             inException,
             routeId: row.id,
@@ -80,21 +77,27 @@ const tableData = computed(() => {
 
 const confirm = useConfirm();
 
+const selected = ref(null);
+const onRowSelect = function (row) {
+    selected.value = row;
+    showExceptions.value = true;
+};
+
+const showExceptions = ref(false);
 const selectedException = ref();
 const onExceptionSelect = function (exception) {
-    console.log(exception);
     selectedException.value = exception;
     selectedRoute.value = exception.routeId;
-    getAlternateDriversData(exception.routeId);
+    getAlternateDrivers(exception.routeId);
 };
+const closeExceptionDialog = () => showExceptions.value = false;
 
 const selectedRoute = ref();
 
 const altDriverDialog = ref(false);
 const altDriverData = ref([]);
 const altDriverDataLoaded = ref(false);
-
-const getAlternateDriversData = function (id) {
+const getAlternateDrivers = function (id) {
     axios.get(`/route/${id}/alternates`)
         .then(res => {
             altDriverData.value = res.data;
@@ -103,18 +106,6 @@ const getAlternateDriversData = function (id) {
         });
 };
 
-
-// const switchDriverAssignment = function (routeId, driverId) {
-//     confirm.require({
-//         message: `Are you sure you want to assign driver '${driverId}' to route '${routeId}?`,
-//         icon: 'pi pi-exclamation-triangle',
-//         acceptClass: 'p-button-info',
-//         accept: () => {
-//             axios.post(`/driver/${driverId}/assign/${routeId}?weekday=${weekday.value}`)
-//                 .then(() => props.getData());
-//         },
-//     });
-// };
 const assignSub = function (exceptionId, substituteDriverId, routeId) {
     confirm.require({
         message: `Are you sure you want to assign driver '${substituteDriverId}' as a substitute?`,//to route '${routeId}?`,
@@ -125,7 +116,7 @@ const assignSub = function (exceptionId, substituteDriverId, routeId) {
             axios.post(route('exception.sub', { exception_id: exceptionId, substitute_driver_id: substituteDriverId }), { route_id: selectedException.value.routeId, date: props.date })
                 .then(() => {
                     getData();
-                    selectedDriver.value = null;
+                    selected.value = null;
                 });
         },
     });
@@ -149,18 +140,18 @@ onMounted(() => {
     </Dialog>
     <div class="grid">
         <div :class="{ 'col-12': true, 'sm:col-8': showExceptions }">
-            <RouteDriverTable :onRowSelect="onRowSelect" v-model:selection="selectedDriver" :date="date"
-                :openDateSelect="openDateSelect" :value="tableData" :getData="getData"></RouteDriverTable>
+            <RouteDriverTable :onRowSelect="onRowSelect" v-model:selection="selected" :date="date"
+                :openDateSelect="openDateSelect" :value="tableData"></RouteDriverTable>
         </div>
         <div v-show="showExceptions" class="col-12 sm:col-4">
             <Panel header="Exceptions">
                 <template #icons>
-                    <button class="p-panel-header-icon p-link mr-2" @click="() => showExceptions = false">
+                    <Button class="p-panel-header-icon p-link mr-2" @click="closeExceptionDialog">
                         <span class="pi pi-times"></span>
-                    </button>
+                    </Button>
                 </template>
-                <DriverExceptionList v-if="selectedDriver" :onExceptionSelect="onExceptionSelect"
-                    :selectedDriver="selectedDriver"></DriverExceptionList>
+                <DriverExceptionList v-if="selected" :onExceptionSelect="onExceptionSelect"
+                    :selectedDriver="selected"></DriverExceptionList>
             </Panel>
         </div>
     </div>
