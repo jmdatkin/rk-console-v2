@@ -39,15 +39,32 @@ const tableData = computed(() => {
     return data.value.map(row => {
         let isSub = false,
             inException = false;
-        let driver = row.drivers[0] || {};
 
-        if (driver.subbed_by && driver.subbed_by.length > 0) {
-            driver = driver.subbed_by[0];
-            isSub = true;
-        }
+        let routeId = row.id;
 
-        if (driver.exceptions && driver.exceptions.length > 0) {
-            inException = true;
+        let driver = {};
+        let exception = {};
+        let substitute;
+
+        if (row.drivers.length > 0) {
+            driver = row.drivers[0];
+
+            if (driver.exceptions.length > 0) {
+                inException = true;
+                exception = driver.exceptions[0];
+
+                if (typeof exception.substitutes !== 'undefined' && exception.substitutes.length > 0) {
+                    substitute = exception.substitutes[0];
+
+                    if (substitute.substitute.route_id === routeId) {
+                        driver = substitute;
+                        isSub = true;
+                    }
+
+
+                }
+
+            }
         }
 
         return {
@@ -60,34 +77,6 @@ const tableData = computed(() => {
         };
     });
 });
-
-// const tableData = computed(() => {
-//     return data.value.map(row => {
-//         return { 
-//             driver: row.driversWithSubs[0] || {},
-//             routeId: row.id,
-//             routeName: row.name,
-//             ...row };
-//     });
-// });
-
-// const tableData = computed(() => {
-//     return data.value.map(route => {
-//         let isDriver = typeof route.drivers[0] !== 'undefined';
-//         let driver = route.drivers[0] || {};
-//         return {
-//             routeId: route.id,
-//             routeName: route.name,
-//             firstName: isDriver ? driver.person.firstName : '',
-//             lastName: isDriver ? driver.person.lastName : '',
-//             driver: isDriver ? route.drivers[0] : {},
-//             exceptions: isDriver ? route.drivers[0].exceptions : [],
-//             inException: isDriver ? route.drivers[0].exceptions.reduce((prev, curr) => {
-//                 return prev || moment(props.date).isBetween(curr.date_start, curr.date_end);
-//             }, false) : false
-//         };
-//     });
-// });
 
 const confirm = useConfirm();
 
@@ -126,14 +115,14 @@ const getAlternateDriversData = function (id) {
 //         },
 //     });
 // };
-const assignSub = function (exceptionId, substituteDriverId) {
+const assignSub = function (exceptionId, substituteDriverId, routeId) {
     confirm.require({
         message: `Are you sure you want to assign driver '${substituteDriverId}' as a substitute?`,//to route '${routeId}?`,
         icon: 'pi pi-exclamation-triangle',
         acceptClass: 'p-button-info',
         accept: () => {
             // axios.post(`/driver/${driverId}/assign/${routeId}?weekday=${weekday.value}`)
-            axios.post(route('exception.sub', { exception_id: exceptionId, substitute_driver_id: substituteDriverId }))
+            axios.post(route('exception.sub', { exception_id: exceptionId, substitute_driver_id: substituteDriverId }), { route_id: selectedException.value.routeId, date: props.date })
                 .then(() => {
                     getData();
                     selectedDriver.value = null;
@@ -154,20 +143,9 @@ onMounted(() => {
             '640px': '100vw'
         }" :style="{ width: '50vw' }">
         <template #header><strong>Alternate Drivers for Route: {{ selectedRoute.name }}</strong></template>
-        <!-- <DataTable @rowSelect="(event) => assignSub(selectedRoute.id, event.data.id)"
-            v-model:selection="altDriverSelection" selectionMode="single" :value="altDriverData">
-            <Column header="id" field="id">
-            </Column>
-            <Column header="firstName" field="person.firstName">
-                <template #body="{ data }">
-                    <a @click="() => switchDriverAssignment(selectedRoute.id, data.id)">{{ data.person.firstName }}</a>
-                </template>
-            </Column>
-            <Column header="lastName" field="person.lastName">
-            </Column>
-        </DataTable> -->
         <AlternateDriversDataTable :data="altDriverData"
-            :onSelect="(event) => assignSub(selectedException.id, event.data.id)"></AlternateDriversDataTable>
+            :onSelect="(event) => assignSub(selectedException.id, event.data.id, selectedRoute.value)">
+        </AlternateDriversDataTable>
     </Dialog>
     <div class="grid">
         <div :class="{ 'col-12': true, 'sm:col-8': showExceptions }">

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
 use App\Models\DriverException;
+use App\Models\DriverExceptionRoute;
 use App\Models\DriverStatus;
 use App\Repository\DriverExceptionRepositoryInterface;
 use App\Repository\DriverRepositoryInterface;
+use Carbon\Carbon;
 use Error;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -49,11 +51,15 @@ class DriverExceptionController extends Controller
         });
     }
 
-    public function makeSubstitute($exception_id, $substitute_driver_id) {
-        $exception = $this->repository->find($exception_id);
-        $exception->update(['substitute_driver_id' => $substitute_driver_id]);
-        // $substitute_driver = $this->driverRepository->find($substitute_driver_id);
-        // $exception->substituteDriver()->associate($substitute_driver);
-        // $this->repository->find($exception_id)->substituteDriver()->associate($substitute_driver_id);
+    // public function makeSubstitute($exception_id, $substitute_driver_id, $route_id, $date) {
+    public function makeSubstitute($exception_id, $substitute_driver_id, Request $request) {
+        $input = $request->only(['date', 'route_id']);
+        // $exception = $this->repository->find($input['exception_id']);
+        // $substitute_driver = $this->driverRepository->find($input['substitute_driver_id']);
+        $driver_exception_route = DriverExceptionRoute::create([
+            'e_id' => $exception_id,//$input['exception_id'],
+            'route_id' => $input['route_id'],
+            'sub_id' => $substitute_driver_id,//$input['substitute_driver_id'],
+            'date' => Carbon::parse($input['date'])]);
     }
 }

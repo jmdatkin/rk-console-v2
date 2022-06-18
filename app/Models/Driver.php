@@ -27,22 +27,42 @@ class Driver extends BasePersonRole
     /**
      * All drivers currently replacing this driver
      */
-    public function subbedBy() {
-        return $this->belongsToMany(Driver::class, 'driver_exceptions', 'driver_id', 'substitute_driver_id')
-        ->using(DriverException::class)
-        ->withPivot('id','date_start','date_end','notes')
-        ->as('exception');
+    public function driverExceptionsSubbedBy() {
+        return $this->hasManyThrough(DriverExceptionRoute::class, DriverException::class, 'driver_id', 'exception_id', 'id', 'id');
+        // return $this->belongsToMany(DriverExceptionRoute::class, 'driver_exceptions', '')
+        // ->as('exception');
     }
+
+    public function getSubbedByAttribute() {
+        return $this->driverExceptionsSubbedBy->load('substituteDriver');
+    }
+    // public function subbedBy() {
+    //     return $this->belongsToMany(Driver::class, 'driver_exceptions', 'driver_id', 'substitute_driver_id')
+    //     ->using(DriverException::class)
+    //     ->withPivot('id','date_start','date_end','notes')
+    //     ->as('exception');
+    // }
 
     /**
      * All drivers currently replaced by this driver
      */
-    public function subbing() {
-        return $this->belongsToMany(Driver::class, 'driver_exceptions', 'substitute_driver_id', 'driver_id',)
-        ->using(DriverException::class)
-        ->withPivot('id','date_start','date_end','notes')
+    public function driverExceptionsSubbing() {
+        // return $this->belongsToMany(DriverException::class, 'driver_exception_route', 'driver_exception_id', 'substitute_driver_id')
+        return $this->belongsToMany(DriverException::class, 'driver_exception_route', 'sub_id', 'e_id')
+        ->using(DriverExceptionRoute::class)
+        ->withPivot('route_id')
         ->as('exception');
     }
+
+    public function getSubbingAttribute() {
+        return $this->driverExceptionsSubbing;//->map(fn($row) => $row->exception->exception->load('driver'));
+    }
+    // public function subbing() {
+    //     return $this->belongsToMany(Driver::class, 'driver_exceptions', 'substitute_driver_id', 'driver_id',)
+    //     ->using(DriverException::class)
+    //     ->withPivot('id','date_start','date_end','notes')
+    //     ->as('exception');
+    // }
 
     public function scopeWithSubbedBy($query, $date) {
         $carbon_date = Carbon::parse($date);

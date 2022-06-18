@@ -22,7 +22,7 @@ class DriverException extends Pivot
         'notes'
     ];
 
-    protected $with = ['driver', 'substituteDriver'];
+    protected $with = ['substitutes'];
     
     protected $appends = ['length'];
 
@@ -35,9 +35,19 @@ class DriverException extends Pivot
         return $this->belongsTo(Driver::class, 'driver_id');
     }
 
-    public function substituteDriver() {
-        return $this->belongsTo(Driver::class, 'substitute_driver_id');
+    // public function substituteDriver() {
+    //     return $this->belongsTo(Driver::class, 'substitute_driver_id');
+    // }
+    public function substitutes() {
+        // return $this->hasmanythrough(driver::class, driverexceptionroute::class, 'driver_exception_id', 'id', 'id', 'substitute_driver_id');
+        // ->withpivot('route_id');
+        // ->as('substitute');
+
+        return $this->belongsToMany(Driver::class, 'driver_exception_route', 'e_id', 'sub_id')
+        ->withPivot(['route_id','date'])
+        ->as('substitute');
     }
+
 
     public function getLengthAttribute() {
         // Number of days between dates

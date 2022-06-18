@@ -68,27 +68,27 @@ const items = ref([
             },
         ]
     },
-    {
-        label: 'Reports',
-        icon: 'pi pi-fw pi-file',
-        items: [
-            {
-                label: 'Driver Report',
-                icon: 'pi pi-fw pi-align-file',
-                command: () => Inertia.visit('/reports/driver')
-            },
-            {
-                label: 'Texter Report',
-                icon: 'pi pi-fw pi-align-file',
-                command: () => Inertia.visit('/reports/texter')
-            },
-            {
-                label: 'Meal Report',
-                icon: 'pi pi-fw pi-align-file',
-                command: () => Inertia.visit('/reports/meals')
-            },
-        ]
-    }
+    // {
+    //     label: 'Reports',
+    //     icon: 'pi pi-fw pi-file',
+    //     items: [
+    //         {
+    //             label: 'Driver Report',
+    //             icon: 'pi pi-fw pi-align-file',
+    //             command: () => Inertia.visit('/reports/driver')
+    //         },
+    //         {
+    //             label: 'Texter Report',
+    //             icon: 'pi pi-fw pi-align-file',
+    //             command: () => Inertia.visit('/reports/texter')
+    //         },
+    //         {
+    //             label: 'Meal Report',
+    //             icon: 'pi pi-fw pi-align-file',
+    //             command: () => Inertia.visit('/reports/meals')
+    //         },
+    //     ]
+    // }
 ]);
 
 </script>
