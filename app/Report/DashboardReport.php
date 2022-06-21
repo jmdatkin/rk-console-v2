@@ -35,7 +35,10 @@ class DashboardReport
     public function routeDrivers($date)
     {
         return $this->driversByRouteReport->data(['date' => $date])
-        ->filter(function($row) { return $row->drivers()->get()->isNotEmpty(); })->values();
+        ->whereHas('drivers', function($query) use ($date) {
+            $query->where('weekday', strtolower(Carbon::createFromFormat("mdY", $date)->shortDayName));
+        });
+        // ->filter(function($row) { return $row->drivers()->get()->isNotEmpty(); })->values();
         // dd($this->driversByRouteReport->data(['date' => $date])
         // ->filter(function($row) { return $row->drivers()->exists(); }));
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Carbon\RkCarbon;
 use App\Http\Controllers\Controller;
 use App\Report\DriversByRouteReport;
 use Illuminate\Http\Request;
@@ -21,6 +22,6 @@ class DriversByRouteViewController extends BaseReportController
     }
 
     public function data(Request $request) {
-        return $this->report->data($request->only(['date']));
+        return $this->report->data($request->only(['date']))->get();
     }
 }
