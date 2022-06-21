@@ -58,7 +58,7 @@ const openDriverDialog = function(row) {
         </template>
         <div class="grid">
             <div class="col-12">
-                <h3>{{ moment(Date.now()).format("dddd DD MMM YYYY") }}</h3>
+                <h3>{{ moment().format("dddd DD MMM YYYY HH:mm:ss") }}</h3>
             </div>
         </div>
         <div class="grid">
@@ -121,4 +121,5 @@ h3 {
     font-size: 1.25rem;
     font-weight: 500;
 }
+
 </style>

@@ -13,6 +13,7 @@ import ManageRecipient from '@/Components/Assignments/ManageRecipient';
 import { ref, onMounted, onUpdated } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { Inertia, onSuccess } from '@inertiajs/inertia';
+import { Link, Head } from '@inertiajs/inertia-vue3';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
@@ -307,6 +308,8 @@ fetchData();
 </script>
 
 <template>
+
+    <Head title="Recipients" />
     <DataTableLayout>
         <Dialog v-model:visible="newRecordDialog" :closeOnEscape="true" :closable="true" :draggable="false"
             :modal="true" :breakpoints="{
@@ -559,7 +562,8 @@ fetchData();
                             icon="pi pi-folder-open"></Button> -->
                     </template>
                 </Column>
-                <Column frozen alignFrozen="right" :rowEditor="true" style="width:10%; min-width:4rem" bodyStyle="text-align:center">
+                <Column frozen alignFrozen="right" :rowEditor="true" style="width:10%; min-width:4rem"
+                    bodyStyle="text-align:center">
                 </Column>
 
                 <ContextMenu :model="menuModel" ref="cm"></ContextMenu>

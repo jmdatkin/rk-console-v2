@@ -13,6 +13,7 @@ import Loading from '@/Components/Loading';
 import ContextMenu from 'primevue/contextmenu';
 import ManageRecipient from '@/Components/Assignments/ManageRecipient';
 import RecipientRouteAssignments from '@/Components/Assignments/RecipientRouteAssignments';
+import { Link, Head } from '@inertiajs/inertia-vue3';
 import { ref, onMounted, onUpdated, reactive, computed } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
@@ -169,6 +170,8 @@ CRUD.get();
 
 <template>
     <DataTableLayout>
+
+        <Head title="Recipients" />
         <Dialog v-model:visible="newRecordDialog" :closeOnEscape="true" :closable="true" :draggable="false"
             :modal="true" :breakpoints="{
                 '960px': '75vw',
@@ -210,8 +213,8 @@ CRUD.get();
                             <label for="newRecord.phoneCell">Cell Phone</label>
                             <!-- <InputText class="p-form-input" id="newRecord.phoneCell" type="text"
                                 v-model="newRecordForm.phoneCell" /> -->
-                            <InputMask class="p-form-input" :id="'newRecord.phoneCell'" v-model="newRecordForm.phoneCell"
-                                mask="(999) 999-9999? x99999"></InputMask>
+                            <InputMask class="p-form-input" :id="'newRecord.phoneCell'"
+                                v-model="newRecordForm.phoneCell" mask="(999) 999-9999? x99999"></InputMask>
                         </div>
                     </div>
                     <div class="grid">
@@ -253,7 +256,7 @@ CRUD.get();
             :modal="true" :breakpoints="{
                 '960px': '75vw',
                 '640px': '100vw'
-            }" :style="{ width: '50vw' }" >
+            }" :style="{ width: '50vw' }">
             <template #header>
                 <h5 class="font-medium"></h5>
             </template>

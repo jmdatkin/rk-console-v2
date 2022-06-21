@@ -10,6 +10,7 @@ import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
 import ContextMenu from 'primevue/contextmenu';
 import Loading from '@/Components/Loading';
+import { Link, Head } from '@inertiajs/inertia-vue3';
 import { ref, computed, onMounted, onUpdated, reactive } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
@@ -139,6 +140,8 @@ onMounted(() => {
 
 <template>
     <DataTableLayout>
+
+        <Head title="Personnel" />
         <Dialog v-model:visible="newRecordDialog" :closeOnEscape="true" :closable="true" :draggable="false"
             :modal="true" :breakpoints="{
                 '960px': '75vw',
@@ -210,8 +213,8 @@ onMounted(() => {
                         <template #start>
                             <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
                                 class="p-button-outlined p-button-sm" @click="initFilters()" />
-                            <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-sm p-button-success"
-                                @click="openNewRecordDialog" />
+                            <Button type="button" icon="pi pi-plus" label="Add Record"
+                                class="p-button-sm p-button-success" @click="openNewRecordDialog" />
                             <Button :disabled="!selected || !selected.length" type="button" icon="pi pi-trash"
                                 label="Delete Records" class="p-button-alert p-button-sm" @click="destroySelected" />
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"

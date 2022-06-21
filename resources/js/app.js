@@ -1,7 +1,7 @@
 require('./bootstrap');
 
 import { createApp, h, provide } from 'vue';
-import { App, createInertiaApp } from '@inertiajs/inertia-vue3';
+import { App, createInertiaApp, Head } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
 import NProgress from 'nprogress';
 import PrimeVue from 'primevue/config';
@@ -34,10 +34,11 @@ import 'primevue/resources/themes/saga-blue/theme.css';
 // import 'primevue/resources/themes/lara-light-indigo/theme.css';
 
 
-const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
+const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'CCRK Conosle';
 const toastBus = mitt();
 
-moment.tz.setDefault('Etc/UTC');
+// moment.tz.setDefault('Etc/UTC');
+moment().utc().utcOffset("-4:00");
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -51,6 +52,7 @@ createInertiaApp({
             .provide('toastBus', toastBus)
             // .use(VTooltip)
             .component('DataTable', DataTable)
+            .component('Head', Head)
             .mixin({ methods: { route } })
             .mount(el);
     },

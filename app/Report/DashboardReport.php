@@ -34,7 +34,10 @@ class DashboardReport
     // }
     public function routeDrivers($date)
     {
-        return $this->driversByRouteReport->data(['date' => $date]);
+        return $this->driversByRouteReport->data(['date' => $date])
+        ->filter(function($row) { return $row->drivers()->get()->isNotEmpty(); })->values();
+        // dd($this->driversByRouteReport->data(['date' => $date])
+        // ->filter(function($row) { return $row->drivers()->exists(); }));
     }
 
     public function routeRecipients($date)

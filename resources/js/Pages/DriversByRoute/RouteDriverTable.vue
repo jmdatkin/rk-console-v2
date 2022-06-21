@@ -7,6 +7,7 @@ import Row from 'primevue/row';
 import Dialog from 'primevue/dialog';
 import ContextMenu from 'primevue/contextmenu';
 import moment from 'moment';
+import { Link, Head } from '@inertiajs/inertia-vue3';
 import { formatDate } from '@fullcalendar/common';
 import { ref, onUpdated, onMounted, computed } from 'vue';
 

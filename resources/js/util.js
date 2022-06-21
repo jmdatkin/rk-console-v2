@@ -11,6 +11,7 @@ const mergePersonObject = function (item) {
 }
 
 const parseSubstitutes = function (data) {
+    console.log(data);
     return computed(() => {
         return data.map(row => {
             let isSub = false,

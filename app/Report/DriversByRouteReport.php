@@ -49,7 +49,7 @@ class DriversByRouteReport implements ReportInterface
                 }]);
                 // ->load('substitutes'); 
             }]);
-        }])->get();
+        }]);
 
         // return Route::with(['drivers' => function($q) use ($weekday) {
         //     return $q->where('weekday', $weekday);

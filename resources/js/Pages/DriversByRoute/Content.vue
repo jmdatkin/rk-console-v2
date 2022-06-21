@@ -84,6 +84,7 @@ const onRowSelect = function (row) {
 };
 
 const showExceptions = ref(false);
+const showSubstitutes = ref(false);
 const selectedException = ref();
 const onExceptionSelect = function (exception) {
     selectedException.value = exception;
@@ -143,8 +144,8 @@ onMounted(() => {
             <RouteDriverTable :onRowSelect="onRowSelect" v-model:selection="selected" :date="date"
                 :openDateSelect="openDateSelect" :value="tableData"></RouteDriverTable>
         </div>
-        <div v-show="showExceptions" class="col-12 sm:col-4">
-            <Panel header="Exceptions">
+        <div v-show="showExceptions || showSubstitutes" class="col-12 sm:col-4">
+            <Panel v-show="showExceptions" header="Exceptions">
                 <template #icons>
                     <Button class="p-panel-header-icon p-link mr-2" @click="closeExceptionDialog">
                         <span class="pi pi-times"></span>
@@ -152,6 +153,14 @@ onMounted(() => {
                 </template>
                 <DriverExceptionList v-if="selected" :onExceptionSelect="onExceptionSelect"
                     :selectedDriver="selected"></DriverExceptionList>
+            </Panel>
+            <Panel v-show="showSubstitutes" header="Substitute">
+                <template #icons>
+                    <Button class="p-panel-header-icon p-link mr-2" @click="closeExceptionDialog">
+                        <span class="pi pi-times"></span>
+                    </Button>
+                </template>
+                
             </Panel>
         </div>
     </div>

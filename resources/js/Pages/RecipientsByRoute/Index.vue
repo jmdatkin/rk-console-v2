@@ -15,6 +15,7 @@ import RecipientsByRouteTable from './RecipientsByRouteTable';
 </script>
 <template>
     <DataTableLayout>
+        <Head title="Drivers By Route"></Head>
         <template #header>
             Recipients by Route
         </template>

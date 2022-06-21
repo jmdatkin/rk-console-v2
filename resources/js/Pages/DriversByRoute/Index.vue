@@ -19,6 +19,7 @@ const props = defineProps(['date', 'openDateSelect']);
 
 <template>
     <DataTableLayout>
+        <Head title="Drivers By Route"></Head>
         <template #header>
             Drivers by Route
         </template>

@@ -12,6 +12,7 @@ import ContextMenu from 'primevue/contextmenu';
 import ManageDriver from '@/Components/Assignments/ManageDriver';
 import DriverAlternates from '@/Components/Assignments/DriverAlternates';
 import { ref, onMounted, onUpdated, reactive, computed } from 'vue';
+import { Link, Head } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
@@ -58,7 +59,7 @@ const onRowContextMenu = event => {
     cm.value.show(event.originalEvent);
 };
 
-const viewRecord = function(record) {
+const viewRecord = function (record) {
     Inertia.visit(`/driver/${record.id}`);
 };
 
@@ -94,8 +95,8 @@ const openAlternatesDialog = function (driver) {
 };
 
 // Driver status
-const visitDriverStatus = function(id) {
-    Inertia.visit('/driverstatus?did='+id);
+const visitDriverStatus = function (id) {
+    Inertia.visit('/driverstatus?did=' + id);
 };
 
 // New record
@@ -182,6 +183,8 @@ CRUD.get();
 
 <template>
     <DataTableLayout>
+
+        <Head title="Drivers" />
         <Dialog v-model:visible="newRecordDialog" :closeOnEscape="true" :closable="true" :draggable="false"
             :modal="true" :breakpoints="{
                 '960px': '75vw',
