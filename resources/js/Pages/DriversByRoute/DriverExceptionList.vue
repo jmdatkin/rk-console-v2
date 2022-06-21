@@ -20,7 +20,7 @@ const exceptions = computed(() => {
                     <span>{{ exception.notes }}</span>
                 </div>
             </template>
-            <DriverException :driver="props.selectedDriver" :onSelect="onExceptionSelect" :exception="exception"></DriverException>
+            <DriverException :row="props.selectedDriver" :onSelect="onExceptionSelect" :exception="exception"></DriverException>
         </AccordionTab>
     </Accordion>
 </template>

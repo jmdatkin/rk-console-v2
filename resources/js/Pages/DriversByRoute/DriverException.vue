@@ -4,7 +4,7 @@ import Button from 'primevue/button';
 import InfoItem from '@/Components/InfoItem';
 import Divider from 'primevue/divider';
 
-const props = defineProps(['exception', 'driver', 'onSelect']);
+const props = defineProps(['exception', 'row', 'onSelect']);
 
 
 
@@ -16,7 +16,7 @@ const props = defineProps(['exception', 'driver', 'onSelect']);
         </template> -->
     <!-- <template #content> -->
     <div class="p-driver-exception flex flex-col">
-        {{ driver.driver.person.firstName }} {{ driver.driver.person.lastName }}
+        {{ row.driver.person.firstName }} {{ row.driver.person.lastName }}
         <div class="flex flex-row flex-wrap">
             <InfoItem title="From" class="mr-6">
                 {{ exception.date_start }}
@@ -28,7 +28,7 @@ const props = defineProps(['exception', 'driver', 'onSelect']);
         <InfoItem icon="pi pi-file" title="Notes">
             {{ exception.notes }}
         </InfoItem>
-        <Button @click="() => onSelect({ routeId: driver.routeId, ...exception})">Assign Substitute</Button>
+        <Button @click="() => onSelect({ routeId: row.routeId, ...exception})">Assign Substitute</Button>
         <!-- <span>
                     From: {{ data.date_start }}
                 </span>
