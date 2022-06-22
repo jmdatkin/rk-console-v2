@@ -81,8 +81,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/import', [DriverController::class, 'import']);
         Route::patch('/{id}/update', [DriverController::class, 'update']);
         Route::post('/destroy', [DriverController::class, 'destroyMany']);
-
-        Route::post('/{driver_id}/assign/{route_id}', [DriverController::class, 'assign']);
+        Route::post('/{driver_id}/assign/{route_id}', [DriverController::class, 'assign'])->name('driver.assign');
+        Route::get('/{id}/routes', [DriverController::class, 'routes'])->name('driver.routes');
 
         Route::get('/{id}/alternates', [DriverController::class, 'alternates']);
         Route::get('/{id}/alternates/attach/{route_id}', [DriverController::class, 'assignAlternate']);
