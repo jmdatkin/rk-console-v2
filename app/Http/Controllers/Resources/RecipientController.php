@@ -28,7 +28,7 @@ class RecipientController extends BasePersonRoleController
     public function show($id)
     {
         return Inertia::render(
-            'Resources/Recipient',
+            'Resources/Recipients/Recipient',
             [
                 "data" => $this->get($id)
             ]

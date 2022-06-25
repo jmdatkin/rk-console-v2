@@ -69,6 +69,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('/{id}/update', [RecipientController::class, 'update']);
         Route::post('/destroy', [RecipientController::class, 'destroyMany']);
         Route::patch('/{recipient_id}/assign/{route_id}', [RecipientController::class, 'assign'])->name('recipient.assign');
+        Route::patch('/{recipient_id}/deassign/{route_id}', [RecipientController::class, 'deassign'])->name('recipient.deassign');
         Route::get('/{id}/routes', [RecipientController::class, 'routes'])->name('recipient.routes');
     });
 
@@ -82,6 +83,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('/{id}/update', [DriverController::class, 'update']);
         Route::post('/destroy', [DriverController::class, 'destroyMany']);
         Route::post('/{driver_id}/assign/{route_id}', [DriverController::class, 'assign'])->name('driver.assign');
+        Route::patch('/{driver_id}/deassign/{route_id}', [DriverController::class, 'deassign'])->name('driver.deassign');
         Route::get('/{id}/routes', [DriverController::class, 'routes'])->name('driver.routes');
 
         Route::get('/{id}/alternates', [DriverController::class, 'alternates']);

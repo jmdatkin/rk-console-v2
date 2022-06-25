@@ -120,10 +120,13 @@ onMounted(() => {
     </Dialog>
     <div class="flex flex-col">
         <template v-for="(fullName, weekday, index) in WEEKDAYS" :key="index">
-            <WeekdayAssignButton :title="fullName" :onSelect="createSelectCallback(weekday)"
+            <WeekdayAssignButton class="mb-2" :title="fullName" :onSelect="createSelectCallback(weekday)"
                 :data="dataForDay(weekday)">
             </WeekdayAssignButton>
-            <Divider />
+            <!-- <Divider /> -->
         </template>
     </div>
 </template>
+
+<style lang="scss">
+</style>

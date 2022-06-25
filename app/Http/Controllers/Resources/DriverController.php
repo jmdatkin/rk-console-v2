@@ -50,9 +50,11 @@ class DriverController extends BasePersonRoleController
         }
     }
 
-    public function deassign($driver_id, $route_id)
+    public function deassign(Request $request, RouteRepositoryInterface $routeRepository, $driver_id, $route_id)
     {
         try {
+            $weekday = $request->input('weekday');
+            $routeRepository->find($route_id)->deassignDriver($weekday);
             $this->repository->find($driver_id)->routes()->detach($route_id);
             return response()->json([], 200);
         } catch (Error | Exception $e) {

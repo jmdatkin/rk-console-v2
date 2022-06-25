@@ -274,19 +274,22 @@ CRUD.get();
         <template #table>
             <DataTable :value="tableData" :paginator="true" :rows="10" class="p-datatable-recipients"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'address', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
-                filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
-                columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows" contextMenu
-                v-model:contextMenuSelection="cmSelection" @rowContextmenu="onRowContextMenu"
-                @row-edit-save="onRowEditSave" v-model:selection="selected">
+                dataKey="id" @row-click="e => viewRecord(e.data)" filterDisplay="menu" responsiveLayout="scroll"
+                editMode="row" showGridlines :resizableColumns="true" columnResizeMode="fit" v-model:filters="filters"
+                v-model:editingRows="editingRows" contextMenu v-model:contextMenuSelection="cmSelection"
+                @rowContextmenu="onRowContextMenu" @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
                     <Toolbar class="p-0">
                         <template #start>
                             <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
                                 class="p-button-outlined p-button-sm" @click="initFilters()" />
-                            <Button type="button" icon="pi pi-plus" label="Add Record"
-                                class="p-button-success p-button-sm" @click="openNewRecordDialog" />
-                            <Button :disabled="!selected || !selected.length" type="button" icon="pi pi-trash"
-                                label="Delete Records" class="p-button-alert p-button-sm" @click="destroySelected" />
+                            <span class="p-buttonset">
+                                <Button icon="pi pi-plus" label="Add Record"
+                                    class="p-button-success p-button-sm" @click="openNewRecordDialog" />
+                                <Button :disabled="!selected || !selected.length" icon="pi pi-trash"
+                                    label="Delete Records" class="p-button-alert p-button-sm"
+                                    @click="destroySelected" />
+                            </span>
                             <Loading :show="!dataLoaded"></Loading>
                         </template>
                         <template #end>
@@ -449,5 +452,13 @@ CRUD.get();
     </DataTableLayout>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.p-datatable-table tr:hover {
+    background-color: var(--surface-100);
+}
+
+.p-datatable-table tr td {
+    background-color: 'red';
+    cursor: pointer;
+}
 </style>

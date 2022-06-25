@@ -8,6 +8,20 @@ html {
 
 body {
     background-color: var(--surface-ground);
+    font-family: var(--font-family) !important;
+    // color: var(--text-color) !important;
+}
+
+a {
+    // color: var(--primary-color);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.p-router-link {
+    color: var(--text-color) !important;
 }
 
 .p-hidden-accessible {
@@ -43,7 +57,7 @@ h2 {
 }
 
 .p-info-item-header {
-    font-size: 0.8rem;
+    // font-size: 0.8rem;
     text-transform: uppercase;
     font-weight: 600;
 }

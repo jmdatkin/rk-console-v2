@@ -270,6 +270,8 @@ CRUD.get();
         <template #table>
             <DataTable :value="tableData" :paginator="true" :rows="10" class="p-datatable-drivers"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
+                dataKey="id"
+                @row-click="e => viewRecord(e.data)"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows" contextMenu
                 v-model:contextMenuSelection="cmSelection" @rowContextmenu="onRowContextMenu"
@@ -410,5 +412,13 @@ CRUD.get();
     </DataTableLayout>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
+    .p-datatable-table tr:hover {
+        background-color: var(--surface-100);
+    }
+
+    .p-datatable-table tr td {
+        background-color: 'red';
+        cursor: pointer;
+    }
 </style>

@@ -671,6 +671,10 @@ select {
   margin-left: auto;
   margin-right: auto;
 }
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
 .ml-3 {
   margin-left: 0.75rem;
 }
@@ -1195,6 +1199,13 @@ html {
 }
 body {
   background-color: var(--surface-ground);
+  font-family: var(--font-family) !important;
+}
+a:hover {
+  text-decoration: underline;
+}
+.p-router-link {
+  color: var(--text-color) !important;
 }
 .p-hidden-accessible {
   /* display: none; */
@@ -1223,7 +1234,6 @@ h2 {
   padding: 0.25rem 0.5rem !important;
 }
 .p-info-item-header {
-  font-size: 0.8rem;
   text-transform: uppercase;
   font-weight: 600;
 }
