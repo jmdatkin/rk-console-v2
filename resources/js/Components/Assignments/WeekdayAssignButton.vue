@@ -7,7 +7,6 @@ import { useConfirm } from 'primevue/useconfirm';
 import { useToast } from 'primevue/usetoast';
 import axios from 'axios';
 import { Inertia } from '@inertiajs/inertia';
-import { propsToAttrMap } from '@vue/shared';
 
 const props = defineProps(['title', 'onSelect', 'data']);
 

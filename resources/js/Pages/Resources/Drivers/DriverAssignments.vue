@@ -3,7 +3,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Dialog from 'primevue/dialog';
 import Divider from 'primevue/divider';
-import WeekdayAssignButton from '@/Components/Assignments/WeekdayAssignButton';
+import WeekdayAssignments from './WeekdayAssignments';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { useToast } from 'primevue/usetoast';
 import { onMounted, ref } from 'vue';
@@ -120,9 +120,9 @@ onMounted(() => {
     </Dialog>
     <div class="flex flex-col">
         <template v-for="(fullName, weekday, index) in WEEKDAYS" :key="index">
-            <WeekdayAssignButton class="mb-2" :title="fullName" :onSelect="createSelectCallback(weekday)"
+            <WeekdayAssignments class="mb-2" :getData="getData" :title="fullName" :onSelect="createSelectCallback(weekday)"
                 :data="dataForDay(weekday)">
-            </WeekdayAssignButton>
+            </WeekdayAssignments>
             <!-- <Divider /> -->
         </template>
     </div>
