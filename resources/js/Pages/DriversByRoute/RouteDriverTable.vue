@@ -4,14 +4,21 @@ import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';
 import Button from 'primevue/button';
 import Row from 'primevue/row';
+import InputText from 'primevue/inputtext';
 import Dialog from 'primevue/dialog';
 import ContextMenu from 'primevue/contextmenu';
 import moment from 'moment';
 import { Link, Head } from '@inertiajs/inertia-vue3';
 import { formatDate } from '@fullcalendar/common';
 import { ref, onUpdated, onMounted, computed } from 'vue';
+import { driversByRouteFilters } from '../Resources/filters';
 
 const props = defineProps(['onRowSelect', 'selection', 'date', 'openDateSelect', 'value']);
+
+const filters = ref(driversByRouteFilters);
+const initFilters = function () {
+    filters.value = driversByRouteFilters;
+};
 
 const rowClass = (data) => {
     let classString = '';
@@ -43,8 +50,9 @@ const onRowContextMenu = event => {
 </script>
 <template>
     <DataTable @row-select="e => onRowSelect(e.data)" v-model:selection="selection" selectionMode="single"
-        :value="value" :paginator="true" :rowClass="rowClass" :rows="10" responsiveLayout="scroll"
-        columnResizeMode="fit" :showGridlines="true">
+        :globalFilterFields="['routeName', 'id', 'driver.person.firstName', 'lastName']" filterDisplay="menu"
+        v-model:filters="filters" :value="value" :paginator="true" :rowClass="rowClass" :rows="10"
+        responsiveLayout="scroll" columnResizeMode="fit" :showGridlines="true">
         <template #header>
 
             <Button label="Change Date" icon="pi pi-calendar" @click="openDateSelect" />
@@ -52,15 +60,38 @@ const onRowContextMenu = event => {
         </template>
         <ColumnGroup type="header">
             <Row>
-                <Column header="Route" field="routeName" :rowspan="2">
+                <Column :sortable="true" header="Route" field="routeName" :rowspan="2">
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by route name">
+                        </InputText>
+                    </template>
                 </Column>
                 <Column header="Driver" :colspan="3">
                 </Column>
             </Row>
             <Row>
-                <Column header="id" field="driver.id"></Column>
-                <Column header="First Name" field="driver.person.firstName"></Column>
-                <Column header="Last Name" field="driver.person.lastName"></Column>
+                <Column :sortable="true" header="id" field="driver.id">
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by id">
+                        </InputText>
+                    </template>
+                </Column>
+                <Column :sortable="true" header="First Name" field="driver.person.firstName">
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by first name">
+                        </InputText>
+                    </template>
+                </Column>
+                <Column :sortable="true" header="Last Name" field="driver.person.lastName">
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by last name">
+                        </InputText>
+                    </template>
+                </Column>
             </Row>
         </ColumnGroup>
         <Column header="Route" field="routeName">
@@ -68,10 +99,6 @@ const onRowContextMenu = event => {
         <Column :sortable="true" field="driver.id" header="id" style="max-width: 10%; text-align: center">
             <template #body="{ data }">
                 {{ data.driver.id || '' }}
-            </template>
-            <template #filter="{ filterModel }">
-                <InputText type="text" v-model="filterModel.value" class="p-column-filter" placeholder="Search by id">
-                </InputText>
             </template>
         </Column>
         <Column :sortable="true" field="driver.person.firstName">

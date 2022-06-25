@@ -192,4 +192,38 @@ const routeFilters = {
     },
 };
 
-export { recipientFilters, personFilters, driverFilters, agencyFilters, routeFilters };
+const driversByRouteFilters = {
+    'global':
+    {
+        value: null, matchMode: FilterMatchMode.CONTAINS
+    },
+
+    'routeName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
+    },
+
+    'id':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'driver.person.firstName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'driver.person.lastName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+};
+
+export {
+    recipientFilters,
+    personFilters,
+    driverFilters,
+    agencyFilters,
+    routeFilters,
+    driversByRouteFilters
+};
