@@ -2,6 +2,9 @@
 
 namespace App\Mail;
 
+use App\Models\Driver;
+use App\Report\DriverReport;
+use App\Repository\DriverRepositoryInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -11,6 +14,7 @@ class TestEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
+
     /**
      * Create a new message instance.
      *
@@ -19,6 +23,7 @@ class TestEmail extends Mailable
     public function __construct()
     {
         //
+
     }
 
     /**
@@ -28,6 +33,6 @@ class TestEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.test');
+        return $this->view('emails.test'); 
     }
 }

@@ -14,22 +14,40 @@ class DriverReport implements ReportInterface
         $this->repository = $repository;
     }
 
-    public function data($input)
-    {
+    public function data($input) {
         $driver_id = $input['driver_id'];
         $weekday = $input['weekday'];
+
         try {
-            return $this->repository->find($driver_id)->routes()->wherePivot('weekday', $weekday)->get()
-                ->flatMap(function ($route) use ($weekday) {
-                    return $route->recipients()->wherePivot('weekday', $weekday)->get()
-                        ->map(function ($recipient) use ($route) {
-                            return collect($recipient->toArray())->union(['routeName' => $route->name]);
-                        });
-                });
+            return $this->repository->find($driver_id)
+            ->routes()->wherePivot('weekday', $weekday)
+            ->with([
+                'recipients' => function($q) use ($weekday) {
+                    $q->where('weekday', $weekday);
+                }
+            ])->get();
         } catch (ModelNotFoundException $e) {
             return collect();
         }
+
     }
+
+    // public function data($input)
+    // {
+    //     $driver_id = $input['driver_id'];
+    //     $weekday = $input['weekday'];
+    //     try {
+    //         return $this->repository->find($driver_id)->routes()->wherePivot('weekday', $weekday)->get()
+    //             ->flatMap(function ($route) use ($weekday) {
+    //                 return $route->recipients()->wherePivot('weekday', $weekday)->get()
+    //                     ->map(function ($recipient) use ($route) {
+    //                         return collect($recipient->toArray())->union(['routeName' => $route->name]);
+    //                     });
+    //             });
+    //     } catch (ModelNotFoundException $e) {
+    //         return collect();
+    //     }
+    // }
 
     public function driver($driver_id, $weekday)
     {

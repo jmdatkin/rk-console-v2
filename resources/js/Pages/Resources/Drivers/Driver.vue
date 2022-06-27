@@ -20,7 +20,7 @@ const props = defineProps(['data']);
             <template #content>
                 <DriverInfo :data="data"></DriverInfo>
                 <Divider />
-                <Panel header="Route Assignments" :toggleable="true" :collapsed="true">
+                <Panel header="Route Assignments" :toggleable="true" :collapsed="false">
                     <DriverAssignments :driverData="data"></DriverAssignments>
                 </Panel>
 

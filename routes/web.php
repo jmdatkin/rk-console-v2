@@ -22,6 +22,8 @@ use App\Http\Controllers\Resources\PersonController;
 use App\Http\Controllers\Resources\RecipientController;
 use App\Http\Controllers\Resources\RouteController;
 use App\Http\Controllers\UserProfileController;
+use App\Mail\DriverReportEmail;
+use App\Models\Driver;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -82,7 +84,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/import', [DriverController::class, 'import']);
         Route::patch('/{id}/update', [DriverController::class, 'update']);
         Route::post('/destroy', [DriverController::class, 'destroyMany']);
-        Route::post('/{driver_id}/assign/{route_id}', [DriverController::class, 'assign'])->name('driver.assign');
+        Route::patch('/{driver_id}/assign/{route_id}', [DriverController::class, 'assign'])->name('driver.assign');
         Route::patch('/{driver_id}/deassign/{route_id}', [DriverController::class, 'deassign'])->name('driver.deassign');
         Route::get('/{id}/routes', [DriverController::class, 'routes'])->name('driver.routes');
 
@@ -172,6 +174,10 @@ Route::prefix('manage')->middleware(['auth', 'verified'])->group(function () {
     Route::get('driver/{id}', [ManageDriverController::class, 'index'])->name('manage.driver');
 });
 
+
+Route::get('/drivermailtest/{id}', function($id) {
+    return new DriverReportEmail(Driver::find($id));
+});
 
 Route::get('/calendar/events', function (Request $request) {
 });

@@ -22,7 +22,7 @@ const props = defineProps(['data']);
             <template #content>
                 <RecipientInfo :data="data"></RecipientInfo>
                 <Divider />
-                <Panel header="Route Assignments" :toggleable="true" :collapsed="true">
+                <Panel header="Route Assignments" :toggleable="true" :collapsed="false">
                     <RecipientAssignments :recipientData="data"></RecipientAssignments>
                 </Panel>
             </template>

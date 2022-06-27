@@ -9,7 +9,7 @@ import { useToast } from 'primevue/usetoast';
 import { onMounted, ref } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 
-const props = defineProps(['driverData'])
+const props = defineProps(['routeData'])
 const toast = useToast();
 
 const WEEKDAYS = ref({
@@ -37,7 +37,7 @@ const dataLoaded = ref(false);
 
 const getData = function () {
     dataLoaded.value = false;
-    axios.get(route('driver.routes', { id: props.driverData.id }))
+    axios.get(route('route.drivers', { id: props.routeData.id }))
         .then(
             res => {
                 data.value = res.data;
@@ -55,26 +55,26 @@ const dataForDay = function (day) {
 
 const selectedWeekday = ref();
 const routeDialogOpen = ref(false);
-const routeData = ref([]);
-const routeDataLoaded = ref(false);
+const driverData = ref([]);
+const driverDataLoaded = ref(false);
 
-const getRouteData = function () {
-    axios.get('/route')
+const getDriverData = function () {
+    axios.get('/driver')
         .then(res => {
-            routeData.value = res.data;
-            routeDataLoaded.value = true;
+            driverData.value = res.data;
+            driverDataLoaded.value = true;
         }).catch(err => console.error(err));
 };
 
 const createSelectCallback = function (day) {
     return function () {
         selectedWeekday.value = day;
-        routeDialogOpen.value = true;
+        driverDialogOpen.value = true;
     };
 };
 
-const submitAssignment = function (route_id, weekday) {
-    axios.patch(route('driver.assign', { driver_id: props.driverData.id, route_id, weekday }))
+const submitAssignment = function (driver_id, weekday) {
+    axios.patch(route('route.assign', { route_id: props.routeData.id, driver_id, weekday }))
         .then(
             () => {
                 getData();
@@ -87,7 +87,7 @@ const submitAssignment = function (route_id, weekday) {
 };
 
 onMounted(() => {
-    getRouteData();
+    getDriverData();
     getData();
 })
 
