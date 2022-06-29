@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Events\LogModelChanges;
+use App\Events\RecipientModelUpdated;
 use Error;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,9 +24,9 @@ class Recipient extends BasePersonRole
 
     protected $touches = ['person'];
 
-    // public function __construct() {
-    //     $this->with = array_merge(['agency'], parent::$this->with);
-    // }
+    protected $dispatchesEvents = [
+        'saving' => RecipientModelUpdated::class
+    ];
 
     public function person()
     {
@@ -50,12 +52,7 @@ class Recipient extends BasePersonRole
      */
     public function setRoute($route_id, $weekday)
     {
-        try {
             $this->routes()->wherePivot('weekday', $weekday)->detach();
             $this->routes()->attach($route_id, ['weekday' => $weekday]);     //Set new route id
-        } catch (QueryException $e) {
-            error_log($e);
-            return response($e, 409);
-        }
     }
 }
