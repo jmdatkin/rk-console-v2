@@ -80,6 +80,11 @@ class Route extends Model
         $this->drivers()->wherePivot('weekday', $weekday)->detach();
     }
 
+    public function deassignRecipient($weekday)
+    {
+        $this->recipients()->wherePivot('weekday', $weekday)->detach();
+    }
+
     // public function driversOnDay($date)
     // {
     //     $carbon_date = Carbon::parse($date);
