@@ -26,15 +26,4 @@ class DriverExceptionRoute extends Pivot
         return $this->belongsTo(Driver::class, 'sub_id');
     }
 
-    // public function setDate(): Attribute {
-    //     return Attribute::make(
-    //         get: fn ($value) => Carbon::parse($value),
-    //         set: function ($value) {
-    //             if (!$this->exception()->contains($value))
-    //                 throw new DateTimeException("Date is out of range of exception");
-    //             else
-    //                 return $value;
-    //         }
-    //     );
-    // }
 }

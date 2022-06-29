@@ -23,7 +23,7 @@ class DriverException extends Pivot
     ];
 
     protected $with = ['substitutes'];
-    
+
     protected $appends = ['length'];
 
     protected $casts = [
@@ -31,42 +31,37 @@ class DriverException extends Pivot
         'date_end' => 'datetime'
     ];
 
-    public function driver() {
+    public function driver()
+    {
         return $this->belongsTo(Driver::class, 'driver_id');
     }
 
-    // public function substituteDriver() {
-    //     return $this->belongsTo(Driver::class, 'substitute_driver_id');
-    // }
-    public function substitutes() {
-        // return $this->hasmanythrough(driver::class, driverexceptionroute::class, 'driver_exception_id', 'id', 'id', 'substitute_driver_id');
-        // ->withpivot('route_id');
-        // ->as('substitute');
-
+    public function substitutes()
+    {
         return $this->belongsToMany(Driver::class, 'driver_exception_route', 'e_id', 'sub_id')
-        ->withPivot(['route_id','date'])
-        ->as('substitute');
+            ->withPivot(['route_id', 'date'])
+            ->as('substitute');
     }
 
 
-    public function getLengthAttribute() {
+    public function getLengthAttribute()
+    {
         // Number of days between dates
         return $this->date_start->diff($this->date_end)->days;
     }
 
-    // public function setSubstituteDriver() {
-    //         $this->substituteDriver()->associate()
-    // }
-
-    public function contains($date) {
-        return Carbon::parse($date)->between($this->date_start,$this->date_end);
+    public function contains($date)
+    {
+        return Carbon::parse($date)->between($this->date_start, $this->date_end);
     }
 
-    protected function setDateStartAttribute($value) {
+    protected function setDateStartAttribute($value)
+    {
         $this->attributes['date_start'] = Carbon::parse($value);
     }
 
-    protected function setDateEndAttribute($value) {
+    protected function setDateEndAttribute($value)
+    {
         $this->attributes['date_end'] = Carbon::parse($value);
     }
 }

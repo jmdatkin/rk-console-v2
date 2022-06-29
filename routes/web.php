@@ -23,6 +23,7 @@ use App\Http\Controllers\Resources\RecipientController;
 use App\Http\Controllers\Resources\RouteController;
 use App\Http\Controllers\UserProfileController;
 use App\Mail\DriverReportEmail;
+use App\Mail\DriverReportEmailMdTest;
 use App\Models\Driver;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Route;
@@ -176,7 +177,7 @@ Route::prefix('manage')->middleware(['auth', 'verified'])->group(function () {
 
 
 Route::get('/drivermailtest/{id}', function($id) {
-    return new DriverReportEmail(Driver::find($id));
+    return new DriverReportEmailMdTest(Driver::find($id));
 });
 
 Route::get('/calendar/events', function (Request $request) {

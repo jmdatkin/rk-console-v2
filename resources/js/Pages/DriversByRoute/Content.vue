@@ -36,11 +36,13 @@ const tableData = computed(() => {
         let routeId = row.id;
 
         let driver = {};
+        let originalDriver;
         let exception = {};
         let substitute;
 
         if (row.drivers.length > 0) {
             driver = row.drivers[0];
+            originalDriver = driver;
 
             if (driver.exceptions.length > 0) {
                 inException = true;
@@ -64,7 +66,9 @@ const tableData = computed(() => {
         }
 
         return {
+            originalDriver, 
             driver,
+            substitute,
             exception,
             isSub,
             inException,
