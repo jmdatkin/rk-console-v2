@@ -9,7 +9,7 @@ import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
 import { ref, onMounted, onUpdated } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
-import { Inertia, onSuccess } from '@inertiajs/inertia';
+import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
 import { routeFilters } from './filters';

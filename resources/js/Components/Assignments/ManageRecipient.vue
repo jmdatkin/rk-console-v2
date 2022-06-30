@@ -13,7 +13,7 @@ import InputText from 'primevue/inputtext';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
-import { Inertia, onSuccess } from '@inertiajs/inertia';
+import { Inertia } from '@inertiajs/inertia';
 
 import { ref, reactive, computed, onUpdated, onMounted } from 'vue';
 

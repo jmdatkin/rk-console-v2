@@ -19,8 +19,9 @@ import { useToast } from 'primevue/usetoast';
 import mitt from 'mitt';
 import moment from 'moment-timezone';
 // import 'primevue/resources/themes/md-light-indigo/theme.css';
-// import 'primevue/resources/themes/mdc-light-indigo/theme.css';
-import 'primevue/resources/themes/saga-blue/theme.css';
+import 'primevue/resources/themes/mdc-light-indigo/theme.css';
+// import 'primevue/resources/themes/saga-blue/theme.css';
+
 // import 'primevue/resources/themes/arya-blue/theme.css';
 // import 'primevue/resources/themes/vela-blue/theme.css';
 

@@ -50,8 +50,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile');
 
-    Route::get('/substitutes', [DriverRouteSubsController::class, 'index'])->name('substitutes');
-
     Route::prefix('driversbyroute')->group(function () {
         Route::get('/', [DriversByRouteViewController::class, 'index'])->name('driversbyroute');
         Route::get('/data', [DriversByRouteViewController::class, 'data'])->name('driversbyroute.data');

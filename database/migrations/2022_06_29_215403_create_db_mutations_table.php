@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('entity_type');
             $table->string('fields');
             $table->string('values');
+            $table->timestamp('committed_at')->nullable()->default(null);
             $table->timestamps();
         });
     }
