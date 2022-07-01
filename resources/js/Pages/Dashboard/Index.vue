@@ -1,6 +1,8 @@
 <script setup>
 import BasePageLayout from '@/Layouts/BasePageLayout';
 import Dialog from 'primevue/dialog';
+import Splitter from 'primevue/splitter';
+import SplitterPanel from 'primevue/splitterpanel';
 import RouteDriversTable from './RouteDriversTable';
 import RouteRecipientsTable from './RouteRecipientsTable';
 import moment from 'moment';
@@ -21,12 +23,12 @@ const driverData = ref([]);
 const recipientDialogOpen = ref(false);
 const driverDialogOpen = ref(false);
 
-const openRecipientDialog = function(row) {
+const openRecipientDialog = function (row) {
     recipientData.value = row.data;
     recipientDialogOpen.value = true;
 };
 
-const openDriverDialog = function(row) {
+const openDriverDialog = function (row) {
     driverData.value = row.data.driver;
     driverDialogOpen.value = true;
 };
@@ -37,19 +39,19 @@ const openDriverDialog = function(row) {
     <Head title="Dashboard" />
 
     <BasePageLayout>
-    <!-- Driver Dialog -->
+        <!-- Driver Dialog -->
         <Dialog :modal="true" :dismissableMask="true" closeOnEscape="true" v-model:visible="driverDialogOpen">
             <template #header>
                 &nbsp;
             </template>
-            <DriverInfo :data="driverData"></DriverInfo> 
+            <DriverInfo :data="driverData"></DriverInfo>
         </Dialog>
-    <!-- Recipient Dialog -->
+        <!-- Recipient Dialog -->
         <Dialog :modal="true" :dismissableMask="true" closeOnEscape="true" v-model:visible="recipientDialogOpen">
             <template #header>
                 &nbsp;
             </template>
-            <RecipientInfo :data="recipientData"></RecipientInfo> 
+            <RecipientInfo :data="recipientData"></RecipientInfo>
         </Dialog>
         <template #header>
             <h2 class="font-semibold text-xl leading-tight mb-4">
@@ -62,16 +64,17 @@ const openDriverDialog = function(row) {
             </div>
         </div>
         <div class="grid">
+
             <div class="col-12 lg:col-6">
                 <Panel>
                     <template #header>
                         <span>
-                        <i class="pi pi-car"></i>
-                        Today's Drivers
+                            <i class="pi pi-car"></i>
+                            Today's Drivers
                         </span>
                     </template>
-                    <!-- <RouteRecipientsTable :date="moment(Date.now())"></RouteRecipientsTable> -->
-                    <RouteDriversTable :onSelect="openDriverDialog" :value="routeDriver_data" :date="DateAdapter.make(Date.now())"></RouteDriversTable>
+                    <RouteDriversTable :onSelect="openDriverDialog" :value="routeDriver_data"
+                        :date="DateAdapter.make(Date.now())"></RouteDriversTable>
                 </Panel>
             </div>
             <div class="col-12 lg:col-6">
@@ -82,8 +85,8 @@ const openDriverDialog = function(row) {
                             Today's Recipients
                         </span>
                     </template>
-                    <!-- <RouteRecipientsTable :date="moment(Date.now())"></RouteRecipientsTable> -->
-                    <RouteRecipientsTable :onSelect="openRecipientDialog" :value="routeRecipient_data" :date="DateAdapter.make(Date.now())">
+                    <RouteRecipientsTable :onSelect="openRecipientDialog" :value="routeRecipient_data"
+                        :date="DateAdapter.make(Date.now())">
                     </RouteRecipientsTable>
                 </Panel>
             </div>
@@ -121,5 +124,4 @@ h3 {
     font-size: 1.25rem;
     font-weight: 500;
 }
-
 </style>

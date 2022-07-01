@@ -174,7 +174,9 @@ import Panel from 'primevue/panel';
     cursor: pointer;
 }
 
-// .p-datatable-tbody>tr>td {
-//     padding: 0.25rem 0.5rem !important;
-// }
+.p-datatable-tbody>tr>td {
+    padding: 0.25rem 0.5rem !important;
+}
+
+
 </style>
