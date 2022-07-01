@@ -21,9 +21,9 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
 
-        RecipientModelUpdated::class => [
-            LogModelChanges::class
-        ]
+        // RecipientModelUpdated::class => [
+        //     LogModelChanges::class
+        // ]
     ];
 
     /**

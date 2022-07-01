@@ -24,10 +24,6 @@ class Recipient extends BasePersonRole
 
     protected $touches = ['person'];
 
-    protected $dispatchesEvents = [
-        'saving' => RecipientModelUpdated::class
-    ];
-
     public function person()
     {
         return $this->belongsTo(Person::class);

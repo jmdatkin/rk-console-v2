@@ -1,5 +1,14 @@
 <?php
 
+use App\Jobs\Driver\CreateDriver;
+use App\Jobs\Driver\DeleteDriver;
+use App\Jobs\Driver\UpdateDriver;
+use App\Jobs\Person\CreatePerson;
+use App\Jobs\Person\DeletePerson;
+use App\Jobs\Person\UpdatePerson;
+use App\Jobs\Recipient\CreateRecipient;
+use App\Jobs\Recipient\DeleteRecipient;
+use App\Jobs\Recipient\UpdateRecipient;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -197,5 +206,19 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
+
+    'job_key_names' => [
+        'recipient:create' => CreateRecipient::class,
+        'recipient:update' => UpdateRecipient::class,
+        'recipient:destroy' => DeleteRecipient::class,
+
+        'driver:create' => CreateDriver::class,
+        'driver:update' => UpdateDriver::class,
+        'driver:destroy' => DeleteDriver::class,
+
+        'person:create' => CreatePerson::class,
+        'person:update' => UpdatePerson::class,
+        'person:destroy' => DeletePerson::class
+    ]
 
 ];
