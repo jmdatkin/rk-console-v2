@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resources;
 
 use App\DataTables\RecipientDataTableInterface;
+use App\Jobs\SchedulePendingJob;
 use App\Repository\AgencyRepositoryInterface;
 use App\Repository\RecipientRepositoryInterface;
 use App\Repository\RouteRepositoryInterface;
@@ -61,4 +62,10 @@ class RecipientController extends BasePersonRoleController
     public function routes($recipient_id) {
         return $this->repository->find($recipient_id)->routes;
     }
+
+    // public function update(Request $request, $id) {
+    //     SchedulePendingJob::dispatchSync('recipient:update', [$id, $request->except([
+    //         'id','person_id','user_id','created_at', 'updated_at', 'deleted_at'
+    //     ])]);
+    // }
 }
