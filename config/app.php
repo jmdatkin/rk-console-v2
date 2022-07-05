@@ -1,5 +1,7 @@
 <?php
 
+use App\Jobs\AssignDriverToRoute;
+use App\Jobs\AssignRecipientToRoute;
 use App\Jobs\Driver\CreateDriver;
 use App\Jobs\Driver\DeleteDriver;
 use App\Jobs\Driver\UpdateDriver;
@@ -9,6 +11,8 @@ use App\Jobs\Person\UpdatePerson;
 use App\Jobs\Recipient\CreateRecipient;
 use App\Jobs\Recipient\DeleteRecipient;
 use App\Jobs\Recipient\UpdateRecipient;
+use App\Jobs\ReleaseDriverFromRoute;
+use App\Jobs\ReleaseRecipientFromRoute;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -211,10 +215,14 @@ return [
         'recipient:create' => CreateRecipient::class,
         'recipient:update' => UpdateRecipient::class,
         'recipient:destroy' => DeleteRecipient::class,
+        'recipient:assign' => AssignRecipientToRoute::class,
+        'recipient:release' => ReleaseRecipientFromRoute::class,
 
         'driver:create' => CreateDriver::class,
         'driver:update' => UpdateDriver::class,
         'driver:destroy' => DeleteDriver::class,
+        'driver:assign' => AssignDriverToRoute::class,
+        'driver:release' => ReleaseDriverFromRoute::class,
 
         'person:create' => CreatePerson::class,
         'person:update' => UpdatePerson::class,

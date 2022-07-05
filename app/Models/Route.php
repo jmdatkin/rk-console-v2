@@ -80,9 +80,14 @@ class Route extends Model
         $this->drivers()->wherePivot('weekday', $weekday)->detach();
     }
 
-    public function deassignRecipient($weekday)
+    public function assignRecipient($recipient_id, $weekday)
     {
-        $this->recipients()->wherePivot('weekday', $weekday)->detach();
+        $this->recipients()->attach($recipient_id, ['weekday' => $weekday]);
+    }
+
+    public function deassignRecipient($recipient_id, $weekday)
+    {
+        $this->recipients()->wherePivot('weekday', $weekday)->where('recipient_id', $recipient_id)->detach();
     }
 
     // public function driversOnDay($date)

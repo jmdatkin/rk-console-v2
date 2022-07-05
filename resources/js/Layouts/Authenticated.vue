@@ -103,8 +103,10 @@ const items = ref([
                     </Link>
                 </template>
                 <template #end>
-                    <Button label="Profile" icon="pi pi-user" class="p-button-text p-button-plain" @click="() => Inertia.get(route('profile'))"></Button>
-                    <Button label="Log Out" class="p-button-text p-button-plain" @click="() => Inertia.post(route('logout'))"></Button>
+                    <Button label="Profile" icon="pi pi-user" class="p-button-text p-button-plain"
+                        @click="() => Inertia.get(route('profile'))"></Button>
+                    <Button label="Log Out" class="p-button-text p-button-plain"
+                        @click="() => Inertia.post(route('logout'))"></Button>
                     <!-- <Link :href="route('profile')" method="get" as="button">
                     <i class="pi pi-user"></i>
                         Profile
@@ -125,7 +127,7 @@ const items = ref([
 </template>
 
 <style lang="scss">
-    .app-wrapper {
-        padding: 10px;
-    }
+.app-wrapper {
+    padding: 10px;
+}
 </style>
