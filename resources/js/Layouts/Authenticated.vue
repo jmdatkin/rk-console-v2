@@ -10,6 +10,7 @@ import BreezeNavLink from '@/Components/NavLink.vue';
 import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
+import Header from '../Components/Header.vue';
 
 const showingNavigationDropdown = ref(false);
 
@@ -96,26 +97,29 @@ const items = ref([
 <template>
     <App>
         <div class="app-wrapper">
-            <MenuBar class="mb-2" :model="items">
-                <template #start>
-                    <Link :href="route('dashboard')">
-                    <BreezeApplicationLogo class="block h-9 w-auto" />
-                    </Link>
-                </template>
-                <template #end>
-                    <Button label="Profile" icon="pi pi-user" class="p-button-text p-button-plain"
-                        @click="() => Inertia.get(route('profile'))"></Button>
-                    <Button label="Log Out" class="p-button-text p-button-plain"
-                        @click="() => Inertia.post(route('logout'))"></Button>
-                    <!-- <Link :href="route('profile')" method="get" as="button">
+            <Header>
+                <MenuBar class="mb-2" :model="items">
+                    <template #start>
+                        <Link :href="route('dashboard')">
+                        <BreezeApplicationLogo class="block h-9 w-auto" />
+                        </Link>
+                    </template>
+                    <template #end>
+                        <Button label="Profile" icon="pi pi-user" class="p-button-text p-button-plain"
+                            @click="() => Inertia.get(route('profile'))"></Button>
+                        <Button label="Log Out" class="p-button-text p-button-plain"
+                            @click="() => Inertia.post(route('logout'))"></Button>
+                        <!-- <Link :href="route('profile')" method="get" as="button">
                     <i class="pi pi-user"></i>
                         Profile
                     </Link>
                     <Link :href="route('logout')" method="post" as="button">
                         Log Out
                     </Link> -->
-                </template>
-            </MenuBar>
+                    </template>
+                </MenuBar>
+
+            </Header>
 
             <!-- Page Content -->
             <main>
@@ -128,6 +132,10 @@ const items = ref([
 
 <style lang="scss">
 .app-wrapper {
-    padding: 10px;
+    // padding: 10px;
+}
+
+.p-menubar {
+    border: 0;
 }
 </style>
