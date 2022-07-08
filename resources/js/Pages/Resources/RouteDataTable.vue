@@ -13,12 +13,13 @@ import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
 import { routeFilters } from './filters';
+import RouteService from './Routes/RouteService';
 
 const props = defineProps(['cols', 'data', 'errors', 'message', 'csrf']);
 
+const { data, dataLoaded, selected, CRUD } = useCRUD(RouteService);
+
 const filters = ref(routeFilters);
-
-
 const initFilters = function () {
     filters.value = routeFilters;
 };
@@ -30,7 +31,7 @@ onMounted(() => {
 const toast = useToast();
 const loading = ref(true);
 const editingRows = ref([]);
-const selected = ref();
+// const selected = ref();
 const newRecordDialog = ref(false);
 const newRecordForm = useForm({
     name: null,
@@ -57,17 +58,18 @@ const submitNewRecord = function () {
 }
 
 const onRowEditSave = function (event) {
-    let { newData, index } = event;
-    Inertia.patch(`/route/${newData.id}/update`, newData,
-        {
-            onSuccess: page => {
-                toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-            },
+    CRUD.update(event.newData);
+    // let { newData, index } = event;
+    // Inertia.patch(`/route/${newData.id}/update`, newData,
+    //     {
+    //         onSuccess: page => {
+    //             toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
+    //         },
 
-            onError: errors => {
-                toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-            }
-        });
+    //         onError: errors => {
+    //             toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
+    //         }
+    //     });
 };
 
 const destroyRecords = function () {
