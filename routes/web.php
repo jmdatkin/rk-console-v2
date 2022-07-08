@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Assignments\ManageDriverController;
-use App\Http\Controllers\Assignments\ManageRecipientController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DriverRouteSubsController;
 use App\Http\Controllers\Report\DashboardController;
@@ -162,17 +160,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('meals/data', [MealReportController::class, 'data']);
     });
 });
-
-Route::prefix('manage')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('recipient/{id}/assignments', [ManageRecipientController::class, 'getAssignments']);
-    Route::post('recipient/{recipient_id}/assign/{route_id}/{weekday}', [ManageRecipientController::class, 'makeAssignment']);
-    Route::get('recipient/{id}', [ManageRecipientController::class, 'index'])->name('manage.recipient');
-
-    Route::get('driver/{id}/assignments', [ManageDriverController::class, 'getAssignments']);
-    Route::post('driver/{driver_id}/assign/{route_id}/{weekday}', [ManageDriverController::class, 'makeAssignment']);
-    Route::get('driver/{id}', [ManageDriverController::class, 'index'])->name('manage.driver');
-});
-
 
 Route::get('/drivermailtest/{id}', function($id) {
     return new DriverReportEmailMdTest(Driver::find($id));

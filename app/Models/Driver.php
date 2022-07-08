@@ -26,66 +26,14 @@ class Driver extends BasePersonRole
 
     public function subbed($date) {
         $carbon_date = RkCarbon::parse($date);
-        $exceptions = $this->exceptions()->with(['substitutes' => function($query) {
-            $query->whereDate('');
-        }]);
+        // $exceptions = $this->exceptions()->has('substitutes')->with(['substitutes' => function($query) use ($date) {
+        $exceptions = $this->exceptions()->whereHas('substitutes', function($query) use ($date) {
+            $query->whereDate('date', $date);
+        });
+        if ($exceptions->exists())
+            return $exceptions->first()->substitutes;
+        return $this;
     }
-
-    /**
-     * All drivers currently replacing this driver
-     */
-    // public function driverExceptionsSubbedBy() {
-    //     return $this->hasManyThrough(DriverExceptionRoute::class, DriverException::class, 'driver_id', 'exception_id', 'id', 'id');
-    //     // return $this->belongsToMany(DriverExceptionRoute::class, 'driver_exceptions', '')
-    //     // ->as('exception');
-    // }
-
-    // public function getSubbedByAttribute() {
-    //     return $this->driverExceptionsSubbedBy->load('substituteDriver');
-    // }
-
-    // /**
-    //  * All drivers currently replaced by this driver
-    //  */
-    // public function driverExceptionsSubbing() {
-    //     // return $this->belongsToMany(DriverException::class, 'driver_exception_route', 'driver_exception_id', 'substitute_driver_id')
-    //     return $this->belongsToMany(DriverException::class, 'driver_exception_route', 'sub_id', 'e_id')
-    //     ->using(DriverExceptionRoute::class)
-    //     ->withPivot('route_id')
-    //     ->as('exception');
-    // }
-
-    // public function getSubbingAttribute() {
-    //     return $this->driverExceptionsSubbing;//->map(fn($row) => $row->exception->exception->load('driver'));
-    // }
-
-    // public function scopeWithSubbedBy($query, $date) {
-    //     $carbon_date = Carbon::parse($date);
-    //     $query->with([
-    //         'subbedBy' => function($q) use ($carbon_date) {
-    //             $q->contains($carbon_date);
-    //         }
-    //     ]);
-    // }
-
-    // public function scopeWithSubbing($query, $date) {
-    //     $carbon_date = Carbon::parse($date);
-    //     $query->with([
-    //         'subbing' => function($q) use ($carbon_date) {
-    //             $q->contains($carbon_date);
-    //         }
-    //     ]);
-    // }
-
-    // public function scopeWithSubs($query, $date) {
-    //     $query->withSubbedBy($date)->withSubbing($date);
-    // }
-
-    // public function scopeContains($query, $date) {
-    //     $query
-    //     ->where('driver_exceptions.date_start', '<=', $date)
-    //     ->where('driver_exceptions.date_end', '>', $date);
-    // }
 
     //Many-to-many linkage between route
     public function routes()

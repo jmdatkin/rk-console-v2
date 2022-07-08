@@ -3,15 +3,12 @@
 namespace App\Http\Controllers\Resources;
 
 use App\DataTables\RecipientDataTableInterface;
-use App\Jobs\SchedulePendingJob;
-use App\Repository\AgencyRepositoryInterface;
 use App\Repository\RecipientRepositoryInterface;
 use App\Repository\RouteRepositoryInterface;
 use Error;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class RecipientController extends BasePersonRoleController
@@ -39,8 +36,8 @@ class RecipientController extends BasePersonRoleController
 
     public function assign($recipient_id, $route_id, Request $request)
     {
-        $weekday = $request->input('weekday');
         try {
+            $weekday = $request->input('weekday');
             $this->repository->find($recipient_id)->setRoute($route_id, $weekday);
         } catch (QueryException $e) {
             error_log($e);
@@ -59,13 +56,9 @@ class RecipientController extends BasePersonRoleController
             return response()->json([], 500);
         }
     }
+    
     public function routes($recipient_id) {
         return $this->repository->find($recipient_id)->routes;
     }
 
-    // public function update(Request $request, $id) {
-    //     SchedulePendingJob::dispatchSync('recipient:update', [$id, $request->except([
-    //         'id','person_id','user_id','created_at', 'updated_at', 'deleted_at'
-    //     ])]);
-    // }
 }
