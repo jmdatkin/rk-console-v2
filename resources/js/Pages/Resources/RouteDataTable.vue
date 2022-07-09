@@ -13,9 +13,10 @@ import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
 import { routeFilters } from './filters';
+import { useCRUD } from './hooks';
 import RouteService from './Routes/RouteService';
 
-const props = defineProps(['cols', 'data', 'errors', 'message', 'csrf']);
+const props = defineProps(['csrf']);
 
 const { data, dataLoaded, selected, CRUD } = useCRUD(RouteService);
 
@@ -47,15 +48,16 @@ const closeNewRecordDialog = function () {
 }
 
 const submitNewRecord = function () {
-    newRecordForm.post('/route/store', {
-        onSuccess: page => {
-            toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-        },
-        onError: errors => {
-            toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-        }
-    })
-}
+    // newRecordForm.post('/route/store', {
+    //     onSuccess: page => {
+    //         toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
+    //     },
+    //     onError: errors => {
+    //         toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
+    //     }
+    // })
+    CRUD.store(newRecordForm);
+};
 
 const onRowEditSave = function (event) {
     CRUD.update(event.newData);
@@ -116,6 +118,8 @@ const onUpload = function (event) {
     };
 
 }
+
+CRUD.get();
 </script>
 
 <template>

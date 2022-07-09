@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Resources;
 
 use App\DataTables\RouteDataTableInterface;
+use App\Jobs\Route\CreateRoute;
+use App\Jobs\Route\UpdateRoute;
 use App\Repository\RouteRepositoryInterface;
+use Error;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -37,17 +40,11 @@ class RouteController extends BaseResourceController
     public function store(Request $request)
     {
         try {
-            parent::store($request);
-            return Redirect::route('datatables.routes')->with([
-                'message-class' => 'success',
-                'message' => 'Record successfully created.'
-            ]);
-        } catch (Exception $e) {
-            error_log($e);
-            return Redirect::route('datatables.routes')->with([
-                'message-class' => 'error',
-                'message' => 'An error occurred. Record was not created.'
-            ]);
+                        // parent::store($request);
+            CreateRoute::dispatchSync($request->all());
+            return response('Record successfully created.', 200);
+        } catch (Error | Exception $e) {
+            return response('An error occurred. Record was not created.', 409);
         }
     }
 
