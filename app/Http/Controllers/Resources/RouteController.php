@@ -20,7 +20,8 @@ class RouteController extends BaseResourceController
         parent::__construct($repository);
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $route = $this->repository->find($id);
         $drivers = $route->drivers;
         $recipients = $route->recipients;
@@ -40,7 +41,7 @@ class RouteController extends BaseResourceController
     public function store(Request $request)
     {
         try {
-                        // parent::store($request);
+            // parent::store($request);
             CreateRoute::dispatchSync($request->all());
             return response('Record successfully created.', 200);
         } catch (Error | Exception $e) {
@@ -48,38 +49,37 @@ class RouteController extends BaseResourceController
         }
     }
 
-    public function update(Request $request, $id)
-    {
-        try {
-            parent::update($request, $id);
-            return Redirect::route('datatables.routes')->with([
-                'message-class' => 'success',
-                'message' => 'Record successfully edited.'
-            ]);
-        } catch (Exception $e) {
-            error_log($e);
-            return Redirect::route('datatables.routes')->with([
-                'message-class' => 'error',
-                'message' => 'An error occurred. Record was not edited.'
-            ]);
-        }
-    }
+    // public function update(Request $request, $id)
+    // {
+    //     parent::update($request, $id);
+    //     //     return Redirect::route('datatables.routes')->with([
+    //     //         'message-class' => 'success',
+    //     //         'message' => 'Record successfully edited.'
+    //     //     ]);
+    //     // } catch (Exception $e) {
+    //     //     error_log($e);
+    //     //     return Redirect::route('datatables.routes')->with([
+    //     //         'message-class' => 'error',
+    //     //         'message' => 'An error occurred. Record was not edited.'
+    //     //     ]);
+    //     // }
+    // }
 
-    public function bulkDestroy(Request $request)
-    {
-        try {
-            parent::bulkDestroy($request);
-            return Redirect::route('datatables.routes')->with([
-                'message-class' => 'success',
-                'message' => 'Record(s) successfully deleted.'
-            ]);
-        } catch (Exception $e) {
-            return Redirect::route('datatables.routes')->with([
-                'message-class' => 'error',
-                'message' => 'An error occurred. One or more record(s) were not deleted.'
-            ]);
-        }
-    }
+    // public function bulkDestroy(Request $request)
+    // {
+    //     try {
+    //         parent::bulkDestroy($request);
+    //         return Redirect::route('datatables.routes')->with([
+    //             'message-class' => 'success',
+    //             'message' => 'Record(s) successfully deleted.'
+    //         ]);
+    //     } catch (Exception $e) {
+    //         return Redirect::route('datatables.routes')->with([
+    //             'message-class' => 'error',
+    //             'message' => 'An error occurred. One or more record(s) were not deleted.'
+    //         ]);
+    //     }
+    // }
 
     public function alternateDrivers($id)
     {

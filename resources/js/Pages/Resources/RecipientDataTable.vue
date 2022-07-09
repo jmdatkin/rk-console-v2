@@ -6,15 +6,13 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import InputMask from 'primevue/inputmask';
 import Textarea from 'primevue/textarea';
-import FileUpload from 'primevue/fileupload';
 import Dropdown from 'primevue/dropdown';
 import Dialog from 'primevue/dialog';
 import Loading from '@/Components/Loading';
 import ContextMenu from 'primevue/contextmenu';
-import ManageRecipient from '@/Components/Assignments/ManageRecipient';
 import RecipientRouteAssignments from '@/Components/Assignments/RecipientRouteAssignments';
-import { Link, Head } from '@inertiajs/inertia-vue3';
-import { ref, onMounted, onUpdated, reactive, computed } from 'vue';
+import { Head } from '@inertiajs/inertia-vue3';
+import { ref, onMounted, reactive, computed } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import { mergePersonObject } from '@/util';
@@ -22,7 +20,6 @@ import { recipientFilters } from './filters';
 import { useCRUD } from './hooks';
 import RecipientService from './Recipients/RecipientService';
 import { Inertia } from '@inertiajs/inertia';
-import RecipientRouteAssignmentsVue from '../../Components/Assignments/RecipientRouteAssignments.vue';
 
 const props = defineProps(['agencies', 'errors', 'message', 'csrf']);
 

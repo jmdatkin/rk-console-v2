@@ -5,13 +5,12 @@ import Toolbar from 'primevue/toolbar';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
-import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
-import { ref, onMounted, onUpdated } from 'vue';
-import { FilterMatchMode, FilterOperator } from 'primevue/api';
+import { ref, onMounted } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
 import { useToast } from 'primevue/usetoast';
+import { useConfirm } from 'primevue/useconfirm';
 import { routeFilters } from './filters';
 import { useCRUD } from './hooks';
 import RouteService from './Routes/RouteService';
@@ -24,6 +23,9 @@ const filters = ref(routeFilters);
 const initFilters = function () {
     filters.value = routeFilters;
 };
+
+// Confirm dialog
+const confirm = useConfirm();
 
 onMounted(() => {
     initFilters();
@@ -74,22 +76,22 @@ const onRowEditSave = function (event) {
     //     });
 };
 
-const destroyRecords = function () {
-    let ids = selected.value.map(row => row.id);
-    Inertia.post('/route/destroy', { ids },
-        {
-            onFinish: () => {
-                selected.value = null;
-            },
-            onSuccess: page => {
-                toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-            },
-
-            onError: errors => {
-                toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-            }
+const destroyRecords = function (ids) {
+    confirm.require({
+        message: `Are you sure you want to delete record(s): [${ids.join(', ')}]?`,
+        icon: 'pi pi-exclamation-triangle',
+        acceptClass: 'p-button-danger',
+        accept: () => {
+            CRUD.destroy(ids);
+        },
+        reject: () => {
+            toast.add({ severity: 'info', summary: 'Cancelled', detail: 'Delete operation cancelled by user.', life: 3000 });
         }
-    )
+    });
+};
+
+const destroySelected = function () {
+    destroyRecords(selected.value.map(row => row.id));
 };
 
 const beforeUpload = function (event) {
@@ -172,7 +174,7 @@ CRUD.get();
                             <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
                                 @click="openNewRecordDialog" />
                             <Button type="button" icon="pi pi-plus" label="Delete Records" class="p-button-alert"
-                                @click="destroyRecords" />
+                                @click="destroySelected" />
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/routes/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
