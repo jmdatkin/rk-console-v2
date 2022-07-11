@@ -135,7 +135,19 @@ const items = ref([
     // padding: 10px;
 }
 
+header {
+    display: flex;
+    justify-content: center;
+}
+
 .p-menubar {
+    max-width: 1600px;
+    margin: 0 auto;
     border: 0;
+}
+
+main {
+    max-width: 1600px;
+    margin: 0 auto;
 }
 </style>

@@ -44,6 +44,10 @@ const onRowContextMenu = event => {
     cm.value.show(event.originalEvent);
 };
 
+const viewRecord = function (record) {
+    Inertia.visit(`/personnel/${record.id}`);
+};
+
 // Toast notifications
 const toast = useToast();
 
@@ -205,9 +209,9 @@ onMounted(() => {
             <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-persons"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
-                columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows" contextMenu
-                v-model:contextMenuSelection="cmSelection" @rowContextmenu="onRowContextMenu"
-                @row-edit-save="onRowEditSave" v-model:selection="selected">
+                @row-click="e => viewRecord(e.data)" columnResizeMode="fit" v-model:filters="filters"
+                v-model:editingRows="editingRows" contextMenu v-model:contextMenuSelection="cmSelection"
+                @rowContextmenu="onRowContextMenu" @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
                     <Toolbar class="p-0">
                         <template #start>
@@ -352,7 +356,7 @@ onMounted(() => {
     </DataTableLayout>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .p-chip {
     // font-weight: 500;
 }
@@ -370,5 +374,14 @@ onMounted(() => {
 .p-chip.p-role-recipient {
     background-color: var(--green-200);
     color: var(--green-900);
+}
+
+.p-datatable-table tr:hover {
+    background-color: var(--surface-100);
+}
+
+.p-datatable-table tr td {
+    background-color: 'red';
+    cursor: pointer;
 }
 </style>

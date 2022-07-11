@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Resources;
 
-use App\Repository\PersonRepositoryInterface;
 use App\Repository\PersonRoleRepositoryInterface;
 use Error;
 use Exception;

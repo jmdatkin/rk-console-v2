@@ -11,10 +11,15 @@ import { ref, onMounted, onUpdated } from 'vue';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
+import { useCRUD } from './hooks';
+import { useConfirm } from 'primevue/useconfirm';
 import { useToast } from 'primevue/usetoast';
 import { agencyFilters } from './filters';
+import AgencyService from './Agencies/AgencyService';
 
 const props = defineProps(['data', 'errors', 'message', 'csrf']);
+
+const { data, dataLoaded, selected, CRUD } = useCRUD(AgencyService);
 
 const filters = ref(agencyFilters);
 
@@ -30,12 +35,13 @@ onMounted(() => {
 const toast = useToast();
 const loading = ref(true);
 const editingRows = ref([]);
-const selected = ref();
 const newRecordDialog = ref(false);
 const newRecordForm = useForm({
     name: null,
     notes: null,
 });
+
+const confirm = useConfirm();
 
 const openNewRecordDialog = function () {
     newRecordDialog.value = true;
@@ -47,43 +53,39 @@ const closeNewRecordDialog = function () {
 }
 
 const submitNewRecord = function () {
-    newRecordForm.post('/agency/store', {
-        onSuccess: page => {
-            toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-        },
-        onError: errors => {
-            toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-        }
-    })
-}
-
-const onRowEditSave = function (event) {
-    let { newData, index } = event;
-    Inertia.patch(`/agency/${newData.id}/update`, newData,
-        {
-            onSuccess: page => {
-                toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-            },
-
-            onError: errors => {
-                toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-            }
-        });
+    CRUD.store(newRecordForm);
 };
 
-const destroyRecords = function () {
-    let ids = selected.value.map(row => row.id);
-    Inertia.post('/agency/destroy', { ids },
-        {
-            onSuccess: page => {
-                toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-            },
+const onRowEditSave = function (event) {
+    CRUD.update(event.newData);
+    // Inertia.patch(`/agency/${newData.id}/update`, newData,
+    //     {
+    //         onSuccess: page => {
+    //             toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
+    //         },
 
-            onError: errors => {
-                toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-            }
+    //         onError: errors => {
+    //             toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
+    //         }
+    //     });
+};
+
+const destroyRecords = function (ids) {
+    confirm.require({
+        message: `Are you sure you want to delete record(s): [${ids.join(', ')}]?`,
+        icon: 'pi pi-exclamation-triangle',
+        acceptClass: 'p-button-danger',
+        accept: () => {
+            CRUD.destroy(ids);
+        },
+        reject: () => {
+            toast.add({ severity: 'info', summary: 'Cancelled', detail: 'Delete operation cancelled by user.', life: 3000 });
         }
-    )
+    });
+};
+
+const destroySelected = function(row) {
+    destroyRecords(selected.value.map(row => row.id));
 };
 
 const beforeUpload = function (event) {
@@ -113,6 +115,8 @@ const onUpload = function (event) {
     };
 
 }
+
+CRUD.get();
 </script>
 
 <template>
@@ -154,10 +158,9 @@ const onUpload = function (event) {
         </template>
         <template #table>
             <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-agencies"
-                :globalFilterFields="['id', 'name', 'notes']"
-                filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
-                columnResizeMode="fit" v-model:filters="filters" v-model:editingRows="editingRows"
-                @row-edit-save="onRowEditSave" v-model:selection="selected">
+                :globalFilterFields="['id', 'name', 'notes']" filterDisplay="menu" responsiveLayout="scroll"
+                editMode="row" showGridlines :resizableColumns="true" columnResizeMode="fit" v-model:filters="filters"
+                v-model:editingRows="editingRows" @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
                     <Toolbar class="p-0">
                         <template #start>
@@ -166,7 +169,7 @@ const onUpload = function (event) {
                             <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
                                 @click="openNewRecordDialog" />
                             <Button type="button" icon="pi pi-plus" label="Delete Records" class="p-button-alert"
-                                @click="destroyRecords" />
+                                @click="destroySelected" />
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/agencies/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" /> -->

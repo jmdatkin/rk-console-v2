@@ -16,7 +16,7 @@ class DriverException extends Pivot
 
     protected $fillable = [
         'driver_id',
-        'substitute_driver_id',
+        // 'substitute_driver_id',
         'date_start',
         'date_end',
         'notes'

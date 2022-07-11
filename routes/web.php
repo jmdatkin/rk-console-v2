@@ -98,8 +98,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Route::post('/{exception_id}/sub/', [DriverExceptionController::class, 'makeSubstitute'])->name('exception.sub');
     });
 
-    Route::prefix('person')->group(function () {
+    Route::prefix('personnel')->group(function () {
         Route::get('/', [PersonController::class, 'all']);
+        Route::get('/{id}', [PersonController::class, 'show']);
         Route::get('/data', [PersonController::class, 'data']);
         Route::post('/store', [PersonController::class, 'store']);
         Route::post('/import', [PersonController::class, 'import']);

@@ -6,15 +6,15 @@ const get = function () {
 };
 
 const store = function(data) {
-    return axios.post('/person/store', data);
+    return axios.post('/personnel/store', data);
 };
 
 const destroy = function (ids) {
-    return axios.post('/person/destroy', { ids });
+    return axios.post('/personnel/destroy', { ids });
 };
 
 const edit = function(id, data) {
-    return axios.patch(`/person/${id}/update`, data);
+    return axios.patch(`/personnel/${id}/update`, data);
 };
 
 export default { get, destroy, store, edit };

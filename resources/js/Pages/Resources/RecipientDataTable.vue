@@ -274,6 +274,7 @@ CRUD.get();
                 dataKey="id" @row-click="e => viewRecord(e.data)" filterDisplay="menu" responsiveLayout="scroll"
                 editMode="row" showGridlines :resizableColumns="true" columnResizeMode="fit" v-model:filters="filters"
                 v-model:editingRows="editingRows" contextMenu v-model:contextMenuSelection="cmSelection"
+                stateStorage="local" stateKey="dt-recipient-session"
                 @rowContextmenu="onRowContextMenu" @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
                     <Toolbar class="p-0">

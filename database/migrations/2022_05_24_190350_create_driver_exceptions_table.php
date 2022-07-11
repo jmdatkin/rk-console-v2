@@ -15,10 +15,8 @@ return new class extends Migration
     {
         Schema::create('driver_exceptions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('substitute_driver_id')->nullable();
             $table->unsignedBigInteger('driver_id');
             $table->foreign('driver_id')->references('id')->on('drivers');
-            $table->foreign('substitute_driver_id')->references('id')->on('drivers');
             $table->date('date_start');
             $table->date('date_end');
             $table->string('notes');

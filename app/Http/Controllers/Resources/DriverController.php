@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Resources;
 
-use App\DataTables\DriverDataTableInterface;
 use App\Repository\DriverRepositoryInterface;
 use App\Repository\RouteRepositoryInterface;
 use Error;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class DriverController extends BasePersonRoleController
