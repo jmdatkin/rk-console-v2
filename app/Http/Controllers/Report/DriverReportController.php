@@ -10,10 +10,11 @@ use Inertia\Inertia;
 
 class DriverReportController extends BaseReportController
 {
-    //
+    /**
+     * DriverReportController constructor.
+     */
     public function __construct(DriverReport $report, DriverRepositoryInterface $repository)
     {
-        //    $this->report = $report; 
         parent::__construct($report);
         $this->repository = $repository;
     }

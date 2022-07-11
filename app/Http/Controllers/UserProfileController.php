@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Report\UserProfileReport;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class UserProfileController extends Controller

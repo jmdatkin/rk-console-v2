@@ -3,22 +3,28 @@
 namespace App\Http\Controllers\Resources\DataTables;
 
 use App\DataTables\RecipientDataTableInterface;
-use App\Http\Controllers\Controller;
 use App\Repository\AgencyRepositoryInterface;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class RecipientDataTableController extends BaseDataTableController
 {
-    //
+    /**
+     * RecipientDataTableController constructor.
+     * 
+     * @param RecipientDataTableInterface $dataTable
+     */
     public function __construct(RecipientDataTableInterface $dataTable)
     {
-        parent::__construct($dataTable);        
+        parent::__construct($dataTable);
     }
 
+    /**
+     * Load the view which displays the Recipient DataTable
+     * 
+     * @param AgencyRepositoryInterface $agencyRepository
+     */
     public function index(AgencyRepositoryInterface $agencyRepository)
     {
-        //
         return Inertia::render(
             'Resources/RecipientDataTable',
             [

@@ -10,7 +10,11 @@ use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
-    //
+    /**
+     * Load the view displaying the Dashboard.
+     * 
+     * @param DashboardReport $report
+     */
     public function index(DashboardReport $report) {
         return Inertia::render('Dashboard/Index',
         [

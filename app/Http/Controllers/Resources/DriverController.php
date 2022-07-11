@@ -4,18 +4,28 @@ namespace App\Http\Controllers\Resources;
 
 use App\Repository\DriverRepositoryInterface;
 use App\Repository\RouteRepositoryInterface;
-use Error;
-use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Error;
+use Exception;
 
 class DriverController extends BasePersonRoleController
 {
-    public function __construct( DriverRepositoryInterface $repository)
+    /**
+     * DriverController constructor.
+     */
+    public function __construct(DriverRepositoryInterface $repository)
     {
         parent::__construct($repository);
     }
 
+
+    /**
+     * Load the view which displays a single Driver resource.
+     * 
+     * @param int $id
+     */
     public function show($id)
     {
         return Inertia::render(
@@ -26,15 +36,39 @@ class DriverController extends BasePersonRoleController
         );
     }
 
-    public function routes($driver_id) {
+
+    /**
+     * Get routes associated with a driver.
+     * 
+     * @param int $driver_id
+     * @return Collection
+     */
+    public function routes($driver_id): Collection
+    {
         return $this->repository->find($driver_id)->routes;
     }
 
-    public function alternates($driver_id)
+
+    /**
+     * Get alternate routes associated with a driver.
+     * 
+     * @param int $driver_id
+     * @return Collection
+     */
+    public function alternates($driver_id): Collection
     {
         return $this->repository->find($driver_id)->alternateRoutes;
     }
 
+
+    /**
+     * Create a new Driver-Route association.
+     * 
+     * @param Request $request
+     * @param RouteRepositoryInterface $routeRepository
+     * @param int $driver_id
+     * @param int $route_id
+     */
     public function assign(Request $request, RouteRepositoryInterface $routeRepository, $driver_id, $route_id)
     {
         try {
@@ -48,6 +82,15 @@ class DriverController extends BasePersonRoleController
         }
     }
 
+
+    /**
+     * Release an existing Driver-Route association.
+     * 
+     * @param Request $request
+     * @param RouteRepositoryInterface $routeRepository
+     * @param int $driver_id
+     * @param int $route_id
+     */
     public function deassign(Request $request, RouteRepositoryInterface $routeRepository, $driver_id, $route_id)
     {
         try {
@@ -60,6 +103,13 @@ class DriverController extends BasePersonRoleController
         }
     }
 
+
+    /**
+     * Create an alternate Driver-Route association.
+     * 
+     * @param int $driver_id
+     * @param int $route_id
+     */
     public function assignAlternate($driver_id, $route_id)
     {
         try {
@@ -70,6 +120,13 @@ class DriverController extends BasePersonRoleController
         }
     }
 
+
+    /**
+     * Release an existing alternate Driver-Route association.
+     * 
+     * @param int $driver_id
+     * @param int $route_id
+     */
     public function deassignAlternate($driver_id, $route_id)
     {
         try {

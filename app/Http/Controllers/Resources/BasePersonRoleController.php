@@ -9,14 +9,18 @@ use Illuminate\Http\Request;
 
 class BasePersonRoleController extends BaseResourceController
 {
-    //
+    /**
+     * BasePersonRoleController constructor.
+     * 
+     * @param PersonRoleRepositoryInterface $repository
+     */
     public function __construct(PersonRoleRepositoryInterface $repository)
     {
         parent::__construct($repository);
     }
 
     /**
-     * Display the specified resource.
+     * Retrieve the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

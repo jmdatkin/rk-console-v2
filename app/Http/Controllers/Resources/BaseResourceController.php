@@ -13,6 +13,7 @@ class BaseResourceController extends Controller
 {
 
     /**
+     * BaseResourceController constructor.
      * 
      * @param \App\Repository\EloquentRepositoryInterface
      */
@@ -39,7 +40,7 @@ class BaseResourceController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Retrieve the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -96,7 +97,7 @@ class BaseResourceController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource(s) from storage.
      *
      * @param  Request  $request
      * @return \Illuminate\Http\Response
