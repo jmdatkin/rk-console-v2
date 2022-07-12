@@ -12,7 +12,7 @@ import Loading from '@/Components/Loading';
 import ContextMenu from 'primevue/contextmenu';
 import Badge from 'primevue/badge';
 import RecipientRouteAssignments from '@/Components/Assignments/RecipientRouteAssignments';
-import Checkbox from 'primevue/checkbox';
+import InputSwitch from 'primevue/inputswitch';
 import { Head } from '@inertiajs/inertia-vue3';
 import { ref, onMounted, reactive, computed } from 'vue';
 import { useToast } from 'primevue/usetoast';
@@ -323,7 +323,7 @@ CRUD.get();
                                     @click="destroySelected" />
                             </span>
                             <Badge :value="pending_jobs.length"></Badge>
-                            <Checkbox value="Show pending data" :binary="true" v-model="showPending" />
+                            <InputSwitch value="Show pending data" :binary="true" v-model="showPending" />
                             <Loading :show="!dataLoaded"></Loading>
                         </template>
                         <template #end>

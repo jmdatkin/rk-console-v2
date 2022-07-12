@@ -13,6 +13,7 @@ import ManageDriver from '@/Components/Assignments/ManageDriver';
 import DriverAlternates from '@/Components/Assignments/DriverAlternates';
 import Badge from 'primevue/badge';
 import Checkbox from 'primevue/checkbox';
+import InputSwitch from 'primevue/inputswitch';
 import { ref, onMounted, onUpdated, reactive, computed } from 'vue';
 import { Link, Head } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
@@ -296,7 +297,7 @@ CRUD.get();
                             <Button :disabled="!selected || !selected.length" type="button" icon="pi pi-trash"
                                 label="Delete Records" class="p-button-alert" @click="destroySelected" />
                             <Badge :value="pending_jobs.length"></Badge>
-                            <Checkbox value="Show pending data" :binary="true" v-model="showPending" />
+                            <InputSwitch value="Show pending data" :binary="true" v-model="showPending" />
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/drivers/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
