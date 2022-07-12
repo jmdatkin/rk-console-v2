@@ -29,4 +29,13 @@ class PendingJob extends Model
     public function scopeUncommitted($query) {
         return $query->whereNull('committed_at');        
     }
+
+    public function scopeWithName($query, $name) {
+        return $query->where('job_name', $name);
+    }
+
+    public function scopeWithNameClass($query, $name) {
+        return $query->where('job_name', 'like', $name.":%");
+    }
+
 }

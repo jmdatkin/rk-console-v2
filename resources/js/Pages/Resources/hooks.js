@@ -69,6 +69,24 @@ const useCRUD = function (service) {
     };
 };
 
+const usePending = function(pendingJobs, tableData) {
+    console.log(tableData);
+    return computed(() => {
+    let updates = pendingJobs.filter(job => job.job_name.indexOf('update') > 0);
+    const newData = _.cloneDeep(tableData.value);
+    updates.forEach(update => {
+        let idx = newData.findIndex(row => row.id == update.payload[0]);
+        console.log(idx);
+        if (idx < 0) return;
+        let payload = update.payload[1];
+        let row = newData[idx];
+        Object.assign(row, payload);
+        newData[idx] = {pending: true, ...row};
+    });
+    return newData;
+    });
+};
+
 const fullName = props => computed(() => `${props.firstName} ${props.lastName}`);
 
-export { useCRUD, fullName };
+export { useCRUD, usePending, fullName };

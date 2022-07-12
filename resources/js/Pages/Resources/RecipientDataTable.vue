@@ -10,18 +10,20 @@ import Dropdown from 'primevue/dropdown';
 import Dialog from 'primevue/dialog';
 import Loading from '@/Components/Loading';
 import ContextMenu from 'primevue/contextmenu';
+import Badge from 'primevue/badge';
 import RecipientRouteAssignments from '@/Components/Assignments/RecipientRouteAssignments';
+import Checkbox from 'primevue/checkbox';
 import { Head } from '@inertiajs/inertia-vue3';
 import { ref, onMounted, reactive, computed } from 'vue';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import { mergePersonObject } from '@/util';
 import { recipientFilters } from './filters';
-import { useCRUD } from './hooks';
+import { useCRUD, usePending } from './hooks';
 import RecipientService from './Recipients/RecipientService';
 import { Inertia } from '@inertiajs/inertia';
 
-const props = defineProps(['agencies', 'errors', 'message', 'csrf']);
+const props = defineProps(['agencies', 'pending_jobs' ,'csrf']);
 
 const { data, dataLoaded, selected, CRUD } = useCRUD(RecipientService);
 
@@ -29,11 +31,42 @@ const tableData = computed(() => {
     return data.value.map(mergePersonObject);
 });
 
+const rowClass = (row) => {
+    if (row.pending) return 'pending';
+    return '';
+};
+
+// const pendingUpdates = computed(() => {
+//     return props.pending_jobs.filter(job => job.job_name.indexOf('update') > 0);
+// });
+
+// const tableDataWithPending = computed(() => {
+//     const newData = _.cloneDeep(tableData.value);
+//     pendingUpdates.value.forEach(update => {
+//         let idx = newData.findIndex(row => row.id == update.payload[0]);
+//         console.log(idx);
+//         if (idx < 0) return;
+//         let payload = update.payload[1];
+//         let row = newData[idx];
+//         Object.assign(row, payload);
+//         // row = {...payload, ...row};
+//         newData[idx] = {pending: true, ...row};
+//     });
+//     return newData;
+// });
+const tableDataWithPending = usePending(props.pending_jobs, tableData);
+
+const conditionalTableData = computed(() => {
+    return showPending.value ? tableDataWithPending.value : tableData.value;
+});
+
 // DataTable filters
 const filters = ref(recipientFilters);
 const initFilters = function () {
     filters.value = recipientFilters;
 };
+
+const showPending = ref(false);
 
 // Confirm dialog
 const confirm = useConfirm();
@@ -269,11 +302,12 @@ CRUD.get();
             Recipients
         </template>
         <template #table>
-            <DataTable :value="tableData" :paginator="true" :rows="10" class="p-datatable-recipients"
+            <DataTable :value="conditionalTableData" :paginator="true" :rows="10" class="p-datatable-recipients"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'address', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
                 dataKey="id" @row-click="e => viewRecord(e.data)" filterDisplay="menu" responsiveLayout="scroll"
                 editMode="row" showGridlines :resizableColumns="true" columnResizeMode="fit" v-model:filters="filters"
                 v-model:editingRows="editingRows" contextMenu v-model:contextMenuSelection="cmSelection"
+                :rowClass="rowClass"
                 stateStorage="local" stateKey="dt-recipient-session"
                 @rowContextmenu="onRowContextMenu" @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
@@ -288,6 +322,8 @@ CRUD.get();
                                     label="Delete Records" class="p-button-alert p-button-sm"
                                     @click="destroySelected" />
                             </span>
+                            <Badge :value="pending_jobs.length"></Badge>
+                            <Checkbox value="Show pending data" :binary="true" v-model="showPending" />
                             <Loading :show="!dataLoaded"></Loading>
                         </template>
                         <template #end>
@@ -295,7 +331,6 @@ CRUD.get();
                                 <i class="pi pi-search" />
                                 <InputText v-model="filters['global'].value" placeholder="Search all columns" />
                             </span>
-
                         </template>
 
                     </Toolbar>
@@ -456,7 +491,10 @@ CRUD.get();
 }
 
 .p-datatable-table tr td {
-    background-color: 'red';
     cursor: pointer;
+}
+
+.pending {
+    background-color: var(--blue-100) !important;
 }
 </style>

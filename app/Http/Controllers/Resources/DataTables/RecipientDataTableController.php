@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Resources\DataTables;
 
 use App\DataTables\RecipientDataTableInterface;
 use App\Repository\AgencyRepositoryInterface;
+use App\Models\PendingJob;
 use Inertia\Inertia;
 
 class RecipientDataTableController extends BaseDataTableController
@@ -28,7 +29,8 @@ class RecipientDataTableController extends BaseDataTableController
         return Inertia::render(
             'Resources/RecipientDataTable',
             [
-                "agencies" => $agencyRepository->all()
+                "agencies" => $agencyRepository->all(),
+                "pending_jobs" => PendingJob::uncommitted()->withNameClass('recipient')->get()
             ]
         );
     }

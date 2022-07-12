@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('person_id')->nullable();
             $table->foreign('person_id')->references('id')->on('people');
-            $table->enum('status', ['perm','sub']);
+            //$table->enum('status', ['perm','sub']);
             $table->timestamps();
             $table->softDeletes();
         });
