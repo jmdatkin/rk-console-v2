@@ -10,39 +10,38 @@ use Carbon\Carbon;
 class DashboardReport
 {
 
+    /**
+     * DashboardReport constructor.
+     * 
+     * @param RouteRepositoryInterface $repository
+     * @param DriversByRouteReport $driversByRouteReport
+     */
     public function __construct(RouteRepositoryInterface $repository, DriversByRouteReport $driversByRouteReport)
     {
         $this->repository = $repository;
         $this->driversByRouteReport = $driversByRouteReport;
     }
 
-    // public function routeDrivers($date)
-    // {
-    //     // $weekday = strtolower(Carbon::createFromFormat("mdY",$date)->shortDayName);
-    //     $carbon_date = DateAdapter::make($date);
-    //     $weekday = strtolower($carbon_date->shortDayName);
-    //     return Route::with([
-    //         'drivers' => function ($query) use ($weekday) {
-    //             return $query->where('weekday', $weekday);
-    //         }
-    //     ])
-    //         ->whereHas('drivers', function ($query) use ($weekday) {
-    //             return $query->where('weekday', $weekday);
-    //         })
 
-    //         ->get();
-    // }
+    /**
+     * Retrieve data for the Dashboard's Driver display
+     * 
+     * @param $date
+     */
     public function routeDrivers($date)
     {
         return $this->driversByRouteReport->data(['date' => $date])
-        ->whereHas('drivers', function($query) use ($date) {
-            $query->where('weekday', strtolower(Carbon::createFromFormat("mdY", $date)->shortDayName));
-        });
-        // ->filter(function($row) { return $row->drivers()->get()->isNotEmpty(); })->values();
-        // dd($this->driversByRouteReport->data(['date' => $date])
-        // ->filter(function($row) { return $row->drivers()->exists(); }));
+            ->whereHas('drivers', function ($query) use ($date) {
+                $query->where('weekday', strtolower(Carbon::createFromFormat("mdY", $date)->shortDayName));
+            });
     }
 
+
+    /**
+     * Retrieve data for the Dashboard's Recipient display
+     * 
+     * @param $date
+     */
     public function routeRecipients($date)
     {
         $carbon_date = DateAdapter::make($date);
