@@ -11,6 +11,8 @@ import Loading from '@/Components/Loading';
 import ContextMenu from 'primevue/contextmenu';
 import ManageDriver from '@/Components/Assignments/ManageDriver';
 import DriverAlternates from '@/Components/Assignments/DriverAlternates';
+import Badge from 'primevue/badge';
+import Checkbox from 'primevue/checkbox';
 import { ref, onMounted, onUpdated, reactive, computed } from 'vue';
 import { Link, Head } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
@@ -20,14 +22,20 @@ import { useConfirm } from 'primevue/useconfirm';
 import { mergePersonObject } from '@/util';
 import { driverFilters } from './filters';
 import DriverService from './Drivers/DriverService';
-import { useCRUD } from './hooks';
+import { useCRUD, usePending } from './hooks';
 
-const props = defineProps(['errors', 'message', 'csrf']);
+const props = defineProps(['pending_jobs', 'errors', 'message', 'csrf']);
 
 const { data, dataLoaded, selected, CRUD } = useCRUD(DriverService);
 
 const tableData = computed(() => {
     return data.value.map(mergePersonObject);
+});
+
+const tableDataWithPending = usePending(props.pending_jobs, tableData);
+
+const conditionalTableData = computed(() => {
+    return showPending.value ? tableDataWithPending.value : tableData.value;
 });
 
 const goToReport = function (selection) {
@@ -39,6 +47,8 @@ const filters = ref(driverFilters);
 const initFilters = function () {
     filters.value = driverFilters;
 };
+
+const showPending = ref(false);
 
 // Confirm dialog
 const confirm = useConfirm();
@@ -268,7 +278,7 @@ CRUD.get();
             Drivers
         </template>
         <template #table>
-            <DataTable :value="tableData" :paginator="true" :rows="10" class="p-datatable-drivers"
+            <DataTable :value="conditionalTableData" :paginator="true" :rows="10" class="p-datatable-drivers"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 dataKey="id"
                 @row-click="e => viewRecord(e.data)"
@@ -285,6 +295,8 @@ CRUD.get();
                                 @click="openNewRecordDialog" />
                             <Button :disabled="!selected || !selected.length" type="button" icon="pi pi-trash"
                                 label="Delete Records" class="p-button-alert" @click="destroySelected" />
+                            <Badge :value="pending_jobs.length"></Badge>
+                            <Checkbox value="Show pending data" :binary="true" v-model="showPending" />
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/drivers/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
