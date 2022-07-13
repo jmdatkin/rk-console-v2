@@ -9,7 +9,13 @@ class Role extends Model
 {
     use HasFactory;
 
+    public const ADMIN  = 'admin';
+    public const DRIVER = 'driver';
+    public const RECIPIENT = 'recipient';
+
     public function people() {
         return $this->belongsToMany(Person::class);
     }
+
+
 }

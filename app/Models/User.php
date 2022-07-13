@@ -41,10 +41,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
-    // protected $with = [
-    //     'person'
-    // ];
-
     /**
      * The attributes that should be cast.
      *
@@ -54,20 +50,25 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * The associated Person model
+     */
     public function person()
     {
-        // return $this->hasOne(Person::class);
         return $this->belongsTo(Person::class, 'person_id');
-        // return $this->belongsTo('App\Models\Person', 'person_id');
     }
 
+    /**
+     * Return true if the associated Person belongs to the specified Role
+     * Use one of the Role constants defined in the model class
+     */
+    public function hasRole($role) {
+       return $this->person->hasRole($role); 
+    }
+    
     public function getEmailAttribute()
     {
-        // dd($this->person()->get(['email']));
         return optional($this->person)->getAttribute('email');
-        // return $this->person()->get(['email']);
-        // This is terrible
-        // return Person::where('id',$this->person_id)->first()->email;
     }
 
     public function getFirstNameAttribute()

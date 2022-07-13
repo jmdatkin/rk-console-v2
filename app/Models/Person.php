@@ -28,11 +28,19 @@ class Person extends Model
     }
 
     public function user() {
-        // return $this->belongsTo(User::class);
         return $this->hasOne(User::class);
     }
 
     public function roles() {
         return $this->belongsToMany(Role::class);
+    }
+
+    /**
+     * Returns true if the Person has the specified Role
+     * Use one of the constants defined in the Role model class
+     */
+    public function hasRole($role) {
+        $role_obj = Role::where('name',$role)->first();
+        return $this->roles->contains($role_obj);
     }
 }
