@@ -39,12 +39,13 @@ use Inertia\Inertia;
 |
 */
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::get('/', [HomeController::class, 'handle']);
+
+Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 
     // Route::get('/', function () {
     //     return redirect()->route('dashboard');
     // });
-    Route::get('/', [HomeController::class, 'handle']);
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
