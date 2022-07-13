@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('firstName')->default('');
             $table->string('lastName')->default('');
             $table->string('email')->nullable()->unique();
-            $table->string('phoneHome')->default('');
-            $table->string('phoneCell')->default('');
+            $table->string('phoneHome')->nullable()->default('');
+            $table->string('phoneCell')->nullable()->default('');
             $table->string('notes')->default('')->nullable();
             $table->timestamps();
             $table->softDeletes();

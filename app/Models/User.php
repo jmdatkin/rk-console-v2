@@ -61,6 +61,9 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Return true if the associated Person belongs to the specified Role
      * Use one of the Role constants defined in the model class
+     * 
+     * @param string $role
+     * @return boolean
      */
     public function hasRole($role) {
        return $this->person->hasRole($role); 

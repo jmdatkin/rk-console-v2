@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Role;
 
 class Person extends Model
 {
@@ -35,9 +36,18 @@ class Person extends Model
         return $this->belongsToMany(Role::class);
     }
 
+    public function assignRole($role) {
+        $this->roles()->attach(
+            Role::where('name',$role)->first()
+        );
+    }
+
     /**
      * Returns true if the Person has the specified Role
      * Use one of the constants defined in the Role model class
+     * 
+     * @param string $role
+     * @return boolean
      */
     public function hasRole($role) {
         $role_obj = Role::where('name',$role)->first();

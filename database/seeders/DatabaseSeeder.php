@@ -44,6 +44,8 @@ class DatabaseSeeder extends Seeder
             'firstName' => 'Julian',
         ]);
 
+        $me->assignRole(Role::ADMIN);
+
         User::create([
             'person_id' => $me->id,
             'email_verified_at' => now(),
