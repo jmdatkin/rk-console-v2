@@ -4,15 +4,9 @@ import App from './App';
 import MenuBar from 'primevue/menubar';
 import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Button from 'primevue/button';
-import BreezeDropdown from '@/Components/Dropdown.vue';
-import BreezeDropdownLink from '@/Components/DropdownLink.vue';
-import BreezeNavLink from '@/Components/NavLink.vue';
-import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
 import Header from '../Components/Header.vue';
-
-const showingNavigationDropdown = ref(false);
 
 const items = ref([
     {
@@ -149,5 +143,6 @@ header {
 main {
     max-width: 1600px;
     margin: 0 auto;
+    padding: 0 15px;
 }
 </style>
