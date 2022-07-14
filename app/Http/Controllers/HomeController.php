@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class HomeController extends Controller
 {
     public function handle(Request $request) {
-        // if (Gate::allows('view-admin')) 
+
         if (is_null(Auth::user()))
             return redirect()->route('login');
+
         if (Auth::user()->hasRole(Role::ADMIN))
             return redirect()->route('dashboard');
 
@@ -21,7 +22,6 @@ class HomeController extends Controller
             return Inertia::render('Driver/DriverTools');
 
         else
-            // return response('U R not admin!! >:(');
-            return response(Auth::user()->roles);
+            throw new AuthorizationException("User class not recognized.", 403);
     }
 }

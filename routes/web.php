@@ -39,14 +39,13 @@ use Inertia\Inertia;
 |
 */
 
-
+// Must be signed in
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/', [HomeController::class, 'handle']);
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile');
-    // Route::get('/', function () {
-    //     return redirect()->route('dashboard');
-    // });
+
+    // Signed-in user must have admin role
     Route::middleware(['admin'])->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
