@@ -13,12 +13,12 @@ class HomeController extends Controller
     public function handle(Request $request) {
         // if (Gate::allows('view-admin')) 
         if (is_null(Auth::user()))
-            return;
+            return redirect()->route('login');
         if (Auth::user()->hasRole(Role::ADMIN))
             return redirect()->route('dashboard');
 
         else if (Auth::user()->hasRole(Role::DRIVER))
-            return Inertia::render('DriverTools/Index');
+            return Inertia::render('Driver/DriverTools');
 
         else
             // return response('U R not admin!! >:(');
