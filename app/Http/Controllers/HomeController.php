@@ -12,6 +12,8 @@ class HomeController extends Controller
 {
     public function handle(Request $request) {
         // if (Gate::allows('view-admin')) 
+        if (is_null(Auth::user()))
+            return;
         if (Auth::user()->hasRole(Role::ADMIN))
             return redirect()->route('dashboard');
 

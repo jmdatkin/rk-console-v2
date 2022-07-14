@@ -1,11 +1,11 @@
 <script setup>
-import Authenticated from '@/Layouts/Authenticated';
+import DriverLayout from '@/Layouts/DriverLayout';
 </script>
 
 <template>
-<Authenticated>
+<DriverLayout>
 U r driver!
-</Authenticated>
+</DriverLayout>
 </template>
 
 <style lang="scss">

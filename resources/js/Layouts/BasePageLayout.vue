@@ -1,11 +1,13 @@
 <script setup>
-import Authenticated from './Authenticated';
+// import Authenticated from './Authenticated';
+import AdminLayout from './AdminLayout';
 import Panel from 'primevue/panel';
 import Divider from 'primevue/divider';
 </script>
 
 <template>
-    <Authenticated>
+    <!-- <Authenticated> -->
+    <AdminLayout>
         <section>
             <Panel>
                 <template #header>
@@ -16,7 +18,8 @@ import Divider from 'primevue/divider';
                 <slot></slot>
             </Panel>
         </section>
-    </Authenticated>
+    </AdminLayout>
+    <!-- </Authenticated> -->
 </template>
 
 <style lang="scss">
