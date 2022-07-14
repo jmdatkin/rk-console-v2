@@ -27,7 +27,7 @@ class RecipientDataTableController extends BaseDataTableController
     public function index(AgencyRepositoryInterface $agencyRepository)
     {
         return Inertia::render(
-            'Resources/RecipientDataTable',
+            'Admin/Resources/RecipientDataTable',
             [
                 "agencies" => $agencyRepository->all(),
                 "pending_jobs" => PendingJob::uncommitted()->withNameClass('recipient')->get()

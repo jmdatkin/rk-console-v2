@@ -23,7 +23,7 @@ class PersonDataTableController extends BaseDataTableController
     public function index()
     {
         return Inertia::render(
-            'Resources/PersonDataTable',
+            'Admin/Resources/PersonDataTable',
         );
     }
 }

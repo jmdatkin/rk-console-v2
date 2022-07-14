@@ -23,7 +23,7 @@ class PersonController extends BaseResourceController
     public function show($id)
     {
         return Inertia::render(
-            'Resources/Personnel/Person',
+            'Admin/Resources/Person',
             [
                 "data" => $this->get($id)
             ]

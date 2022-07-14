@@ -16,7 +16,7 @@ class DashboardController extends Controller
      * @param DashboardReport $report
      */
     public function index(DashboardReport $report) {
-        return Inertia::render('Dashboard/Index',
+        return Inertia::render('Admin/Dashboard',
         [
             'routeDriver_data' => $report->routeDrivers(Carbon::today()->format("mdY"))->get(),
             'routeRecipient_data' => $report->routeRecipients(Carbon::today()->format("mdY"))

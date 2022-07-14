@@ -23,7 +23,7 @@ class RouteDataTableController extends BaseDataTableController
     public function index()
     {
         return Inertia::render(
-            'Resources/RouteDataTable',
+            'Admin/Resources/RouteDataTable',
             [
                 "data" => $this->dataTable->data()
             ]

@@ -1,16 +1,16 @@
 <script setup>
-import AuthenticatedVue from './Authenticated.vue';
+import AdminLayout from './AdminLayout';
 import Card from 'primevue/card';
 </script>
 
 <template>
-    <AuthenticatedVue>
+    <AdminLayout>
         <div class="container w-full m-auto flex justify-content-center">
             <div class="content w-8 sm:w-full">
                 <slot />
             </div>
         </div>
-    </AuthenticatedVue>
+    </AdminLayout>
 </template>
 
 <style lang="scss" scoped>

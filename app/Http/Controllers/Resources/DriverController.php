@@ -29,7 +29,7 @@ class DriverController extends BasePersonRoleController
     public function show($id)
     {
         return Inertia::render(
-            'Resources/Drivers/Driver',
+            'Admin/Resources/Driver',
             [
                 "data" => $this->get($id)
             ]

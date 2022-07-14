@@ -24,7 +24,7 @@ class DriverDataTableController extends BaseDataTableController
     public function index()
     {
         return Inertia::render(
-            'Resources/DriverDataTable', [
+            'Admin/Resources/DriverDataTable', [
                 'pending_jobs' => PendingJob::uncommitted()->withNameClass('driver')->get()
             ]
         );

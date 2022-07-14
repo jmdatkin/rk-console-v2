@@ -28,7 +28,7 @@ class DriverExceptionController extends Controller
     public function index(Request $request)
     {
         $driver_id = $request->input('did');
-        return Inertia::render('DriverExceptions/Index', [
+        return Inertia::render('Admin/DriverExceptions', [
             'driverData' => $this->driverRepository->find($driver_id),
             'exceptions' => DriverException::where('driver_id', $driver_id)->get()
         ]);

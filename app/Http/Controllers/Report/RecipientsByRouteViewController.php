@@ -23,7 +23,7 @@ class RecipientsByRouteViewController extends BaseReportController
      */
     public function index()
     {
-        return Inertia::render('RecipientsByRoute/Index');
+        return Inertia::render('Admin/RecipientsByRoute');
     }
 
     /**

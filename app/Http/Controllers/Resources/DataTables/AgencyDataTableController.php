@@ -23,7 +23,7 @@ class AgencyDataTableController extends BaseDataTableController
     public function index()
     {
         return Inertia::render(
-            'Resources/AgencyDataTable',
+            'Admin/Resources/AgencyDataTable',
             [
                 "data" => $this->dataTable->data()
             ]

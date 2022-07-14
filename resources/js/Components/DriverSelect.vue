@@ -2,7 +2,7 @@
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import { ref } from 'vue';
-import DriverService from '@/Pages/Resources/Drivers/DriverService';
+import DriverService from '@/Service/DriverService';
 
 const props = defineProps(['onSelectCallback']);
 

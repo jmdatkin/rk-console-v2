@@ -3,7 +3,7 @@ import { ref, onUpdated, onMounted } from 'vue';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import axios from 'axios';
-import { routeFilters } from '@/Pages/Resources/filters';
+import { routeFilters } from '@/filters';
 import { useToast } from 'primevue/usetoast';
 
 const props = defineProps(['driver_data'])
