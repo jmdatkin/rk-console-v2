@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Carbon\RkCarbon;
 use App\Report\DriversByRouteReport;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -30,6 +31,7 @@ class DriversByRouteViewController extends BaseReportController
      * Retrieve the data for this report.
      */
     public function data(Request $request) {
-        return $this->report->data($request->only(['date']))->get();
+        $date = RkCarbon::parseStd($request->input('date'));
+        return $this->report->data(['date' => $date])->get();
     }
 }

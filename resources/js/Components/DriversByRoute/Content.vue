@@ -5,7 +5,6 @@ import AlternateDriversDataTable from '../../Components/DataTables/AlternateDriv
 import Dialog from 'primevue/dialog';
 import Panel from 'primevue/panel';
 import moment from 'moment-timezone';
-import { formatDate } from '@fullcalendar/common';
 import { ref, onMounted, computed } from 'vue';
 import { useConfirm } from 'primevue/useconfirm';
 import { DateAdapter } from '../../util';
@@ -19,8 +18,6 @@ const weekday = computed(() => {
 const data = ref([]);
 const getData = function () {
     let dateString = DateAdapter.make(props.date);
-
-    // axios.get('/routedriver/data?date=' + dateString)
     axios.get(route('driversbyroute.data', { date: dateString }))
         .then(res => {
             data.value = res.data;

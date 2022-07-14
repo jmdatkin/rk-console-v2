@@ -16,14 +16,17 @@ class RecipientsByRouteReport implements ReportInterface
         $this->repository = $repository;
     }
 
-    // public function data($date)
+    /**
+     * Retrieve report data.
+     * 
+     * @param array $input
+     * @return \Illuminate\Support\Collection
+     */
     public function data($input)
     {
         $date = $input['date'];
-        $carbon_date = DateAdapter::make($date);
-        $weekday = strtolower($carbon_date->shortDayName);
-        return Route::with(['recipients' => function ($query) use ($weekday) {
-            return $query->where('weekday', $weekday);
+        return Route::with(['recipients' => function ($query) use ($date) {
+            return $query->where('weekday', $date->lowercaseDayName());
         }])
             ->get()
             ->flatMap(function ($route) {

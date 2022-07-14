@@ -723,14 +723,14 @@ select {
 .mt-6 {
   margin-top: 1.5rem;
 }
+.mr-6 {
+  margin-right: 1.5rem;
+}
 .mb-4 {
   margin-bottom: 1rem;
 }
 .mt-1 {
   margin-top: 0.25rem;
-}
-.mr-6 {
-  margin-right: 1.5rem;
 }
 .block {
   display: block;

@@ -20,15 +20,7 @@ const rowClass = (data) => {
 
 const data = ref([]);
 const getData = function () {
-    // let dateString = formatDate(props.date, {
-    //     month: 'numeric',
-    //     year: 'numeric',
-    //     day: 'numeric'
-    // });
     let dateString = DateAdapter.make(props.date);
-    // let dateString = '';
-
-    // axios.get('/routerecipients/data?date=' + dateString)
     axios.get(route('recipientsbyroute.data', { date: dateString}))
         .then(res => {
             data.value = res.data;

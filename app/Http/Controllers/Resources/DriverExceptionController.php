@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resources;
 
+use App\Carbon\RkCarbon;
 use App\Http\Controllers\Controller;
 use App\Models\DriverException;
 use App\Models\DriverExceptionRoute;
@@ -51,15 +52,12 @@ class DriverExceptionController extends Controller
         });
     }
 
-    // public function makeSubstitute($exception_id, $substitute_driver_id, $route_id, $date) {
     public function makeSubstitute($exception_id, $substitute_driver_id, Request $request) {
         $input = $request->only(['date', 'route_id']);
-        // $exception = $this->repository->find($input['exception_id']);
-        // $substitute_driver = $this->driverRepository->find($input['substitute_driver_id']);
         $driver_exception_route = DriverExceptionRoute::create([
-            'e_id' => $exception_id,//$input['exception_id'],
+            'e_id' => $exception_id,
             'route_id' => $input['route_id'],
-            'sub_id' => $substitute_driver_id,//$input['substitute_driver_id'],
-            'date' => Carbon::parse($input['date'])]);
+            'sub_id' => $substitute_driver_id,
+            'date' => RkCarbon::parseStd($input['date'])]);
     }
 }

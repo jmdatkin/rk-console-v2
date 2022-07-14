@@ -22,15 +22,14 @@ class DriversByRouteReport implements ReportInterface
      * 
      * Returns drivers grouped by route assignment, filtered by a given date.
      * 
-     * @param input
+     * @param array input
      * @return Collection
      */
     public function data($input) {
-        $date = DateAdapter::make($input['date']);
-        $weekday = DateAdapter::weekday($date);
+        $date = $input['date'];
 
-        return Route::with(['drivers' => function($q) use ($date, $weekday) {
-            $q->where('weekday', $weekday)
+        return Route::with(['drivers' => function($q) use ($date) {
+            $q->where('weekday', $date->lowercaseDayName())
             ->with(['exceptions' => function($q2) use ($date) {
                 $q2->where('date_start', '<=', $date)
                 ->where('date_end', '>', $date)

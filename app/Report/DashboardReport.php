@@ -2,10 +2,8 @@
 
 namespace App\Report;
 
-use Facades\App\Facade\DateAdapter;
 use App\Models\Route;
 use App\Repository\RouteRepositoryInterface;
-use Carbon\Carbon;
 
 class DashboardReport
 {
@@ -26,13 +24,14 @@ class DashboardReport
     /**
      * Retrieve data for the Dashboard's Driver display
      * 
-     * @param $date
+     * @param \App\Carbon\RkCarbon $date
+     * @return Builder
      */
     public function routeDrivers($date)
     {
         return $this->driversByRouteReport->data(['date' => $date])
             ->whereHas('drivers', function ($query) use ($date) {
-                $query->where('weekday', strtolower(Carbon::createFromFormat("mdY", $date)->shortDayName));
+                $query->where('weekday', $date->lowercaseDayName());
             });
     }
 
@@ -40,15 +39,14 @@ class DashboardReport
     /**
      * Retrieve data for the Dashboard's Recipient display
      * 
-     * @param $date
+     * @param \App\Carbon\RkCarbon $date
+     * @return \Illuminate\Support\Collection
      */
     public function routeRecipients($date)
     {
-        $carbon_date = DateAdapter::make($date);
-        $weekday = strtolower($carbon_date->shortDayName);
         return Route::with([
-            'recipients' => function ($query) use ($weekday) {
-                return $query->where('weekday', $weekday);
+            'recipients' => function ($query) use ($date) {
+                return $query->where('weekday', $date->lowercaseDayName());
             },
         ])
             ->get()
