@@ -1439,6 +1439,11 @@ h4 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
+
+  .md\:px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 @media (min-width: 1024px) {
 

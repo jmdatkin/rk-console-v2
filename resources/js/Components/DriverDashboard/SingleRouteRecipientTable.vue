@@ -2,11 +2,12 @@
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
-defineProps(['data']);
+defineProps(['data', 'onRowSelect']);
 </script>
 
 <template>
-<DataTable responsiveLayout="scroll" :value="data">
+<DataTable responsiveLayout="scroll" :value="data" @row-select="onRowSelect"
+selectionMode="single">
     <Column field="id" header="id"></Column>
     <Column field="person.firstName" header="First"></Column>
     <Column field="person.lastName" header="Last"></Column>

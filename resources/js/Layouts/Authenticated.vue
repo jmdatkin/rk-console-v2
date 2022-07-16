@@ -13,9 +13,9 @@ import AdminMenuBar from '../Components/AdminMenuBar.vue';
             </Header> -->
 
             <!-- Page Content -->
-            <!-- <main> -->
+            <main>
                 <slot />
-            <!-- </main> -->
+            </main>
         </div>
 
     </App>
@@ -26,20 +26,4 @@ import AdminMenuBar from '../Components/AdminMenuBar.vue';
     // padding: 10px;
 }
 
-header {
-    display: flex;
-    justify-content: center;
-}
-
-.p-menubar {
-    max-width: 1600px;
-    margin: 0 auto;
-    border: 0;
-}
-
-main {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 0 15px;
-}
 </style>

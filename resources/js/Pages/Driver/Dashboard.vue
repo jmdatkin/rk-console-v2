@@ -6,31 +6,31 @@ import Divider from 'primevue/divider';
 import { Link, Head } from '@inertiajs/inertia-vue3';
 import Panel from 'primevue/panel';
 import { ref } from 'vue';
-
 import { DateAdapter } from '../../util';
 import RouteRecipientsTable from '../../Components/Dashboard/RouteRecipientsTable.vue';
 import SingleRouteRecipientTable from '../../Components/DriverDashboard/SingleRouteRecipientTable.vue';
+import RecipientInfo from '../../Components/RecipientInfo.vue';
 
 defineProps(['data']);
+
+const recipientDialogOpen = ref(false);
+const selectedRecipient = ref();
+const dialog = ref();
+
+const onRowSelect = function(row) {
+    selectedRecipient.value = row.data;
+    recipientDialogOpen.value = true;
+};
 </script>
 
 <template>
-
+<DriverLayout>
     <Head title="Dashboard" />
-
-    <DriverLayout>
-        <!-- Driver Dialog -->
-        <Dialog :modal="true" :dismissableMask="true" closeOnEscape="true" v-model:visible="driverDialogOpen">
-            <template #header>
-                &nbsp;
-            </template>
-        </Dialog>
-        <!-- Recipient Dialog -->
-        <Dialog :modal="true" :dismissableMask="true" closeOnEscape="true" v-model:visible="recipientDialogOpen">
-            <template #header>
-                &nbsp;
-            </template>
-        </Dialog>
+    <Dialog ref="dialog" :modal="true" :dismissableMask="true" :closeOnEscape="true"
+    v-model:visible="recipientDialogOpen"
+    >
+        <RecipientInfo :data="selectedRecipient"></RecipientInfo>
+    </Dialog>
         <template #header>
             <h2 class="font-semibold text-xl leading-tight mb-4">
                 Dashboard
@@ -53,13 +53,14 @@ defineProps(['data']);
                     </template>
                     <div class="mb-4" v-for="route in data">
                     <h4>{{ route.name }}</h4>
-                    <SingleRouteRecipientTable :data="route.recipients"></SingleRouteRecipientTable>
+                    <SingleRouteRecipientTable :data="route.recipients"
+                    :onRowSelect="onRowSelect"
+                    ></SingleRouteRecipientTable>
                     </div>
                 </Panel>
             </div>
         </div>
-
-    </DriverLayout>
+</DriverLayout>
 </template>
 
 <style scoped lang="scss">

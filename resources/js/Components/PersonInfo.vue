@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import InfoItem from './InfoItem.vue';
 const props = defineProps(['data']);
 const fullName = computed(() => `${props.data.firstName} ${props.data.lastName}`);
 </script>
@@ -17,17 +18,20 @@ const fullName = computed(() => `${props.data.firstName} ${props.data.lastName}`
         </div>
         <div class="grid">
             <div class=col-12>
-                <span>Email</span>
-                <h4>{{ data.email }}</h4>
+                <InfoItem title="Email">
+                    {{ data.email }}
+                </InfoItem>
             </div>
         </div>
         <Divider />
         <div class="grid">
             <div class=col-12>
-                <span>Home Phone</span>
-                <h4>{{ data.phoneHome }}</h4>
-                <span>Cell Phone</span>
-                <h4>{{ data.phoneCell }}</h4>
+                <InfoItem title="Home Phone">
+                    {{ data.phoneHome }}
+                </InfoItem>
+                <InfoItem title="Cell Phone">
+                    {{ data.phoneCell }}
+                </InfoItem>
             </div>
         </div>
         <div class="grid">
@@ -36,8 +40,9 @@ const fullName = computed(() => `${props.data.firstName} ${props.data.lastName}`
         </div>
         <div class="grid">
             <div class=col-12>
-                <span>Notes</span>
-                <h4>{{ data.notes }}</h4>
+                <InfoItem title="Notes">
+                    {{ data.notes }}
+                </InfoItem>
             </div>
         </div>
     </div>
