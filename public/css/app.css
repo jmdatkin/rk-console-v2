@@ -1230,6 +1230,14 @@ a:hover {
 h2 {
   font-size: 2rem;
 }
+h3 {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+h4 {
+  font-size: 1.15rem;
+  font-weight: 500;
+}
 .p-datatable-tbody > tr > td {
   padding: 0.25rem 0.5rem !important;
 }
@@ -1376,10 +1384,6 @@ h2 {
     display: none;
   }
 
-  .sm\:w-full {
-    width: 100%;
-  }
-
   .sm\:max-w-md {
     max-width: 28rem;
   }
@@ -1422,6 +1426,14 @@ h2 {
   }
 }
 @media (min-width: 768px) {
+
+  .md\:w-8 {
+    width: 2rem;
+  }
+
+  .md\:p-4 {
+    padding: 1rem;
+  }
 
   .md\:px-6 {
     padding-left: 1.5rem;

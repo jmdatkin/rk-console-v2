@@ -9,7 +9,7 @@ import DriverMenuBar from '../Components/DriverMenuBar.vue';
     <Header>
         <DriverMenuBar></DriverMenuBar>
     </Header>
-    <main>
+    <main class="md:p-4">
         <slot></slot>
     </main>
 </Authenticated>
@@ -19,6 +19,7 @@ import DriverMenuBar from '../Components/DriverMenuBar.vue';
 header {
     display: flex;
     justify-content: center;
+    background-color: red;
 }
 
 .p-menubar {
@@ -30,6 +31,5 @@ header {
 main {
     max-width: 1600px;
     margin: 0 auto;
-    padding: 0 15px;
 }
 </style>

@@ -6,7 +6,7 @@ import Card from 'primevue/card';
 <template>
     <AdminLayout>
         <div class="container w-full m-auto flex justify-content-center">
-            <div class="content w-8 sm:w-full">
+            <div class="content w-full md:w-8">
                 <slot />
             </div>
         </div>

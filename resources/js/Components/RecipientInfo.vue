@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import InfoItem from './InfoItem.vue';
 const props = defineProps(['data']);
 const fullName = computed(() => `${props.data.person.firstName} ${props.data.person.lastName}`);
 </script>
@@ -17,34 +18,44 @@ const fullName = computed(() => `${props.data.person.firstName} ${props.data.per
         </div>
         <div class="grid">
             <div class=col-12>
-                <span>Email</span>
-                <h4>{{ data.person.email }}</h4>
+                <InfoItem title="Email">
+                    {{ data.person.email }}
+                </InfoItem>
+                <!-- <span>Email</span>
+                <h4>{{ data.person.email }}</h4> -->
             </div>
         </div>
         <Divider />
         <div class="grid">
             <div class=col-12>
-                <span>Home Phone</span>
-                <h4>{{ data.person.phoneHome }}</h4>
-                <span>Cell Phone</span>
-                <h4>{{ data.person.phoneCell }}</h4>
+                <InfoItem title="Home Phone">
+                    {{ data.person.phoneHome }}
+                </InfoItem>
+                <InfoItem title="Cell Phone">
+                    {{ data.person.phoneCell }}
+                </InfoItem>
             </div>
         </div>
         <div class="grid">
             <div class=col-12>
+                <InfoItem title="Num. Meals">
+                    {{ data.numMeals }}
+                </InfoItem>
             </div>
         </div>
         <div class="grid">
             <div class=col-12>
-                <span>Address</span>
-                <h4>{{ data.address }}</h4>
+                <InfoItem title="Address">
+                    {{ data.address }}
+                </InfoItem>
             </div>
         </div>
         <Divider />
         <div class="grid">
             <div class=col-12>
-                <span>Notes</span>
-                <h4>{{ data.notes }}</h4>
+                <InfoItem title="Notes">
+                    {{ data.person.notes }}
+                </InfoItem>
             </div>
         </div>
     </div>

@@ -18,6 +18,7 @@ const calendarOptions = ref({
     initialView: 'dayGridMonth',
     contentHeight: 'auto',
     selectable: true,
+    selectLongPressDelay: 0,
     dayCellClassNames: function(arg) {
         let { date } = arg;
         if (!props.limitSelect) return [];

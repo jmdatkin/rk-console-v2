@@ -22,6 +22,7 @@ const getExceptions = function () {
 const dialogOpen = ref(false);
 
 const dateSelectCallback = function (date) {
+    console.log("HI");
     driverExceptionForm.date_start = date.start;
     driverExceptionForm.date_end = date.end;
     dialogOpen.value = true;

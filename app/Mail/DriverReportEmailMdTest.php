@@ -30,7 +30,7 @@ class DriverReportEmailMdTest extends Mailable
     {
         //
         $this->driver = $driver;
-        $this->report_data = resolve(DriverReport::class)->data(['driver_id' => $driver->id, 'weekday' => RkCarbon::today()->lowercaseDayName()]);
+        $this->report_data = resolve(DriverReport::class)->data(['driver_id' => $driver->id, 'date' => RkCarbon::today()]);
     }
   
 
