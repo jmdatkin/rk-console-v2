@@ -2,19 +2,32 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+:root {
+    --surface-ground-b: #f2f3f5;
+}
 
 html {
     font-size: 14pt;
 }
 
 body {
-    background-color: var(--surface-ground);
+    background-color: var(--surface-ground-b);
+
     font-family: var(--font-family) !important;
-    // color: var(--text-color) !important;
+    // color: #3d4852;
 }
 
-a {
-    // color: var(--primary-color);
+h1, h2, h3, h4, h5, h6 {
+    color: #3d4852;
+}
+
+html .p-menubar .p-menuitem-link .p-menuitem-text {
+    color: #3d4852;
+} 
+
+html .p-menubar {
+    background-color: transparent;
+    border: 0;
 }
 
 a:hover {
@@ -42,7 +55,7 @@ a:hover {
 }
 
 .p-inputtext {
-    padding: 0.5rem !important;
+    // padding: 0.5rem !important;
 }
 
 .p-datatable .p-sortable-column.p-highlight {
@@ -81,3 +94,5 @@ h4 {
     background-color: var(--yellow-300) !important;
     color: var(--yellow-900) !important;
 }
+
+$text-color: #3d4852;

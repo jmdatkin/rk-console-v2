@@ -29,6 +29,9 @@ const onRowSelect = function(row) {
     <Dialog ref="dialog" :modal="true" :dismissableMask="true" :closeOnEscape="true"
     v-model:visible="recipientDialogOpen"
     >
+    <template #header>
+        &nbsp;
+    </template>
         <RecipientInfo :data="selectedRecipient"></RecipientInfo>
     </Dialog>
         <template #header>

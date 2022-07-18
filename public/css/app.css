@@ -1194,12 +1194,25 @@ select {
 .ease-in {
   transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
+:root {
+  --surface-ground-b: #f2f3f5;
+}
 html {
   font-size: 14pt;
 }
 body {
-  background-color: var(--surface-ground);
+  background-color: var(--surface-ground-b);
   font-family: var(--font-family) !important;
+}
+h1, h2, h3, h4, h5, h6 {
+  color: #3d4852;
+}
+html .p-menubar .p-menuitem-link .p-menuitem-text {
+  color: #3d4852;
+}
+html .p-menubar {
+  background-color: transparent;
+  border: 0;
 }
 a:hover {
   text-decoration: underline;
@@ -1220,9 +1233,6 @@ a:hover {
 }
 .p-datatable, .p-button, .p-component, .p-inputtext {
   font-size: 0.9rem !important;
-}
-.p-inputtext {
-  padding: 0.5rem !important;
 }
 .p-datatable .p-sortable-column.p-highlight {
   background-color: transparent !important;
