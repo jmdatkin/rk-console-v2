@@ -1,3 +1,4 @@
+import { Inertia } from '@inertiajs/inertia';
 import moment from 'moment-timezone';
 import { computed } from 'vue';
 
@@ -11,7 +12,6 @@ const mergePersonObject = function (item) {
 }
 
 const parseSubstitutes = function (data) {
-    console.log(data);
     return computed(() => {
         return data.map(row => {
             let isSub = false,
@@ -67,7 +67,11 @@ const DateAdapter = {
     }
 };
 
+const back = function() {
+    Inertia.visit(window.history.back());
+};
+
 const momentFormatString = "MMDDYYYY";
 
 // export { mergePersonObject, momentFormatString };
-export { mergePersonObject, parseSubstitutes, DateAdapter };
+export { mergePersonObject, parseSubstitutes, DateAdapter, back };

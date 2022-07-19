@@ -1,6 +1,7 @@
 <script setup>
 import BasePageLayout from '@/Layouts/BasePageLayout';
 import Dialog from 'primevue/dialog';
+import Button from 'primevue/button';
 import RouteDriversTable from '@/Components/Dashboard/RouteDriversTable';
 import RouteRecipientsTable from '@/Components/Dashboard/RouteRecipientsTable';
 import moment from 'moment';
@@ -9,6 +10,7 @@ import { Link, Head } from '@inertiajs/inertia-vue3';
 import Panel from 'primevue/panel';
 import RecipientInfo from '@/Components/RecipientInfo';
 import DriverInfo from '@/Components/DriverInfo';
+import { Inertia } from '@inertiajs/inertia';
 import { ref } from 'vue';
 
 import { DateAdapter } from '../../util';
@@ -26,9 +28,17 @@ const openRecipientDialog = function (row) {
     recipientDialogOpen.value = true;
 };
 
+const viewRecipient = function(id) {
+    Inertia.visit(route('recipient.show', id));
+};
+
 const openDriverDialog = function (row) {
     driverData.value = row.data.driver;
     driverDialogOpen.value = true;
+};
+
+const viewDriver = function(id) {
+    Inertia.visit(route('driver.show', id));
 };
 </script>
 
@@ -43,6 +53,9 @@ const openDriverDialog = function (row) {
                 &nbsp;
             </template>
             <DriverInfo :data="driverData"></DriverInfo>
+            <template #footer>
+                <Button class="p-button-text" label="View Resource" icon="pi pi-chevron-right" iconPos="right" @click="() => viewDriver(driverData.id)"></Button>
+            </template>
         </Dialog>
         <!-- Recipient Dialog -->
         <Dialog :modal="true" :dismissableMask="true" closeOnEscape="true" v-model:visible="recipientDialogOpen">
@@ -50,6 +63,9 @@ const openDriverDialog = function (row) {
                 &nbsp;
             </template>
             <RecipientInfo :data="recipientData"></RecipientInfo>
+            <template #footer>
+                <Button class="p-button-text" label="View Resource" icon="pi pi-chevron-right" iconPos="right" @click="() => viewRecipient(recipientData.id)"></Button>
+            </template>
         </Dialog>
         <template #header>
             <h2 class="font-semibold text-xl leading-tight mb-4">

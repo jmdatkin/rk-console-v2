@@ -7,6 +7,7 @@ import Button from 'primevue/button';
 import { Link, Head } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
 import DriverAssignments from '@/Components/DriverAssignments';
+import { back } from '@/util';
 
 import Card from 'primevue/card';
 const props = defineProps(['data']);
@@ -15,7 +16,7 @@ const props = defineProps(['data']);
 <template>
     <SingleResourceLayout>
         <Head :title="`${data.person.firstName} ${data.person.lastName}`"></Head>
-        <Button class="p-button-text" label="Back" icon="pi pi-chevron-left" type="button" @click="() => Inertia.visit(route('datatables.drivers'))"></Button>
+        <Button class="p-button-text" label="Back" icon="pi pi-chevron-left" type="button" @click="back"></Button>
         <Card class="mt-2">
             <template #content>
                 <DriverInfo :data="data"></DriverInfo>

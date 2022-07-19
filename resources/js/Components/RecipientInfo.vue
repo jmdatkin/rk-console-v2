@@ -26,7 +26,7 @@ const fullName = computed(() => `${props.data.person.firstName} ${props.data.per
             </div>
         </div>
         <Divider />
-        <div class="grid">
+        <div class="grid mb-2">
             <div class=col-12>
                 <InfoItem title="Home Phone">
                     {{ data.person.phoneHome }}
@@ -36,7 +36,7 @@ const fullName = computed(() => `${props.data.person.firstName} ${props.data.per
                 </InfoItem>
             </div>
         </div>
-        <div class="grid">
+        <div class="grid mb-2">
             <div class=col-12>
                 <InfoItem title="Num. Meals">
                     {{ data.numMeals }}
