@@ -1,6 +1,24 @@
 import { ref, computed } from "vue";
 import { toastBus } from "./app";
 
+const useData = function(url) {
+    const data = ref([]);
+    const dataLoaded = ref(false);
+    const getData = function() {
+        dataLoaded.value = false;
+        axios.get(url).then(
+            (res) => {
+                data.value = res.data;
+                dataLoaded.value = true;
+            },
+            () => {
+            }
+        )
+    };
+
+    return {data, dataLoaded, getData};
+};
+
 const useCRUD = function (service) {
     const data = ref([]);
     const dataLoaded = ref(false);
@@ -89,4 +107,4 @@ const usePending = function(pendingJobs, tableData) {
 
 const fullName = props => computed(() => `${props.firstName} ${props.lastName}`);
 
-export { useCRUD, usePending, fullName };
+export { useCRUD, usePending, fullName, useData };

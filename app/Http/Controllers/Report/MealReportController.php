@@ -21,12 +21,12 @@ class MealReportController extends Controller
     public function index(Request $request)
     {
         return Inertia::render(
-            'Reports/MealReport',
+            'Admin/Reports/MealsReport',
         );
     }
 
     public function data(Request $request) {
-        $weekday = $request->input('weekday');
-        return $this->report->data($weekday);
+        $date = $request->input('date');
+        return $this->report->data2($date);
     }
 }

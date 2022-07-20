@@ -160,8 +160,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('driver/data', [DriverReportController::class, 'data']);
             Route::get('texter', [TexterReportController::class, 'index']);
             Route::get('texter/data', [TexterReportController::class, 'data']);
-            Route::get('meals', [MealReportController::class, 'index']);
-            Route::get('meals/data', [MealReportController::class, 'data']);
+            Route::get('meals', [MealReportController::class, 'index'])->name('report.meals');
+            Route::get('meals/data', [MealReportController::class, 'data'])->name('report.meals.data');
         });
     });
 });
