@@ -3,6 +3,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Dialog from 'primevue/dialog';
 import Divider from 'primevue/divider';
+import InputText from 'primevue/inputtext';
 import WeekdayAssignments from './DriverWeekdayAssignments';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { useToast } from 'primevue/usetoast';
@@ -94,7 +95,9 @@ onMounted(() => {
 </script>
 
 <template>
-    <Dialog v-model:visible="routeDialogOpen">
+    <Dialog v-model:visible="routeDialogOpen"
+    :modal="true" :dismissableMask="true" :closeOnEscape="true"
+    >
         <template #header>
             {{ WEEKDAYS[selectedWeekday] }}
         </template>

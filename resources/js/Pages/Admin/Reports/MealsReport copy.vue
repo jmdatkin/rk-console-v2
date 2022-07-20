@@ -1,5 +1,6 @@
 <script setup>
 import ReportLayout from '@/Layouts/ReportLayout';
+import DataTableLayout from '@/Layouts/DataTableLayout';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
@@ -153,8 +154,9 @@ onMounted(() => {
 
 <template>
     <ReportLayout>
-        <template #title>
-            Meal Report
+        <Head title="Meals Report"></Head>
+        <template #header>
+            Meals Report
         </template>
         <template #report>
             <Button @click="openDateSelection">Choose Date</Button>
