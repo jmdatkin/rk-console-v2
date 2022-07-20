@@ -68,9 +68,9 @@ const viewDriver = function(id) {
             </template>
         </Dialog>
         <template #header>
-            <h2 class="font-semibold text-xl leading-tight mb-4">
+            <!-- <h2 class="font-semibold text-xl leading-tight mb-4"> -->
                 Dashboard
-            </h2>
+            <!-- </h2> -->
         </template>
         <div class="grid">
             <div class="col-12">

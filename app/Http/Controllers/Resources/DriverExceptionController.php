@@ -6,15 +6,11 @@ use App\Carbon\RkCarbon;
 use App\Http\Controllers\Controller;
 use App\Models\DriverException;
 use App\Models\DriverExceptionRoute;
-use App\Models\DriverStatus;
 use App\Repository\DriverExceptionRepositoryInterface;
 use App\Repository\DriverRepositoryInterface;
-use Carbon\Carbon;
 use Error;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 class DriverExceptionController extends Controller
