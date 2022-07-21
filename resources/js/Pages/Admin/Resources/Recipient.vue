@@ -32,13 +32,6 @@ const editing = ref(false);
             </template>
             <template #end>
                 <!-- <InputSwitch v-model="editing"></InputSwitch> -->
-                <span v-if="editing">
-                <Button icon="pi pi-check" class="p-button-rounded p-button-secondary p-button-text" @click="() => editing= false" />
-                <Button icon="pi pi-times" class="p-button-rounded p-button-secondary p-button-text" @click="() => editing= false" />
-                </span>
-                <span v-else>
-                <Button icon="pi pi-pencil" class="p-button-rounded p-button-secondary p-button-text" @click="() => editing= true" />
-                </span>
 
 
             </template>
