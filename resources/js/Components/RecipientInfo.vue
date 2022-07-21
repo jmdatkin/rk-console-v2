@@ -1,16 +1,32 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import InfoItem from './InfoItem.vue';
-const props = defineProps(['data']);
+import InputText from 'primevue/inputtext';
+
+const props = defineProps(['data', 'editing']);
 const fullName = computed(() => `${props.data.person.firstName} ${props.data.person.lastName}`);
+
+const form = ref({
+    email: ''
+});
+
+onMounted(() => {
+    form.value = {
+        email: props.data.person.email
+    };
+});
+
+// const editing = ref(false);
+
 </script>
 
 <template>
     <div>
-        <span class="personnel-type">
+        <!-- <span class="personnel-type">
             <i class="pi pi-fw pi-box"></i>
             Recipient
-        </span>
+        </span> -->
+        <InfoItem title="Recipient" icon="pi pi-fw pi-box"></InfoItem>
         <div class="grid">
             <div class=col-12>
                 <h2>{{ fullName }}</h2>
@@ -19,7 +35,12 @@ const fullName = computed(() => `${props.data.person.firstName} ${props.data.per
         <div class="grid">
             <div class=col-12>
                 <InfoItem title="Email">
-                    {{ data.person.email }}
+                    <InputText v-if="editing" v-model="form.email">
+                        {{ data.person.email }}
+                    </InputText>
+                    <span v-else>
+                        {{ data.person.email }}
+                    </span>
                 </InfoItem>
                 <!-- <span>Email</span>
                 <h4>{{ data.person.email }}</h4> -->
@@ -62,9 +83,4 @@ const fullName = computed(() => `${props.data.person.firstName} ${props.data.per
 </template>
 
 <style lang="scss" scoped>
-span {
-    font-size: 12pt;
-    font-weight: 600;
-    text-transform: uppercase;
-}
 </style>
