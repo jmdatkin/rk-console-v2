@@ -12,26 +12,13 @@ import { Link, Head } from '@inertiajs/inertia-vue3';
 import { formatDate } from '@fullcalendar/common';
 import { ref, onUpdated, onMounted, computed } from 'vue';
 import { driversByRouteFilters } from '@/filters';
-import { DateAdapter } from '../../util';
-import DriverExceptionList from './DriverExceptionList.vue';
-import { useData } from '../../hooks';
-import AlternateDriversDataTable from '../DataTables/AlternateDriversDataTable.vue';
-import { useConfirm } from 'primevue/useconfirm';
 
-const props = defineProps(['date', 'openDateSelect']);
+const props = defineProps(['onRowSelect', 'selection', 'date', 'openDateSelect', 'value']);
 
 const filters = ref(driversByRouteFilters);
 const initFilters = function () {
     filters.value = driversByRouteFilters;
 };
-
-const substituteDialogOpen = ref(false);
-
-const selected = ref(null);
-const selectedException = ref(null);
-const selectedRoute = ref(null);
-
-const confirm = useConfirm();
 
 const rowClass = (data) => {
     let classString = '';
@@ -47,92 +34,6 @@ const rowClass = (data) => {
 
 };
 
-const data = ref([]);
-const getData = function () {
-    let dateString = DateAdapter.make(props.date);
-    axios.get(route('driversbyroute.data', { date: dateString }))
-        .then(res => {
-            data.value = res.data;
-        });
-};
-
-const altDriverDialog = ref(false);
-const altDrivers = ref([]);
-const altDriversLoaded = ref(false);
-
-// const { altDrivers, altDriversLoaded, getAltDrivers} = useData('/route/')
-
-const getAlternateDrivers = function (id) {
-    axios.get(`/route/${id}/alternates`)
-        .then(res => {
-            altDrivers.value = res.data;
-            altDriversLoaded.value = true;
-            altDriverDialog.value = true;
-        });
-};
-
-const tableData = computed(() => {
-    return data.value.map(row => {
-        let isSub = false,
-            inException = false;
-
-        let routeId = row.id;
-
-        let driver = {};
-        let originalDriver;
-        let exception = {};
-        let substitute;
-
-        if (row.drivers.length > 0) {
-            driver = row.drivers[0];
-            originalDriver = driver;
-
-            if (driver.exceptions.length > 0) {
-                inException = true;
-                exception = driver.exceptions[0];
-
-                if (typeof exception.substitutes !== 'undefined' && exception.substitutes.length > 0) {
-                    // substitute = exception.substitutes[0];
-                    substitute = exception.substitutes.find(val => val.substitute.route_id === routeId);
-
-                    if (substitute) {
-                        driver = substitute;
-                        isSub = true;
-                    }
-
-
-
-
-                }
-
-            }
-        }
-
-        return {
-            originalDriver, 
-            driver,
-            substitute,
-            exception,
-            isSub,
-            inException,
-            routeId: row.id,
-            routeName: row.name,
-            ...row
-        };
-    });
-});
-
-const onRowSelect = function (row) {
-    selected.value = row;
-    // showExceptions.value = true;
-    substituteDialogOpen.value = true;
-};
-
-const onExceptionSelect = function (exception) {
-    selectedException.value = exception;
-    selectedRoute.value = exception.routeId;
-    getAlternateDrivers(exception.routeId);
-};
 
 // Context menu
 const cmSelection = ref();
@@ -145,38 +46,12 @@ const onRowContextMenu = event => {
     cm.value.show(event.originalEvent);
 };
 
-const assignSub = function (exceptionId, substituteDriverId, routeId) {
-    confirm.require({
-        message: `Are you sure you want to assign driver '${substituteDriverId}' as a substitute?`,//to route '${routeId}?`,
-        icon: 'pi pi-exclamation-triangle',
-        acceptClass: 'p-button-info',
-        accept: () => {
-            // axios.post(`/driver/${driverId}/assign/${routeId}?weekday=${weekday.value}`)
-            axios.post(route('exception.sub', { exception_id: exceptionId, substitute_driver_id: substituteDriverId }), { route_id: selectedException.value.routeId, date: props.date })
-                .then(() => {
-                    getData();
-                    selected.value = null;
-                });
-        },
-    });
-}
-
-onMounted(() => getData());
 
 </script>
 <template>
-    <Dialog v-model:visible="substituteDialogOpen" :modal="true" :dismissableMask="true" :closeOnEscape="true">
-         
-                <DriverExceptionList :onExceptionSelect="onExceptionSelect"
-                    :selectedDriver="selected"></DriverExceptionList>
-    </Dialog>
-    <Dialog v-model:visible="altDriverDialog" :modal="true" :dismissableMask="true" :closeOnEscape="true">
-            <AlternateDriversDataTable :data="altDrivers" :onSelect="(event) => assignSub(selectedException.id, event.data.id, selectedRoute.value)">
-            </AlternateDriversDataTable>
-    </Dialog>
     <DataTable @row-select="e => onRowSelect(e.data)" v-model:selection="selection" selectionMode="single"
         :globalFilterFields="['routeName', 'id', 'driver.person.firstName', 'lastName']" filterDisplay="menu"
-        v-model:filters="filters" :value="tableData" :paginator="true" :rowClass="rowClass" :rows="10"
+        v-model:filters="filters" :value="value" :paginator="true" :rowClass="rowClass" :rows="10"
         responsiveLayout="scroll" columnResizeMode="fit" :showGridlines="true">
         <template #header>
 
@@ -248,7 +123,7 @@ a:hover {
 }
 
 ::v-deep .is-sub {
-    background-color: var(--yellow-100) !important;
+    background-color: var(--yellow-300) !important;
     color: var(--yellow-900) !important;
 }
 

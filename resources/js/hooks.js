@@ -1,12 +1,23 @@
 import { ref, computed } from "vue";
 import { toastBus } from "./app";
 
-const useData = function(url) {
+
+// Hook to reduce code reusage when fetching ajax data
+const useData = function (url, params) {
     const data = ref([]);
     const dataLoaded = ref(false);
-    const getData = function() {
+
+    const getData = function () {
         dataLoaded.value = false;
-        axios.get(url).then(
+        let req_params;
+
+        if (typeof params === 'object') {
+            req_params = params;
+        } else if (typeof params === 'function') {
+            req_params = params.apply(this, arguments);
+        }
+
+        axios.get(url, req_params).then(
             (res) => {
                 data.value = res.data;
                 dataLoaded.value = true;
@@ -16,7 +27,7 @@ const useData = function(url) {
         )
     };
 
-    return {data, dataLoaded, getData};
+    return { data, dataLoaded, getData };
 };
 
 const useCRUD = function (service) {
@@ -38,10 +49,10 @@ const useCRUD = function (service) {
             .then(
                 res => {
                     get();
-                    toastBus.emit('add',{ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+                    toastBus.emit('add', { severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
                 },
                 res => {
-                    toastBus.emit('add',{ severity: 'error', summary: 'Error', detail: res, life: 3000 });
+                    toastBus.emit('add', { severity: 'error', summary: 'Error', detail: res, life: 3000 });
                 },
             );
     };
@@ -54,10 +65,10 @@ const useCRUD = function (service) {
                 res => {
                     selected.value = [];
                     get();
-                    toastBus.emit('add',{ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+                    toastBus.emit('add', { severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
                 },
                 res => {
-                    toastBus.emit('add',{ severity: 'error', summary: 'Error', detail: res, life: 3000 });
+                    toastBus.emit('add', { severity: 'error', summary: 'Error', detail: res, life: 3000 });
                 },
             );
     };
@@ -69,10 +80,10 @@ const useCRUD = function (service) {
                 res => {
                     selected.value = [];
                     get();
-                    toastBus.emit('add',{ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+                    toastBus.emit('add', { severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
                 },
                 res => {
-                    toastBus.emit('add',{severity: 'error', summary: 'Error', detail: res, life: 3000 });
+                    toastBus.emit('add', { severity: 'error', summary: 'Error', detail: res, life: 3000 });
                 });
     };
 
@@ -87,21 +98,21 @@ const useCRUD = function (service) {
     };
 };
 
-const usePending = function(pendingJobs, tableData) {
+const usePending = function (pendingJobs, tableData) {
     console.log(tableData);
     return computed(() => {
-    let updates = pendingJobs.filter(job => job.job_name.indexOf('update') > 0);
-    const newData = _.cloneDeep(tableData.value);
-    updates.forEach(update => {
-        let idx = newData.findIndex(row => row.id == update.payload[0]);
-        console.log(idx);
-        if (idx < 0) return;
-        let payload = update.payload[1];
-        let row = newData[idx];
-        Object.assign(row, payload);
-        newData[idx] = {pending: true, ...row};
-    });
-    return newData;
+        let updates = pendingJobs.filter(job => job.job_name.indexOf('update') > 0);
+        const newData = _.cloneDeep(tableData.value);
+        updates.forEach(update => {
+            let idx = newData.findIndex(row => row.id == update.payload[0]);
+            console.log(idx);
+            if (idx < 0) return;
+            let payload = update.payload[1];
+            let row = newData[idx];
+            Object.assign(row, payload);
+            newData[idx] = { pending: true, ...row };
+        });
+        return newData;
     });
 };
 
