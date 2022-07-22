@@ -7,15 +7,35 @@ const visible = ref(false);
 </script>
 
 <template>
-    <Button @click="() => visible = true" class="p-button-rounded" icon="pi pi-window-maximize"></Button>
-    <Sidebar v-if="visible" v-model:visible="visible" position="full">
-        <slot ></slot>
+    <Sidebar v-if="visible" v-model:visible="visible" position="full" style="z-index: 1099">
+        <DataTable v-bind="$attrs">
+            <template #header>
+                <slot name="header"></slot>
+            </template>
+            <slot></slot>
+        </DataTable>
     </Sidebar>
-    <slot v-else ></slot>
+    <DataTable v-else v-bind="$attrs">
+        <template #header>
+            <slot name="header"></slot>
+            <Button @click="() => visible = true" class="p-button-rounded" icon="pi pi-window-maximize"></Button>
+        </template>
+        <slot></slot>
+    </DataTable>
 </template>
 
 <style lang="scss">
-    html .p-sidebar .p-sidebar-content {
-        padding: 0;
-    }
+// html .p-sidebar {
+//     z-index: 1001;
+// }
+
+html .p-sidebar .p-sidebar-content {
+    padding: 0;
+}
+
+html .p-sidebar .p-sidebar-header {
+    padding: 0;
+    // position: absolute;
+
+}
 </style>

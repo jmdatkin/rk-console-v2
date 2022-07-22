@@ -60,7 +60,7 @@ const createdAtFormat = computed(() => {
 });
 
 const payloadTableData = computed(() => {
-    return Object.entries(props.job.payload[1]).map(entry => {
+    return Object.entries(props.job.payload[1] || props.job.payload).map(entry => {
         return {
             "attribute": entry[0],
             "value": entry[1]
@@ -86,7 +86,7 @@ const payloadTableData = computed(() => {
                     <Button icon="pi pi-trash" class="p-button-danger p-button-rounded p-button-outlined"></Button>
                 </div>
             </div>
-            <div class="flex-grow">
+            <div class="flex-grow" v-if="jobAction === 'update' || jobAction === 'create'">
                     <DataTable style="" class="p-datatable-sm" :showGridlines="true" :value="payloadTableData"
                         responsiveLayout="scroll">
                         <Column header="Key" field="attribute" style="max-width: 50%;"></Column>
