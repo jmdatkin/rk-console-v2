@@ -1,6 +1,27 @@
 import { ref, computed } from "vue";
 import { toastBus } from "./app";
 
+const useBreadcrumb = (function () {
+    // let items = {};
+
+    // const get = function () {
+    //     // return {
+    //     //     // home: { to: '/' },
+    //     //     items
+    //     // };
+    //     return items;
+    // };
+    const items = ref([]);
+
+    const append = function (item) {
+        console.log('calling append');
+        items.value.unshift(item);
+    };
+
+    return function () {
+        return { items, append }
+    };
+})();
 
 // Hook to reduce code reusage when fetching ajax data
 const useData = function (url, params) {
@@ -118,4 +139,8 @@ const usePending = function (pendingJobs, tableData) {
 
 const fullName = props => computed(() => `${props.firstName} ${props.lastName}`);
 
-export { useCRUD, usePending, fullName, useData };
+export { useCRUD,
+            usePending,
+            fullName,
+            useData,
+            useBreadcrumb };

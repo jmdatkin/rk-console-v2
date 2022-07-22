@@ -10,6 +10,7 @@ use App\Http\Controllers\Report\DriverReportController;
 use App\Http\Controllers\Report\MealReportController;
 use App\Http\Controllers\Report\OutreachReportController;
 use App\Http\Controllers\Report\TexterReportController;
+use App\Http\Controllers\Report\TotalsReportController;
 use App\Http\Controllers\Resources\AgencyController;
 use App\Http\Controllers\Resources\DataTables\AgencyDataTableController;
 use App\Http\Controllers\Resources\DataTables\DriverDataTableController;
@@ -166,6 +167,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             Route::get('outreach', [OutreachReportController::class, 'index'])->name('report.outreach');
             Route::get('outreach/data', [OutreachReportController::class, 'data'])->name('report.outreach.data');
+
+            Route::get('totals', [TotalsReportController::class, 'index'])->name('report.totals');
+            Route::get('totals/data', [TotalsReportController::class, 'data'])->name('report.totals.data');
         });
     });
 });

@@ -22,7 +22,18 @@ class RouteTotalsReport {
             })
             ->join('routes','routes.id','=','driver_route.route_id')
             ->join('drivers','drivers.id','=','driver_id')
-            ->join('people','drivers.person_id','=','people.id');
+            ->join('people','drivers.person_id','=','people.id')
+            ->select(
+                'driver_id',
+                'driver_route.route_id as route_id',
+                'driver_route.weekday',
+                'agg_num_meals as totalNumMeals',
+                'name as route_name',
+                'firstName as driver_firstName',
+                'lastName as driver_lastName',
+                'email as driver_email',
+                'phoneHome as driver_phoneHome',
+                'phoneCell as driver_phoneCell');
     }
 
     public function data() {
@@ -31,6 +42,10 @@ class RouteTotalsReport {
 
     public function dayTotals() {
         return $this->baseQuery()
+        // ->groupBy('driver_route.weekday')
+        // ->select('driver_route.weekday as weekday')
+        // ->selectRaw('sum(agg_num_meals) as day_total')
+        // ->get();
         ->groupBy('driver_route.weekday')
         ->select('driver_route.weekday as weekday')
         ->selectRaw('sum(agg_num_meals) as day_total')

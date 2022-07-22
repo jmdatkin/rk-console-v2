@@ -61,6 +61,24 @@ const items = ref([
             },
         ]
     },
+    {
+        label: 'Reports',
+        icon: 'pi pi-fw pi-database',
+        items: [
+            {
+                label: 'Outreach Report',
+                command: () => Inertia.visit(route('report.outreach'))
+            },
+            {
+                label: 'Meals Report',
+                command: () => Inertia.visit(route('report.meals'))
+            },
+            {
+                label: 'Totals',
+                command: () => Inertia.visit(route('report.totals'))
+            },
+        ]
+    },
     // {
     //     label: 'Reports',
     //     icon: 'pi pi-fw pi-file',

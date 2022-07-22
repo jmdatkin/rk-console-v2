@@ -3,12 +3,17 @@
 import AdminLayout from './AdminLayout';
 import Panel from 'primevue/panel';
 import Divider from 'primevue/divider';
+import Breadcrumb from 'primevue/breadcrumb';
+import { useBreadcrumb } from '@/hooks'
+
 </script>
 
 <template>
     <!-- <Authenticated> -->
     <AdminLayout>
         <section>
+            <!-- <Breadcrumb home="/" :model="items">
+            </Breadcrumb> -->
             <Panel>
                 <template #header>
                     <span class="page-header">

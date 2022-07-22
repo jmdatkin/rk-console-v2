@@ -2,6 +2,7 @@
 import ReportLayout from '@/Layouts/ReportLayout';
 import DateSelect from '../../../Components/DateSelect.vue';
 import OutreachReportTable from '../../../Components/OutreachReport/OutreachReportTable.vue';
+import { useBreadcrumb } from '../../../hooks';
 </script>
 
 <template>
