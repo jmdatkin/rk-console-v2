@@ -2,6 +2,7 @@
 import ReportLayout from '@/Layouts/ReportLayout';
 import DateSelect from '../../../Components/DateSelect.vue';
 import TotalsReportTable from '../../../Components/TotalsReport/TotalsReportTable.vue';
+import FullscreenDataTable from '../../../Components/FullscreenDataTable.vue';
 </script>
 
 <template>
@@ -13,8 +14,10 @@ import TotalsReportTable from '../../../Components/TotalsReport/TotalsReportTabl
 
             <DateSelect>
                 <template v-slot="{ date, openDateSelect }">
-                    <TotalsReportTable :date="date" :openDateSelect="openDateSelect">
-                    </TotalsReportTable>
+                    <FullscreenDataTable>
+                        <TotalsReportTable :date="date" :openDateSelect="openDateSelect">
+                        </TotalsReportTable>
+                    </FullscreenDataTable>
                 </template>
             </DateSelect>
         </template>

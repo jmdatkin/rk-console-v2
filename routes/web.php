@@ -26,6 +26,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Mail\DriverReportEmail;
 use App\Mail\DriverReportEmailMdTest;
 use App\Models\Driver;
+use App\Models\PendingJob;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -62,6 +63,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/', [RecipientsByRouteViewController::class, 'index'])->name('recipientsbyroute');
             Route::get('/data', [RecipientsByRouteViewController::class, 'data'])->name('recipientsbyroute.data');
         });
+
+        Route::get('pendingjobs', function() {
+            return Inertia::render('Admin/PendingJobs', [
+                'pending_jobs' => PendingJob::all()
+            ]);
+        })->name('pendingjobs');
 
         Route::prefix('recipient')->group(function () {
             Route::get('/', [RecipientController::class, 'all']);

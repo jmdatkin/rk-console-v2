@@ -6,6 +6,7 @@ import { InertiaProgress } from '@inertiajs/progress';
 import NProgress from 'nprogress';
 import PrimeVue from 'primevue/config';
 import DataTable from 'primevue/datatable';
+import Button from 'primevue/button';
 import ToastService from 'primevue/toastservice';
 import Tooltip from 'primevue/tooltip';
 import VTooltip from 'v-tooltip'
@@ -54,6 +55,7 @@ createInertiaApp({
             .provide('toastBus', toastBus)
             // .use(VTooltip)
             .component('DataTable', DataTable)
+            .component('Button', Button)
             .component('Head', Head)
             .mixin({ methods: { route } })
             .mount(el);

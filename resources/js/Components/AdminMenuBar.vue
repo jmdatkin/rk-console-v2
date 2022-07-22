@@ -48,6 +48,10 @@ const items = ref([
         icon: 'pi pi-fw pi-database',
         items: [
             {
+                label: 'Pending Jobs',
+                command: () => Inertia.visit(route('pendingjobs'))
+            },
+            {
                 label: 'Recipients by Route',
                 command: () => Inertia.visit(route('recipientsbyroute'))
             },
