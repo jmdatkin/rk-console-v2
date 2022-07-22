@@ -304,7 +304,7 @@ CRUD.get();
         </template>
         <template #table>
             <!-- <FullscreenDataTable> -->
-                <FullscreenDataTable :value="conditionalTableData" :paginator="true" :rows="10" class="p-datatable-recipients"
+                <DataTable :value="conditionalTableData" :paginator="true" :rows="10" class="p-datatable-recipients"
                     :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'address', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
                     dataKey="id" @row-click="e => viewRecord(e.data)" filterDisplay="menu" responsiveLayout="scroll"
                     editMode="row" showGridlines :resizableColumns="true" columnResizeMode="fit"
@@ -480,7 +480,7 @@ CRUD.get();
                     </Column>
 
                     <ContextMenu :model="menuModel" ref="cm"></ContextMenu>
-                </FullscreenDataTable>
+                </DataTable>
             <!-- </FullscreenDataTable> -->
         </template>
     </DataTableLayout>

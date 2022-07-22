@@ -66,7 +66,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('pendingjobs', function() {
             return Inertia::render('Admin/PendingJobs', [
-                'pending_jobs' => PendingJob::all()
+                'pending_jobs' => PendingJob::uncommitted()->get()
             ]);
         })->name('pendingjobs');
 

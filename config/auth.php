@@ -68,7 +68,6 @@ return [
         'users' => [
             'driver' => 'person_user_provider',
             'model' => App\Models\User::class,
-            // 'foreign_model' => App\Models\Person::class
             'foreign_model' => 'person'
         ],
 
