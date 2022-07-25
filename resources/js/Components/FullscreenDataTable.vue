@@ -25,9 +25,6 @@ const visible = ref(false);
 </template>
 
 <style lang="scss">
-// html .p-sidebar {
-//     z-index: 1001;
-// }
 
 html .p-sidebar .p-sidebar-content {
     padding: 0;

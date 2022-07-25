@@ -23,6 +23,7 @@ import { useCRUD, usePending } from '@/hooks';
 import RecipientService from '@/Service/RecipientService';
 import { Inertia } from '@inertiajs/inertia';
 import FullscreenDataTable from '../../../Components/FullscreenDataTable.vue';
+import ResourceSpeedDial from '../../../Components/ResourceSpeedDial.vue';
 
 const props = defineProps(['agencies', 'pending_jobs', 'csrf']);
 
@@ -297,6 +298,10 @@ CRUD.get();
             <RecipientRouteAssignments :recipientData="assignRecipient"></RecipientRouteAssignments>
         </Dialog>
 
+        <div class="p-actions-sm md:hidden">
+            <ResourceSpeedDial direction="right" style="left: 0.25rem; top: 0.25rem; z-index:1201;" :handleCreate="openNewRecordDialog" :handleDelete="destroySelected"
+                :handleClearFilters="initFilters"></ResourceSpeedDial>
+        </div>
 
         <!-- BEGIN DT -->
         <template #header>
@@ -304,17 +309,18 @@ CRUD.get();
         </template>
         <template #table>
             <!-- <FullscreenDataTable> -->
-                <FullscreenDataTable :value="conditionalTableData" :paginator="true" :rows="10" class="p-datatable-recipients"
-                    :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'address', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
-                    dataKey="id" @row-click="e => viewRecord(e.data)" filterDisplay="menu" responsiveLayout="scroll"
-                    editMode="row" showGridlines :resizableColumns="true" columnResizeMode="fit"
-                    v-model:filters="filters" v-model:editingRows="editingRows" contextMenu
-                    v-model:contextMenuSelection="cmSelection" :rowClass="rowClass" stateStorage="local"
-                    stateKey="dt-recipient-session" @rowContextmenu="onRowContextMenu" @row-edit-save="onRowEditSave"
-                    v-model:selection="selected">
-                    <template #header>
-                        <Toolbar class="p-0">
-                            <template #start>
+            <FullscreenDataTable :value="conditionalTableData" :paginator="true" :rows="10"
+                class="p-datatable-recipients"
+                :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'address', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
+                dataKey="id" @row-click="e => viewRecord(e.data)" filterDisplay="menu" responsiveLayout="scroll"
+                editMode="row" showGridlines :resizableColumns="true" columnResizeMode="fit" v-model:filters="filters"
+                v-model:editingRows="editingRows" contextMenu v-model:contextMenuSelection="cmSelection"
+                :rowClass="rowClass" stateStorage="local" stateKey="dt-recipient-session"
+                @rowContextmenu="onRowContextMenu" @row-edit-save="onRowEditSave" v-model:selection="selected">
+                <template #header>
+                    <Toolbar class="p-0">
+                        <template #start>
+                            <div class="p-actions-lg hidden md:block">
                                 <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
                                     class="p-button-outlined p-button-sm" @click="initFilters()" />
                                 <span class="p-buttonset">
@@ -327,160 +333,162 @@ CRUD.get();
                                 <Badge :value="pending_jobs.length"></Badge>
                                 <InputSwitch value="Show pending data" :binary="true" v-model="showPending" />
                                 <Loading :show="!dataLoaded"></Loading>
-                            </template>
-                            <template #end>
-                                <span class="p-input-icon-left ">
-                                    <i class="pi pi-search" />
-                                    <InputText v-model="filters['global'].value" placeholder="Search all columns" />
-                                </span>
-                            </template>
 
-                        </Toolbar>
+                            </div>
+                        </template>
+                        <template #end>
+                            <span class="p-input-icon-left ">
+                                <i class="pi pi-search" />
+                                <InputText v-model="filters['global'].value" placeholder="Search all columns" />
+                            </span>
+                        </template>
 
+                    </Toolbar>
+
+                </template>
+                <template #loading>
+                    Loading records, please wait...
+                </template>
+                <template #empty>
+                    No records found.
+                </template>
+
+
+                <Column selectionMode="multiple" headerStyle="width: 3em">
+                </Column>
+
+                <Column :sortable="true" field="id" header="id" style="max-width: 10%; text-align: center">
+                    <template #body="{ data }">
+                        {{ data.id }}
                     </template>
-                    <template #loading>
-                        Loading records, please wait...
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by id"></InputText>
                     </template>
-                    <template #empty>
-                        No records found.
+                </Column>
+                <Column :sortable="true" field="agency.name" header="Agency" filterField="agency.name">
+                    <template #body="{ data }">
+                        {{ data.agency.name }}
                     </template>
-
-
-                    <Column selectionMode="multiple" headerStyle="width: 3em">
-                    </Column>
-
-                    <Column :sortable="true" field="id" header="id" style="max-width: 10%; text-align: center">
-                        <template #body="{ data }">
-                            {{ data.id }}
-                        </template>
-                        <template #filter="{ filterModel }">
-                            <InputText type="text" v-model="filterModel.value" class="p-column-filter"
-                                placeholder="Search by id"></InputText>
-                        </template>
-                    </Column>
-                    <Column :sortable="true" field="agency.name" header="Agency" filterField="agency.name">
-                        <template #body="{ data }">
-                            {{ data.agency.name }}
-                        </template>
-                        <template #filter="{ filterModel, filterCallback }">
-                            <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                                class="p-column-filter" placeholder="Search by first name"></InputText>
-                        </template>
-                        <!-- <template #editor="{ data, field }">
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search by first name"></InputText>
+                    </template>
+                    <!-- <template #editor="{ data, field }">
                         <InputText v-model="data[field]" autofocus />
                     </template> -->
-                    </Column>
-                    <Column :sortable="true" field="firstName" header="First Name" filterField="firstName">
-                        <template #body="{ data }">
-                            {{ data.firstName }}
-                        </template>
-                        <template #filter="{ filterModel, filterCallback }">
-                            <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                                class="p-column-filter" placeholder="Search by first name"></InputText>
-                        </template>
-                        <template #editor="{ data, field }">
-                            <InputText v-model="data[field]" autofocus />
-                        </template>
-                    </Column>
-                    <Column :sortable="true" field="lastName" header="Last Name">
-                        <template #body="{ data }">
-                            {{ data.lastName }}
-                        </template>
-                        <template #filter="{ filterModel, filterCallback }">
-                            <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                                class="p-column-filter" placeholder="Search by last name"></InputText>
-                        </template>
-                        <template #editor="{ data, field }">
-                            <InputText v-model="data[field]" autofocus />
-                        </template>
-                    </Column>
-                    <Column :sortable="true" field="email" header="E-mail Address">
-                        <template #body="{ data }">
-                            {{ data.email }}
-                        </template>
-                        <template #filter="{ filterModel, filterCallback }">
-                            <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                                class="p-column-filter" placeholder="Search by e-mail address"></InputText>
-                        </template>
-                        <template #editor="{ data, field }">
-                            <InputText v-model="data[field]" autofocus />
-                        </template>
-                    </Column>
-                    <Column :sortable="true" field="address" header="Address">
-                        <template #body="{ data }">
-                            {{ data.address }}
-                        </template>
-                        <template #filter="{ filterModel, filterCallback }">
-                            <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                                class="p-column-filter" placeholder="Search by address"></InputText>
-                        </template>
-                        <template #editor="{ data, field }">
-                            <InputText v-model="data[field]" autofocus />
-                        </template>
-                    </Column>
-                    <Column :sortable="true" field="phoneHome" header="Home #">
-                        <template #body="{ data }">
-                            {{ data.phoneHome }}
-                        </template>
-                        <template #filter="{ filterModel, filterCallback }">
-                            <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                                class="p-column-filter" placeholder="Search home phone"></InputText>
-                        </template>
-                        <template #editor="{ data, field }">
-                            <InputText v-model="data[field]" autofocus />
-                        </template>
-                    </Column>
-                    <Column :sortable="true" field="phoneCell" header="Cell #">
-                        <template #body="{ data }">
-                            {{ data.phoneCell }}
-                        </template>
-                        <template #filter="{ filterModel, filterCallback }">
-                            <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                                class="p-column-filter" placeholder="Search cell phone"></InputText>
-                        </template>
-                        <template #editor="{ data, field }">
-                            <InputText v-model="data[field]" autofocus />
-                        </template>
-                    </Column>
-                    <Column :sortable="true" field="numMeals" header="Num. Meals">
-                        <template #body="{ data }">
-                            {{ data.numMeals }}
-                        </template>
-                        <template #filter="{ filterModel, filterCallback }">
-                            <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                                class="p-column-filter" placeholder="Search notes"></InputText>
-                        </template>
-                        <template #editor="{ data, field }">
-                            <InputText v-model="data[field]" autofocus />
-                        </template>
-                    </Column>
-                    <Column :sortable="true" :style="{ maxWidth: '600px' }" field="notes" header="Notes">
-                        <template #body="{ data }">
-                            {{ data.notes }}
-                        </template>
-                        <template #filter="{ filterModel, filterCallback }">
-                            <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                                class="p-column-filter" placeholder="Search notes"></InputText>
-                        </template>
-                        <template #editor="{ data, field }">
-                            <InputText v-model="data[field]" autofocus />
-                        </template>
-                    </Column>
-                    <Column frozen alignFrozen="right" style="width:10%; min-width:4rem" bodyStyle="text-align:center">
-                        <template #body="{ data }">
-                            <a @click="() => openAssignDialog(data)">
-                                <i class="pi pi-folder-open"></i>
-                            </a>
-                            <!-- <Button @click="() => openAssignDialog(data)" class="p-button-rounded"
+                </Column>
+                <Column :sortable="true" field="firstName" header="First Name" filterField="firstName">
+                    <template #body="{ data }">
+                        {{ data.firstName }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search by first name"></InputText>
+                    </template>
+                    <template #editor="{ data, field }">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
+                </Column>
+                <Column :sortable="true" field="lastName" header="Last Name">
+                    <template #body="{ data }">
+                        {{ data.lastName }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search by last name"></InputText>
+                    </template>
+                    <template #editor="{ data, field }">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
+                </Column>
+                <Column :sortable="true" field="email" header="E-mail Address">
+                    <template #body="{ data }">
+                        {{ data.email }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search by e-mail address"></InputText>
+                    </template>
+                    <template #editor="{ data, field }">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
+                </Column>
+                <Column :sortable="true" field="address" header="Address">
+                    <template #body="{ data }">
+                        {{ data.address }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search by address"></InputText>
+                    </template>
+                    <template #editor="{ data, field }">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
+                </Column>
+                <Column :sortable="true" field="phoneHome" header="Home #">
+                    <template #body="{ data }">
+                        {{ data.phoneHome }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search home phone"></InputText>
+                    </template>
+                    <template #editor="{ data, field }">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
+                </Column>
+                <Column :sortable="true" field="phoneCell" header="Cell #">
+                    <template #body="{ data }">
+                        {{ data.phoneCell }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search cell phone"></InputText>
+                    </template>
+                    <template #editor="{ data, field }">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
+                </Column>
+                <Column :sortable="true" field="numMeals" header="Num. Meals">
+                    <template #body="{ data }">
+                        {{ data.numMeals }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search notes"></InputText>
+                    </template>
+                    <template #editor="{ data, field }">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
+                </Column>
+                <Column :sortable="true" :style="{ maxWidth: '600px' }" field="notes" header="Notes">
+                    <template #body="{ data }">
+                        {{ data.notes }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search notes"></InputText>
+                    </template>
+                    <template #editor="{ data, field }">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
+                </Column>
+                <Column frozen alignFrozen="right" style="width:10%; min-width:4rem" bodyStyle="text-align:center">
+                    <template #body="{ data }">
+                        <a @click="() => openAssignDialog(data)">
+                            <i class="pi pi-folder-open"></i>
+                        </a>
+                        <!-- <Button @click="() => openAssignDialog(data)" class="p-button-rounded"
                             icon="pi pi-folder-open"></Button> -->
-                        </template>
-                    </Column>
-                    <Column frozen alignFrozen="right" :rowEditor="true" style="width:10%; min-width:4rem"
-                        bodyStyle="text-align:center">
-                    </Column>
+                    </template>
+                </Column>
+                <Column frozen alignFrozen="right" :rowEditor="true" style="width:10%; min-width:4rem"
+                    bodyStyle="text-align:center">
+                </Column>
 
-                    <ContextMenu :model="menuModel" ref="cm"></ContextMenu>
-                </FullscreenDataTable>
+                <ContextMenu :model="menuModel" ref="cm"></ContextMenu>
+            </FullscreenDataTable>
             <!-- </FullscreenDataTable> -->
         </template>
     </DataTableLayout>
