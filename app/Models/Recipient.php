@@ -51,4 +51,12 @@ class Recipient extends BasePersonRole
             $this->routes()->wherePivot('weekday', $weekday)->detach();
             $this->routes()->attach($route_id, ['weekday' => $weekday]);     //Set new route id
     }
+
+    public function scopePaused($query) {
+        return $query->where('paused', true);
+    }
+     
+    public function scopeUnpaused($query) {
+        return $query->where('paused', false);
+    }
 }

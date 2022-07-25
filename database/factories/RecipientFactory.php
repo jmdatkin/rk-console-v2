@@ -21,7 +21,8 @@ class RecipientFactory extends Factory
             //
             'agency_id' => Agency::all()->random()->id,
             'numMeals' => $this->faker->numberBetween(2,52),
-            'address' => $this->faker->address()
+            'address' => $this->faker->address(),
+            'paused' => false//(bool)(rand(0,1) == 1)
         ];
     }
 }

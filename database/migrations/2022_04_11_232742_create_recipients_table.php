@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('person_id')->nullable();
             $table->integer('numMeals')->default(0);
             $table->string('address');
+            $table->boolean('paused')->default(false);
             $table->foreign('person_id')->references('id')->on('people');
             $table->foreign('agency_id')->references('id')->on('agencies');
             $table->timestamps();
