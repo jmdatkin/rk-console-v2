@@ -52,6 +52,16 @@ class Recipient extends BasePersonRole
             $this->routes()->attach($route_id, ['weekday' => $weekday]);     //Set new route id
     }
 
+    public function pause() {
+        $this->paused = true;
+        $this->save();
+    }
+
+    public function unpause() {
+        $this->paused = false;
+        $this->save();
+    }
+
     public function scopePaused($query) {
         return $query->where('paused', true);
     }

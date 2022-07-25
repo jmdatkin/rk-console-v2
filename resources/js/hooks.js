@@ -1,6 +1,12 @@
 import { ref, computed } from "vue";
 import { toastBus } from "./app";
 
+const filterPaused = function(data) {
+    return computed(() => {
+        return data.value.filter(item => !item.paused);
+    });
+}
+
 const useBreadcrumb = (function () {
     // let items = {};
 

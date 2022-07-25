@@ -14,7 +14,12 @@ class OutreachReport {
 
         return DB::table('recipient_route')
         ->where('weekday',$weekday)
-        ->join('recipients','recipients.id','=','recipient_id')
+        // ->join('recipients','recipients.id','=','recipient_id')
+        ->join('recipients', function($join) {
+            $join->on('recipients.id','=','recipient_id')
+            // ->paused();  
+            ->where('paused', false);
+        })
         ->join('people', 'recipients.person_id', '=', 'people.id')
         ->get();
     }
