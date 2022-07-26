@@ -11,6 +11,7 @@ import Dialog from 'primevue/dialog';
 import Loading from '@/Components/Loading';
 import ContextMenu from 'primevue/contextmenu';
 import Badge from 'primevue/badge';
+import Chip from 'primevue/chip';
 import RecipientRouteAssignments from '@/Components/Assignments/RecipientRouteAssignments';
 import InputSwitch from 'primevue/inputswitch';
 import { Head } from '@inertiajs/inertia-vue3';
@@ -442,6 +443,23 @@ CRUD.get();
                             <InputText v-model="data[field]" autofocus />
                         </template>
                     </Column>
+                    <Column :sortable="true" field="paused" header="Status">
+                        <template #body="{ data }">
+                            <Chip :class="{
+                                'p-status-active' : !data.paused,
+                                'p-status-paused' : data.paused
+                            }">
+                            {{ data.paused ? 'Paused' : 'Active' }}
+                            </Chip>
+                        </template>
+                        <template #filter="{ filterModel, filterCallback }">
+                            <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                                class="p-column-filter" placeholder="Search notes"></InputText>
+                        </template>
+                        <template #editor="{ data, field }">
+                            <InputText v-model="data[field]" autofocus />
+                        </template>
+                    </Column>
                     <Column :sortable="true" field="numMeals" header="Num. Meals">
                         <template #body="{ data }">
                             {{ data.numMeals }}
@@ -497,5 +515,10 @@ CRUD.get();
 
 .pending {
     background-color: var(--blue-100) !important;
+}
+
+.p-chip.p-status-active {
+    background-color: var(--green-300);
+    color: var(--green-800);
 }
 </style>

@@ -149,4 +149,5 @@ export { useCRUD,
             usePending,
             fullName,
             useData,
-            useBreadcrumb };
+            useBreadcrumb,
+            filterPaused };

@@ -23,7 +23,11 @@ class MealReport
 
         $sub = DB::table('routes')
                 ->join('recipient_route', 'route_id','=','routes.id')
-                ->join('recipients','recipients.id','=','recipient_id')
+                // ->join('recipients','recipients.id','=','recipient_id')
+                ->join('recipients', function($join) {
+                   $join->on('recipients.id','=','recipient_id')
+                   ->where('paused', false);
+                })
                 ->select('route_id as agg_route_id')
                 ->where('weekday',$weekday)
                 ->groupBy('name')
@@ -31,7 +35,11 @@ class MealReport
 
         return DB::table('routes')
                 ->join('recipient_route', 'route_id','=','routes.id')
-                ->join('recipients','recipients.id','=','recipient_id')
+                // ->join('recipients','recipients.id','=','recipient_id')
+                ->join('recipients', function($join) {
+                   $join->on('recipients.id','=','recipient_id')
+                   ->where('paused', false);
+                })
                 ->join('people','people.id','=','person_id')
                 ->where('weekday',$weekday)
                 ->leftJoinSub($sub, 'agg', function($q) { $q->on('recipient_route.route_id','=','agg_route_id');})
