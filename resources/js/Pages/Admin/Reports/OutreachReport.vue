@@ -3,6 +3,7 @@ import ReportLayout from '@/Layouts/ReportLayout';
 import DateSelect from '../../../Components/DateSelect.vue';
 import OutreachReportTable from '../../../Components/OutreachReport/OutreachReportTable.vue';
 import { useBreadcrumb } from '../../../hooks';
+import ReportWeekView from '../../../Components/ReportWeekView.vue';
 </script>
 
 <template>
@@ -14,6 +15,7 @@ import { useBreadcrumb } from '../../../hooks';
 
             <DateSelect>
                 <template v-slot="{ date, openDateSelect }">
+                    <ReportWeekView></ReportWeekView>
                     <OutreachReportTable :date="date" :openDateSelect="openDateSelect">
                     </OutreachReportTable>
                 </template>
