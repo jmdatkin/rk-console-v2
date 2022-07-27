@@ -4,6 +4,21 @@ import DateSelect from '../../../Components/DateSelect.vue';
 import OutreachReportTable from '../../../Components/OutreachReport/OutreachReportTable.vue';
 import { useBreadcrumb } from '../../../hooks';
 import ReportWeekView from '../../../Components/ReportWeekView.vue';
+import axios from 'axios';
+
+// const data = ref([]);
+
+// const getData = function(day) {
+//     axios.get(route('report.outreach.data', { date: day }))
+//     .then(res => {
+//         data.value = res.data;
+//     });
+// };
+
+// const onTabChange = function(idx) {
+
+// }
+
 </script>
 
 <template>
@@ -15,7 +30,12 @@ import ReportWeekView from '../../../Components/ReportWeekView.vue';
 
             <DateSelect>
                 <template v-slot="{ date, openDateSelect }">
-                    <ReportWeekView></ReportWeekView>
+                    <ReportWeekView>
+                        <!-- <ReportWeekViewAttrLayer>
+                            <OutreachReportTable :date="date" :openDateSelect="openDateSelect">
+                            </OutreachReportTable>
+                        </ReportWeekViewAttrLayer> -->
+                    </ReportWeekView>
                     <OutreachReportTable :date="date" :openDateSelect="openDateSelect">
                     </OutreachReportTable>
                 </template>

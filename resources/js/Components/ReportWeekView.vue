@@ -1,30 +1,35 @@
 <script setup>
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
+import moment from 'moment';
+
+const props = defineProps(['date', 'openDateSelect']);
+
+const startOfWeek = moment(props.date).startOf('week');
 </script>
 
 <template>
 <TabView scrollable>
 	<TabPanel header="Sunday">
-		Content I
+		<slot :date="startOfWeek"></slot>
 	</TabPanel>
 	<TabPanel header="Monday">
-		Content I
+		<slot :date="startOfWeek.add(1,'day')"></slot>
 	</TabPanel>
 	<TabPanel header="Tuesday">
-		Content I
+		<slot :date="startOfWeek.add(2,'day')"></slot>
 	</TabPanel>
 	<TabPanel header="Wednesday">
-		Content I
+		<slot :date="startOfWeek.add(3,'day')"></slot>
 	</TabPanel>
 	<TabPanel header="Thursday">
-		Content I
+		<slot :date="startOfWeek.add(4,'day')"></slot>
 	</TabPanel>
 	<TabPanel header="Friday">
-		Content I
+		<slot :date="startOfWeek.add(5,'day')"></slot>
 	</TabPanel>
 	<TabPanel header="Saturday">
-		Content I
+		<slot :date="startOfWeek.add(6,'day')"></slot>
 	</TabPanel>
 </TabView>
 </template>
