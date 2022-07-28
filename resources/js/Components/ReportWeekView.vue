@@ -6,28 +6,28 @@ import TabPanel from 'primevue/tabpanel';
 <template>
 <TabView scrollable>
 	<TabPanel header="Sunday">
-		Content I
 	</TabPanel>
 	<TabPanel header="Monday">
-		Content I
 	</TabPanel>
 	<TabPanel header="Tuesday">
-		Content I
 	</TabPanel>
 	<TabPanel header="Wednesday">
-		Content I
 	</TabPanel>
 	<TabPanel header="Thursday">
-		Content I
 	</TabPanel>
 	<TabPanel header="Friday">
-		Content I
 	</TabPanel>
 	<TabPanel header="Saturday">
-		Content I
 	</TabPanel>
 </TabView>
 </template>
 
 <style lang="scss">
+div.p-tabview-panels {
+    display: none;
+}
+
+html div.p-tabview .p-tabview-nav li {
+    flex-grow: 1;
+}
 </style>
