@@ -5,6 +5,16 @@ import OutreachReportTable from '../../../Components/OutreachReport/OutreachRepo
 import { useBreadcrumb } from '../../../hooks';
 import ReportWeekView from '../../../Components/ReportWeekView.vue';
 import OutreachReportDateLayer from '../../../Components/OutreachReport/OutreachReportDateLayer.vue';
+import ReportWeekDataLayer from '../../../Components/ReportWeekDataLayer.vue';
+// import route from '../../../../../vendor/tightenco/ziggy/src/js';
+
+const getDataFunction = function(date) {
+    return axios.create({
+        baseURL: route('report.outreach.data'),
+        // data: { date },
+        method: 'get'
+    });
+};
 </script>
 
 <template>
@@ -16,7 +26,11 @@ import OutreachReportDateLayer from '../../../Components/OutreachReport/Outreach
 
             <DateSelect>
                 <template v-slot="{ date, openDateSelect }">
-                    <OutreachReportDateLayer :date="date" :openDateSelect="openDateSelect"></OutreachReportDateLayer>
+                    <!-- <OutreachReportDateLayer :date="date" :openDateSelect="openDateSelect"></OutreachReportDateLayer> -->
+                    <ReportWeekDataLayer :reportComponent="OutreachReportTable" :date="date" :openDateSelect="openDateSelect"
+                    :getDataFunction="getDataFunction"
+                    :requestURL="route('report.outreach.data')"
+                    ></ReportWeekDataLayer>
                 </template>
             </DateSelect>
         </template>
