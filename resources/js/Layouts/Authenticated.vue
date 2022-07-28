@@ -13,9 +13,9 @@ import AdminMenuBar from '../Components/AdminMenuBar.vue';
             </Header> -->
 
             <!-- Page Content -->
-            <main>
+            <!-- <main> -->
                 <slot />
-            </main>
+            <!-- </main> -->
         </div>
 
     </App>

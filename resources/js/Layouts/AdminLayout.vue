@@ -9,7 +9,7 @@ import AdminMenuBar from '../Components/AdminMenuBar.vue';
     <Header>
         <AdminMenuBar></AdminMenuBar>
     </Header>
-    <main class="md:p-4">
+    <main class="md:p-4 max-w-7xl mx-auto">
         <slot></slot>
     </main>
 </Authenticated>

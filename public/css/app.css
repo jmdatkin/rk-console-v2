@@ -807,6 +807,12 @@ select {
 .max-w-screen-2xl {
   max-width: 1536px;
 }
+.max-w-2xl {
+  max-width: 42rem;
+}
+.max-w-7xl {
+  max-width: 80rem;
+}
 .flex-1 {
   flex: 1 1 0%;
 }

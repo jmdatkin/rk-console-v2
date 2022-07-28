@@ -23,7 +23,7 @@ const props = defineProps(['data', 'date', 'openDateSelect']);
         class="p-datatable-sm"
         :showGridlines="true">
         <template #header>
-            <Button label="Change Date" icon="pi pi-calendar" @click="openDateSelect" />
+            <!-- <Button label="Change Date" icon="pi pi-calendar" @click="openDateSelect" /> -->
             {{ date }}
         </template>
 

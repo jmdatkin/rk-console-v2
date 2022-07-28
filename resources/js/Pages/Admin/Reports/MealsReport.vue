@@ -2,6 +2,7 @@
 import ReportLayout from '@/Layouts/ReportLayout';
 import DateSelect from '../../../Components/DateSelect.vue';
 import MealsReportTable from '../../../Components/MealsReport/MealsReportTable.vue';
+import ReportWeekDataLayer from '../../../Components/ReportWeekDataLayer';
 </script>
 
 <template>
@@ -13,8 +14,10 @@ import MealsReportTable from '../../../Components/MealsReport/MealsReportTable.v
 
             <DateSelect>
                 <template v-slot="{ date, openDateSelect }">
-                    <MealsReportTable :date="date" :openDateSelect="openDateSelect">
-                    </MealsReportTable>
+                    <ReportWeekDataLayer :reportComponent="MealsReportTable" :date="date" :openDateSelect="openDateSelect"
+                    :requestURL="route('report.meals.data')"></ReportWeekDataLayer>
+                    <!-- <MealsReportTable :date="date" :openDateSelect="openDateSelect">
+                    </MealsReportTable> -->
                 </template>
             </DateSelect>
         </template>
