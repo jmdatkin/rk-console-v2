@@ -16,9 +16,6 @@ import OutreachReportDateLayer from '../../../Components/OutreachReport/Outreach
 
             <DateSelect>
                 <template v-slot="{ date, openDateSelect }">
-                    <!-- <ReportWeekView></ReportWeekView>
-                    <OutreachReportTable :date="date" :openDateSelect="openDateSelect">
-                    </OutreachReportTable> -->
                     <OutreachReportDateLayer :date="date" :openDateSelect="openDateSelect"></OutreachReportDateLayer>
                 </template>
             </DateSelect>

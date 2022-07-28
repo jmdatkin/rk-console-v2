@@ -11,7 +11,6 @@ const startOfWeek = moment(props.date).startOf('week');
 <template>
 <TabView scrollable>
 	<TabPanel header="Sunday">
-<<<<<<< HEAD
 	</TabPanel>
 	<TabPanel header="Monday">
 	</TabPanel>
@@ -24,27 +23,6 @@ const startOfWeek = moment(props.date).startOf('week');
 	<TabPanel header="Friday">
 	</TabPanel>
 	<TabPanel header="Saturday">
-=======
-		<slot :date="startOfWeek"></slot>
-	</TabPanel>
-	<TabPanel header="Monday">
-		<slot :date="startOfWeek.add(1,'day')"></slot>
-	</TabPanel>
-	<TabPanel header="Tuesday">
-		<slot :date="startOfWeek.add(2,'day')"></slot>
-	</TabPanel>
-	<TabPanel header="Wednesday">
-		<slot :date="startOfWeek.add(3,'day')"></slot>
-	</TabPanel>
-	<TabPanel header="Thursday">
-		<slot :date="startOfWeek.add(4,'day')"></slot>
-	</TabPanel>
-	<TabPanel header="Friday">
-		<slot :date="startOfWeek.add(5,'day')"></slot>
-	</TabPanel>
-	<TabPanel header="Saturday">
-		<slot :date="startOfWeek.add(6,'day')"></slot>
->>>>>>> acb1551ecb4b69b9fabbb0018699e296a0379927
 	</TabPanel>
 </TabView>
 </template>

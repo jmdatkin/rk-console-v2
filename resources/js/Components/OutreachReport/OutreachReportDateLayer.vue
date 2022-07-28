@@ -15,7 +15,7 @@ const subheader = computed(() => {
     return `Week of ${moment(props.date).startOf('week').format("MMM DD YYYY")} through ${moment(props.date).endOf('week').format("MMM DD YYYY")}`;
 });
 
-const selectedIdx = ref(0);
+const selectedIdx = ref(moment(props.date).day());
 
 const data = reactive({
     0: [],
@@ -26,23 +26,21 @@ const data = reactive({
     5: [],
     6: []
 });
+const dataLoaded = ref(false);
 
 const getData = function () {
+    dataLoaded.value = false;
     weekdays.value.forEach((val, idx) => {
         axios.get(route('report.outreach.data', { date: DateAdapter.make(val) }))
             .then(res => data[idx] = res.data);
     });
+    dataLoaded.value = true;
 };
 
 const dayChangeHandler = function (e) {
     let { index } = e;
-    console.log(index);
-    // thisDate.value = startOfWeek.value.clone().add(index, 'days');
     selectedIdx.value = index;
-    // getData();
 };
-
-// const data = ref([]);
 
 onMounted(() => {
     getData();
@@ -53,7 +51,8 @@ onMounted(() => {
 <template>
     <Button class="p-button-text" icon="pi pi-chevron-left" label="Select Week" @click="openDateSelect"></Button>
     <h4 class="text-center">{{ subheader }}</h4>
+    <div v-if="dataLoaded">
     <ReportWeekView @tab-change="dayChangeHandler"></ReportWeekView>
-    <!-- <OutreachReportTable :date="thisDate" :openDateSelect="openDateSelect"></OutreachReportTable> -->
     <OutreachReportTable :data="data[selectedIdx]" :date="weekdays[selectedIdx]"></OutreachReportTable>
+    </div>
 </template>
