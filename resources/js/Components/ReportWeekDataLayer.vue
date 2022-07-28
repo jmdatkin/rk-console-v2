@@ -2,6 +2,7 @@
 import moment from 'moment';
 import { computed, onMounted, reactive, ref } from 'vue';
 import ReportWeekView from './ReportWeekView.vue';
+import Divider from 'primevue/divider';
 import { DateAdapter } from '../util';
 
 const props = defineProps(['date', 'openDateSelect', 'reportComponent', 'getDataFunction', 'requestURL']);
@@ -11,10 +12,11 @@ const weekdays = computed(() => {
 });
 
 const subheader = computed(() => {
-    return `Week of ${moment(props.date).startOf('week').format("MMM DD YYYY")} through ${moment(props.date).endOf('week').format("MMM DD YYYY")}`;
+    // return `Week of ${moment(props.date).startOf('week').format("MMM DD YYYY")} through ${moment(props.date).endOf('week').format("MMM DD YYYY")}`;
+    return `${moment(props.date).startOf('week').format("MMM DD YYYY")} - ${moment(props.date).endOf('week').format("MMM DD YYYY")}`;
 });
 
-const selectedIdx = ref(moment(props.date).day());
+const activeIndex = ref(moment(props.date).day());
 
 const data = reactive({
     0: [],
@@ -36,7 +38,7 @@ const getData = function () {
     dataLoaded.value = true;
 };
 
-const dayChangeHandler = e => selectedIdx.value = e.index;
+const dayChangeHandler = () => {};//e => activeIndex.value = e.index;
 
 onMounted(() => {
     getData();
@@ -45,10 +47,23 @@ onMounted(() => {
 </script>
 
 <template>
-    <Button class="p-button-text" icon="pi pi-chevron-left" label="Select Week" @click="openDateSelect"></Button>
-    <h4 class="text-center">{{ subheader }}</h4>
+    <div class="grid">
+        <div class="col-12 md:col-4">
+            <Button class="p-button-text" icon="pi pi-chevron-left" label="Select Week"
+                @click="openDateSelect"></Button>
+        </div>
+        <div class="col-12 md:col-4">
+            <h4 class="text-center font-small text-gray-700 font-semibold align-middle">{{ subheader }}</h4>
+        </div>
+        <div class="col md:col-4">
+        </div>
+    </div>
     <div v-if="dataLoaded">
-        <ReportWeekView @tab-change="dayChangeHandler"></ReportWeekView>
-        <component :is="reportComponent" :data="data[selectedIdx]" :date="weekdays[selectedIdx]"></component>
+        <ReportWeekView v-model:activeIndex="activeIndex" @tab-change="dayChangeHandler"></ReportWeekView>
+        <component :is="reportComponent" :data="data[activeIndex]" :date="weekdays[activeIndex]"></component>
     </div>
 </template>
+
+<style lang="scss" scoped>
+h4 {}
+</style>

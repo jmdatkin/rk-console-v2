@@ -24,7 +24,7 @@ const props = defineProps(['data', 'date', 'openDateSelect']);
         :showGridlines="true">
         <template #header>
             <!-- <Button label="Change Date" icon="pi pi-calendar" @click="openDateSelect" /> -->
-            {{ date }}
+            {{ DateAdapter.format(date) }}
         </template>
 
         <template #loading>

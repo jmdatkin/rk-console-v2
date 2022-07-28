@@ -65,6 +65,10 @@ const DateAdapter = {
         // return moment(date).tz('Etc/UTC').format(momentFormatString);
         console.log(date);
         return moment(date).tz('Etc/UTC').toISOString();
+    },
+
+    format: function(date) {
+        return moment(date).format("ddd MMM DD YYYY");
     }
 };
 
