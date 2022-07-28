@@ -18,6 +18,7 @@ return new class extends Migration
             // $table->foreignId('person_id')->constrained('people');
             $table->unsignedBigInteger('person_id');
             $table->foreign('person_id')->references('id')->on('people');
+            $table->json('settings');
             // $table->string('name');
             // $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
