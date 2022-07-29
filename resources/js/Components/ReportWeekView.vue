@@ -35,4 +35,9 @@ div.p-tabview-panels {
 html div.p-tabview .p-tabview-nav li {
     flex-grow: 1;
 }
+
+html a.p-tabview-nav-link {
+    // text-align: center;
+    place-content: center;
+}
 </style>

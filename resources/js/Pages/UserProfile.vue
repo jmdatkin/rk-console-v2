@@ -3,7 +3,9 @@ import BasePageLayout from '@/Layouts/BasePageLayout';
 import Avatar from 'primevue/avatar';
 import Divider from 'primevue/divider';
 import Card from 'primevue/card';
+import Panel from 'primevue/panel';
 import { ref, computed } from 'vue';
+import InfoItem from '../Components/InfoItem.vue';
 
 const props = defineProps(['data']);
 
@@ -19,21 +21,35 @@ const nameAbbr = computed(() => {
             Profile
         </template>
         <div class="grid">
-            <div class="col-12 sm:col-4">
-                <Card>
-                    <template #content>
+            <div class="col-12 md:col-4">
+                <Panel header="Account Information">
+                    <!-- <template #content> -->
+                        <div class="py-2 mb-2">
                         <Avatar :label="nameAbbr" size="large" />
                         {{ data.person.firstName }} {{ data.person.lastName }}
-                    </template>
-                </Card>
-            </div>
-            <div class="col-12 sm:col-6">
-                <Card>
-                    <template #content>
-                        Home Phone:
+                        </div>
+
+                        <InfoItem title="Email" class="mb-2">
+                        {{ data.person.email }}
+                        </InfoItem>
+                        <InfoItem title="Home Phone" class="mb-2">
                         {{ data.person.phoneHome }}
-                    </template>
-                </Card>
+                        </InfoItem>
+                        <InfoItem title="Cell Phone" class="mb-2">
+                        {{ data.person.phoneHome }}
+                        </InfoItem>
+                    <!-- </template> -->
+                </Panel>
+            </div>
+            <div class="col-12 md:col-6">
+                <Panel>
+                    <!-- <template #content> -->
+                        <h6>Account Management</h6>
+                        <ul class="list-disc list-outside pl-4">
+                            <li><a>Change Password</a></li>
+                        </ul>
+                    <!-- </template> -->
+                </Panel>
 
             </div>
         </div>

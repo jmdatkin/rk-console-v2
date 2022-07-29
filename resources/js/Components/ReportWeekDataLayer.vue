@@ -38,7 +38,7 @@ const getData = function () {
     dataLoaded.value = true;
 };
 
-const dayChangeHandler = () => {};//e => activeIndex.value = e.index;
+const dayChangeHandler = () => { };//e => activeIndex.value = e.index;
 
 onMounted(() => {
     getData();
@@ -49,11 +49,12 @@ onMounted(() => {
 <template>
     <div class="grid">
         <div class="col-12 md:col-4">
-            <Button class="p-button-text" icon="pi pi-chevron-left" label="Select Week"
+            <Button class="p-button-outlined" icon="pi pi-chevron-left" label="Choose Week"
                 @click="openDateSelect"></Button>
         </div>
         <div class="col-12 md:col-4">
-            <h4 class="text-center font-small text-gray-700 font-semibold align-middle">{{ subheader }}</h4>
+            <h4 class="text-center font-small text-gray-700 font-semibold align-middle"><span><i class="pi pi-calendar"></i>{{ subheader }}</span></h4>
+            
         </div>
         <div class="col md:col-4">
         </div>
