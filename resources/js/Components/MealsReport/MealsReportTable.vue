@@ -2,7 +2,7 @@
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
-import { DateAdapter } from '../../util';
+import { DateAdapter, visitRecipient } from '../../util';
 import { onMounted } from 'vue';
 import { useData } from '../../hooks';
 
@@ -21,6 +21,8 @@ const props = defineProps(['data', 'date', 'openDateSelect']);
     <DataTable :value="data" rowGroupMode="subheader" groupRowsBy="name" :paginator="true" :rows="10"
         responsiveLayout="scroll"
         class="p-datatable-sm"
+        @row-select="e => visitRecipient(e.data.recipient_id)"
+        selectionMode="single"
         :showGridlines="true">
         <template #header>
             <!-- <Button label="Change Date" icon="pi pi-calendar" @click="openDateSelect" /> -->

@@ -67,16 +67,23 @@ const DateAdapter = {
         return moment(date).tz('Etc/UTC').toISOString();
     },
 
-    format: function(date) {
+    format: function (date) {
         return moment(date).format("ddd MMM DD YYYY");
     }
 };
 
-const back = function() {
+const back = function () {
     Inertia.visit(window.history.back());
 };
 
-const momentFormatString = "MMDDYYYY";
+const visitRecipient = id => Inertia.visit(route('recipient.show', { id }));
+const visitDriver = id => Inertia.visit(route('driver.show', { id }));
+const visitPerson = id => Inertia.visit(route('person.show', { id }));
 
-// export { mergePersonObject, momentFormatString };
-export { mergePersonObject, parseSubstitutes, DateAdapter, back };
+export {
+    mergePersonObject,
+    parseSubstitutes,
+    DateAdapter,
+    back,
+    visitDriver, visitPerson, visitRecipient
+};
