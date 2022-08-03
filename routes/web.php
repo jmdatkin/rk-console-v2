@@ -44,21 +44,32 @@ use Inertia\Inertia;
 |
 */
 
+Route::prefix('settings')->group(function () {
+    Route::get('/', [SettingsController::class, 'get'])->name('settings');
+    Route::post('/save', [SettingsController::class, 'save'])->name('settings.save');
+    Route::get('/user', [SettingsController::class, 'get_user'])->name('settings.user');
+    Route::post('/user/save', [SettingsController::class, 'save_user'])->name('settings.user.save');
+});
+
+
 // Must be signed in
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/', [HomeController::class, 'handle']);
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile');
 
+
+    Route::get('usersettings', function () {
+        return Inertia::render('UserSettings');
+    });
+
+
     // Signed-in user must have admin role
     Route::middleware(['admin'])->group(function () {
 
-        Route::prefix('settings')->group(function() {
-        Route::get('/', [SettingsController::class, 'get'])->name('settings');
-        Route::post('/save', [SettingsController::class, 'save'])->name('settings.save');
+        Route::get('adminsettings', function () {
+            return Inertia::render('AdminSettings');
         });
-
-        Route::get('usersettings', function() { return Inertia::render('UserSettings'); });
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -76,7 +87,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('audits', [AuditViewController::class, 'index']);
 
-        Route::get('pendingjobs', function() {
+        Route::get('pendingjobs', function () {
             return Inertia::render('Admin/PendingJobs', [
                 'pending_jobs' => PendingJob::uncommitted()->get()
             ]);

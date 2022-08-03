@@ -35,17 +35,20 @@ class UserSettings
         // return UserSetting::where('user_id', $this->user->id)->where('key', $key)->first()->value;
     }
 
-    public function set($key, $value)
+    public function set($key, $value = null)
     {
         if (is_array($key)) {
             $values = array_map(function ($k, $v) {
                 return [
                     'key' => $k,
-                    'value' => $v
+                    'value' => $v,
+                    'user_id' => $this->user->id
                 ];
             }, array_keys($key), array_values($key));
             UserSetting::upsert(
-                $values + ['user_id' => $this->user->id],
+                // $values + ['user_id' => $this->user->id],
+                $values,
+                // array_merge($values, ['user_id' => $this->user->id]),
                 ['key'], ['value']
             );
             return true;
