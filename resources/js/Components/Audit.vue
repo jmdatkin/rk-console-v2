@@ -49,6 +49,7 @@ const formattedType = computed(() => {
         </div>
     </div>
     </div> -->
+    <div class="p-2">
     <div class="grid">
         <strong>{{ formattedDate }}</strong>
     </div>
@@ -72,5 +73,7 @@ const formattedType = computed(() => {
             </DataTable>
 
         </div>
+    </div>
+
     </div>
 </template>
