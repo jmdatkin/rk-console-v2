@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuditViewController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DriverRouteSubsController;
@@ -63,6 +64,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/', [RecipientsByRouteViewController::class, 'index'])->name('recipientsbyroute');
             Route::get('/data', [RecipientsByRouteViewController::class, 'data'])->name('recipientsbyroute.data');
         });
+
+
+        Route::get('audits', [AuditViewController::class, 'index']);
 
         Route::get('pendingjobs', function() {
             return Inertia::render('Admin/PendingJobs', [

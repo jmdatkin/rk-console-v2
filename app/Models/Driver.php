@@ -6,10 +6,11 @@ use App\Carbon\RkCarbon;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Driver extends BasePersonRole
+class Driver extends BasePersonRole implements Auditable
 {
-    use HasFactory;
+    use HasFactory, \OwenIt\Auditing\Auditable;
 
     protected $fillable = [''];
 
