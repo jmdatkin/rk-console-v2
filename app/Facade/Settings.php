@@ -15,9 +15,12 @@ class Settings
         $this->userSettings = $userSettings;
     }
 
-    public function get($key)
+    public function get($key = null)
     {
-        if (is_array($key)) {
+        if (is_null($key)) {
+            return Setting::all();
+        }
+        else if (is_array($key)) {
 
             // array_map(function ($k) {
             //     return Cache::remember($k, 2000, function () use ($k) {
@@ -28,7 +31,6 @@ class Settings
                 return Setting::whereIn('key', $key)->get();
             });
         } else {
-
             return Cache::remember($key, 2000, function () use ($key) {
                 return Setting::where('key', $key)->get()->value;
             });
@@ -44,6 +46,7 @@ class Settings
                     'value' => $v
                 ];
             }, array_keys($key), array_values($key));
+            // dd($values);
             Setting::upsert($values, ['id'], ['value']);
             return true;
         } else {
