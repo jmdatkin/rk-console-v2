@@ -23,6 +23,7 @@ use App\Http\Controllers\Resources\DriverExceptionController;
 use App\Http\Controllers\Resources\PersonController;
 use App\Http\Controllers\Resources\RecipientController;
 use App\Http\Controllers\Resources\RouteController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserProfileController;
 use App\Mail\DriverReportEmail;
 use App\Mail\DriverReportEmailMdTest;
@@ -51,6 +52,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Signed-in user must have admin role
     Route::middleware(['admin'])->group(function () {
+
+        Route::prefix('settings')->group(function() {
+        Route::get('/', [SettingsController::class, 'get'])->name('settings');
+        Route::post('/save', [SettingsController::class, 'save'])->name('settings.save');
+        });
+
+        Route::get('usersettings', function() { return Inertia::render('UserSettings'); });
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
