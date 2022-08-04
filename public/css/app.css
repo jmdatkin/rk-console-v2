@@ -726,14 +726,17 @@ select {
 .mr-5 {
   margin-right: 1.25rem;
 }
+.mb-8 {
+  margin-bottom: 2rem;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
 .mt-6 {
   margin-top: 1.5rem;
 }
 .mr-6 {
   margin-right: 1.5rem;
-}
-.mb-4 {
-  margin-bottom: 1rem;
 }
 .mt-1 {
   margin-top: 0.25rem;
@@ -779,6 +782,9 @@ select {
 }
 .h-20 {
   height: 5rem;
+}
+.h-10 {
+  height: 2.5rem;
 }
 .min-h-screen {
   min-height: 100vh;
@@ -897,6 +903,9 @@ select {
 }
 .justify-between {
   justify-content: space-between;
+}
+.justify-evenly {
+  justify-content: space-evenly;
 }
 .justify-items-center {
   justify-items: center;
@@ -1038,6 +1047,10 @@ select {
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
 }
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
 .pt-8 {
   padding-top: 2rem;
 }
@@ -1104,6 +1117,9 @@ select {
 .font-semibold {
   font-weight: 600;
 }
+.font-bold {
+  font-weight: 700;
+}
 .uppercase {
   text-transform: uppercase;
 }
@@ -1121,6 +1137,9 @@ select {
 }
 .tracking-widest {
   letter-spacing: 0.1em;
+}
+.tracking-tight {
+  letter-spacing: -0.025em;
 }
 .text-gray-500 {
   --tw-text-opacity: 1;
@@ -1267,6 +1286,7 @@ html, body, #app {
 }
 body {
   background-color: var(--surface-ground-b);
+  color: #495057;
   font-family: var(--font-family) !important;
 }
 h1, h2, h3, h4, h5, h6 {
@@ -1309,12 +1329,16 @@ a:hover {
 .p-datatable .p-sortable-column.p-highlight {
   background-color: transparent !important;
 }
+h1 {
+  font-size: 1.9rem;
+  font-weight: 600;
+}
 h2 {
   font-size: 2rem;
 }
 h3 {
-  font-size: 1.25rem;
-  font-weight: 500;
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 h4 {
   font-size: 1.15rem;

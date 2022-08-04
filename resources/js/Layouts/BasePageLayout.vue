@@ -9,24 +9,16 @@ import { useBreadcrumb } from '@/hooks'
 </script>
 
 <template>
-    <!-- <Authenticated> -->
     <AdminLayout>
         <section class="p-8">
-            <!-- <Breadcrumb home="/" :model="items">
-            </Breadcrumb> -->
-            <!-- <Panel> -->
-                <!-- <template #header> -->
-                    <span class="page-header">
-                        <h3>
-                        <slot name="header"></slot>
-                        </h3>
-                    </span>
-                <!-- </template> -->
-                <slot></slot>
-            <!-- </Panel> -->
+            <!-- <span class="page-header mb-8"> -->
+            <h1 class="mb-4">
+                <slot name="header"></slot>
+            </h1>
+            <!-- </span> -->
+            <slot></slot>
         </section>
     </AdminLayout>
-    <!-- </Authenticated> -->
 </template>
 
 <style lang="scss">
