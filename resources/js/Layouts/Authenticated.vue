@@ -7,7 +7,7 @@ import AdminMenuBar from '../Components/AdminMenuBar.vue';
 
 <template>
     <App>
-        <div class="app-wrapper">
+        <div class="app-wrapper h-full w-full">
             <!-- <Header>
                 <AdminMenuBar></AdminMenuBar>
             </Header> -->

@@ -11,19 +11,19 @@ import { useBreadcrumb } from '@/hooks'
 <template>
     <!-- <Authenticated> -->
     <AdminLayout>
-        <section>
+        <section class="p-8">
             <!-- <Breadcrumb home="/" :model="items">
             </Breadcrumb> -->
-            <Panel>
-                <template #header>
+            <!-- <Panel> -->
+                <!-- <template #header> -->
                     <span class="page-header">
                         <h3>
                         <slot name="header"></slot>
                         </h3>
                     </span>
-                </template>
+                <!-- </template> -->
                 <slot></slot>
-            </Panel>
+            <!-- </Panel> -->
         </section>
     </AdminLayout>
     <!-- </Authenticated> -->

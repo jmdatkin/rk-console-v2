@@ -10,6 +10,11 @@ html {
     font-size: 14pt;
 }
 
+html, body, #app {
+    height: 100vh;
+    width: 100vw;
+}
+
 body {
     background-color: var(--surface-ground-b);
 
