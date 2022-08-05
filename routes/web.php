@@ -43,6 +43,8 @@ use Inertia\Inertia;
 |
 */
 
+Route::get('test', fn () => Inertia::render('Test'));
+
 // Must be signed in
 Route::middleware(['auth', 'verified'])->group(function () {
 

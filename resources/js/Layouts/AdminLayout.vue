@@ -8,14 +8,8 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 
 <template>
     <Authenticated>
-        <!-- <Header>
-        <AdminMenuBar></AdminMenuBar>
-    </Header> -->
-        <div class="app-container flex h-full w-full">
-            <!-- <nav class="sidebar h-full basis-48">
-            .
-        </nav> -->
-            <aside class="h-full basis-48 shrink-0 grow-0 bg-white border-r">
+        <div class="app-container flex">
+            <nav class="top-0 h-screen sticky basis-48 shrink-0 grow-0 bg-white border-r block">
                 <div class="flex justify-center space-x-2 items-center border-b border-gray-200 px-2 py-3">
                     <ApplicationLogo class="h-8"></ApplicationLogo>
                     <span class="tracking-tight align-middle font-bold">
@@ -24,17 +18,13 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
                         </h4>
                     </span>
                 </div>
-                <NavSidebar></NavSidebar>
-            </aside>
-            <!-- <main class="flex-grow"> -->
-            <main class="flex-grow flex-shrink basis-0">
+              <NavSidebar></NavSidebar>
+            </nav>
+            <main class="flex-grow flex-shrink basis-0 overflow-x-hidden">
                 <slot></slot>
             </main>
 
         </div>
-        <!-- <main class="md:p-4 max-w-7xl mx-auto">
-        <slot></slot>
-    </main> -->
     </Authenticated>
 </template>
 

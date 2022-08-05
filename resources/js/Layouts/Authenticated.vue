@@ -7,23 +7,12 @@ import AdminMenuBar from '../Components/AdminMenuBar.vue';
 
 <template>
     <App>
-        <div class="app-wrapper h-full w-full">
-            <!-- <Header>
-                <AdminMenuBar></AdminMenuBar>
-            </Header> -->
-
-            <!-- Page Content -->
-            <!-- <main> -->
+        <div class="app-wrapper">
                 <slot />
-            <!-- </main> -->
         </div>
 
     </App>
 </template>
 
 <style lang="scss">
-.app-wrapper {
-    // padding: 10px;
-}
-
 </style>
