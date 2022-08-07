@@ -1,3 +1,5 @@
+import { Inertia } from "@inertiajs/inertia";
+
 const WEEKDAYS = {
     'mon': 'Monday',
     'tue': 'Tuesday',
@@ -82,6 +84,20 @@ const menuItems = [
             {
                 label: 'Totals',
                 command: () => Inertia.visit(route('report.totals'))
+            },
+        ]
+    },
+    {
+        label: 'Settings',
+        icon: 'pi pi-fw pi-gear',
+        items: [
+            {
+                label: 'Application Settings',
+                command: () => Inertia.visit(route('adminsettings'))
+            },
+            {
+                label: 'User Settings',
+                command: () => Inertia.visit(route('usersettings'))
             },
         ]
     }

@@ -27,7 +27,7 @@ const toggle = () => sidebarOpen.value = !sidebarOpen.value;
                 <NavSidebar></NavSidebar>
             </nav> -->
             <AdminNavSidebar
-                class="hidden md:block overflow-x-hidden overflow-y-scroll top-0 h-screen basis-48 shrink-0 grow-0 bg-white border-r">
+                class="hidden md:block sticky overflow-x-hidden overflow-y-scroll top-0 h-screen basis-48 shrink-0 grow-0 bg-white border-r">
             </AdminNavSidebar>
             <AdminMenuBar class="md:hidden"></AdminMenuBar>
             <main class="flex-grow flex-shrink overflow-x-hidden">
