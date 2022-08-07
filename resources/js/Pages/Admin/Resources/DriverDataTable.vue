@@ -24,6 +24,7 @@ import { mergePersonObject } from '@/util';
 import { driverFilters } from '@/filters';
 import DriverService from '@/Service/DriverService';
 import { useCRUD, usePending } from '@/hooks';
+import DatatableButtonSet from '../../../Components/DatatableButtonSet.vue';
 
 const props = defineProps(['pending_jobs', 'errors', 'message', 'csrf']);
 
@@ -290,12 +291,13 @@ CRUD.get();
                 <template #header>
                     <Toolbar class="p-0">
                         <template #start>
-                            <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
+                                <DatatableButtonSet @clearFilterClick="initFilters()" @addClick="openNewRecordDialog" @destroyClick="destroySelected" :selected="selected"></DatatableButtonSet>
+                            <!-- <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
                                 class="p-button-outlined" @click="initFilters()" />
                             <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
                                 @click="openNewRecordDialog" />
                             <Button :disabled="!selected || !selected.length" type="button" icon="pi pi-trash"
-                                label="Delete Records" class="p-button-alert" @click="destroySelected" />
+                                label="Delete Records" class="p-button-alert" @click="destroySelected" /> -->
                             <Badge :value="pending_jobs.length"></Badge>
                             <InputSwitch value="Show pending data" :binary="true" v-model="showPending" />
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"

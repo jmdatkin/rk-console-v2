@@ -16,6 +16,7 @@ import { useConfirm } from 'primevue/useconfirm';
 import { useToast } from 'primevue/usetoast';
 import { agencyFilters } from '@/filters';
 import AgencyService from '@/Service/AgencyService';
+import DatatableButtonSet from '../../../Components/DatatableButtonSet.vue';
 
 const props = defineProps(['data', 'errors', 'message', 'csrf']);
 
@@ -164,12 +165,13 @@ CRUD.get();
                 <template #header>
                     <Toolbar class="p-0">
                         <template #start>
-                            <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
+                                <DatatableButtonSet @clearFilterClick="initFilters()" @addClick="openNewRecordDialog" @destroyClick="destroySelected" :selected="selected"></DatatableButtonSet>
+                            <!-- <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
                                 class="p-button-outlined" @click="initFilters()" />
                             <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
                                 @click="openNewRecordDialog" />
                             <Button type="button" icon="pi pi-plus" label="Delete Records" class="p-button-alert"
-                                @click="destroySelected" />
+                                @click="destroySelected" /> -->
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/agencies/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
