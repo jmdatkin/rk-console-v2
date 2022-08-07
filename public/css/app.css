@@ -640,10 +640,6 @@ select {
 .relative {
   position: relative;
 }
-.sticky {
-  position: -webkit-sticky;
-  position: sticky;
-}
 .inset-0 {
   top: 0px;
   right: 0px;
@@ -778,14 +774,14 @@ select {
 .h-9 {
   height: 2.25rem;
 }
-.h-full {
-  height: 100%;
+.h-screen {
+  height: 100vh;
+}
+.h-4 {
+  height: 1rem;
 }
 .h-20 {
   height: 5rem;
-}
-.h-screen {
-  height: 100vh;
 }
 .min-h-screen {
   min-height: 100vh;
@@ -813,9 +809,6 @@ select {
 }
 .max-w-6xl {
   max-width: 72rem;
-}
-.max-w-7xl {
-  max-width: 80rem;
 }
 .max-w-screen-2xl {
   max-width: 1536px;
@@ -924,6 +917,9 @@ select {
 .overflow-x-hidden {
   overflow-x: hidden;
 }
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
 .break-all {
   word-break: break-all;
 }
@@ -998,6 +994,10 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(248 113 113 / var(--tw-bg-opacity));
 }
+.bg-gray-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+}
 .fill-current {
   fill: currentColor;
 }
@@ -1009,9 +1009,6 @@ select {
 }
 .p-0 {
   padding: 0px;
-}
-.p-8 {
-  padding: 2rem;
 }
 .p-4 {
   padding: 1rem;
@@ -1378,6 +1375,10 @@ h4 {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
+.hover\:bg-gray-400:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
+}
 .hover\:text-gray-500:hover {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
@@ -1537,12 +1538,24 @@ h4 {
 }
 @media (min-width: 768px) {
 
+  .md\:block {
+    display: block;
+  }
+
+  .md\:hidden {
+    display: none;
+  }
+
   .md\:w-8 {
     width: 2rem;
   }
 
-  .md\:p-4 {
-    padding: 1rem;
+  .md\:flex-row {
+    flex-direction: row;
+  }
+
+  .md\:p-8 {
+    padding: 2rem;
   }
 
   .md\:px-6 {

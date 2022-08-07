@@ -79,7 +79,8 @@ const viewDriver = function(id) {
         </div>
         <div class="grid">
 
-            <div class="col-12 lg:col-6">
+            <!-- <div class="col-12 lg:col-6"> -->
+            <div class="col-12">
                 <!-- <Panel>
                     <template #header> -->
                         <span>
@@ -91,7 +92,8 @@ const viewDriver = function(id) {
                         :date="DateAdapter.make(Date.now())"></RouteDriversTable>
                 <!-- </Panel> -->
             </div>
-            <div class="col-12 lg:col-6">
+            <!-- <div class="col-12 lg:col-6"> -->
+            <div class="col-12">
                 <Panel>
                     <template #header>
                         <span>
