@@ -22,6 +22,9 @@ const items = ref(menuItems);
         </div>
         <Menu :model="items">
         </Menu>
+        <div class="border-t border-gray-200 px-2 py-3">
+
+        </div>
     </nav>
 </template>
 
@@ -30,5 +33,34 @@ const items = ref(menuItems);
     border-radius: 0;
     border: 0;
     // height: 100%;
+}
+
+$scrollbar-color: rgb(225, 226, 228);
+
+// Use native mobile scrollbar
+@media only screen and (min-width: 768px) {
+
+    /* ===== Scrollbar CSS ===== */
+    /* Firefox */
+    nav {
+        scrollbar-width: thin;
+        scrollbar-color: $scrollbar-color transparent;
+    }
+
+    /* Chrome, Edge, and Safari */
+    nav::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    nav::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    nav::-webkit-scrollbar-thumb {
+        background-color: $scrollbar-color;
+        border-radius: 10px;
+        border: 3px solid #ffffff;
+    }
+
 }
 </style>
