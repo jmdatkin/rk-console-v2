@@ -20,7 +20,7 @@ const saveSettings = function () {
     axios.post(route('settings.user.save'), settings.value);
 };
 
-axios.get(route('settings.user')).then(res => {
+axios.get(route('settings.user.data')).then(res => {
     console.log(res.data);
     let d = {};
     res.data.forEach(data => {
@@ -33,7 +33,7 @@ axios.get(route('settings.user')).then(res => {
 <template>
     <BasePageLayout>
         <template #header>
-            Admin Settings
+            User Settings
         </template>
         <h3>Panel</h3>
         <div class="flex flex-col space-y-2">

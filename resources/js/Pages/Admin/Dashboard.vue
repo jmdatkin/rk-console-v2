@@ -107,24 +107,6 @@ const viewDriver = function(id) {
                 </Panel>
             </div>
         </div>
-        <div class="grid">
-            <div class="col-6">
-                <Panel header="Resources">
-                    <ul>
-                        <li>Recipients</li>
-                        <li>Drivers</li>
-                        <li>Routes</li>
-                        <li>Personnel</li>
-                        <li>Agencies</li>
-                    </ul>
-                </Panel>
-            </div>
-            <div class="col-6">
-                <Panel>
-
-                </Panel>
-            </div>
-        </div>
 
     </BasePageLayout>
 </template>

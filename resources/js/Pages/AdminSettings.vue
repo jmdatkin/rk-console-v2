@@ -20,7 +20,7 @@ const saveSettings = function () {
     axios.post(route('settings.save'), settings.value);
 };
 
-axios.get(route('settings')).then(res => {
+axios.get(route('settings.data')).then(res => {
     console.log(res.data);
     let d = {};
     res.data.forEach(data => {
@@ -33,9 +33,9 @@ axios.get(route('settings')).then(res => {
 <template>
     <BasePageLayout>
         <template #header>
-            Admin Settings
+            Application Settings
         </template>
-        <h3>Panel</h3>
+        <!-- <h3>Panel</h3> -->
         <div class="flex flex-col space-y-2">
             <InfoItem title="Timezone">
                 <TimezoneDropdown v-model="settings.timezone"></TimezoneDropdown>

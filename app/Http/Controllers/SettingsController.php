@@ -9,6 +9,10 @@ use Inertia\Inertia;
 class SettingsController extends Controller
 {
     public function index() {
+        return Inertia::render('AdminSettings');
+    }
+
+    public function index_user() {
         return Inertia::render('UserSettings');
     }
 

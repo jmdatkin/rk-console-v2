@@ -4,6 +4,7 @@ namespace App\Facade;
 
 use App\Models\Setting;
 use Carbon\Carbon;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 // use Facades\App\Facade\UserSettings;
@@ -47,7 +48,9 @@ class Settings
                 ];
             }, array_keys($key), array_values($key));
             // dd($values);
+            try {
             Setting::upsert($values, ['id'], ['value']);
+            } catch (QueryException $e) {}
             return true;
         } else {
 

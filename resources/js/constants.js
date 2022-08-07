@@ -93,15 +93,17 @@ const menuItems = [
     },
     {
         label: 'Settings',
-        icon: 'pi pi-fw pi-gear',
+        icon: 'pi pi-fw pi-cog',
         items: [
             {
                 label: 'Application Settings',
-                command: () => Inertia.visit(route('adminsettings'))
+        icon: 'pi pi-fw pi-cog',
+                command: () => Inertia.visit(route('settings'))
             },
             {
                 label: 'User Settings',
-                command: () => Inertia.visit(route('usersettings'))
+        icon: 'pi pi-fw pi-user',
+                command: () => Inertia.visit(route('settings.user'))
             },
         ]
     },

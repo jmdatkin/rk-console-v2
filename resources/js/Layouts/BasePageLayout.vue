@@ -10,7 +10,7 @@ import { useBreadcrumb } from '@/hooks'
 
 <template>
     <AdminLayout>
-        <section class="p-4 md:py-6 md:px-4">
+        <section class="p-4 md:py-6 md:px-5">
             <!-- <span class="page-header mb-8"> -->
             <h1 class="mb-4">
                 <slot name="header"></slot>

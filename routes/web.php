@@ -45,9 +45,11 @@ use Inertia\Inertia;
 */
 
 Route::prefix('settings')->group(function () {
-    Route::get('/', [SettingsController::class, 'get'])->name('settings');
+    Route::get('/', [SettingsController::class, 'index'])->name('settings');
+    Route::get('/data', [SettingsController::class, 'get'])->name('settings.data');
     Route::post('/save', [SettingsController::class, 'save'])->name('settings.save');
-    Route::get('/user', [SettingsController::class, 'get_user'])->name('settings.user');
+    Route::get('/user', [SettingsController::class, 'index_user'])->name('settings.user');
+    Route::get('/user/data', [SettingsController::class, 'get_user'])->name('settings.user.data');
     Route::post('/user/save', [SettingsController::class, 'save_user'])->name('settings.user.save');
 });
 
