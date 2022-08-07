@@ -51,6 +51,7 @@ Route::prefix('settings')->group(function () {
     Route::post('/user/save', [SettingsController::class, 'save_user'])->name('settings.user.save');
 });
 
+Route::get('test', fn () => Inertia::render('Test'));
 
 // Must be signed in
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -85,7 +86,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
 
-        Route::get('audits', [AuditViewController::class, 'index']);
+        Route::get('audits', [AuditViewController::class, 'index'])->name('audits');
 
         Route::get('pendingjobs', function () {
             return Inertia::render('Admin/PendingJobs', [

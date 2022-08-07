@@ -23,6 +23,7 @@ import { useCRUD, usePending } from '@/hooks';
 import RecipientService from '@/Service/RecipientService';
 import { Inertia } from '@inertiajs/inertia';
 import FullscreenDataTable from '../../../Components/FullscreenDataTable.vue';
+import DatatableButtonSet from '../../../Components/DatatableButtonSet.vue';
 
 const props = defineProps(['agencies', 'pending_jobs', 'csrf']);
 
@@ -315,7 +316,7 @@ CRUD.get();
                     <template #header>
                         <Toolbar class="p-0">
                             <template #start>
-                                <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
+                                <!-- <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
                                     class="p-button-outlined p-button-sm" @click="initFilters()" />
                                 <span class="p-buttonset">
                                     <Button icon="pi pi-plus" label="Add Record" class="p-button-success p-button-sm"
@@ -323,7 +324,8 @@ CRUD.get();
                                     <Button :disabled="!selected || !selected.length" icon="pi pi-trash"
                                         label="Delete Records" class="p-button-alert p-button-sm"
                                         @click="destroySelected" />
-                                </span>
+                                </span> -->
+                                <DatatableButtonSet @clearFilterClick="initFilters()" @addClick="openNewRecordDialog" @destroyClick="destroySelected" :selected="selected"></DatatableButtonSet>
                                 <Badge :value="pending_jobs.length"></Badge>
                                 <InputSwitch value="Show pending data" :binary="true" v-model="showPending" />
                                 <Loading :show="!dataLoaded"></Loading>

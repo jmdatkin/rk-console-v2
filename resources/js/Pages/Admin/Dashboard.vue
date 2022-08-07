@@ -79,19 +79,21 @@ const viewDriver = function(id) {
         </div>
         <div class="grid">
 
-            <div class="col-12 lg:col-6">
-                <Panel>
-                    <template #header>
+            <!-- <div class="col-12 lg:col-6"> -->
+            <div class="col-12">
+                <!-- <Panel>
+                    <template #header> -->
                         <span>
                             <i class="pi pi-car"></i>
                             Today's Drivers
                         </span>
-                    </template>
+                    <!-- </template> -->
                     <RouteDriversTable :onSelect="openDriverDialog" :value="routeDriver_data"
                         :date="DateAdapter.make(Date.now())"></RouteDriversTable>
-                </Panel>
+                <!-- </Panel> -->
             </div>
-            <div class="col-12 lg:col-6">
+            <!-- <div class="col-12 lg:col-6"> -->
+            <div class="col-12">
                 <Panel>
                     <template #header>
                         <span>
