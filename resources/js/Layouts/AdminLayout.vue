@@ -2,8 +2,7 @@
 import Authenticated from './Authenticated';
 import Header from '../Components/Header.vue';
 import AdminMenuBar from '../Components/AdminMenuBar.vue';
-import NavSidebar from '../Components/NavSidebar.vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import AdminNavSidebar from '../Components/AdminNavSidebar.vue';
 import { ref } from 'vue';
 
 const sidebarOpen = ref(true);
@@ -13,7 +12,7 @@ const toggle = () => sidebarOpen.value = !sidebarOpen.value;
 <template>
     <Authenticated>
         <div class="app-container flex flex-col md:flex-row">
-            <nav :class="sidebarOpen ? 'sidebar-open' : 'sidebar-closed'"
+            <!-- <nav :class="sidebarOpen ? 'sidebar-open' : 'sidebar-closed'"
                 class="hidden md:block overflow-x-hidden overflow-y-scroll top-0 h-screen basis-48 shrink-0 grow-0 bg-white border-r">
                 <a @click="toggle" label="Close" style="margin-left: 12rem"
                     class="absolute h-4 block bg-gray-200 hover:bg-gray-400">Close</a>
@@ -26,7 +25,10 @@ const toggle = () => sidebarOpen.value = !sidebarOpen.value;
                     </span>
                 </div>
                 <NavSidebar></NavSidebar>
-            </nav>
+            </nav> -->
+            <AdminNavSidebar
+                class="hidden md:block overflow-x-hidden overflow-y-scroll top-0 h-screen basis-48 shrink-0 grow-0 bg-white border-r">
+            </AdminNavSidebar>
             <AdminMenuBar class="md:hidden"></AdminMenuBar>
             <main class="flex-grow flex-shrink overflow-x-hidden">
                 <slot></slot>
