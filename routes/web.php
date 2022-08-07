@@ -68,7 +68,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
 
-        Route::get('audits', [AuditViewController::class, 'index']);
+        Route::get('audits', [AuditViewController::class, 'index'])->name('audits');
 
         Route::get('pendingjobs', function() {
             return Inertia::render('Admin/PendingJobs', [

@@ -56,6 +56,10 @@ const menuItems = [
                 command: () => Inertia.visit(route('pendingjobs'))
             },
             {
+                label: 'Audits',
+                command: () => Inertia.visit(route('audits'))
+            },
+            {
                 label: 'Recipients by Route',
                 command: () => Inertia.visit(route('recipientsbyroute'))
             },
@@ -98,6 +102,20 @@ const menuItems = [
             {
                 label: 'User Settings',
                 command: () => Inertia.visit(route('usersettings'))
+            },
+        ]
+    },
+    {
+        label: 'Profile',
+        icon: 'pi pi-fw pi-user',
+        items: [
+            {
+                label: 'Log Out',
+                command: () => Inertia.post(route('logout'))
+            },
+            {
+                label: 'User Profile',
+                command: () => Inertia.visit(route('profile'))
             },
         ]
     }
