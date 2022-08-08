@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuditViewController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DriverRouteSubsController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\Resources\DriverExceptionController;
 use App\Http\Controllers\Resources\PersonController;
 use App\Http\Controllers\Resources\RecipientController;
 use App\Http\Controllers\Resources\RouteController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserProfileController;
 use App\Mail\DriverReportEmail;
 use App\Mail\DriverReportEmailMdTest;
@@ -42,14 +44,35 @@ use Inertia\Inertia;
 |
 */
 
+Route::prefix('settings')->group(function () {
+    Route::get('/', [SettingsController::class, 'index'])->name('settings');
+    Route::get('/data', [SettingsController::class, 'get'])->name('settings.data');
+    Route::post('/save', [SettingsController::class, 'save'])->name('settings.save');
+    Route::get('/user', [SettingsController::class, 'index_user'])->name('settings.user');
+    Route::get('/user/data', [SettingsController::class, 'get_user'])->name('settings.user.data');
+    Route::post('/user/save', [SettingsController::class, 'save_user'])->name('settings.user.save');
+});
+
+Route::get('test', fn () => Inertia::render('Test'));
+
 // Must be signed in
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/', [HomeController::class, 'handle']);
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile');
 
+
+    Route::get('usersettings', function () {
+        return Inertia::render('UserSettings');
+    });
+
+
     // Signed-in user must have admin role
     Route::middleware(['admin'])->group(function () {
+
+        Route::get('adminsettings', function () {
+            return Inertia::render('AdminSettings');
+        });
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -64,7 +87,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/data', [RecipientsByRouteViewController::class, 'data'])->name('recipientsbyroute.data');
         });
 
-        Route::get('pendingjobs', function() {
+
+        Route::get('audits', [AuditViewController::class, 'index'])->name('audits');
+
+        Route::get('pendingjobs', function () {
             return Inertia::render('Admin/PendingJobs', [
                 'pending_jobs' => PendingJob::uncommitted()->get()
             ]);

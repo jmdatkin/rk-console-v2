@@ -193,6 +193,7 @@ return [
         
         App\Providers\RepositoryServiceProvider::class,
         App\Providers\DataTableServiceProvider::class,
+        OwenIt\Auditing\AuditingServiceProvider::class,
 
     ],
 

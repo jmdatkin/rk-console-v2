@@ -9,10 +9,11 @@ use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Recipient extends BasePersonRole
+class Recipient extends BasePersonRole implements Auditable
 {
-    use HasFactory;
+    use HasFactory, \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'agency_id',

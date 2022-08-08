@@ -23,6 +23,7 @@ import { useCRUD, usePending } from '@/hooks';
 import RecipientService from '@/Service/RecipientService';
 import { Inertia } from '@inertiajs/inertia';
 import FullscreenDataTable from '../../../Components/FullscreenDataTable.vue';
+import DatatableButtonSet from '../../../Components/DatatableButtonSet.vue';
 
 const props = defineProps(['agencies', 'pending_jobs', 'csrf']);
 
@@ -210,7 +211,8 @@ CRUD.get();
             }" :style="{ width: '50vw' }" :dismissableMask="true">
 
             <template #header>
-                <h5 class="font-medium">Add Record</h5>
+                <h5 class="font-semibold">Add Record</h5>
+                <!-- <strong>Add Record</strong> -->
             </template>
 
             <form @submit.prevent="submitNewRecord">
@@ -304,7 +306,7 @@ CRUD.get();
         </template>
         <template #table>
             <!-- <FullscreenDataTable> -->
-                <DataTable :value="conditionalTableData" :paginator="true" :rows="10" class="p-datatable-recipients"
+                <DataTable :value="conditionalTableData" :paginator="true" :rows="15" class="p-datatable-recipients"
                     :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'address', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
                     dataKey="id" @row-click="e => viewRecord(e.data)" filterDisplay="menu" responsiveLayout="scroll"
                     editMode="row" showGridlines :resizableColumns="true" columnResizeMode="fit"
@@ -315,7 +317,7 @@ CRUD.get();
                     <template #header>
                         <Toolbar class="p-0">
                             <template #start>
-                                <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
+                                <!-- <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
                                     class="p-button-outlined p-button-sm" @click="initFilters()" />
                                 <span class="p-buttonset">
                                     <Button icon="pi pi-plus" label="Add Record" class="p-button-success p-button-sm"
@@ -323,7 +325,8 @@ CRUD.get();
                                     <Button :disabled="!selected || !selected.length" icon="pi pi-trash"
                                         label="Delete Records" class="p-button-alert p-button-sm"
                                         @click="destroySelected" />
-                                </span>
+                                </span> -->
+                                <DatatableButtonSet @clearFilterClick="initFilters()" @addClick="openNewRecordDialog" @destroyClick="destroySelected" :selected="selected"></DatatableButtonSet>
                                 <Badge :value="pending_jobs.length"></Badge>
                                 <InputSwitch value="Show pending data" :binary="true" v-model="showPending" />
                                 <Loading :show="!dataLoaded"></Loading>
@@ -487,13 +490,6 @@ CRUD.get();
 </template>
 
 <style lang="scss">
-.p-datatable-table tr:hover {
-    background-color: var(--surface-100);
-}
-
-.p-datatable-table tr td {
-    cursor: pointer;
-}
 
 .pending {
     background-color: var(--blue-100) !important;
