@@ -18,6 +18,7 @@ import { useConfirm } from 'primevue/useconfirm';
 import { personFilters } from '@/filters';
 import { useCRUD } from '@/hooks';
 import PersonService from '@/Service/PersonService';
+import DatatableButtonSet from '../../../Components/DatatableButtonSet.vue';
 
 const props = defineProps(['message', 'csrf']);
 
@@ -152,7 +153,7 @@ onMounted(() => {
             }" :style="{ width: '50vw' }" :dismissableMask="true">
 
             <template #header>
-                <h5 class="font-medium">Add Record</h5>
+                <h5 class="font-semibold">Add Record</h5>
             </template>
 
             <form @submit.prevent="submitNewRecord">
@@ -205,7 +206,7 @@ onMounted(() => {
             Personnel
         </template>
         <template #table>
-            <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-persons"
+            <DataTable :value="data" :paginator="true" :rows="15" class="p-datatable-persons"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 @row-click="e => viewRecord(e.data)" columnResizeMode="fit" v-model:filters="filters"
@@ -214,12 +215,13 @@ onMounted(() => {
                 <template #header>
                     <Toolbar class="p-0">
                         <template #start>
-                            <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
+                                <DatatableButtonSet @clearFilterClick="initFilters()" @addClick="openNewRecordDialog" @destroyClick="destroySelected" :selected="selected"></DatatableButtonSet>
+                            <!-- <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
                                 class="p-button-outlined p-button-sm" @click="initFilters()" />
                             <Button type="button" icon="pi pi-plus" label="Add Record"
                                 class="p-button-sm p-button-success" @click="openNewRecordDialog" />
                             <Button :disabled="!selected || !selected.length" type="button" icon="pi pi-trash"
-                                label="Delete Records" class="p-button-alert p-button-sm" @click="destroySelected" />
+                                label="Delete Records" class="p-button-alert p-button-sm" @click="destroySelected" /> -->
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/drivers/import"
                                 class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
@@ -373,14 +375,5 @@ onMounted(() => {
 .p-chip.p-role-recipient {
     background-color: var(--green-200);
     color: var(--green-900);
-}
-
-.p-datatable-table tr:hover {
-    background-color: var(--surface-100);
-}
-
-.p-datatable-table tr td {
-    background-color: 'red';
-    cursor: pointer;
 }
 </style>

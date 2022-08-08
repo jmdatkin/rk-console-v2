@@ -2,32 +2,32 @@
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
-import InputSwitch from 'primevue/inputswitch';
-import { DateAdapter } from '../../util';
-import { computed, onMounted, ref } from 'vue';
-import { useData, filterPaused } from '../../hooks';
+import { DateAdapter, visitRecipient } from '../../util';
+import { onMounted, onUpdated, ref, watch } from 'vue';
+import { useData } from '../../hooks';
+import axios from 'axios';
 
-const props = defineProps(['date', 'openDateSelect']);
+const props = defineProps(['data', 'date', 'openDateSelect']);
 
-let dateString = DateAdapter.make(props.date);
+// let dateString = DateAdapter.make(props.date);
 
-const { data, dataLoaded, getData } = useData(route('report.outreach.data', { date: dateString }));
+// const { data, dataLoaded, getData } = useData(route('report.outreach.data', { date: dateString }));
 
-const dataFilterPaused = filterPaused(data);
+// const dataFilterPaused = filterPaused(data);
 
-const showPaused = ref(false);
+// const showPaused = ref(false);
 
-const tableData = computed(() => {
-    return showPaused.value ? data.value : dataFilterPaused.value;
-});
+// const tableData = computed(() => {
+//     return showPaused.value ? data.value : dataFilterPaused.value;
+// });
 
-const rowClass = (row) => {
-    return row.paused ? 'row-paused' : '';
-};
+// const rowClass = (row) => {
+//     return row.paused ? 'row-paused' : '';
+// };
 
-onMounted(() => {
-    getData();
-});
+// onMounted(() => {
+//     getData();
+// });
 </script>
 
 <template>
@@ -35,11 +35,11 @@ onMounted(() => {
         responsiveLayout="scroll"
         :rowClass="rowClass"
         class="p-datatable-sm"
+        @row-select="e => visitRecipient(e.data.id)"
+        selectionMode="single"
         :showGridlines="true">
         <template #header>
-            <Button label="Change Date" icon="pi pi-calendar" @click="openDateSelect" />
-            {{ date }}
-            <InputSwitch v-model="showPaused"></InputSwitch>
+
         </template>
 
         <template #loading>

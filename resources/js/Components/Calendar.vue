@@ -15,6 +15,14 @@ const calendarOptions = ref({
         dayGridPlugin,
         interactionPlugin
     ],
+    headerToolbar: {
+        start: '',
+        center: 'title',
+        end: 'today prev,next'
+    },
+    buttonText: {
+        today: 'Today'
+    },
     initialView: 'dayGridMonth',
     contentHeight: 'auto',
     selectable: true,

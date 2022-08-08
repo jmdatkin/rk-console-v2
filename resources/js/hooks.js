@@ -1,3 +1,4 @@
+import { Inertia } from "@inertiajs/inertia";
 import { ref, computed } from "vue";
 import { toastBus } from "./app";
 

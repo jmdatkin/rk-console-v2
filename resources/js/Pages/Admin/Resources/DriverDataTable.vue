@@ -24,6 +24,7 @@ import { mergePersonObject } from '@/util';
 import { driverFilters } from '@/filters';
 import DriverService from '@/Service/DriverService';
 import { useCRUD, usePending } from '@/hooks';
+import DatatableButtonSet from '../../../Components/DatatableButtonSet.vue';
 
 const props = defineProps(['pending_jobs', 'errors', 'message', 'csrf']);
 
@@ -203,7 +204,7 @@ CRUD.get();
             }" :style="{ width: '50vw' }" :dismissableMask="true">
 
             <template #header>
-                <h5 class="font-medium">Add Record</h5>
+                <h5 class="font-semibold">Add Record</h5>
             </template>
 
             <form @submit.prevent="submitNewRecord">
@@ -256,7 +257,7 @@ CRUD.get();
         <Dialog v-model:visible="assignDialog" :closeOnEscape="true" :closable="true" :modal="true"
             :dismissableMask="true">
             <template #header>
-                <h5 class="font-medium"></h5>
+                <h5 class="font-semibold"></h5>
             </template>
             <ManageDriver :driver_id="assignId">
 
@@ -279,7 +280,7 @@ CRUD.get();
             Drivers
         </template>
         <template #table>
-            <DataTable :value="conditionalTableData" :paginator="true" :rows="10" class="p-datatable-drivers"
+            <DataTable :value="conditionalTableData" :paginator="true" :rows="15" class="p-datatable-drivers"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 dataKey="id"
                 @row-click="e => viewRecord(e.data)"
@@ -290,12 +291,13 @@ CRUD.get();
                 <template #header>
                     <Toolbar class="p-0">
                         <template #start>
-                            <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
+                                <DatatableButtonSet @clearFilterClick="initFilters()" @addClick="openNewRecordDialog" @destroyClick="destroySelected" :selected="selected"></DatatableButtonSet>
+                            <!-- <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
                                 class="p-button-outlined" @click="initFilters()" />
                             <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
                                 @click="openNewRecordDialog" />
                             <Button :disabled="!selected || !selected.length" type="button" icon="pi pi-trash"
-                                label="Delete Records" class="p-button-alert" @click="destroySelected" />
+                                label="Delete Records" class="p-button-alert" @click="destroySelected" /> -->
                             <Badge :value="pending_jobs.length"></Badge>
                             <InputSwitch value="Show pending data" :binary="true" v-model="showPending" />
                             <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
@@ -426,12 +428,5 @@ CRUD.get();
 </template>
 
 <style lang="scss">
-    .p-datatable-table tr:hover {
-        background-color: var(--surface-100);
-    }
-
-    .p-datatable-table tr td {
-        background-color: 'red';
-        cursor: pointer;
-    }
+ 
 </style>

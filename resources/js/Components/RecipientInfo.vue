@@ -121,10 +121,10 @@ const submit = () => {
             <div class=col-12>
                 <InfoItem title="Address">
                     <InputText v-if="editing" v-model="form.address">
-                        {{ data.person.address }}
+                        {{ data.address }}
                     </InputText>
                     <span v-else>
-                        {{ data.person.address }}
+                        {{ data.address }}
                     </span>
                 </InfoItem>
             </div>

@@ -54,6 +54,7 @@ createInertiaApp({
             .use(ConfirmationService)
             .provide('toastBus', toastBus)
             // .use(VTooltip)
+            .directive('tooltip', Tooltip)
             .component('DataTable', DataTable)
             .component('Button', Button)
             .component('Head', Head)
