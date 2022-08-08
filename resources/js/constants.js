@@ -16,6 +16,24 @@ const menuItems = [
         command: () => Inertia.visit(route('dashboard'))
     },
     {
+        label: 'Reports',
+        icon: 'pi pi-fw pi-database',
+        items: [
+            {
+                label: 'Outreach Report',
+                command: () => Inertia.visit(route('report.outreach'))
+            },
+            {
+                label: 'Meals Report',
+                command: () => Inertia.visit(route('report.meals'))
+            },
+            {
+                label: 'Totals',
+                command: () => Inertia.visit(route('report.totals'))
+            },
+        ]
+    },
+    {
         label: 'Resources',
         icon: 'pi pi-fw pi-database',
         items: [
@@ -74,35 +92,17 @@ const menuItems = [
         ]
     },
     {
-        label: 'Reports',
-        icon: 'pi pi-fw pi-database',
-        items: [
-            {
-                label: 'Outreach Report',
-                command: () => Inertia.visit(route('report.outreach'))
-            },
-            {
-                label: 'Meals Report',
-                command: () => Inertia.visit(route('report.meals'))
-            },
-            {
-                label: 'Totals',
-                command: () => Inertia.visit(route('report.totals'))
-            },
-        ]
-    },
-    {
         label: 'Settings',
         icon: 'pi pi-fw pi-cog',
         items: [
             {
                 label: 'Application Settings',
-        icon: 'pi pi-fw pi-cog',
+                icon: 'pi pi-fw pi-cog',
                 command: () => Inertia.visit(route('settings'))
             },
             {
                 label: 'User Settings',
-        icon: 'pi pi-fw pi-user',
+                icon: 'pi pi-fw pi-user',
                 command: () => Inertia.visit(route('settings.user'))
             },
         ]
