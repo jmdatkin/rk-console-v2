@@ -206,7 +206,7 @@ onMounted(() => {
             Personnel
         </template>
         <template #table>
-            <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-persons"
+            <DataTable :value="data" :paginator="true" :rows="15" class="p-datatable-persons"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 @row-click="e => viewRecord(e.data)" columnResizeMode="fit" v-model:filters="filters"
@@ -375,14 +375,5 @@ onMounted(() => {
 .p-chip.p-role-recipient {
     background-color: var(--green-200);
     color: var(--green-900);
-}
-
-.p-datatable-table tr:hover {
-    background-color: var(--surface-100);
-}
-
-.p-datatable-table tr td {
-    background-color: 'red';
-    cursor: pointer;
 }
 </style>

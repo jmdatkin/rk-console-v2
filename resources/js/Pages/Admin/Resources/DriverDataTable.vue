@@ -280,7 +280,7 @@ CRUD.get();
             Drivers
         </template>
         <template #table>
-            <DataTable :value="conditionalTableData" :paginator="true" :rows="10" class="p-datatable-drivers"
+            <DataTable :value="conditionalTableData" :paginator="true" :rows="15" class="p-datatable-drivers"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 dataKey="id"
                 @row-click="e => viewRecord(e.data)"
@@ -428,12 +428,5 @@ CRUD.get();
 </template>
 
 <style lang="scss">
-    .p-datatable-table tr:hover {
-        background-color: var(--surface-100);
-    }
-
-    .p-datatable-table tr td {
-        background-color: 'red';
-        cursor: pointer;
-    }
+ 
 </style>

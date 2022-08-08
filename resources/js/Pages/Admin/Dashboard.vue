@@ -4,6 +4,7 @@ import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import RouteDriversTable from '@/Components/Dashboard/RouteDriversTable';
 import RouteRecipientsTable from '@/Components/Dashboard/RouteRecipientsTable';
+import Card from 'primevue/card';
 import moment from 'moment';
 import Divider from 'primevue/divider';
 import { Link, Head } from '@inertiajs/inertia-vue3';
@@ -15,7 +16,7 @@ import { ref } from 'vue';
 
 import { DateAdapter } from '../../util';
 
-defineProps(['routeDriver_data', 'routeRecipient_data'])
+defineProps(['routeDriver_data', 'routeRecipient_data', 'stats'])
 
 const recipientData = ref([]);
 const driverData = ref([]);
@@ -79,8 +80,8 @@ const viewDriver = function(id) {
         </div>
         <div class="grid">
 
-            <!-- <div class="col-12 lg:col-6"> -->
-            <div class="col-12">
+            <div class="col-12 2xl:col-6">
+            <!-- <div class="col-12"> -->
                 <!-- <Panel>
                     <template #header> -->
                         <span>
@@ -92,8 +93,8 @@ const viewDriver = function(id) {
                         :date="DateAdapter.make(Date.now())"></RouteDriversTable>
                 <!-- </Panel> -->
             </div>
-            <!-- <div class="col-12 lg:col-6"> -->
-            <div class="col-12">
+            <div class="col-12 2xl:col-6">
+            <!-- <div class="col-12"> -->
                 <Panel>
                     <template #header>
                         <span>
@@ -105,6 +106,51 @@ const viewDriver = function(id) {
                         :date="DateAdapter.make(Date.now())">
                     </RouteRecipientsTable>
                 </Panel>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="col-12 md:col-6 lg:col-4">
+                <Card>
+                    <template #content>
+                <div class="flex flex-col">
+                    <span>
+                {{ stats.recipients.total }} total recipients
+                    </span>
+                    <span>
+                {{ stats.recipients.createdThisWeek }} added this week
+                    </span>
+                </div>
+                    </template>
+                </Card>
+            </div>
+            <div class="col-12 md:col-6 lg:col-4">
+                <Card>
+                    <template #content>
+                <div class="flex flex-col">
+                    <span>
+                {{ stats.drivers.total }} total drivers
+                    </span>
+                    <span>
+                {{ stats.drivers.createdThisWeek }} added this week
+                    </span>
+                </div>
+                    </template>
+                </Card>
+            </div>
+            <div class="col-12 md:col-6 lg:col-4">
+                <Card>
+                    <template #content>
+                <div class="flex flex-col">
+                    <span>
+                {{ stats.person.total }} total people
+                    </span>
+                    <span>
+                {{ stats.person.createdThisWeek }} added this week
+                    </span>
+                </div>
+                    </template>
+                </Card>
             </div>
         </div>
 

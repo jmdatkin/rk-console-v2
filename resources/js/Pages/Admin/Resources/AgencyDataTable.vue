@@ -158,7 +158,7 @@ CRUD.get();
             Agencies
         </template>
         <template #table>
-            <DataTable :value="data" :paginator="true" :rows="10" class="p-datatable-agencies"
+            <DataTable :value="data" :paginator="true" :rows="15" class="p-datatable-agencies"
                 :globalFilterFields="['id', 'name', 'notes']" filterDisplay="menu" responsiveLayout="scroll"
                 editMode="row" showGridlines :resizableColumns="true" columnResizeMode="fit" v-model:filters="filters"
                 v-model:editingRows="editingRows" @row-edit-save="onRowEditSave" v-model:selection="selected">

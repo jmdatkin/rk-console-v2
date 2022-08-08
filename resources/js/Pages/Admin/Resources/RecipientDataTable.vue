@@ -305,7 +305,7 @@ CRUD.get();
         </template>
         <template #table>
             <!-- <FullscreenDataTable> -->
-                <DataTable :value="conditionalTableData" :paginator="true" :rows="10" class="p-datatable-recipients"
+                <DataTable :value="conditionalTableData" :paginator="true" :rows="15" class="p-datatable-recipients"
                     :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'address', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
                     dataKey="id" @row-click="e => viewRecord(e.data)" filterDisplay="menu" responsiveLayout="scroll"
                     editMode="row" showGridlines :resizableColumns="true" columnResizeMode="fit"
@@ -489,13 +489,6 @@ CRUD.get();
 </template>
 
 <style lang="scss">
-.p-datatable-table tr:hover {
-    background-color: var(--surface-100);
-}
-
-.p-datatable-table tr td {
-    cursor: pointer;
-}
 
 .pending {
     background-color: var(--blue-100) !important;
