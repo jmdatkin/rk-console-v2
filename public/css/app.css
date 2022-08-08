@@ -1019,12 +1019,6 @@ select {
 .p-4 {
   padding: 1rem;
 }
-.p-16 {
-  padding: 4rem;
-}
-.p-12 {
-  padding: 3rem;
-}
 .p-8 {
   padding: 2rem;
 }
@@ -1360,6 +1354,10 @@ h4 {
   font-size: 1.15rem;
   font-weight: 500;
 }
+h5 {
+  font-size: 1rem;
+  font-weight: 500;
+}
 .p-datatable-tbody > tr > td {
   padding: 0.25rem 0.5rem !important;
 }
@@ -1657,11 +1655,6 @@ h4 {
     padding-right: 2rem;
   }
 
-  .lg\:px-10 {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-  }
-
   .lg\:text-5xl {
     font-size: 3rem;
     line-height: 1;
@@ -1669,18 +1662,8 @@ h4 {
 }
 @media (min-width: 1280px) {
 
-  .xl\:bg-red-200 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(254 202 202 / var(--tw-bg-opacity));
-  }
-
   .xl\:px-12 {
     padding-left: 3rem;
     padding-right: 3rem;
-  }
-
-  .xl\:px-10 {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
   }
 }

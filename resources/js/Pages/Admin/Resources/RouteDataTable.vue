@@ -134,7 +134,7 @@ CRUD.get();
             }" :style="{ width: '50vw' }" :dismissableMask="true">
 
             <template #header>
-                <h5 class="font-medium">Add Record</h5>
+                <h5 class="font-semibold">Add Record</h5>
             </template>
 
             <form @submit.prevent="submitNewRecord">
