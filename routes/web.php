@@ -198,6 +198,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('meals', [MealReportController::class, 'index'])->name('report.meals');
             Route::get('meals/data', [MealReportController::class, 'data'])->name('report.meals.data');
 
+            Route::get('outreach/{date}', [OutreachReportController::class, 'report'])->name('report.outreach.report');
             Route::get('outreach', [OutreachReportController::class, 'index'])->name('report.outreach');
             Route::get('outreach/data', [OutreachReportController::class, 'data'])->name('report.outreach.data');
 

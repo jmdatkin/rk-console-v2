@@ -16,7 +16,12 @@ class OutreachReportController extends Controller
     }
 
     public function index() {
-        return Inertia::render('Admin/Reports/OutreachReport');
+        // return Inertia::render('Admin/Reports/OutreachReport');
+        return Inertia::render('Admin/DateSelectLanding', ['redirect_route' => 'report.outreach']);
+    }
+
+    public function report($date) {
+        return Inertia::render('Admin/Reports/OutreachReport', ['date' => $date]);
     }
 
     public function data(Request $request) {
