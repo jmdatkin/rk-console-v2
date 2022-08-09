@@ -70,6 +70,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Signed-in user must have admin role
     Route::middleware(['admin'])->group(function () {
 
+        Route::get('committest', function () {
+            PendingJob::uncommitted()->get()->each(function ($job) {
+                $job->commit();
+            });
+        });
+
         Route::get('adminsettings', function () {
             return Inertia::render('AdminSettings');
         });
@@ -195,7 +201,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('driver/data', [DriverReportController::class, 'data']);
             Route::get('texter', [TexterReportController::class, 'index']);
             Route::get('texter/data', [TexterReportController::class, 'data']);
-            
+
             Route::get('meals/{date}', [MealReportController::class, 'report'])->name('report.meals.report');
             Route::get('meals', [MealReportController::class, 'index'])->name('report.meals');
             Route::get('meals/data', [MealReportController::class, 'data'])->name('report.meals.data');

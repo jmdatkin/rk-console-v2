@@ -30,3 +30,9 @@ const activeIndex = ref(moment(props.date).day());
 </TabView>
 
 </template>
+
+<style lang="scss">
+.p-tabview-panels {
+	display: none;
+}
+</style>
