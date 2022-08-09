@@ -3,21 +3,11 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';
 import Row from 'primevue/row';
-import Button from 'primevue/button';
 import { DateAdapter } from '../../util';
-import { onMounted } from 'vue';
-import { useData } from '../../hooks';
 import { WEEKDAYS } from '@/constants';
 
 const props = defineProps(['date', 'data']);
 
-// let dateString = DateAdapter.make(props.date);
-
-// const { data, dataLoaded, getData } = useData(route('report.totals.data'));
-
-// onMounted(() => {
-//     getData();
-// });
 </script>
 
 <template>
