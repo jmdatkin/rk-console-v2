@@ -9,15 +9,15 @@ import { onMounted } from 'vue';
 import { useData } from '../../hooks';
 import { WEEKDAYS } from '@/constants';
 
-const props = defineProps(['date', 'openDateSelect']);
+const props = defineProps(['date', 'data']);
 
-let dateString = DateAdapter.make(props.date);
+// let dateString = DateAdapter.make(props.date);
 
-const { data, dataLoaded, getData } = useData(route('report.totals.data'));
+// const { data, dataLoaded, getData } = useData(route('report.totals.data'));
 
-onMounted(() => {
-    getData();
-});
+// onMounted(() => {
+//     getData();
+// });
 </script>
 
 <template>
@@ -25,8 +25,7 @@ onMounted(() => {
         sortField="weekday"
         rowGroupMode="rowspan" groupRowsBy="weekday" :showGridlines="true">
         <template #header>
-            <Button label="Change Date" icon="pi pi-calendar" @click="openDateSelect" />
-            {{ date }}
+            {{ DateAdapter.format(date) }}
         </template>
 
         <template #loading>

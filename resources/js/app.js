@@ -41,7 +41,8 @@ const appName = window.document.getElementsByTagName('title')[0]?.innerText || '
 const toastBus = mitt();
 
 // moment.tz.setDefault('Etc/UTC');
-moment().utc().utcOffset("-4:00");
+moment.tz.setDefault('America/New_York');
+// moment().utc().utcOffset("-4:00");
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

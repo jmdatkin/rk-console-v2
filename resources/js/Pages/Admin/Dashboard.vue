@@ -12,7 +12,7 @@ import Panel from 'primevue/panel';
 import RecipientInfo from '@/Components/RecipientInfo';
 import DriverInfo from '@/Components/DriverInfo';
 import { Inertia } from '@inertiajs/inertia';
-import { ref } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 
 import { DateAdapter } from '../../util';
 
@@ -41,6 +41,18 @@ const openDriverDialog = function (row) {
 const viewDriver = function(id) {
     Inertia.visit(route('driver.show', id));
 };
+
+const todayDatetime = ref(moment.tz().utcOffset(-240));
+
+let iid;
+
+onMounted(() => {
+iid = setInterval(() => todayDatetime.value = moment.tz().utcOffset(-240), 1000);
+})
+
+onBeforeUnmount(() => {
+clearInterval(iid);
+});
 </script>
 
 <template>
@@ -75,7 +87,8 @@ const viewDriver = function(id) {
         </template>
         <div class="grid">
             <div class="col-12">
-                <h3>{{ moment().format("dddd DD MMM YYYY HH:mm:ss") }}</h3>
+                <!-- <h3>{{ moment.tz().utcOffset(-240).format("dddd DD MMM YYYY hh:mm A") }}</h3> -->
+                <h3>{{ todayDatetime.format("dddd DD MMM YYYY hh:mm A") }}</h3>
             </div>
         </div>
         <div class="grid">
@@ -90,7 +103,7 @@ const viewDriver = function(id) {
                         </span>
                     </template>
                     <RouteDriversTable :onSelect="openDriverDialog" :value="routeDriver_data"
-                        :date="DateAdapter.make(Date.now())"></RouteDriversTable>
+                        :date="DateAdapter.make(moment.tz().utcOffset(-240))"></RouteDriversTable>
                 </Panel>
             </div>
             <div class="col-12 2xl:col-6">
@@ -103,7 +116,7 @@ const viewDriver = function(id) {
                         </span>
                     </template>
                     <RouteRecipientsTable :onSelect="openRecipientDialog" :value="routeRecipient_data"
-                        :date="DateAdapter.make(Date.now())">
+                        :date="DateAdapter.make(moment.tz().utcOffset(-240))">
                     </RouteRecipientsTable>
                 </Panel>
             </div>

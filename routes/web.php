@@ -195,6 +195,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('driver/data', [DriverReportController::class, 'data']);
             Route::get('texter', [TexterReportController::class, 'index']);
             Route::get('texter/data', [TexterReportController::class, 'data']);
+            
+            Route::get('meals/{date}', [MealReportController::class, 'report'])->name('report.meals.report');
             Route::get('meals', [MealReportController::class, 'index'])->name('report.meals');
             Route::get('meals/data', [MealReportController::class, 'data'])->name('report.meals.data');
 
@@ -202,6 +204,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('outreach', [OutreachReportController::class, 'index'])->name('report.outreach');
             Route::get('outreach/data', [OutreachReportController::class, 'data'])->name('report.outreach.data');
 
+            Route::get('totals/{date}', [TotalsReportController::class, 'report'])->name('report.totals.report');
             Route::get('totals', [TotalsReportController::class, 'index'])->name('report.totals');
             Route::get('totals/data', [TotalsReportController::class, 'data'])->name('report.totals.data');
         });
