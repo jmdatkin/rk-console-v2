@@ -17,11 +17,11 @@ class OutreachReportController extends Controller
 
     public function index() {
         // return Inertia::render('Admin/Reports/OutreachReport');
-        return Inertia::render('Admin/DateSelectLanding', ['redirect_route' => 'report.outreach']);
+        return Inertia::render('Admin/DateSelectLanding', ['redirect_route' => 'report.outreach', 'header' => 'Outreach Report']);
     }
 
     public function report($date) {
-        return Inertia::render('Admin/Reports/OutreachReport', ['date' => $date]);
+        return Inertia::render('Admin/Reports/OutreachReport', ['date' => $date, 'data' => $this->report->data(RkCarbon::createFromFormat('m-d-Y', $date))]);
     }
 
     public function data(Request $request) {

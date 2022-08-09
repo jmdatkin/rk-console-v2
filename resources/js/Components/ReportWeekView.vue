@@ -6,24 +6,22 @@ import moment from 'moment';
 const props = defineProps(['date', 'openDateSelect']);
 
 const startOfWeek = moment(props.date).startOf('week');
+
+const days = moment.weekdays.reduce((carry, weekday, idx) => {
+	let obj = {};
+	obj[weekday] = startOfWeek.clone().day(idx);
+	return {obj, ...carry};
+}, {});
 </script>
 
 <template>
 <TabView scrollable>
-	<TabPanel header="Sunday">
-	</TabPanel>
-	<TabPanel header="Monday">
-	</TabPanel>
-	<TabPanel header="Tuesday">
-	</TabPanel>
-	<TabPanel header="Wednesday">
-	</TabPanel>
-	<TabPanel header="Thursday">
-	</TabPanel>
-	<TabPanel header="Friday">
-	</TabPanel>
-	<TabPanel header="Saturday">
-	</TabPanel>
+	
+	<TabPanel v-for="(dayName, day) in moment.weekdays()"
+	header="weekday"
+	@click="$emit('weekday-select', day)"
+	></TabPanel>
+
 </TabView>
 </template>
 
