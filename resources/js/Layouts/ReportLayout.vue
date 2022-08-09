@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 import BasePageLayout from './BasePageLayout';
 </script>
 
@@ -10,7 +9,9 @@ import BasePageLayout from './BasePageLayout';
         </template>
         <slot></slot>
         <div class="report-wrapper card">
-            <slot name="report"></slot>
+            <div class="p-2 shadow-sm border space-y-2 bg-white">
+                <slot name="report"></slot>
+            </div>
         </div>
     </BasePageLayout>
 </template>

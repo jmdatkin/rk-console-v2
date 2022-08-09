@@ -7,12 +7,6 @@ import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps(['baseURL','date']);
 
-
-// const days = moment.weekdays().reduce((carry, weekday, idx) => {
-// 	let obj = {};
-// 	obj[weekday] = moment(props.date).day(idx);
-// 	return {obj, ...carry};
-// }, {});
 const days = ref({});
 
 moment.weekdays().forEach((day,idx) => {
@@ -30,27 +24,9 @@ const activeIndex = ref(moment(props.date).day());
 
 <template>
 <TabView scrollable @tab-click="visitDay" v-model:activeIndex="activeIndex">
-
 	<TabPanel v-for="(dayName, day) in moment.weekdays()"
 	:header="dayName"
 	></TabPanel>
-
-
-
-	<!-- <TabPanel header="Sunday">
-	</TabPanel>
-	<TabPanel header="Monday">
-	</TabPanel>
-	<TabPanel header="Tuesday">
-	</TabPanel>
-	<TabPanel header="Wednesday">
-	</TabPanel>
-	<TabPanel header="Thursday">
-	</TabPanel>
-	<TabPanel header="Friday">
-	</TabPanel>
-	<TabPanel header="Saturday">
-	</TabPanel> -->
 </TabView>
 
 </template>
