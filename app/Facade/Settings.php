@@ -41,16 +41,16 @@ class Settings
     public function set($key, $value = null)
     {
         if (is_array($key)) {
-            $values = array_map(function ($k, $v) {
+            $values = array_values(array_map(function ($k, $v) {
                 return [
                     'key' => $k,
                     'value' => $v
                 ];
-            }, array_keys($key), array_values($key));
-            // dd($values);
+            }, array_keys($key), array_values($key)));
             try {
-            Setting::upsert($values, ['id'], ['value']);
-            } catch (QueryException $e) {}
+            Setting::upsert($values, ['key'], ['value']);
+            } catch (QueryException $e) {
+            }
             return true;
         } else {
 
