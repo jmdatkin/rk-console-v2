@@ -7,7 +7,8 @@ import { DateAdapter } from '../../util';
 const props = defineProps(['redirect_route', 'header']);
 
 const redirect = function(date) {
-    Inertia.visit(`${route(props.redirect_route)}/${DateAdapter.formatUrl(date)}`);
+    // Inertia.visit(`${route(props.redirect_route)}/${DateAdapter.formatUrl(date)}`);
+    Inertia.visit(`${Inertia.page.url}/${DateAdapter.formatUrl(date)}`);
 };
 
 const onSelect = function(event) {
