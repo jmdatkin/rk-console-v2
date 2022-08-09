@@ -28,7 +28,7 @@ const menuItems = [
                 command: () => Inertia.visit(route('report.meals'))
             },
             {
-                label: 'Totals',
+                label: 'Totals Report',
                 command: () => Inertia.visit(route('report.totals'))
             },
         ]
@@ -119,6 +119,16 @@ const menuItems = [
                 label: 'User Profile',
                 command: () => Inertia.visit(route('profile'))
             },
+        ]
+    },
+    {
+        label: 'Links',
+        icon: 'pi pi-fw pi-paper',
+        items: [
+            {
+                label: 'Docs',
+                command: () => Inertia.visit(route('docs'))
+            }
         ]
     }
 ];
