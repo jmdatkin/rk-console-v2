@@ -84,6 +84,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
         Route::prefix('driversbyroute')->group(function () {
+            Route::get('/{date}', [DriversByRouteViewController::class, 'report'])->name('driversbyroute.report');
             Route::get('/', [DriversByRouteViewController::class, 'index'])->name('driversbyroute');
             Route::get('/data', [DriversByRouteViewController::class, 'data'])->name('driversbyroute.data');
         });
@@ -103,7 +104,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('pendingjobs');
 
         Route::prefix('recipient')->group(function () {
-            Route::get('/', [RecipientController::class, 'all']);
+            Route::get('/', [RecipientController::class, 'all'])->name('recipient.all');
             Route::get('/data', [RecipientController::class, 'data']);
             Route::get('/{id}', [RecipientController::class, 'show'])->name('recipient.show');
             Route::get('/{id}/data', [RecipientController::class, 'get']);
@@ -117,7 +118,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         Route::prefix('driver')->group(function () {
-            Route::get('/', [DriverController::class, 'all']);
+            Route::get('/', [DriverController::class, 'all'])->name('driver.all');
             Route::get('/data', [DriverController::class, 'data']);
             Route::get('/{id}', [DriverController::class, 'show'])->name('driver.show');
             Route::get('/{id}/data', [DriverController::class, 'get']);
@@ -143,7 +144,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         Route::prefix('personnel')->group(function () {
-            Route::get('/', [PersonController::class, 'all']);
+            Route::get('/', [PersonController::class, 'all'])->name('person.all');
             Route::get('/{id}', [PersonController::class, 'show']);
             Route::get('/data', [PersonController::class, 'data']);
             Route::post('/store', [PersonController::class, 'store']);

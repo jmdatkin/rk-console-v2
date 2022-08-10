@@ -10,12 +10,12 @@ const props = defineProps(['baseURL','date']);
 const days = ref({});
 
 moment.weekdays().forEach((day,idx) => {
-    days.value[day] = moment(props.date).day(idx).format('MM-DD-YYYY');
+    days.value[day] = moment(props.date).day(idx);//.format('MM-DD-YYYY');
 });
 
 const visitDay = function(event) {
 	let idx = event.index;
-	Inertia.visit(`${props.baseURL}/${Object.values(days.value)[idx]}`, { replace: true});
+	Inertia.visit(`${props.baseURL}/${Object.values(days.value)[idx].format('MM-DD-YYYY')}`, { replace: true});
 };
 
 const activeIndex = ref(moment(props.date).day());
@@ -24,8 +24,11 @@ const activeIndex = ref(moment(props.date).day());
 
 <template>
 <TabView scrollable @tab-click="visitDay" v-model:activeIndex="activeIndex">
-	<TabPanel v-for="(dayName, day) in moment.weekdays()"
-	:header="dayName"
+	<!-- <TabPanel v-for="(dayName, day) in moment.weekdays()"
+	:header="`dayName`"
+	></TabPanel> -->
+	<TabPanel v-for="(day, dayName) in days"
+	:header="`${dayName} ${day.format('MM/DD')}`"
 	></TabPanel>
 </TabView>
 

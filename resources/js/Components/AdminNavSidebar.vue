@@ -36,6 +36,8 @@ const items = ref(menuItems);
 }
 
 $scrollbar-color: rgb(225, 226, 228);
+$scrollbar-color-hover: rgb(210, 212, 216);
+$scrollbar-color-active: rgb(204, 205, 207);
 
 // Use native mobile scrollbar
 @media only screen and (min-width: 768px) {
@@ -45,6 +47,14 @@ $scrollbar-color: rgb(225, 226, 228);
     nav {
         scrollbar-width: thin;
         scrollbar-color: $scrollbar-color transparent;
+    }
+
+    nav:hover {
+        scrollbar-color: $scrollbar-color-hover transparent;
+    }
+
+    nav:active {
+        scrollbar-color: $scrollbar-color-active transparent;
     }
 
     /* Chrome, Edge, and Safari */
@@ -60,6 +70,14 @@ $scrollbar-color: rgb(225, 226, 228);
         background-color: $scrollbar-color;
         border-radius: 10px;
         border: 3px solid #ffffff;
+    }
+
+    nav::-webkit-scrollbar-thumb:hover {
+        background-color: $scrollbar-color-hover;
+    }
+
+    nav::-webkit-scrollbar-thumb:active {
+        background-color: $scrollbar-color-active;
     }
 
 }
