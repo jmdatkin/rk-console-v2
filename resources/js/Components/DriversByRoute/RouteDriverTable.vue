@@ -62,6 +62,21 @@ const getAlternateDrivers = function (id) {
         });
 };
 
+const tableData = computed(() => {
+    return props.data.map(row => {
+        let isSub = row.substitute_drivers.length > 0;
+        let driver;
+
+        if (isSub) {
+            driver = row.substitute_drivers[0];
+        } else {
+            driver = row.drivers[0];
+        }
+
+        return {driver, isSub, ...row};
+    });
+});
+
 // const tableData = computed(() => {
 //     return props.data.map(row => {
 //         let isSub = false,
@@ -114,7 +129,7 @@ const getAlternateDrivers = function (id) {
 // });
 
 const onRowSelect = function (row) {
-    if (!row.driver_id) return;
+    if (!row.driver) return;
     selected.value = row;
     // showExceptions.value = true;
     driverSubDialogOpen.value = true;
@@ -161,7 +176,7 @@ const assignSub = function (exceptionId, substituteDriverId, routeId) {
         <template #header>
             &nbsp;
         </template> 
-         <DriverSubInfo :data="selected"></DriverSubInfo>
+         <DriverSubInfo :data="selected" :date="date"></DriverSubInfo>
                 <!-- <DriverExceptionList :onExceptionSelect="onExceptionSelect" :selectedDriver="selected"></DriverExceptionList> -->
     </Dialog>
     <Dialog v-model:visible="altDriverDialog" :modal="true" :dismissableMask="true" :closeOnEscape="true">
@@ -170,7 +185,7 @@ const assignSub = function (exceptionId, substituteDriverId, routeId) {
     </Dialog>
     <DataTable @row-select="e => onRowSelect(e.data)" v-model:selection="selection" selectionMode="single"
         :globalFilterFields="['routeName', 'id', 'driver.person.firstName', 'lastName']" filterDisplay="menu"
-        v-model:filters="filters" :value="data" :paginator="true" :rowClass="rowClass" :rows="10"
+        v-model:filters="filters" :value="tableData" :paginator="true" :rowClass="rowClass" :rows="10"
         responsiveLayout="scroll" columnResizeMode="fit" :showGridlines="true">
         <template #header>
             {{ DateAdapter.format(date) }}
@@ -220,15 +235,15 @@ const assignSub = function (exceptionId, substituteDriverId, routeId) {
                 </Column>
             </Row>
         </ColumnGroup>
-        <Column header="id" field="route_id">
+        <Column header="id" field="id">
         </Column>
-        <Column header="Name" field="route_name">
+        <Column header="Name" field="name">
         </Column>
-        <Column :sortable="true" field="driver_id" header="id" style="max-width: 10%; text-align: center">
+        <Column :sortable="true" field="driver.id" header="id" style="max-width: 10%; text-align: center">
         </Column>
-        <Column :sortable="true" field="firstName">
+        <Column :sortable="true" field="driver.person.firstName">
         </Column>
-        <Column :sortable="true" field="lastName">
+        <Column :sortable="true" field="driver.person.lastName">
         </Column>
     </DataTable>
     <ContextMenu :model="menuModel" ref="cm"></ContextMenu>

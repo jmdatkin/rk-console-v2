@@ -4,6 +4,7 @@ use App\Http\Controllers\AuditViewController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DriverRouteSubsController;
+use App\Http\Controllers\DriverSubController;
 use App\Http\Controllers\Report\DashboardController;
 use App\Http\Controllers\Report\DriversByRouteViewController;
 use App\Http\Controllers\Report\RecipientsByRouteViewController;
@@ -133,6 +134,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/{id}/alternates', [DriverController::class, 'alternates']);
             Route::get('/{id}/alternates/attach/{route_id}', [DriverController::class, 'assignAlternate']);
             Route::get('/{id}/alternates/detach/{route_id}', [DriverController::class, 'deassignAlternate']);
+        });
+
+        Route::prefix('substitute')->group(function() {
+            Route::post('/store', [DriverSubController::class, 'store'])->name('substitute.store');
         });
 
         Route::prefix('exception')->group(function () {
