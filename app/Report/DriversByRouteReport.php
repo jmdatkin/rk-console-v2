@@ -25,19 +25,20 @@ class DriversByRouteReport implements ReportInterface
      * @param array input
      * @return Collection
      */
-    public function data($input) {
+    public function data($input)
+    {
         $date = $input['date'];
 
-        return Route::with(['drivers' => function($q) use ($date) {
-            $q->where('weekday', $date->lowercaseDayName())
-            ->with(['exceptions' => function($q2) use ($date) {
-                $q2->where('date_start', '<=', $date)
-                ->where('date_end', '>', $date)
-                ->with(['substitutes' => function($q3) use ($date) {
-                    $q3->whereDate('date', $date);
+        return Route::with(['drivers' => function ($q) use ($date) {
+            // $q->where('weekday', $date->lowercaseDayName())
+            $q->where('weekday', $date->dayOfWeek)
+                ->with(['exceptions' => function ($q2) use ($date) {
+                    $q2->where('date_start', '<=', $date)
+                        ->where('date_end', '>', $date)
+                        ->with(['substitutes' => function ($q3) use ($date) {
+                            $q3->whereDate('date', $date);
+                        }]);
                 }]);
-            }]);
         }]);
-
     }
 }

@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('driver_id');
             $table->unsignedBigInteger('route_id');
-            $table->enum('weekday', ['mon','tue','wed','thu','fri','sat','sun']);
+            // $table->enum('weekday', ['mon','tue','wed','thu','fri','sat','sun']);
+            $table->integer('weekday');
             $table->foreign('driver_id')->references('id')->on('drivers');
             $table->foreign('route_id')->references('id')->on('routes');
             $table->unique(['driver_id','route_id','weekday']);

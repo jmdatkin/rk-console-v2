@@ -26,7 +26,8 @@ class RecipientsByRouteReport implements ReportInterface
     {
         $date = $input['date'];
         return Route::with(['recipients' => function ($query) use ($date) {
-            return $query->where('weekday', $date->lowercaseDayName());
+            // return $query->where('weekday', $date->lowercaseDayName());
+            return $query->where('weekday', $date->dayOfWeek);
         }])
             ->get()
             ->flatMap(function ($route) {
