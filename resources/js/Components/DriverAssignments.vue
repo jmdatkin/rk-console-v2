@@ -8,20 +8,22 @@ import WeekdayAssignments from './DriverWeekdayAssignments';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { useToast } from 'primevue/usetoast';
 import { onMounted, ref } from 'vue';
+import moment from 'moment';
 import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps(['driverData'])
 const toast = useToast();
 
-const WEEKDAYS = ref({
-    'sun': 'Sunday',
-    'mon': 'Monday',
-    'tue': 'Tuesday',
-    'wed': 'Wednesday',
-    'thu': 'Thursday',
-    'fri': 'Friday',
-    'sat': 'Saturday'
-});
+// const WEEKDAYS = ref({
+//     'sun': 'Sunday',
+//     'mon': 'Monday',
+//     'tue': 'Tuesday',
+//     'wed': 'Wednesday',
+//     'thu': 'Thursday',
+//     'fri': 'Friday',
+//     'sat': 'Saturday'
+// });
+const WEEKDAYS = ref(moment.weekdays());
 
 const routeFilters = ref({
     'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -36,6 +38,7 @@ const clearFilters = function () {
 const data = ref([]);
 const dataLoaded = ref(false);
 
+// Get assignment data
 const getData = function () {
     dataLoaded.value = false;
     axios.get(route('driver.routes', { id: props.driverData.id }))
@@ -47,10 +50,9 @@ const getData = function () {
         );
 };
 
+// Filter assignment data by day
 const dataForDay = function (day) {
     return data.value.filter(item => item.pivot.weekday === day);//.map(item => {
-    // return { id: item.id, name: item.name, notes: item.notes }
-    // });
 };
 
 
@@ -122,9 +124,10 @@ onMounted(() => {
         </DataTable>
     </Dialog>
     <div class="flex flex-col">
-        <template v-for="(fullName, weekday, index) in WEEKDAYS" :key="index">
-            <WeekdayAssignments class="mb-2" :getData="getData" :title="fullName" :onSelect="createSelectCallback(weekday)"
-                :data="dataForDay(weekday)">
+        <!-- <template v-for="(fullName, weekday, index) in WEEKDAYS" :key="index"> -->
+        <template v-for="(weekday, index) in WEEKDAYS" :key="index">
+            <WeekdayAssignments class="mb-2" :getData="getData" :title="weekday" :onSelect="createSelectCallback(index)"
+                :data="dataForDay(index)">
             </WeekdayAssignments>
             <!-- <Divider /> -->
         </template>

@@ -26,7 +26,8 @@ class DriversByRouteReport implements ReportInterface
      * @param array input
      * @return Collection
      */
-    public function data($input) {
+    public function data($input)
+    {
         $date = $input['date'];
         $weekday = $date->lowercaseDayName();
 

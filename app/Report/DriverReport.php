@@ -17,7 +17,7 @@ class DriverReport implements ReportInterface
     public function data($input) {
         $driver_id = $input['driver_id'];
         $date = $input['date'];
-        $weekday = $date->lowercaseDayName();
+        $weekday = $date->dayOfWeek;
 
         try {
             return $this->repository->find($driver_id)
