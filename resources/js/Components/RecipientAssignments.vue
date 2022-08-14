@@ -8,20 +8,22 @@ import WeekdayAssignments from './RecipientWeekdayAssignments';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { useToast } from 'primevue/usetoast';
 import { onMounted, ref } from 'vue';
+import moment from 'moment';
 import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps(['recipientData'])
 const toast = useToast();
 
-const WEEKDAYS = ref({
-    'sun': 'Sunday',
-    'mon': 'Monday',
-    'tue': 'Tuesday',
-    'wed': 'Wednesday',
-    'thu': 'Thursday',
-    'fri': 'Friday',
-    'sat': 'Saturday'
-});
+// const WEEKDAYS = ref({
+//     'sun': 'Sunday',
+//     'mon': 'Monday',
+//     'tue': 'Tuesday',
+//     'wed': 'Wednesday',
+//     'thu': 'Thursday',
+//     'fri': 'Friday',
+//     'sat': 'Saturday'
+// });
+const WEEKDAYS = ref(moment.weekdays());
 
 const routeFilters = ref({
     'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -121,9 +123,9 @@ onMounted(() => {
         </DataTable>
     </Dialog>
     <div class="flex flex-col">
-        <template v-for="(fullName, weekday, index) in WEEKDAYS" :key="index">
-            <WeekdayAssignments class="mb-2" :getData="getData" :title="fullName" :onSelect="createSelectCallback(weekday)"
-                :data="dataForDay(weekday)">
+        <template v-for="(weekday, index) in WEEKDAYS" :key="index">
+            <WeekdayAssignments class="mb-2" :getData="getData" :title="weekday" :onSelect="createSelectCallback(index)"
+                :data="dataForDay(index)">
             </WeekdayAssignments>
             <!-- <Divider /> -->
         </template>
