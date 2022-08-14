@@ -35,6 +35,7 @@ class DriversByRouteViewController extends BaseReportController
      */
     public function report($date)
     {
+        // dd($date);
         return Inertia::render('Admin/DriversByRoute',
         [
             'date' => $date,

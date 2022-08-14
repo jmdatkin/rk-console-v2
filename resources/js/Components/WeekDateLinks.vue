@@ -10,7 +10,7 @@ const props = defineProps(['baseURL','date']);
 const days = ref({});
 
 moment.weekdays().forEach((day,idx) => {
-    days.value[day] = moment(props.date).day(idx);//.format('MM-DD-YYYY');
+    days.value[day] = moment(props.date, 'MM-DD-YYYY').day(idx);//.format('MM-DD-YYYY');
 });
 
 const visitDay = function(event) {
@@ -18,7 +18,7 @@ const visitDay = function(event) {
 	Inertia.visit(`${props.baseURL}/${Object.values(days.value)[idx].format('MM-DD-YYYY')}`, { replace: true});
 };
 
-const activeIndex = ref(moment(props.date).day());
+const activeIndex = ref(moment(props.date, 'MM-DD-YYYY').day());
 
 </script>
 

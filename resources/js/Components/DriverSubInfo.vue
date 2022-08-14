@@ -2,8 +2,10 @@
 import InfoItem from './InfoItem.vue';
 import DriverDropdown from './DriverDropdown.vue';
 import DriverSubService from '@/Service/DriverSubService';
+import AssignmentService from '@/Service/AssignmentService';
 import { ref } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
+import { useConfirm } from 'primevue/useconfirm';
 import moment from 'moment';
 
 const props = defineProps(['data', 'date']);
@@ -17,32 +19,54 @@ if (props.data.drivers[0])
 if (props.data.substitute_drivers[0])
     subDriver.value = props.data.substitute_drivers[0].id;
 
+const confirm = useConfirm();
 const driverChanged = ref(false);
 const subDriverChanged = ref(false);
 
-const onDriverChange = function() {
+const onDriverChange = function () {
     driverChanged.value = true;
 }
 
-const onSubDriverChange = function() {
+const onSubDriverChange = function () {
     subDriverChanged.value = true;
 }
 
-const save = function() {
-    let dateForURL = moment(props.date).toISOString();
-    if (subDriverChanged) {
-       DriverSubService.createSub(driver.value, props.data.id, subDriver.value, dateForURL)
-       .then(
-        () => {
-            Inertia.reload();
-        },
-        () => {
+const save = function () {
+    let weekday = moment(props.date).format('ddd').toLowerCase();
+    confirm.require({
+        message: `Comfirm ?`,//to route '${routeId}?`,
+        icon: 'pi pi-exclamation-triangle',
+        acceptClass: 'p-button-info',
+        accept: () => {
+            let dateForURL = moment(props.date, 'MM-DD-YYYY').toISOString();
 
-        }
-       ) 
-    }
-    
-}
+            if (driverChanged.value) {
+               AssignmentService.modifyDriverAssignment(driver.value, props.data.id, weekday) 
+                    .then(
+                        () => {
+                            Inertia.reload();
+                        },
+                        () => {
+
+                        }
+                    )
+            }
+
+
+            if (subDriverChanged.value) {
+                DriverSubService.createSub(driver.value, props.data.id, subDriver.value, dateForURL)
+                    .then(
+                        () => {
+                            Inertia.reload();
+                        },
+                        () => {
+
+                        }
+                    )
+            }
+        },
+    })
+};
 
 </script>
 
@@ -53,11 +77,11 @@ const save = function() {
     <div class="space-y-2">
         <InfoItem title="Driver">
             <!-- {{ data.firstName }} {{ data.lastName }} -->
-            <DriverDropdown v-model="driver" @change="onDriverChange"></DriverDropdown>
+            <DriverDropdown class="w-full" v-model="driver" @change="onDriverChange"></DriverDropdown>
         </InfoItem>
 
         <InfoItem title="Substitute Driver">
-            <DriverDropdown v-model="subDriver" @change="onSubDriverChange"></DriverDropdown>
+            <DriverDropdown class="w-full" v-model="subDriver" @change="onSubDriverChange"></DriverDropdown>
         </InfoItem>
         <Button :disabled="!(driverChanged || subDriverChanged)" label="Save" @click="save"></Button>
     </div>

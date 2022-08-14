@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\AuditViewController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
@@ -134,6 +135,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/{id}/alternates', [DriverController::class, 'alternates']);
             Route::get('/{id}/alternates/attach/{route_id}', [DriverController::class, 'assignAlternate']);
             Route::get('/{id}/alternates/detach/{route_id}', [DriverController::class, 'deassignAlternate']);
+        });
+
+        Route::prefix('assignments')->group(function() {
+            // Route::get('/assign/{route_id}/{driver_id}/{weekday}', [AssignmentController::class, 'assign_driver'])->name('assignments.driver.assign');
+            // Route::get('/deassign/{route_id}/{driver_id}/{weekday}', [AssignmentController::class, 'deassign_driver'])->name('assignments.driver.deassign');
+
+            // Route::get('/assign/{route_id}/{recipient_id}/{weekday}', [AssignmentController::class, 'assign_recipient'])->name('assignments.recipient.assign');
+            // Route::get('/deassign/{route_id}/{recipient_id}/{weekday}', [AssignmentController::class, 'deassign_recipient'])->name('assignments.recipient.deassign');
+            Route::post('/recipient/assign', [AssignmentController::class, 'assign_recipient'])->name('assignment.recipient.assign');
+            Route::post('/recipient/deassign', [AssignmentController::class, 'deassign_recipient'])->name('assignment.recipient.deassign');
+
+            Route::post('/driver/assign', [AssignmentController::class, 'assign_driver'])->name('assignment.driver.assign');
+            Route::post('/driver/deassign', [AssignmentController::class, 'deassign_driver'])->name('assignment.driver.deassign');
         });
 
         Route::prefix('substitute')->group(function() {
