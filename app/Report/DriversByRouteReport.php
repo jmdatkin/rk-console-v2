@@ -29,7 +29,7 @@ class DriversByRouteReport implements ReportInterface
     public function data($input)
     {
         $date = $input['date'];
-        $weekday = $date->lowercaseDayName();
+        $weekday = $date->dayOfWeek;
 
         return Route::with(['drivers' => function($q) use ($weekday) {
             $q->where('weekday', $weekday);

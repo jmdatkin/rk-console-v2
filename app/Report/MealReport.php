@@ -19,7 +19,7 @@ class MealReport
     }
 
     public function data2($date) {
-        $weekday = RkCarbon::parse($date)->lowercaseDayName();
+        $weekday = RkCarbon::parse($date)->dayOfWeek;
 
         $sub = DB::table('routes')
                 ->join('recipient_route', 'route_id','=','routes.id')
