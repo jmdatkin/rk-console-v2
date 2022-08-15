@@ -2,18 +2,14 @@
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';
-import Button from 'primevue/button';
 import Row from 'primevue/row';
 import InputText from 'primevue/inputtext';
 import Dialog from 'primevue/dialog';
 import ContextMenu from 'primevue/contextmenu';
 import moment from 'moment';
-import { Link, Head } from '@inertiajs/inertia-vue3';
 import { ref, onUpdated, onMounted, computed } from 'vue';
 import { driversByRouteFilters } from '@/filters';
 import { DateAdapter } from '../../util';
-import DriverExceptionList from './DriverExceptionList.vue';
-import { useData } from '../../hooks';
 import AlternateDriversDataTable from '../DataTables/AlternateDriversDataTable.vue';
 import { useConfirm } from 'primevue/useconfirm';
 import DriverSubInfo from '../DriverSubInfo.vue';
@@ -76,57 +72,6 @@ const tableData = computed(() => {
         return {driver, isSub, ...row};
     });
 });
-
-// const tableData = computed(() => {
-//     return props.data.map(row => {
-//         let isSub = false,
-//             inException = false;
-
-//         let routeId = row.id;
-
-//         let driver = {};
-//         let originalDriver;
-//         let exception = {};
-//         let substitute;
-
-//         if (row.drivers.length > 0) {
-//             driver = row.drivers[0];
-//             originalDriver = driver;
-
-//             if (driver.exceptions.length > 0) {
-//                 inException = true;
-//                 exception = driver.exceptions[0];
-
-//                 if (typeof exception.substitutes !== 'undefined' && exception.substitutes.length > 0) {
-//                     // substitute = exception.substitutes[0];
-//                     substitute = exception.substitutes.find(val => val.substitute.route_id === routeId);
-
-//                     if (substitute) {
-//                         driver = substitute;
-//                         isSub = true;
-//                     }
-
-
-
-
-//                 }
-
-//             }
-//         }
-
-//         return {
-//             originalDriver, 
-//             driver,
-//             substitute,
-//             exception,
-//             isSub,
-//             inException,
-//             routeId: row.id,
-//             routeName: row.name,
-//             ...row
-//         };
-//     });
-// });
 
 const onRowSelect = function (row) {
     // if (!row.driver) return;

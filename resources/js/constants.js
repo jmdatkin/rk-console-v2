@@ -85,10 +85,6 @@ const menuItems = [
                 label: 'Drivers by Route',
                 command: () => Inertia.visit(route('driversbyroute'))
             },
-            {
-                label: 'Schedule Exceptions',
-                command: () => Inertia.visit(route('exception.index'))
-            },
         ]
     },
     {

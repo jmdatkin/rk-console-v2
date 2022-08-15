@@ -4,7 +4,6 @@ use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\AuditViewController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\DriverRouteSubsController;
 use App\Http\Controllers\DriverSubController;
 use App\Http\Controllers\Report\DashboardController;
 use App\Http\Controllers\Report\DriversByRouteViewController;
@@ -21,7 +20,6 @@ use App\Http\Controllers\Resources\DataTables\PersonDataTableController;
 use App\Http\Controllers\Resources\DataTables\RecipientDataTableController;
 use App\Http\Controllers\Resources\DataTables\RouteDataTableController;
 use App\Http\Controllers\Resources\DriverController;
-use App\Http\Controllers\Resources\DriverExceptionController;
 use App\Http\Controllers\Resources\PersonController;
 use App\Http\Controllers\Resources\RecipientController;
 use App\Http\Controllers\Resources\RouteController;
@@ -138,11 +136,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         Route::prefix('assignments')->group(function() {
-            // Route::get('/assign/{route_id}/{driver_id}/{weekday}', [AssignmentController::class, 'assign_driver'])->name('assignments.driver.assign');
-            // Route::get('/deassign/{route_id}/{driver_id}/{weekday}', [AssignmentController::class, 'deassign_driver'])->name('assignments.driver.deassign');
-
-            // Route::get('/assign/{route_id}/{recipient_id}/{weekday}', [AssignmentController::class, 'assign_recipient'])->name('assignments.recipient.assign');
-            // Route::get('/deassign/{route_id}/{recipient_id}/{weekday}', [AssignmentController::class, 'deassign_recipient'])->name('assignments.recipient.deassign');
             Route::post('/recipient/assign', [AssignmentController::class, 'assign_recipient'])->name('assignment.recipient.assign');
             Route::post('/recipient/deassign', [AssignmentController::class, 'deassign_recipient'])->name('assignment.recipient.deassign');
 
@@ -152,14 +145,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::prefix('substitute')->group(function() {
             Route::post('/store', [DriverSubController::class, 'store'])->name('substitute.store');
-        });
-
-        Route::prefix('exception')->group(function () {
-            Route::get('/', [DriverExceptionController::class, 'index'])->name('exception.index');
-            Route::get('/{driver_id}/data', [DriverExceptionController::class, 'data'])->name('exception.driver');
-            Route::post('/store', [DriverExceptionController::class, 'store'])->name('exception.store');
-            Route::post('/{exception_id}/sub/{substitute_driver_id}', [DriverExceptionController::class, 'makeSubstitute'])->name('exception.sub');
-            // Route::post('/{exception_id}/sub/', [DriverExceptionController::class, 'makeSubstitute'])->name('exception.sub');
         });
 
         Route::prefix('personnel')->group(function () {

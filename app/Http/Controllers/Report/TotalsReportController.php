@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Report;
 
-use App\Carbon\RkCarbon;
 use App\Http\Controllers\Controller;
 use App\Report\RouteTotalsReport;
 use Illuminate\Http\Request;
