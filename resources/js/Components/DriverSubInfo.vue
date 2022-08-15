@@ -32,7 +32,7 @@ const onSubDriverChange = function () {
 }
 
 const save = function () {
-    let weekday = moment(props.date).format('ddd').toLowerCase();
+    let weekday = moment(props.date, 'MM-DD-YYYY').day();
     confirm.require({
         message: `Comfirm ?`,//to route '${routeId}?`,
         icon: 'pi pi-exclamation-triangle',

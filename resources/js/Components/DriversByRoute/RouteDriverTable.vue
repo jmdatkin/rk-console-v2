@@ -129,7 +129,7 @@ const tableData = computed(() => {
 // });
 
 const onRowSelect = function (row) {
-    if (!row.driver) return;
+    // if (!row.driver) return;
     selected.value = row;
     // showExceptions.value = true;
     driverSubDialogOpen.value = true;
