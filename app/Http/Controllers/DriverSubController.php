@@ -14,7 +14,7 @@ class DriverSubController extends Controller
     {
         $input = $request->only(['driver_id', 'sub_driver_id', 'date', 'route_id']);
 
-        $driver_sub = DriverSub::where($request->only(['driver_id', 'date', 'route_id']))->first();
+        $driver_sub = DriverSub::where($request->only(['driver_id', 'route_id']))->whereDate('date', $request->input('date'))->first();
 
         if (!isset($driver_sub)) {
             $driver_sub = new DriverSub();

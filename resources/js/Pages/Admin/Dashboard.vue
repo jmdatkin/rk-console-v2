@@ -15,6 +15,7 @@ import { Inertia } from '@inertiajs/inertia';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 
 import { DateAdapter } from '../../util';
+import RouteDriverTable from '../../Components/DriversByRoute/RouteDriverTable.vue';
 
 defineProps(['routeDriver_data', 'routeRecipient_data', 'stats'])
 
@@ -102,8 +103,10 @@ clearInterval(iid);
                             Today's Drivers
                         </span>
                     </template>
-                    <RouteDriversTable :onSelect="openDriverDialog" :value="routeDriver_data"
-                        :date="DateAdapter.make(moment.tz().utcOffset(-240))"></RouteDriversTable>
+                    <!-- <RouteDriversTable :onSelect="openDriverDialog" :value="routeDriver_data"
+                        :date="DateAdapter.make(moment.tz().utcOffset(-240))"></RouteDriversTable> -->
+                        <RouteDriverTable :data="routeDriver_data"
+                        :date="DateAdapter.make(moment.tz().utcOffset(-240))"></RouteDriverTable>
                 </Panel>
             </div>
             <div class="col-12 2xl:col-6">

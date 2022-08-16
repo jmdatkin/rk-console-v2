@@ -13,7 +13,7 @@ class RouteTotalsReport {
             ->join('routes','routes.id','=','route_id')
             ->groupBy('name','weekday')
             ->select('routes.id as route_id', 'weekday')
-            ->selectRaw('sum(numMeals) as agg_num_meals');
+            ->selectRaw('sum(recipients.numMeals) as agg_num_meals');
 
         return DB::table('driver_route')
             ->joinSub($sub,'sub',function($join) {

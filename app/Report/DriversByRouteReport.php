@@ -31,7 +31,7 @@ class DriversByRouteReport implements ReportInterface
         $date = $input['date'];
         $weekday = $date->dayOfWeek;
 
-        return Route::with(['drivers' => function($q) use ($weekday) {
+        return Route::with(['drivers' => function ($q) use ($weekday) {
             $q->where('weekday', $weekday);
             // ->with(['exceptions' => function($q2) use ($date) {
             //     $q2->where('date_start', '<=', $date)
@@ -39,10 +39,13 @@ class DriversByRouteReport implements ReportInterface
             //     ->with(['substitutes' => function($q3) use ($date) {
             //         $q3->whereDate('date', $date);
             //     }]);
+        }])
+            ->with(['substituteDrivers' => function ($q) use ($date) {
+                $q->whereDate('date', $date);
             }])
-            ->with(['substituteDrivers' => function($q) use ($date) {
-                $q->whereDate('date',$date);
-            }]);
+            ->whereHas('drivers', function ($q) use ($weekday) {
+                $q->where('weekday', $weekday);
+            });
     }
 
     // /**
@@ -84,7 +87,7 @@ class DriversByRouteReport implements ReportInterface
     //                         'driver_subs.date',
     //                     'lastName',
     //                     'routes.name as route_name']);
-        
+
 
     //     $substitute_driverroute_subquery = DB::table('driver_route')
     //         ->leftJoin('driver_route_subs', function($join) use ($date) {

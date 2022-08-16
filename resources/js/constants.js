@@ -1,14 +1,17 @@
 import { Inertia } from "@inertiajs/inertia";
+import moment from "moment";
 
-const WEEKDAYS = {
-    'mon': 'Monday',
-    'tue': 'Tuesday',
-    'wed': 'Wednesday',
-    'thu': 'Thursday',
-    'fri': 'Friday',
-    'sat': 'Saturday',
-    'sun': 'Sunday'
-};
+const WEEKDAYS = moment.weekdays();
+
+// const WEEKDAYS = {
+//     'mon': 'Monday',
+//     'tue': 'Tuesday',
+//     'wed': 'Wednesday',
+//     'thu': 'Thursday',
+//     'fri': 'Friday',
+//     'sat': 'Saturday',
+//     'sun': 'Sunday'
+// };
 
 const menuItems = [
     {
