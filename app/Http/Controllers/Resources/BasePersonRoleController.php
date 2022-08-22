@@ -27,7 +27,11 @@ class BasePersonRoleController extends BaseResourceController
      */
     public function get($id)
     {
-        return $this->repository->find($id)->load('person');
+        try {
+            return $this->repository->find($id)->load('person');
+        } catch (Error $e) {
+            abort(404);
+        }
     }
 
     /**

@@ -42,10 +42,10 @@ class DriversByRouteReport implements ReportInterface
         }])
             ->with(['substituteDrivers' => function ($q) use ($date) {
                 $q->whereDate('date', $date);
-            }])
-            ->whereHas('drivers', function ($q) use ($weekday) {
-                $q->where('weekday', $weekday);
-            });
+            }]);
+            // ->whereHas('drivers', function ($q) use ($weekday) {
+            //     $q->where('weekday', $weekday);
+            // });
     }
 
     // /**

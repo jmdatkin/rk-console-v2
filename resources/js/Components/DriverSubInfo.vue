@@ -34,7 +34,7 @@ const onSubDriverChange = function () {
 const save = function () {
     let weekday = moment(props.date, 'MM-DD-YYYY').day();
     confirm.require({
-        message: `Comfirm ?`,//to route '${routeId}?`,
+        message: `Are you sure you want to assign this driver?`,//to route '${routeId}?`,
         icon: 'pi pi-exclamation-triangle',
         acceptClass: 'p-button-info',
         accept: () => {

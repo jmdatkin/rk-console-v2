@@ -49,10 +49,11 @@ class RecipientController extends BasePersonRoleController
     {
         try {
             $weekday = $request->input('weekday');
-            $routeRepository->find($route_id)->deassignRecipient($weekday);
+            $routeRepository->find($route_id)->deassignRecipient($recipient_id,$weekday);
             $this->repository->find($recipient_id)->routes()->detach($route_id);
             return response()->json([], 200);
         } catch (Error | Exception $e) {
+            dd($e);
             return response()->json([], 500);
         }
     }
