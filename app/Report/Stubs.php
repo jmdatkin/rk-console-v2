@@ -3,15 +3,15 @@
 namespace App\Report;
 
 use App\Carbon\RkCarbon;
-use App\Models\DriverSub;
 use Illuminate\Support\Facades\DB;
 
 class Stubs
 {
-
-
     /**
      * 'driver_route' table with substitutes merged
+     * 
+     * @param \Carbon\Carbon $date
+     * @return \Illuminate\Database\Query\Builder
      */
     public function driverRouteWithSubs($date)
     {
@@ -23,44 +23,22 @@ class Stubs
             ->select('*')
 
             // This line is DB-specific
-            // It converts the datetime field in 'driver_subs' to a weekday number
-            // So it can be joined with 'driver_route'
+            // It converts the datetime field in 'driver_subs' to a weekday number so it can be joined with 'driver_route'
 
             //Sqlite:
             ->selectRaw('cast(strftime("%w", date) as integer) as weekday');
 
-        // return $sub;
-
         return DB::table('driver_route')
             ->where('driver_route.weekday', $weekday)
-
-            // ->addSelect([
-            ->select()
-            ->addSelect([
-                // 'sub_driver_id' => DB::query()->fromSub(function ($query) use ($date) {
-                //     $query->from('driver_subs')
-                //         ->whereDate('date', $date)
-                //         ->select('*')
-
-                //         // This line is DB-specific
-                //         // It converts the datetime field in 'driver_subs' to a weekday number
-                //         // So it can be joined with 'driver_route'
-
-                //         //Sqlite:
-                //         ->selectRaw('cast(strftime("%w", date) as integer) as weekday');
-                // }, 'weekday_subs')
+            ->select()  //Select all columns
+            ->addSelect([   // Add sub_driver_id column
                 'sub_driver_id' => $sub
                     ->select('sub_driver_id')
                     ->whereColumn([
                         ['driver_id', '=', 'driver_route.driver_id'],
                         ['route_id', '=', 'driver_route.route_id'],
-                        ['weekday', '=', 'driver_route.weekday'] //$weekday
+                        ['weekday', '=', 'driver_route.weekday']    // Compare cast weekday column to regular weekday column
                     ])
-                    // ->where([
-                    //     'driver_id' => 'driver_route.driver_id',
-                    //     'route_id' => 'driver_route.route_id',
-                    //     'weekday' => 'driver_route.weekday' //$weekday
-                    // ])
             ])
         ;
     }
