@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasArchive;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Route extends Model implements Auditable
 {
-    use HasFactory, \OwenIt\Auditing\Auditable;
+    use HasFactory, \OwenIt\Auditing\Auditable, HasArchive;
 
     protected $fillable = [
         'name',

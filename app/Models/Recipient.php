@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\LogModelChanges;
 use App\Events\RecipientModelUpdated;
+use App\Traits\HasArchive;
 use Error;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Recipient extends BasePersonRole implements Auditable
 {
-    use HasFactory, \OwenIt\Auditing\Auditable;
+    use HasFactory, \OwenIt\Auditing\Auditable, HasArchive;
 
     protected $fillable = [
         'agency_id',
