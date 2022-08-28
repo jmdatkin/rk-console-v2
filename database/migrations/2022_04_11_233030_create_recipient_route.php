@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('recipient_id');
             $table->unsignedBigInteger('route_id');
-            // $table->enum('weekday', ['mon','tue','wed','thu','fri','sat','sun']);
             $table->integer('weekday');
             $table->foreign('recipient_id')->references('id')->on('recipients');
             $table->foreign('route_id')->references('id')->on('routes');
