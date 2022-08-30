@@ -42,7 +42,12 @@ class AssignmentController extends Controller
     public function assign_recipient(Request $request)
     {
         $data = $request->only(['route_id', 'recipient_id', 'weekday']);
-        RecipientRoute::upsert($data, ['route_id', 'weekday', 'driver_id']);
+        $nextIndex = RecipientRoute::getNextOrderingIndex($data['route_id'], $data['weekday']);
+        // dd($nextIndex);
+        RecipientRoute::upsert(
+            array_merge($data, ['driver_custom_order' => $nextIndex]),
+            ['route_id', 'weekday', 'recipient_id']
+        );
     }
 
     /**
