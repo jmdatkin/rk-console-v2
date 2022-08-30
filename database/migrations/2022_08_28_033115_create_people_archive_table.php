@@ -16,10 +16,6 @@ return new class extends Migration
         Schema::create('people_archive', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('resource_id');
-            $table->unsignedBigInteger('person_id');
-            $table->unsignedBigInteger('role_id');
-            $table->foreign('person_id')->references('id')->on('people');
-            $table->foreign('role_id')->references('id')->on('roles');
             $table->string('firstName')->default('');
             $table->string('lastName')->default('');
             $table->string('email')->nullable();

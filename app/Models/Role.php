@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasArchive;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    use HasFactory;
+    use HasFactory, HasArchive;
 
     public $timestamps = false;
 

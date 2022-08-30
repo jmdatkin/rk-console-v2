@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('roles_archive', function (Blueprint $table) {
             $table->id();
             $table->datetime('startOfWeek');
+            $table->unsignedBigInteger('resource_id');
             $table->string('name');
             $table->string('notes')->default('')->nullable();
             $table->timestamps();

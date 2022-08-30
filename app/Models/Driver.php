@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Carbon\RkCarbon;
+use App\Traits\HasArchive;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +11,7 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class Driver extends BasePersonRole implements Auditable
 {
-    use HasFactory, \OwenIt\Auditing\Auditable;
+    use HasFactory, \OwenIt\Auditing\Auditable, HasArchive;
 
     protected $fillable = [''];
 

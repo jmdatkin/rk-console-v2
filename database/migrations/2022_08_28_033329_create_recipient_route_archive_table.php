@@ -18,10 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('recipient_id');
             $table->unsignedBigInteger('route_id');
             $table->datetime('startOfWeek');
-            $table->datetime('date');
-            $table->foreign('recipient_id')->references('id')->on('recipients');
-            $table->foreign('route_id')->references('id')->on('routes');
-            $table->unique(['recipient_id','route_id','weekday']);
+            // $table->datetime('date');
+            $table->integer('weekday');
             $table->timestamps();
         });
     }

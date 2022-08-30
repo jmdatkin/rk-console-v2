@@ -20,8 +20,6 @@ return new class extends Migration
             $table->unsignedBigInteger('person_id')->nullable();
             $table->integer('numMeals')->default(0);
             $table->string('address');
-            $table->foreign('person_id')->references('resource_id')->on('people_archive');
-            $table->foreign('agency_id')->references('resource_id')->on('agencies_archive');
             $table->datetime('startOfWeek');
             $table->timestamps();
             $table->softDeletes();

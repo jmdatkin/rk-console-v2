@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('resource_id');
             $table->unsignedBigInteger('person_id')->nullable();
-            $table->foreign('person_id')->references('resource_id')->on('people_archive');
             $table->datetime('startOfWeek');
             $table->timestamps();
             $table->softDeletes();

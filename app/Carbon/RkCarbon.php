@@ -13,4 +13,8 @@ class RkCarbon extends Carbon {
     public function lowercaseDayName() {
         return strtolower($this->shortDayName);
     }
+
+    // public function startOfWeek($date) {
+    //     return $this->parse($date)->startOf('week', self::SUNDAY);
+    // }
 }

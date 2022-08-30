@@ -19,9 +19,6 @@ return new class extends Migration
             $table->unsignedBigInteger('route_id');
             $table->datetime('startOfWeek');
             $table->datetime('date');
-            $table->foreign('driver_id')->references('id')->on('drivers');
-            $table->foreign('route_id')->references('id')->on('routes');
-            $table->unique(['driver_id','route_id','date']);
             $table->timestamps();
         });
     }

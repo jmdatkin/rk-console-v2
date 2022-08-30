@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('recipient_id');
             $table->unsignedBigInteger('route_id');
             $table->integer('weekday');
+            $table->integer('order_in_route');
             $table->foreign('recipient_id')->references('id')->on('recipients');
             $table->foreign('route_id')->references('id')->on('routes');
             $table->unique(['recipient_id','route_id','weekday']);
