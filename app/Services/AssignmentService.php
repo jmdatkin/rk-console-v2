@@ -6,7 +6,8 @@ use App\Models\DriverRoute;
 use App\Models\RecipientRoute;
 use Illuminate\Support\Facades\DB;
 
-class AssignmentService {
+class AssignmentService
+{
 
     /**
      * Create a Driver-Route relationship
@@ -22,7 +23,8 @@ class AssignmentService {
                 'route_id' => $route_id,
                 'driver_id' => $driver_id,
                 'weekday' => $weekday
-            ])->first();
+            ]
+        )->first();
 
         if (isset($driver_route))
             $driver_route->driver_id = $driver_id;
@@ -51,7 +53,8 @@ class AssignmentService {
                 'route_id' => $route_id,
                 'driver_id' => $driver_id,
                 'weekday' => $weekday
-            ])->delete();
+            ]
+        )->delete();
     }
 
     /**
@@ -64,7 +67,9 @@ class AssignmentService {
     public function assign_recipient($route_id, $recipient_id, $weekday)
     {
         $nextIndex = RecipientRoute::getNextOrderingIndex(
-            $route_id, $weekday);
+            $route_id,
+            $weekday
+        );
         RecipientRoute::upsert(
             [
                 'route_id' => $route_id,
@@ -92,8 +97,9 @@ class AssignmentService {
                 'route_id' => $route_id,
                 'recipient_id' => $recipient_id,
                 'weekday' => $weekday,
-            ])->first();
-        
+            ]
+        )->first();
+
         // Driver-specified ordering index
         $deletedIndex = $assignment->driver_custom_order;
 
@@ -106,7 +112,8 @@ class AssignmentService {
             [
                 'route_id' => $route_id,
                 'weekday' => $weekday,
-            ])
+            ]
+        )
             ->where('driver_custom_order', '>', $deletedIndex)
             ->orderBy('driver_custom_order')
             ->get();
@@ -115,7 +122,7 @@ class AssignmentService {
         $i = $deletedIndex;
 
         // Update index of records after deleted record
-        $recordsAfter->each(function($record) use (&$i) {
+        $recordsAfter->each(function ($record) use (&$i) {
             $record->driver_custom_order = $i;
             $record->save();
             $i++;
@@ -124,4 +131,36 @@ class AssignmentService {
         DB::commit();
     }
 
+    /**
+     * Reorders a Recipient-Route record's driver_custom_order field in-place
+     * 
+     * @param int $route_id
+     * @param int $recipient_id
+     * @param int $weekday
+     * @param int $new_order
+     */
+    public function reorder_recipient($route_id, $recipient_id, $weekday, $new_order)
+    {
+        $movedRecord = RecipientRoute::where(['route_id' => $route_id,
+        'weekday' => $weekday,
+        'recipient_id' => $recipient_id])->first();
+
+        $recordsToMoveUp = RecipientRoute::where(['route_id' => $route_id, 'weekday' => $weekday])
+        ->where('driver_custom_order', '>=', $new_order)
+        ->orderBy('driver_custom_order')
+        ->get();
+
+        $i = $new_order;
+
+        DB::beginTransaction();
+        $recordsToMoveUp->each(function($record) use (&$i) {
+            $record->driver_custom_order = $i+1;
+            $record->save();
+            $i++;
+        });
+
+        $movedRecord->driver_custom_order = $new_order;
+        $movedRecord->save();
+        DB::commit();
+    }
 }
