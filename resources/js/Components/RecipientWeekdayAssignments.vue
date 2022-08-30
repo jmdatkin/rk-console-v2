@@ -21,7 +21,8 @@ const deleteAssignment = function (row) {
         header: 'Clear Assignment',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            axios.patch(route('recipient.deassign', { recipient_id: row.data.pivot.recipient_id, route_id: row.data.pivot.route_id, weekday: row.data.pivot.weekday }))
+            // axios.patch(route('recipient.deassign', { recipient_id: row.data.pivot.recipient_id, route_id: row.data.pivot.route_id, weekday: row.data.pivot.weekday }))
+            axios.post(route('assignment.recipient.deassign', { recipient_id: row.data.pivot.recipient_id, route_id: row.data.pivot.route_id, weekday: row.data.pivot.weekday }))
                 .then(
                     () => {
                         toast.add({ severity: 'success', summary: 'Successful', detail: 'Assignment successfully deleted.', life: 3000 });

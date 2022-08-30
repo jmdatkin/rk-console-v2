@@ -1,0 +1,127 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\DriverRoute;
+use App\Models\RecipientRoute;
+use Illuminate\Support\Facades\DB;
+
+class AssignmentService {
+
+    /**
+     * Create a Driver-Route relationship
+     * 
+     * @param int $route_id
+     * @param int $driver_id
+     * @param int $weekday
+     */
+    public function assign_driver($route_id, $driver_id, $weekday)
+    {
+        $driver_route = DriverRoute::where(
+            [
+                'route_id' => $route_id,
+                'driver_id' => $driver_id,
+                'weekday' => $weekday
+            ])->first();
+
+        if (isset($driver_route))
+            $driver_route->driver_id = $driver_id;
+
+        else
+            $driver_route = new DriverRoute([
+                'route_id' => $route_id,
+                'driver_id' => $driver_id,
+                'weekday' => $weekday
+            ]);
+
+        $driver_route->save();
+    }
+
+    /**
+     * Remove an existing Driver-Route relationship
+
+     * @param int $route_id
+     * @param int $driver_id
+     * @param int $weekday
+     */
+    public function deassign_driver($route_id, $driver_id, $weekday)
+    {
+        DriverRoute::where(
+            [
+                'route_id' => $route_id,
+                'driver_id' => $driver_id,
+                'weekday' => $weekday
+            ])->delete();
+    }
+
+    /**
+     * Create a Recipient-Route relationship
+     *
+     * @param int $route_id
+     * @param int $recipient_id
+     * @param int $weekday
+     */
+    public function assign_recipient($route_id, $recipient_id, $weekday)
+    {
+        $nextIndex = RecipientRoute::getNextOrderingIndex(
+            $route_id, $weekday);
+        RecipientRoute::upsert(
+            [
+                'route_id' => $route_id,
+                'recipient_id' => $recipient_id,
+                'weekday' => $weekday,
+                'driver_custom_order' => $nextIndex
+            ],
+            ['route_id', 'weekday', 'recipient_id']
+        );
+    }
+
+    /**
+     * Remove an existing Recipient-Route relationship
+     * Has side-effect of updating driver_custom_order field of subsequent rows
+     *
+     * @param int $route_id
+     * @param int $recipient_id
+     * @param int $weekday
+     */
+    public function deassign_recipient($route_id, $recipient_id, $weekday)
+    {
+        // Assignment record to be deleted
+        $assignment = RecipientRoute::where(
+            [
+                'route_id' => $route_id,
+                'recipient_id' => $recipient_id,
+                'weekday' => $weekday,
+            ])->first();
+        
+        // Driver-specified ordering index
+        $deletedIndex = $assignment->driver_custom_order;
+
+        DB::beginTransaction();
+
+        $assignment->delete();
+
+        // Records following deleted record ordered by driver ordering index
+        $recordsAfter = RecipientRoute::where(
+            [
+                'route_id' => $route_id,
+                'weekday' => $weekday,
+            ])
+            ->where('driver_custom_order', '>', $deletedIndex)
+            ->orderBy('driver_custom_order')
+            ->get();
+
+        // Temp variable for iterating and updating subsequent records
+        $i = $deletedIndex;
+
+        // Update index of records after deleted record
+        $recordsAfter->each(function($record) use (&$i) {
+            $record->driver_custom_order = $i;
+            $record->save();
+            $i++;
+        });
+
+        DB::commit();
+    }
+
+}
