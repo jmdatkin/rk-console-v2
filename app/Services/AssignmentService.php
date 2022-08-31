@@ -141,24 +141,30 @@ class AssignmentService
      */
     public function reorder_recipient($route_id, $recipient_id, $weekday, $new_order)
     {
+        // Retrieve record being moved
         $movedRecord = RecipientRoute::where(['route_id' => $route_id,
         'weekday' => $weekday,
         'recipient_id' => $recipient_id])->first();
 
+        // Retrieve subsequent records to shift up
         $recordsToMoveUp = RecipientRoute::where(['route_id' => $route_id, 'weekday' => $weekday])
         ->where('driver_custom_order', '>=', $new_order)
         ->orderBy('driver_custom_order')
         ->get();
 
+        // Temp variable for iteration
         $i = $new_order;
 
         DB::beginTransaction();
+
+        // Move up following records
         $recordsToMoveUp->each(function($record) use (&$i) {
             $record->driver_custom_order = $i+1;
             $record->save();
             $i++;
         });
 
+        // Move reordered record
         $movedRecord->driver_custom_order = $new_order;
         $movedRecord->save();
         DB::commit();

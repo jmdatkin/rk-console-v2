@@ -75,4 +75,13 @@ class AssignmentController extends Controller
             $request->input('weekday')
         );
     }
+
+    public function reorder_recipient(Request $request) {
+        $this->assignmentService->reorder_recipient(
+            $request->input('route_id'),
+            $request->input('recipient_id'),
+            $request->input('weekday'),
+            $request->input('new_index')
+        );
+    }
 }

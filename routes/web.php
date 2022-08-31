@@ -66,6 +66,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('UserSettings');
     });
 
+    Route::post('/recipient/reorder', [AssignmentController::class, 'reorder_recipient'])->name('assignment.recipient.reorder');
 
     // Signed-in user must have admin role
     Route::middleware(['admin'])->group(function () {

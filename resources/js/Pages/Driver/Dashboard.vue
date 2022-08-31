@@ -10,8 +10,9 @@ import { DateAdapter } from '../../util';
 import RouteRecipientsTable from '../../Components/Dashboard/RouteRecipientsTable.vue';
 import SingleRouteRecipientTable from '../../Components/DriverDashboard/SingleRouteRecipientTable.vue';
 import RecipientInfo from '../../Components/RecipientInfo.vue';
+import AssignmentService from '@/Service/AssignmentService';
 
-defineProps(['data']);
+const props = defineProps(['data']);
 
 const recipientDialogOpen = ref(false);
 const selectedRecipient = ref();
@@ -21,6 +22,7 @@ const onRowSelect = function(row) {
     selectedRecipient.value = row.data;
     recipientDialogOpen.value = true;
 };
+
 </script>
 
 <template>
@@ -56,7 +58,10 @@ const onRowSelect = function(row) {
                     </template>
                     <div class="mb-4" v-for="route in data">
                     <h4>{{ route.name }}</h4>
-                    <SingleRouteRecipientTable :data="route.recipients"
+                    <SingleRouteRecipientTable @rowReorder="onRowReorder" :data="route.recipients"
+                    dataKey="pivot.driver_custom_order"
+                    sortOrder="1"
+                    sortField="pivot.driver_custom_order"
                     :onRowSelect="onRowSelect"
                     ></SingleRouteRecipientTable>
                     </div>
