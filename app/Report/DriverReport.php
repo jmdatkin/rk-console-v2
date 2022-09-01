@@ -26,6 +26,7 @@ class DriverReport implements ReportInterface
                 'recipients' => function($q) use ($weekday) {
                     $q->where('weekday', $weekday);
                     $q->withPivot('driver_custom_order');
+                    $q->orderBy('driver_custom_order');
                 }
             ])->whereHas('recipients')->get();
         } catch (ModelNotFoundException $e) {

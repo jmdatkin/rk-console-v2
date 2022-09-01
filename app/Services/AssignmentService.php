@@ -142,27 +142,55 @@ class AssignmentService
     public function reorder_recipient($route_id, $recipient_id, $weekday, $new_order)
     {
         // Retrieve record being moved
-        $movedRecord = RecipientRoute::where(['route_id' => $route_id,
-        'weekday' => $weekday,
-        'recipient_id' => $recipient_id])->first();
+        $movedRecord = RecipientRoute::where([
+            'route_id' => $route_id,
+            'weekday' => $weekday,
+            'recipient_id' => $recipient_id
+        ])->first();
 
-        // Retrieve subsequent records to shift up
-        $recordsToMoveUp = RecipientRoute::where(['route_id' => $route_id, 'weekday' => $weekday])
-        ->where('driver_custom_order', '>=', $new_order)
-        ->orderBy('driver_custom_order')
-        ->get();
+        $current_order = $movedRecord->driver_custom_order;
 
-        // Temp variable for iteration
-        $i = $new_order;
 
         DB::beginTransaction();
+        // Moving recipient lower in order
+        if ($current_order > $new_order) {
+            // Retrieve subsequent records to shift up
+            $recordsToMoveUp = RecipientRoute::where(['route_id' => $route_id, 'weekday' => $weekday])
+                ->where('driver_custom_order', '>=', $new_order)
+                ->where('driver_custom_order', '<', $current_order)
+                ->orderBy('driver_custom_order')
+                ->get();
 
-        // Move up following records
-        $recordsToMoveUp->each(function($record) use (&$i) {
-            $record->driver_custom_order = $i+1;
-            $record->save();
-            $i++;
-        });
+            $i = $new_order;
+
+            // Move up following records
+            $recordsToMoveUp->each(function ($record) use (&$i) {
+                // $record->driver_custom_order = $i + 1;
+                $record->driver_custom_order += 1;
+                $record->save();
+                $i++;
+            });
+        }
+        // Moving recipient higher in order
+        else if ($current_order < $new_order) {
+            // Retrieve previous records to shift down
+            $recordsToMoveDown = RecipientRoute::where(['route_id' => $route_id, 'weekday' => $weekday])
+                ->where('driver_custom_order', '<=', $new_order)
+                ->where('driver_custom_order', '>', $current_order)
+                // ->orderBy('driver_custom_order', 'desc')
+                ->orderBy('driver_custom_order')
+                ->get();
+
+            $i = $new_order;
+
+            // Move up following records
+            $recordsToMoveDown->each(function ($record) use (&$i) {
+                // $record->driver_custom_order = $i - 1;
+                $record->driver_custom_order -= 1;
+                $record->save();
+                $i--;
+            });
+        }
 
         // Move reordered record
         $movedRecord->driver_custom_order = $new_order;
