@@ -6,6 +6,7 @@ use App\Carbon\RkCarbon;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Driver extends BasePersonRole implements Auditable
@@ -43,7 +44,13 @@ class Driver extends BasePersonRole implements Auditable
     }
 
     public function routesWithSubs() {
-
+        return $this->routes()
+        ->whereNotExists(function($query) {
+            $query->select('driver_id')
+            ->from('driver_subs')
+            ->whereColumn('driver_subs.driver_id', '=', 'driver_id')
+            ;
+        });
     }
 
     public function alternateRoutes() {

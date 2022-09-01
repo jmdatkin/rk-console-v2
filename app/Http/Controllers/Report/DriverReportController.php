@@ -15,7 +15,8 @@ class DriverReportController extends BaseReportController
      */
     public function __construct(DriverReport $report, DriverRepositoryInterface $repository)
     {
-        parent::__construct($report);
+        // parent::__construct($report);
+        $this->report = $report;
         $this->repository = $repository;
     }
 
@@ -34,7 +35,11 @@ class DriverReportController extends BaseReportController
     public function data(Request $request)
     {
         // $driver_id = $request->input('driver_id');
-        // $weekday = $request->input('weekday');
-        return $this->report->data($request->only(['driver_id', 'weekday']));
+        $weekday = $request->input('weekday');
+        // return $this->report->data($request->only(['driver_id', 'weekday']));
+        return $this->report->new_data(
+            $request->input('driver_id'),
+            $request->input('date')
+        );
     }
 }

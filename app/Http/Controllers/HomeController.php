@@ -27,7 +27,11 @@ class HomeController extends Controller
         else if (Auth::user()->hasRole(Role::DRIVER)) {
             return Inertia::render('Driver/Dashboard',
             [
-                'data' => $this->report->data(['date' => RkCarbon::today(), 'driver_id' => Auth::user()->driver_id]),
+                // 'data' => $this->report->data(['date' => RkCarbon::today(), 'driver_id' => Auth::user()->driver_id]),
+                'data' => $this->report->new_data(
+                    Auth::user()->driver_id,
+                    RkCarbon::today()
+                )
             ]);
         }
         else
