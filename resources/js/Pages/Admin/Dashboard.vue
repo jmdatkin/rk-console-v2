@@ -16,7 +16,7 @@ import { ref } from 'vue';
 import { DateAdapter } from '../../util';
 import RouteDriverTable from '../../Components/DriversByRoute/RouteDriverTable.vue';
 
-defineProps(['routeDriver_data', 'routeRecipient_data', 'stats'])
+defineProps(['routeDriver_data', 'routeRecipient_data', 'stats', 'messages'])
 
 const recipientData = ref([]);
 const driverData = ref([]);
@@ -48,7 +48,7 @@ const viewDriver = function(id) {
 
     <Head title="Dashboard" />
 
-    <BasePageLayout>
+    <BasePageLayout :messages="messages">
         <!-- Driver Dialog -->
         <Dialog :modal="true" :dismissableMask="true" closeOnEscape="true" v-model:visible="driverDialogOpen">
             <template #header>

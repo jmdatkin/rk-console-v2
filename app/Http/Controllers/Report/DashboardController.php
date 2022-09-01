@@ -20,17 +20,42 @@ class DashboardController extends Controller
      * 
      * @param DashboardReport $report
      */
-    public function index(DashboardReport $report) {
+    public function index(DashboardReport $report)
+    {
         $today = RkCarbon::today();
-        return Inertia::render('Admin/Dashboard',
-        [
-            'routeDriver_data' => $report->routeDrivers($today)->get(),
-            'routeRecipient_data' => $report->routeRecipients($today),
-            'stats' => [
-                'recipients' => (new Stats(Recipient::first()))->data(),
-                'drivers' => (new Stats(Driver::first()))->data(),
-                'person' => (new Stats(Person::first()))->data()
+
+        $routeRecipient_data = $report->routeRecipients($today);
+
+        $messages = [];
+
+        $unassociated_drivers_exist = !$routeRecipient_data->every(function ($recip, $key) {
+            return $recip['has_driver_associated'];
+        });
+        
+        if ($unassociated_drivers_exist) {
+            array_push(
+                $messages,
+                [
+                    'severity' => 'warn',
+                    'content' => 'There are recipients assigned to routes without an associated driver.'
+                ]
+            );
+        }
+
+        // dd($messages);
+
+        return Inertia::render(
+            'Admin/Dashboard',
+            [
+                'routeDriver_data' => $report->routeDrivers($today)->get(),
+                'routeRecipient_data' => $report->routeRecipients($today),
+                'messages' => $messages,
+                'stats' => [
+                    'recipients' => (new Stats(Recipient::first()))->data(),
+                    'drivers' => (new Stats(Driver::first()))->data(),
+                    'person' => (new Stats(Person::first()))->data()
+                ]
             ]
-        ]);
+        );
     }
 }

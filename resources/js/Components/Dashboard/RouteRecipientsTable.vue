@@ -14,7 +14,16 @@ import { ref, onUpdated, onMounted, computed } from 'vue';
 const props = defineProps(['value', 'onSelect']);
 
 const rowClass = (data) => {
-    return data.inException ? 'in-exception' : null;
+    let classString = "";
+
+    if (data.inException)
+        classString += 'in-exception ';
+
+    if (!data.has_driver_associated)
+        classString += 'no-associated-driver';
+
+    // return data.inException ? 'in-exception' : null;
+    return classString;
 };
 
 </script>
@@ -62,7 +71,9 @@ a:hover {
     // color: var(--red-800);
 }
 
-
+::v-deep .no-associated-driver {
+    background-color: var(--cyan-200) !important;
+}
 ::v-deep .in-exception {
     background-color: var(--red-200) !important;
 }
