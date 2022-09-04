@@ -20,11 +20,14 @@ class DriverReport
 
         $weekday = $date->dayOfWeek;
 
-        $route_ids = $this->stubs->driverRouteWithSubs($date)
+        // $route_ids = $this->stubs->driverRouteWithSubs($date)
+        $route_ids = DB::query()->fromSub(
+            $this->stubs->driverRouteWithSubs($date),
+            'driver_route_subs')
         ->where('driver_id', $driver_id)
-        ->whereNull('sub_driver_id')
+        ->whereNull('driver_route_subs.sub_driver_id')
         ->orWhere(function($query) use ($driver_id) {
-            $query->where('sub_driver_id', $driver_id);
+            $query->where('driver_route_subs.sub_driver_id', $driver_id);
         })
         ->join('routes','routes.id','=','route_id')
         ->get()->map(fn($r) => $r->route_id);
