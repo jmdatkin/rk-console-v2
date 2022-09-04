@@ -4,31 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Carbon\RkCarbon;
 use App\Models\DriverSub;
+use App\Services\AssignmentService;
 use Illuminate\Http\Request;
 
 class DriverSubController extends Controller
 {
     //
+    public function __construct(AssignmentService $assignmentService) {
+        $this->assignmentService = $assignmentService;
+    }
 
     public function store(Request $request)
     {
-        $input = $request->only(['driver_id', 'sub_driver_id', 'date', 'route_id']);
-
-        // dd($request);
-
-        $driver_sub = DriverSub::where($request->only(['driver_id', 'route_id']))->whereDate('date', RkCarbon::parse($request->input('date')))->first();
-
-        // dd($driver_sub);
-
-        if (!isset($driver_sub)) {
-            $driver_sub = new DriverSub();
-        }
-
-        $driver_sub->route_id = $input['route_id'];
-        $driver_sub->driver_id = $input['driver_id'];
-        $driver_sub->date = RkCarbon::parse($input['date']);
-        $driver_sub->sub_driver_id = $input['sub_driver_id'];
-
-        $driver_sub->save();
+        $this->assignmentService->assign_driver_sub(
+            $request->input('route_id'),
+            $request->input('driver_id'),
+            $request->input('sub_driver_id'),
+            $request->input('date'),
+        );
     }
 }

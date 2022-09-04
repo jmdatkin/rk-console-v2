@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Carbon\RkCarbon;
 use App\Models\DriverRoute;
+use App\Models\DriverSub;
 use App\Models\RecipientRoute;
 use Illuminate\Support\Facades\DB;
 
@@ -55,6 +57,34 @@ class AssignmentService
                 'weekday' => $weekday
             ]
         )->delete();
+    }
+
+    /**
+     * Assigns or updates a driver substitution.
+     * 
+     * @param int $route_id
+     * @param int $driver_id
+     * @param int $sub_driver_id
+     * @param int $date
+     */
+    public function assign_driver_sub($route_id, $driver_id, $sub_driver_id, $date) {
+        $driver_sub = DriverSub::where(
+            [
+                'route_id' => $route_id,
+                'driver_id' => $driver_id,
+            ]
+        )->whereDate('date', RkCarbon::parse($date))->first();
+
+        if (!isset($driver_sub)) {
+            $driver_sub = new DriverSub();
+            $driver_sub->route_id = $route_id;
+            $driver_sub->date = RkCarbon::parse($date);
+        }
+
+        $driver_sub->driver_id = $driver_id;
+        $driver_sub->sub_driver_id = $sub_driver_id;
+
+        $driver_sub->save();
     }
 
     /**
