@@ -24,7 +24,23 @@ class DriversByRouteViewController extends BaseReportController
      */
     public function index()
     {
-        return Inertia::render('Admin/DriversByRoute');
+        return Inertia::render('Admin/DateSelectLanding',
+    [
+        'header' => 'Drivers by Route'
+    ]);
+    }
+
+    /**
+     * Display the DriversByRoute view.
+     */
+    public function report($date)
+    {
+        // dd($date);
+        return Inertia::render('Admin/DriversByRoute',
+        [
+            'date' => $date,
+            'data' => $this->report->data(['date' => RkCarbon::createFromFormat('m-d-Y', $date)])->get()
+        ]);
     }
 
     /**

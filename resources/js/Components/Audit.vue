@@ -24,7 +24,7 @@ const tableData = computed(() => {
         let [key, val] = entry;
         return {
             attribute: key,
-            old_value: audit.new_values[key],
+            old_value: audit.old_values[key],
             new_value: val
             // old_value: val,
             // new_value: audit.new_values[key]

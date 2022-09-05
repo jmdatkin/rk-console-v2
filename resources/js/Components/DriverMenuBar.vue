@@ -5,31 +5,9 @@ import Button from 'primevue/button';
 import { ref } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import { Link } from '@inertiajs/inertia-vue3';
+import { driverMenuItems } from '../constants';
 
-const items = ref([
-    {
-        label: 'Dashboard',
-        command: () => Inertia.visit(route('dashboard'))
-    },
-    {
-        label: 'Views',
-        icon: 'pi pi-fw pi-database',
-        items: [
-            {
-                label: 'This Week',
-                command: () => Inertia.visit(route('recipientsbyroute'))
-            },
-            {
-                label: 'Drivers by Route',
-                command: () => Inertia.visit(route('driversbyroute'))
-            },
-            {
-                label: 'Schedule Exceptions',
-                command: () => Inertia.visit(route('exception.index'))
-            },
-        ]
-    },
-]);
+const items = ref(driverMenuItems);
 </script>
 
 <template>
@@ -44,13 +22,6 @@ const items = ref([
             @click="() => Inertia.get(route('profile'))"></Button>
         <Button label="Log Out" class="p-button-text p-button-plain"
             @click="() => Inertia.post(route('logout'))"></Button>
-        <!-- <Link :href="route('profile')" method="get" as="button">
-    <i class="pi pi-user"></i>
-        Profile
-    </Link>
-    <Link :href="route('logout')" method="post" as="button">
-        Log Out
-    </Link> -->
     </template>
 </MenuBar>
 </template>

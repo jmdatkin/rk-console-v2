@@ -8,20 +8,22 @@ import WeekdayAssignments from './RecipientWeekdayAssignments';
 import { FilterMatchMode, FilterOperator } from 'primevue/api';
 import { useToast } from 'primevue/usetoast';
 import { onMounted, ref } from 'vue';
+import moment from 'moment';
 import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps(['recipientData'])
 const toast = useToast();
 
-const WEEKDAYS = ref({
-    'sun': 'Sunday',
-    'mon': 'Monday',
-    'tue': 'Tuesday',
-    'wed': 'Wednesday',
-    'thu': 'Thursday',
-    'fri': 'Friday',
-    'sat': 'Saturday'
-});
+// const WEEKDAYS = ref({
+//     'sun': 'Sunday',
+//     'mon': 'Monday',
+//     'tue': 'Tuesday',
+//     'wed': 'Wednesday',
+//     'thu': 'Thursday',
+//     'fri': 'Friday',
+//     'sat': 'Saturday'
+// });
+const WEEKDAYS = ref(moment.weekdays());
 
 const routeFilters = ref({
     'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -75,7 +77,8 @@ const createSelectCallback = function (day) {
 };
 
 const submitAssignment = function (route_id, weekday) {
-    axios.patch(route('recipient.assign', { recipient_id: props.recipientData.id, route_id, weekday }))
+    // axios.patch(route('recipient.assign', { recipient_id: props.recipientData.id, route_id, weekday }))
+    axios.post(route('assignment.recipient.assign', { recipient_id: props.recipientData.id, route_id, weekday }))
         .then(
             () => {
                 getData();
@@ -102,7 +105,7 @@ onMounted(() => {
         </template>
         <DataTable v-if="routeDataLoaded" :value="routeData" :paginator="true" :rows="10"
             v-model:selection="selectedRoute" v-model:filters="routeFilters" selectionMode="single" dataKey="id"
-            @row-select="submitAssignment(selectedRoute, selectedWeekday)">
+            @row-select="submitAssignment(selectedRoute.id, selectedWeekday)">
             <template #header>
                 <div class="flex justify-content-between">
                     <Button type="button" icon="pi pi-filter-slash" label="Clear" class="p-button-outlined"
@@ -121,9 +124,9 @@ onMounted(() => {
         </DataTable>
     </Dialog>
     <div class="flex flex-col">
-        <template v-for="(fullName, weekday, index) in WEEKDAYS" :key="index">
-            <WeekdayAssignments class="mb-2" :getData="getData" :title="fullName" :onSelect="createSelectCallback(weekday)"
-                :data="dataForDay(weekday)">
+        <template v-for="(weekday, index) in WEEKDAYS" :key="index">
+            <WeekdayAssignments class="mb-2" :getData="getData" :title="weekday" :onSelect="createSelectCallback(index)"
+                :data="dataForDay(index)">
             </WeekdayAssignments>
             <!-- <Divider /> -->
         </template>

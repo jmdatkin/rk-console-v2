@@ -9,4 +9,5 @@ class DriverRoute extends Pivot
 {
     use HasFactory;
 
+    public $table = 'driver_route';
 }

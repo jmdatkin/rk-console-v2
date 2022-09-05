@@ -1,19 +1,39 @@
 import { Inertia } from "@inertiajs/inertia";
+import moment from "moment";
 
-const WEEKDAYS = {
-    'mon': 'Monday',
-    'tue': 'Tuesday',
-    'wed': 'Wednesday',
-    'thu': 'Thursday',
-    'fri': 'Friday',
-    'sat': 'Saturday',
-    'sun': 'Sunday'
-};
+const WEEKDAYS = moment.weekdays();
 
-const menuItems = [
+// const WEEKDAYS = {
+//     'mon': 'Monday',
+//     'tue': 'Tuesday',
+//     'wed': 'Wednesday',
+//     'thu': 'Thursday',
+//     'fri': 'Friday',
+//     'sat': 'Saturday',
+//     'sun': 'Sunday'
+// };
+const adminMenuItems = [
     {
         label: 'Dashboard',
         command: () => Inertia.visit(route('dashboard'))
+    },
+    {
+        label: 'Reports',
+        icon: 'pi pi-fw pi-database',
+        items: [
+            {
+                label: 'Outreach Report',
+                command: () => Inertia.visit(route('report.outreach'))
+            },
+            {
+                label: 'Meals Report',
+                command: () => Inertia.visit(route('report.meals'))
+            },
+            {
+                label: 'Totals Report',
+                command: () => Inertia.visit(route('report.totals'))
+            },
+        ]
     },
     {
         label: 'Resources',
@@ -67,28 +87,6 @@ const menuItems = [
                 label: 'Drivers by Route',
                 command: () => Inertia.visit(route('driversbyroute'))
             },
-            {
-                label: 'Schedule Exceptions',
-                command: () => Inertia.visit(route('exception.index'))
-            },
-        ]
-    },
-    {
-        label: 'Reports',
-        icon: 'pi pi-fw pi-database',
-        items: [
-            {
-                label: 'Outreach Report',
-                command: () => Inertia.visit(route('report.outreach'))
-            },
-            {
-                label: 'Meals Report',
-                command: () => Inertia.visit(route('report.meals'))
-            },
-            {
-                label: 'Totals',
-                command: () => Inertia.visit(route('report.totals'))
-            },
         ]
     },
     {
@@ -97,12 +95,12 @@ const menuItems = [
         items: [
             {
                 label: 'Application Settings',
-        icon: 'pi pi-fw pi-cog',
+                icon: 'pi pi-fw pi-cog',
                 command: () => Inertia.visit(route('settings'))
             },
             {
                 label: 'User Settings',
-        icon: 'pi pi-fw pi-user',
+                icon: 'pi pi-fw pi-user',
                 command: () => Inertia.visit(route('settings.user'))
             },
         ]
@@ -120,7 +118,49 @@ const menuItems = [
                 command: () => Inertia.visit(route('profile'))
             },
         ]
+    },
+    {
+        label: 'Links',
+        icon: 'pi pi-fw pi-paper',
+        items: [
+            {
+                label: 'Docs',
+                command: () => Inertia.visit(route('docs'))
+            }
+        ]
     }
 ];
 
-export { WEEKDAYS, menuItems };
+const driverMenuItems = [
+    {
+        label: 'Dashboard',
+        command: () => Inertia.visit(route('dashboard'))
+    },
+    {
+        label: 'Views',
+        icon: 'pi pi-fw pi-database',
+        items: [
+        ]
+    },
+    {
+        label: 'User Settings',
+        icon: 'pi pi-fw pi-user',
+        command: () => Inertia.visit(route('settings.user'))
+    },
+    {
+        label: 'Profile',
+        icon: 'pi pi-fw pi-user',
+        items: [
+            {
+                label: 'Log Out',
+                command: () => Inertia.post(route('logout'))
+            },
+            {
+                label: 'User Profile',
+                command: () => Inertia.visit(route('profile'))
+            },
+        ]
+    },
+];
+
+export { WEEKDAYS, adminMenuItems, driverMenuItems };

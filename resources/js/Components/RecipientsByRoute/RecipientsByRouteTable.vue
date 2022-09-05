@@ -15,7 +15,16 @@ import { ref, onUpdated, onMounted, computed } from 'vue';
 const props = defineProps(['date', 'openDateSelect']);
 
 const rowClass = (data) => {
-    return data.inException ? 'in-exception' : null;
+    let classString = "";
+
+    if (data.inException)
+        classString += 'in-exception ';
+
+    if (!data.has_driver_associated)
+        classString += 'no-associated-driver';
+
+    // return data.inException ? 'in-exception' : null;
+    return classString;
 };
 
 const data = ref([]);

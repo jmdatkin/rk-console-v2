@@ -78,4 +78,19 @@ onUpdated(() => {
     background-color: red;
     z-index: 2 !important;
 }
+
+td.fc-daygrid-day {
+    cursor: pointer;
+}
+
+td.fc-daygrid-day:hover {
+    background-color: var(--blue-50);
+}
+
+.fc h2.fc-toolbar-title {
+    font-size: 1.5rem;
+    color: var(--slate-700);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+}
 </style>

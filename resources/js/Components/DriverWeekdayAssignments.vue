@@ -3,6 +3,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
 import Panel from 'primevue/panel';
+import Divider from 'primevue/divider';
 import { useConfirm } from 'primevue/useconfirm';
 import { useToast } from 'primevue/usetoast';
 import axios from 'axios';
@@ -42,7 +43,8 @@ const deleteAssignment = function (row) {
 <template>
     <div class="flex flex-col">
         <!-- <span class="p-info-item-header">{{ title }}</span> -->
-        <Panel :header="title">
+        <!-- <Panel :header="title"> -->
+            <h3>{{ title }}</h3>
             <DataTable class="p-datatable-sm" :value="data" :showGridlines="true">
                 <Column field="id" header="id"></Column>
                 <Column field="name" header="Route Name"></Column>
@@ -56,7 +58,8 @@ const deleteAssignment = function (row) {
                 </Column>
             </DataTable>
             <Button class="p-button-text p-button-sm" @click="onSelect">Select Route</Button>
-        </Panel>
+        <Divider />
+        <!-- </Panel> -->
     </div>
 </template>
 

@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\AuditViewController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\DriverRouteSubsController;
+use App\Http\Controllers\DriverSubController;
 use App\Http\Controllers\Report\DashboardController;
 use App\Http\Controllers\Report\DriversByRouteViewController;
 use App\Http\Controllers\Report\RecipientsByRouteViewController;
@@ -19,7 +20,6 @@ use App\Http\Controllers\Resources\DataTables\PersonDataTableController;
 use App\Http\Controllers\Resources\DataTables\RecipientDataTableController;
 use App\Http\Controllers\Resources\DataTables\RouteDataTableController;
 use App\Http\Controllers\Resources\DriverController;
-use App\Http\Controllers\Resources\DriverExceptionController;
 use App\Http\Controllers\Resources\PersonController;
 use App\Http\Controllers\Resources\RecipientController;
 use App\Http\Controllers\Resources\RouteController;
@@ -66,9 +66,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('UserSettings');
     });
 
+    Route::post('/recipient/reorder', [AssignmentController::class, 'reorder_recipient'])->name('assignment.recipient.reorder');
 
     // Signed-in user must have admin role
     Route::middleware(['admin'])->group(function () {
+
+        Route::get('committest', function () {
+            PendingJob::uncommitted()->get()->each(function ($job) {
+                $job->commit();
+            });
+        });
 
         Route::get('adminsettings', function () {
             return Inertia::render('AdminSettings');
@@ -78,6 +85,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
         Route::prefix('driversbyroute')->group(function () {
+            Route::get('/{date}', [DriversByRouteViewController::class, 'report'])->name('driversbyroute.report');
             Route::get('/', [DriversByRouteViewController::class, 'index'])->name('driversbyroute');
             Route::get('/data', [DriversByRouteViewController::class, 'data'])->name('driversbyroute.data');
         });
@@ -97,7 +105,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('pendingjobs');
 
         Route::prefix('recipient')->group(function () {
-            Route::get('/', [RecipientController::class, 'all']);
+            Route::get('/', [RecipientController::class, 'all'])->name('recipient.all');
             Route::get('/data', [RecipientController::class, 'data']);
             Route::get('/{id}', [RecipientController::class, 'show'])->name('recipient.show');
             Route::get('/{id}/data', [RecipientController::class, 'get']);
@@ -111,7 +119,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         Route::prefix('driver')->group(function () {
-            Route::get('/', [DriverController::class, 'all']);
+            Route::get('/', [DriverController::class, 'all'])->name('driver.all');
             Route::get('/data', [DriverController::class, 'data']);
             Route::get('/{id}', [DriverController::class, 'show'])->name('driver.show');
             Route::get('/{id}/data', [DriverController::class, 'get']);
@@ -128,16 +136,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/{id}/alternates/detach/{route_id}', [DriverController::class, 'deassignAlternate']);
         });
 
-        Route::prefix('exception')->group(function () {
-            Route::get('/', [DriverExceptionController::class, 'index'])->name('exception.index');
-            Route::get('/{driver_id}/data', [DriverExceptionController::class, 'data'])->name('exception.driver');
-            Route::post('/store', [DriverExceptionController::class, 'store'])->name('exception.store');
-            Route::post('/{exception_id}/sub/{substitute_driver_id}', [DriverExceptionController::class, 'makeSubstitute'])->name('exception.sub');
-            // Route::post('/{exception_id}/sub/', [DriverExceptionController::class, 'makeSubstitute'])->name('exception.sub');
+        Route::prefix('assignments')->group(function() {
+            Route::post('/recipient/assign', [AssignmentController::class, 'assign_recipient'])->name('assignment.recipient.assign');
+            Route::post('/recipient/deassign', [AssignmentController::class, 'deassign_recipient'])->name('assignment.recipient.deassign');
+
+            Route::post('/driver/assign', [AssignmentController::class, 'assign_driver'])->name('assignment.driver.assign');
+            Route::post('/driver/deassign', [AssignmentController::class, 'deassign_driver'])->name('assignment.driver.deassign');
+        });
+
+        Route::prefix('substitute')->group(function() {
+            Route::post('/store', [DriverSubController::class, 'store'])->name('substitute.store');
         });
 
         Route::prefix('personnel')->group(function () {
-            Route::get('/', [PersonController::class, 'all']);
+            Route::get('/', [PersonController::class, 'all'])->name('person.all');
             Route::get('/{id}', [PersonController::class, 'show']);
             Route::get('/data', [PersonController::class, 'data']);
             Route::post('/store', [PersonController::class, 'store']);
@@ -195,12 +207,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('driver/data', [DriverReportController::class, 'data']);
             Route::get('texter', [TexterReportController::class, 'index']);
             Route::get('texter/data', [TexterReportController::class, 'data']);
+
+            Route::get('meals/{date}', [MealReportController::class, 'report'])->name('report.meals.report');
             Route::get('meals', [MealReportController::class, 'index'])->name('report.meals');
             Route::get('meals/data', [MealReportController::class, 'data'])->name('report.meals.data');
 
+            Route::get('outreach/{date}', [OutreachReportController::class, 'report'])->name('report.outreach.report');
             Route::get('outreach', [OutreachReportController::class, 'index'])->name('report.outreach');
             Route::get('outreach/data', [OutreachReportController::class, 'data'])->name('report.outreach.data');
 
+            Route::get('totals/{date}', [TotalsReportController::class, 'report'])->name('report.totals.report');
             Route::get('totals', [TotalsReportController::class, 'index'])->name('report.totals');
             Route::get('totals/data', [TotalsReportController::class, 'data'])->name('report.totals.data');
         });

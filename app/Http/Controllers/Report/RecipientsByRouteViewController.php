@@ -16,7 +16,8 @@ class RecipientsByRouteViewController extends BaseReportController
      */
     public function __construct(RecipientsByRouteReport $report)
     {
-        parent::__construct($report);
+        // parent::__construct($report);
+        $this->report = $report;
     }
 
     /**
@@ -33,6 +34,6 @@ class RecipientsByRouteViewController extends BaseReportController
     public function data(Request $request)
     {
         $date = RkCarbon::parseStd($request->input('date'));
-        return $this->report->data(['date' => $date]);
+        return $this->report->data($date);
     }
 }

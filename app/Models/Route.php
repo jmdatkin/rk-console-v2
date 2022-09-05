@@ -26,9 +26,18 @@ class Route extends Model implements Auditable
         return $this->belongsToMany(Recipient::class)->wherePivot('weekday', $weekday);
     }
 
+    public function driver($weekday) {
+        return $this->drivers()->wherePivot('weekday', $weekday)->first();
+    }
+
     public function drivers()
     {
         return $this->belongsToMany(Driver::class)->withPivot('weekday');
+    }
+
+    public function substituteDrivers()
+    {
+        return $this->belongsToMany(Driver::class, 'driver_subs', 'route_id', 'sub_driver_id')->withPivot('date');
     }
 
     /**
@@ -88,7 +97,7 @@ class Route extends Model implements Auditable
 
     public function deassignRecipient($recipient_id, $weekday)
     {
-        $this->recipients()->wherePivot('weekday', $weekday)->where('recipient_id', $recipient_id)->detach();
+        $this->recipients()->wherePivot('weekday', $weekday)->wherePivot('recipient_id', $recipient_id)->detach();
     }
 
     // public function driversOnDay($date)

@@ -26,7 +26,6 @@ axios.get(route('settings.user.data')).then(res => {
     res.data.forEach(data => {
         d[data.key] = data.value;
     });
-    console.log(d);
     initSettings(d);
 });
 </script>
@@ -35,9 +34,9 @@ axios.get(route('settings.user.data')).then(res => {
         <template #header>
             User Settings
         </template>
-        <h3>Panel</h3>
+        <!-- <h3>Panel</h3> -->
         <div class="flex flex-col space-y-2">
-            <InfoItem title="EEE">
+            <InfoItem title="Defer DB Actions by Default">
                 <InputSwitch v-model="settings.E"></InputSwitch>
             </InfoItem>
             <Button @click="saveSettings" label="Save"></Button>

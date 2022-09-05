@@ -5,9 +5,9 @@ import Button from 'primevue/button';
 import { ref } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import { Link } from '@inertiajs/inertia-vue3';
-import { menuItems } from '../constants';
+import { adminMenuItems } from '../constants';
 
-const items = ref(menuItems);
+const items = ref(adminMenuItems);
 </script>
 
 <template>

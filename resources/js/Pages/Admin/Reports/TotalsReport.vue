@@ -1,8 +1,9 @@
 <script setup>
 import ReportLayout from '@/Layouts/ReportLayout';
-import DateSelect from '../../../Components/DateSelect.vue';
 import TotalsReportTable from '../../../Components/TotalsReport/TotalsReportTable.vue';
-import FullscreenDataTable from '../../../Components/FullscreenDataTable.vue';
+
+defineProps(['data', 'date']);
+
 </script>
 
 <template>
@@ -11,15 +12,13 @@ import FullscreenDataTable from '../../../Components/FullscreenDataTable.vue';
             Totals Report
         </template>
         <template #report>
-
-            <DateSelect>
-                <template v-slot="{ date, openDateSelect }">
-                    <FullscreenDataTable>
-                        <TotalsReportTable :date="date" :openDateSelect="openDateSelect">
-                        </TotalsReportTable>
-                    </FullscreenDataTable>
-                </template>
-            </DateSelect>
+            <Button class="p-button-outlined" icon="pi pi-chevron-left" label="Back"
+                @click="$inertia.visit(route('report.totals'))"></Button>
+            <div class="border">
+                <WeekDateLinks :baseURL="route('report.totals')" :date="date"></WeekDateLinks>
+                <TotalsReportTable :date="date" :data="data">
+                </TotalsReportTable>
+            </div>
         </template>
     </ReportLayout>
 </template>

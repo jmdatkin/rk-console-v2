@@ -2,21 +2,21 @@
 import BasePageLayout from '@/Layouts/BasePageLayout';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
-import RouteDriversTable from '@/Components/Dashboard/RouteDriversTable';
 import RouteRecipientsTable from '@/Components/Dashboard/RouteRecipientsTable';
 import Card from 'primevue/card';
 import moment from 'moment';
-import Divider from 'primevue/divider';
 import { Link, Head } from '@inertiajs/inertia-vue3';
 import Panel from 'primevue/panel';
 import RecipientInfo from '@/Components/RecipientInfo';
 import DriverInfo from '@/Components/DriverInfo';
 import { Inertia } from '@inertiajs/inertia';
+import TextClock from '@/Components/TextClock';
 import { ref } from 'vue';
 
 import { DateAdapter } from '../../util';
+import RouteDriverTable from '../../Components/DriversByRoute/RouteDriverTable.vue';
 
-defineProps(['routeDriver_data', 'routeRecipient_data', 'stats'])
+defineProps(['routeDriver_data', 'routeRecipient_data', 'stats', 'messages'])
 
 const recipientData = ref([]);
 const driverData = ref([]);
@@ -41,13 +41,14 @@ const openDriverDialog = function (row) {
 const viewDriver = function(id) {
     Inertia.visit(route('driver.show', id));
 };
+
 </script>
 
 <template>
 
     <Head title="Dashboard" />
 
-    <BasePageLayout>
+    <BasePageLayout :messages="messages">
         <!-- Driver Dialog -->
         <Dialog :modal="true" :dismissableMask="true" closeOnEscape="true" v-model:visible="driverDialogOpen">
             <template #header>
@@ -75,7 +76,8 @@ const viewDriver = function(id) {
         </template>
         <div class="grid">
             <div class="col-12">
-                <h3>{{ moment().format("dddd DD MMM YYYY HH:mm:ss") }}</h3>
+                <!-- <h3>{{ moment.tz().utcOffset(-240).format("dddd DD MMM YYYY hh:mm A") }}</h3> -->
+                <TextClock />
             </div>
         </div>
         <div class="grid">
@@ -89,8 +91,10 @@ const viewDriver = function(id) {
                             Today's Drivers
                         </span>
                     </template>
-                    <RouteDriversTable :onSelect="openDriverDialog" :value="routeDriver_data"
-                        :date="DateAdapter.make(Date.now())"></RouteDriversTable>
+                    <!-- <RouteDriversTable :onSelect="openDriverDialog" :value="routeDriver_data"
+                        :date="DateAdapter.make(moment.tz().utcOffset(-240))"></RouteDriversTable> -->
+                        <RouteDriverTable :data="routeDriver_data"
+                        :date="DateAdapter.make(moment.tz().utcOffset(-240))"></RouteDriverTable>
                 </Panel>
             </div>
             <div class="col-12 2xl:col-6">
@@ -103,7 +107,7 @@ const viewDriver = function(id) {
                         </span>
                     </template>
                     <RouteRecipientsTable :onSelect="openRecipientDialog" :value="routeRecipient_data"
-                        :date="DateAdapter.make(Date.now())">
+                        :date="DateAdapter.make(moment.tz().utcOffset(-240))">
                     </RouteRecipientsTable>
                 </Panel>
             </div>

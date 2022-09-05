@@ -10,7 +10,7 @@ class OutreachReport {
      * Retrieves all recipients assigned to a given day, regardless of route
      */
     public function data($date) {
-        $weekday = $date->lowercaseDayName();
+        $weekday = $date->dayOfWeek;
 
         return DB::table('recipient_route')
         ->where('weekday',$weekday)
