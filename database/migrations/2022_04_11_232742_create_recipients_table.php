@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('agency_id')->nullable();
             $table->unsignedBigInteger('person_id')->nullable();
             $table->integer('numMeals')->default(0);
+            $table->boolean('paused')->default(false);
             $table->string('address');
             $table->foreign('person_id')->references('id')->on('people');
             $table->foreign('agency_id')->references('id')->on('agencies');

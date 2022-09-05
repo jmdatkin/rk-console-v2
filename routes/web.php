@@ -116,6 +116,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::patch('/{recipient_id}/assign/{route_id}', [RecipientController::class, 'assign'])->name('recipient.assign');
             Route::patch('/{recipient_id}/deassign/{route_id}', [RecipientController::class, 'deassign'])->name('recipient.deassign');
             Route::get('/{id}/routes', [RecipientController::class, 'routes'])->name('recipient.routes');
+            Route::post('/{id}/pause', [RecipientController::class, 'pause'])->name('recipient.pause');
+            Route::post('/{id}/unpause', [RecipientController::class, 'unpause'])->name('recipient.unpause');
         });
 
         Route::prefix('driver')->group(function () {

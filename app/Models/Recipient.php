@@ -2,13 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\LogModelChanges;
-use App\Events\RecipientModelUpdated;
-use Error;
-use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\QueryException;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Recipient extends BasePersonRole implements Auditable
@@ -42,14 +36,26 @@ class Recipient extends BasePersonRole implements Auditable
     }
 
     /**
-     * Sets a recipient's assigned route for the given weekday
-     * 
-     * @param route_id
-     * @param weekday
+     * Sets 'paused' attribute to 'true'
      */
-    public function setRoute($route_id, $weekday)
-    {
-            $this->routes()->wherePivot('weekday', $weekday)->detach();
-            $this->routes()->attach($route_id, ['weekday' => $weekday]);     //Set new route id
+    public function pause() {
+        $this->paused = true;
+        $this->save();
+    }
+
+    /**
+     * Sets 'paused' attribute to 'false'
+     */
+    public function unpause() {
+        $this->paused = false;
+        $this->save();
+    }
+
+    public function scopePaused($query) {
+        return $query->where('paused', true);
+    }
+
+    public function scopeUnpaused($query) {
+        return $query->where('paused', false);
     }
 }
