@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Carbon\RkCarbon;
 use App\Http\Controllers\Controller;
 use App\Report\RouteTotalsReport;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class TotalsReportController extends Controller
     public function report($date) {
         return Inertia::render('Admin/Reports/TotalsReport',
         [
-            'data' => $this->report->data(),
+            'data' => $this->report->data(RkCarbon::parseStd($date)),
             'date' => $date
         ]
     );

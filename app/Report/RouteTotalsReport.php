@@ -12,6 +12,8 @@ class RouteTotalsReport {
     }
 
     public function baseQuery($date) {
+
+        // Recipient numMeals totals by route and weekday
         $sub = DB::table('recipient_route')
             ->join('recipients','recipients.id','=','recipient_id')
             ->join('routes','routes.id','=','route_id')
