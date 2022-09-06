@@ -71,9 +71,6 @@ a:hover {
     // color: var(--red-800);
 }
 
-::v-deep .no-associated-driver {
-    background-color: var(--cyan-200) !important;
-}
 ::v-deep .in-exception {
     background-color: var(--red-200) !important;
 }
