@@ -12,7 +12,8 @@ class Recipient extends BasePersonRole implements Auditable
     protected $fillable = [
         'agency_id',
         'numMeals',
-        'address'
+        'address',
+        'paused'
     ];
 
     protected $with = ['person', 'agency'];
