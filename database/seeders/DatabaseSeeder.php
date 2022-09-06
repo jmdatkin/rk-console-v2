@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Carbon\RkCarbon;
 use App\Models\Agency;
 use App\Models\Driver;
 use App\Models\Person;
 use App\Models\Recipient;
+use App\Models\RecipientRoute;
 use App\Models\Role;
 use App\Models\Route;
 use App\Models\User;
@@ -68,6 +70,54 @@ class DatabaseSeeder extends Seeder
 
         Driver::create([
             'person_id' => $me_driver->id
+        ]);
+
+        RecipientRoute::create([
+            'recipient_id' => 1,
+            'route_id' => 1,
+            'weekday' => RkCarbon::today()->dayOfWeek
+        ]);
+
+        RecipientRoute::create([
+            'recipient_id' => 2,
+            'route_id' => 1,
+            'weekday' => RkCarbon::today()->dayOfWeek
+        ]);
+
+        RecipientRoute::create([
+            'recipient_id' => 3,
+            'route_id' => 1,
+            'weekday' => RkCarbon::today()->dayOfWeek
+        ]);
+
+        RecipientRoute::create([
+            'recipient_id' => 4,
+            'route_id' => 1,
+            'weekday' => RkCarbon::today()->dayOfWeek
+        ]);
+
+        RecipientRoute::create([
+            'recipient_id' => 5,
+            'route_id' => 2,
+            'weekday' => RkCarbon::today()->dayOfWeek
+        ]);
+
+        RecipientRoute::create([
+            'recipient_id' => 6,
+            'route_id' => 2,
+            'weekday' => RkCarbon::today()->dayOfWeek
+        ]);
+
+        RecipientRoute::create([
+            'recipient_id' => 7,
+            'route_id' => 3,
+            'weekday' => RkCarbon::today()->dayOfWeek
+        ]);
+
+        RecipientRoute::create([
+            'recipient_id' => 8,
+            'route_id' => 4,
+            'weekday' => RkCarbon::today()->dayOfWeek
         ]);
     }
 }
