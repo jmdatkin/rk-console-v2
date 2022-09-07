@@ -7,7 +7,6 @@ use App\Models\Route;
 use App\Repository\RecipientRepositoryInterface;
 use App\Repository\RouteRepositoryInterface;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class MealReport
 {

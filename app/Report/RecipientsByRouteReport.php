@@ -3,11 +3,8 @@
 namespace App\Report;
 
 use App\Models\DriverRoute;
-use Facades\App\Facade\DateAdapter;
 use App\Models\Route;
 use App\Repository\RouteRepositoryInterface;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class RecipientsByRouteReport
 {
