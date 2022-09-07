@@ -8,9 +8,10 @@ use App\Traits\HasArchive;
 use Error;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class Recipient extends BasePersonRole implements Auditable
+class Recipient extends Model implements Auditable
 {
     use HasFactory, \OwenIt\Auditing\Auditable, HasArchive;
 

@@ -5,10 +5,7 @@ namespace App\Repository;
 use App\Models\Person;
 use App\Models\Recipient;
 use App\Models\Role;
-use App\Repository\RecipientRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 
 class RecipientRepository extends BaseRepository
 {
@@ -20,31 +17,45 @@ class RecipientRepository extends BaseRepository
     public function __construct(Recipient $model)
     {
         parent::__construct($model);
+        $this->personRepository = resolve(PersonRepository::class);
     }
 
-    public function store($data) {
+    /**
+     * Create new Recipient model and new related Person model
+     * 
+     * @param array $attributes
+     * @return Model
+     */
+    public function create(array $attributes): Model {
         // Create new model
-        $model = $this->create($data);
+        $model = parent::create($attributes);
 
         // Create new Person model
-        $person = new Person();
-        $person->fill($data);
+        $person = $this->personRepository->create($attributes);
 
         // Link 'recipient' role
-        $role = Role::where('name', Role::RECIPIENT)->first();
+        $role = Role::RECIPIENT();
         $person->roles()->attach($role);
 
         // Associate Person with Recipient
         $model->person_id = $person->id;
         $model->save();
         $person->save();
+
+        return $model;
     }
 
-    public function update($id, $data): void {
+    /**
+     * Update Recipient model and its associated Person model
+     * 
+     * @param int $id
+     * @param array $attributes
+     */
+    public function update($id, $attributes): void {
         $model = $this->find($id);
         
-        $model->fill($data);
-        $model->person->fill($data);
+        $model->fill($attributes);
+        $model->person->fill($attributes);
 
         $model->save();
         $model->person->save();

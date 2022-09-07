@@ -20,5 +20,17 @@ class Role extends Model
         return $this->belongsToMany(Person::class);
     }
 
+    public static function ADMIN() {
+        return self::where('name', 'admin')->first();
+    }
+
+    public static function DRIVER() {
+        return self::where('name', 'driver')->first();
+    }
+
+    public static function RECIPIENT() {
+        return self::where('name', 'recipient')->first();
+    }
+
 
 }
