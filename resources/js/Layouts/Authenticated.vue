@@ -3,6 +3,7 @@ import App from './App';
 import Header from '../Components/Header.vue';
 import AdminMenuBar from '../Components/AdminMenuBar.vue';
 
+
 </script>
 
 <template>

@@ -1,11 +1,7 @@
 <script setup>
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import Button from 'primevue/button';
 import { DateAdapter, visitRecipient } from '../../util';
-import { onMounted, onUpdated, ref, watch } from 'vue';
-import { useData } from '../../hooks';
-import axios from 'axios';
 
 const props = defineProps(['data', 'date', 'openDateSelect']);
 

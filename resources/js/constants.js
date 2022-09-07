@@ -12,8 +12,7 @@ const WEEKDAYS = moment.weekdays();
 //     'sat': 'Saturday',
 //     'sun': 'Sunday'
 // };
-
-const menuItems = [
+const adminMenuItems = [
     {
         label: 'Dashboard',
         command: () => Inertia.visit(route('dashboard'))
@@ -132,4 +131,36 @@ const menuItems = [
     }
 ];
 
-export { WEEKDAYS, menuItems };
+const driverMenuItems = [
+    {
+        label: 'Dashboard',
+        command: () => Inertia.visit(route('dashboard'))
+    },
+    {
+        label: 'Views',
+        icon: 'pi pi-fw pi-database',
+        items: [
+        ]
+    },
+    {
+        label: 'User Settings',
+        icon: 'pi pi-fw pi-user',
+        command: () => Inertia.visit(route('settings.user'))
+    },
+    {
+        label: 'Profile',
+        icon: 'pi pi-fw pi-user',
+        items: [
+            {
+                label: 'Log Out',
+                command: () => Inertia.post(route('logout'))
+            },
+            {
+                label: 'User Profile',
+                command: () => Inertia.visit(route('profile'))
+            },
+        ]
+    },
+];
+
+export { WEEKDAYS, adminMenuItems, driverMenuItems };

@@ -66,6 +66,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('UserSettings');
     });
 
+    Route::post('/recipient/reorder', [AssignmentController::class, 'reorder_recipient'])->name('assignment.recipient.reorder');
 
     // Signed-in user must have admin role
     Route::middleware(['admin'])->group(function () {
@@ -115,6 +116,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::patch('/{recipient_id}/assign/{route_id}', [RecipientController::class, 'assign'])->name('recipient.assign');
             Route::patch('/{recipient_id}/deassign/{route_id}', [RecipientController::class, 'deassign'])->name('recipient.deassign');
             Route::get('/{id}/routes', [RecipientController::class, 'routes'])->name('recipient.routes');
+            Route::post('/{id}/pause', [RecipientController::class, 'pause'])->name('recipient.pause');
+            Route::post('/{id}/unpause', [RecipientController::class, 'unpause'])->name('recipient.unpause');
         });
 
         Route::prefix('driver')->group(function () {

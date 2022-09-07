@@ -12,8 +12,19 @@ import RecipientAssignments from '@/Components/RecipientAssignments';
 import Toolbar from 'primevue/toolbar';
 import { ref } from 'vue';
 import { back } from '@/util';
+import RecipientService from '../../../Service/RecipientService';
+import InfoItem from '../../../Components/InfoItem.vue';
 
 const props = defineProps(['data']);
+
+const onPauseChange = function(event) {
+    console.log(event);
+    RecipientService.edit(props.data.id, {
+        paused: paused.value
+    }).then(() => Inertia.reload());
+};
+
+const paused = ref(!!props.data.paused);
 
 const editing = ref(false);
 
@@ -41,6 +52,10 @@ const editing = ref(false);
             </template>
             <template #content>
                 <RecipientInfo :editing="editing" :data="data"></RecipientInfo>
+                <Divider />
+                <InfoItem title="Paused?">
+                <InputSwitch v-model="paused" @change="onPauseChange"></InputSwitch>
+                </InfoItem>
                 <Divider />
                 <Panel class="p-text-secondary" header="Route Assignments" :toggleable="true" :collapsed="false">
                     <RecipientAssignments :recipientData="data"></RecipientAssignments>

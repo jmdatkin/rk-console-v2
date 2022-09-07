@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('recipient_id');
             $table->unsignedBigInteger('route_id');
+            $table->integer('driver_custom_order')->default(0);
+            // $table->enum('weekday', ['mon','tue','wed','thu','fri','sat','sun']);
             $table->integer('weekday');
             $table->integer('order_in_route');
             $table->foreign('recipient_id')->references('id')->on('recipients');

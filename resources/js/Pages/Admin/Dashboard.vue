@@ -2,22 +2,21 @@
 import BasePageLayout from '@/Layouts/BasePageLayout';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
-import RouteDriversTable from '@/Components/Dashboard/RouteDriversTable';
 import RouteRecipientsTable from '@/Components/Dashboard/RouteRecipientsTable';
 import Card from 'primevue/card';
 import moment from 'moment';
-import Divider from 'primevue/divider';
 import { Link, Head } from '@inertiajs/inertia-vue3';
 import Panel from 'primevue/panel';
 import RecipientInfo from '@/Components/RecipientInfo';
 import DriverInfo from '@/Components/DriverInfo';
 import { Inertia } from '@inertiajs/inertia';
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import TextClock from '@/Components/TextClock';
+import { ref } from 'vue';
 
 import { DateAdapter } from '../../util';
 import RouteDriverTable from '../../Components/DriversByRoute/RouteDriverTable.vue';
 
-defineProps(['routeDriver_data', 'routeRecipient_data', 'stats'])
+defineProps(['routeDriver_data', 'routeRecipient_data', 'stats', 'messages'])
 
 const recipientData = ref([]);
 const driverData = ref([]);
@@ -43,24 +42,13 @@ const viewDriver = function(id) {
     Inertia.visit(route('driver.show', id));
 };
 
-const todayDatetime = ref(moment.tz().utcOffset(-240));
-
-let iid;
-
-onMounted(() => {
-iid = setInterval(() => todayDatetime.value = moment.tz().utcOffset(-240), 1000);
-})
-
-onBeforeUnmount(() => {
-clearInterval(iid);
-});
 </script>
 
 <template>
 
     <Head title="Dashboard" />
 
-    <BasePageLayout>
+    <BasePageLayout :messages="messages">
         <!-- Driver Dialog -->
         <Dialog :modal="true" :dismissableMask="true" closeOnEscape="true" v-model:visible="driverDialogOpen">
             <template #header>
@@ -89,7 +77,7 @@ clearInterval(iid);
         <div class="grid">
             <div class="col-12">
                 <!-- <h3>{{ moment.tz().utcOffset(-240).format("dddd DD MMM YYYY hh:mm A") }}</h3> -->
-                <h3>{{ todayDatetime.format("dddd DD MMM YYYY hh:mm A") }}</h3>
+                <TextClock />
             </div>
         </div>
         <div class="grid">

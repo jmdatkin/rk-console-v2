@@ -8,10 +8,12 @@ import Panel from 'primevue/panel';
 import { ref } from 'vue';
 import { DateAdapter } from '../../util';
 import RouteRecipientsTable from '../../Components/Dashboard/RouteRecipientsTable.vue';
+import BaseDriverPageLayout from '@/Layouts/BaseDriverPageLayout';
 import SingleRouteRecipientTable from '../../Components/DriverDashboard/SingleRouteRecipientTable.vue';
 import RecipientInfo from '../../Components/RecipientInfo.vue';
+import TextClock from '@/Components/TextClock';
 
-defineProps(['data']);
+const props = defineProps(['data']);
 
 const recipientDialogOpen = ref(false);
 const selectedRecipient = ref();
@@ -21,10 +23,11 @@ const onRowSelect = function(row) {
     selectedRecipient.value = row.data;
     recipientDialogOpen.value = true;
 };
+
 </script>
 
 <template>
-<DriverLayout>
+<BaseDriverPageLayout>
     <Head title="Dashboard" />
     <Dialog ref="dialog" :modal="true" :dismissableMask="true" :closeOnEscape="true"
     v-model:visible="recipientDialogOpen"
@@ -41,7 +44,7 @@ const onRowSelect = function(row) {
         </template>
         <div class="grid">
             <div class="col-12">
-                <h3>{{ moment().format("dddd DD MMM YYYY HH:mm:ss") }}</h3>
+                <TextClock />
             </div>
         </div>
         <div class="grid">
@@ -63,7 +66,7 @@ const onRowSelect = function(row) {
                 </Panel>
             </div>
         </div>
-</DriverLayout>
+</BaseDriverPageLayout>
 </template>
 
 <style scoped lang="scss">

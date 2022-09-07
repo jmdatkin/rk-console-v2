@@ -7,7 +7,6 @@ use App\Models\Route;
 use App\Repository\RecipientRepositoryInterface;
 use App\Repository\RouteRepositoryInterface;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class MealReport
 {
@@ -24,6 +23,7 @@ class MealReport
         $sub = DB::table('routes')
                 ->join('recipient_route', 'route_id','=','routes.id')
                 ->join('recipients','recipients.id','=','recipient_id')
+                ->where('recipients.paused', 0)
                 ->select('route_id as agg_route_id')
                 ->where('weekday',$weekday)
                 ->groupBy('name')
@@ -32,6 +32,7 @@ class MealReport
         return DB::table('routes')
                 ->join('recipient_route', 'route_id','=','routes.id')
                 ->join('recipients','recipients.id','=','recipient_id')
+                ->where('recipients.paused', 0)
                 ->join('people','people.id','=','person_id')
                 ->where('weekday',$weekday)
                 ->leftJoinSub($sub, 'agg', function($q) { $q->on('recipient_route.route_id','=','agg_route_id');})

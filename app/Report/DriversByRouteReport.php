@@ -4,12 +4,6 @@ namespace App\Report;
 
 use App\Models\Route;
 use App\Repository\RouteRepositoryInterface;
-use Carbon\Carbon;
-use Error;
-use Exception;
-use Facades\App\Facade\DateAdapter;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class DriversByRouteReport implements ReportInterface
 {

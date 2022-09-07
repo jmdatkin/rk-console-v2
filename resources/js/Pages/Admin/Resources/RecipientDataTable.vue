@@ -11,6 +11,7 @@ import Dialog from 'primevue/dialog';
 import Loading from '@/Components/Loading';
 import ContextMenu from 'primevue/contextmenu';
 import Badge from 'primevue/badge';
+import Tag from 'primevue/tag';
 import RecipientRouteAssignments from '@/Components/Assignments/RecipientRouteAssignments';
 import InputSwitch from 'primevue/inputswitch';
 import { Head } from '@inertiajs/inertia-vue3';
@@ -457,6 +458,11 @@ CRUD.get();
                             <InputText v-model="data[field]" autofocus />
                         </template>
                     </Column>
+                    <Column :sortable="true" field="paused" header="Status">
+                        <template #body="{ data }">
+                            <Tag :value="!!data.paused ? 'Paused' : 'Active'" :rounded="true" :severity="!!data.paused ? 'info' : 'success'"></Tag>
+                        </template>
+                    </Column>
                     <Column :sortable="true" :style="{ maxWidth: '600px' }" field="notes" header="Notes">
                         <template #body="{ data }">
                             {{ data.notes }}
@@ -467,15 +473,6 @@ CRUD.get();
                         </template>
                         <template #editor="{ data, field }">
                             <InputText v-model="data[field]" autofocus />
-                        </template>
-                    </Column>
-                    <Column frozen alignFrozen="right" style="width:10%; min-width:4rem" bodyStyle="text-align:center">
-                        <template #body="{ data }">
-                            <a @click="() => openAssignDialog(data)">
-                                <i class="pi pi-folder-open"></i>
-                            </a>
-                            <!-- <Button @click="() => openAssignDialog(data)" class="p-button-rounded"
-                            icon="pi pi-folder-open"></Button> -->
                         </template>
                     </Column>
                     <Column frozen alignFrozen="right" :rowEditor="true" style="width:10%; min-width:4rem"

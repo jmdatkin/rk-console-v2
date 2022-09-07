@@ -30,15 +30,6 @@ class Stubs
 
         $weekday = RkCarbon::parse($date)->dayOfWeek;
 
-        // $sub = DB::table('driver_subs')
-        //     ->whereDate('date', $date)
-        //     ->select('*')
-
-        //     // This line is DB-specific
-        //     // It converts the datetime field in 'driver_subs' to a weekday number so it can be joined with 'driver_route'
-
-        //     //Sqlite:
-        //     ->selectRaw('cast(strftime("%w", date) as integer) as weekday');
         $sub = $this->driverSubsAsWeekdays()
             ->whereDate('date', $date);
 

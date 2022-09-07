@@ -2,16 +2,45 @@
 
 namespace App\Report;
 
+use App\Models\Route;
 use App\Repository\DriverRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
-class DriverReport implements ReportInterface
+class DriverReport
 {
 
-    public function __construct(DriverRepositoryInterface $repository)
+    public function __construct(DriverRepositoryInterface $repository, Stubs $stubs)
     {
         $this->repository = $repository;
+        $this->stubs = $stubs;
+    }
+
+    public function new_data($driver_id, $date) {
+
+        $weekday = $date->dayOfWeek;
+
+        // $route_ids = $this->stubs->driverRouteWithSubs($date)
+        $route_ids = DB::query()->fromSub(
+            $this->stubs->driverRouteWithSubs($date),
+            'driver_route_subs')
+        ->where('driver_id', $driver_id)
+        ->whereNull('driver_route_subs.sub_driver_id')
+        ->orWhere(function($query) use ($driver_id) {
+            $query->where('driver_route_subs.sub_driver_id', $driver_id);
+        })
+        ->join('routes','routes.id','=','route_id')
+        ->get()->map(fn($r) => $r->route_id);
+
+        return Route::with([
+                'recipients' => function($q) use ($weekday) {
+                    $q->where('weekday', $weekday);
+                    $q->withPivot('driver_custom_order');
+                    $q->orderBy('driver_custom_order');
+                }
+            ])->whereHas('recipients')
+        ->whereIn('id', $route_ids)
+        ->get();
     }
 
     public function data($input) {
@@ -25,6 +54,8 @@ class DriverReport implements ReportInterface
             ->with([
                 'recipients' => function($q) use ($weekday) {
                     $q->where('weekday', $weekday);
+                    $q->withPivot('driver_custom_order');
+                    $q->orderBy('driver_custom_order');
                 }
             ])->whereHas('recipients')->get();
         } catch (ModelNotFoundException $e) {

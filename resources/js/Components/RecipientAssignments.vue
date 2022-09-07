@@ -77,7 +77,8 @@ const createSelectCallback = function (day) {
 };
 
 const submitAssignment = function (route_id, weekday) {
-    axios.patch(route('recipient.assign', { recipient_id: props.recipientData.id, route_id, weekday }))
+    // axios.patch(route('recipient.assign', { recipient_id: props.recipientData.id, route_id, weekday }))
+    axios.post(route('assignment.recipient.assign', { recipient_id: props.recipientData.id, route_id, weekday }))
         .then(
             () => {
                 getData();
@@ -104,7 +105,7 @@ onMounted(() => {
         </template>
         <DataTable v-if="routeDataLoaded" :value="routeData" :paginator="true" :rows="10"
             v-model:selection="selectedRoute" v-model:filters="routeFilters" selectionMode="single" dataKey="id"
-            @row-select="submitAssignment(selectedRoute, selectedWeekday)">
+            @row-select="submitAssignment(selectedRoute.id, selectedWeekday)">
             <template #header>
                 <div class="flex justify-content-between">
                     <Button type="button" icon="pi pi-filter-slash" label="Clear" class="p-button-outlined"
