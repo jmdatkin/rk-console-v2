@@ -1,13 +1,12 @@
 <?php
 
-namespace App\DataTables\Eloquent;
+namespace App\DataTables;
 
-use App\DataTables\PersonDataTableInterface;
-use App\Repository\PersonRepositoryInterface;
+use App\Repository\PersonRepository;
 
-class PersonDataTable extends BaseDataTable implements PersonDataTableInterface
+class PersonDataTable extends BaseDataTable
 {
-    public function __construct(PersonRepositoryInterface $repository)
+    public function __construct(PersonRepository $repository)
     {
         parent::__construct($repository);
     }
