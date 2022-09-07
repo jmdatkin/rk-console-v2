@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Repository\Eloquent;
+namespace App\Repository;
 
 use App\Models\Person;
-use App\Repository\PersonRepositoryInterface;
-use Error;
 
-class PersonRepository extends BaseRepository implements PersonRepositoryInterface
+class PersonRepository extends BaseRepository
 {
 
     /**
@@ -24,11 +22,16 @@ class PersonRepository extends BaseRepository implements PersonRepositoryInterfa
         return $this->model->with('roles')->get();
     }
 
-    public function destroy($id)
+    /**
+     * Destroy Person model and related models
+     * 
+     * @param int $id
+     * @return void
+     */
+    public function destroy($id): void
     {
         $person = $this->find($id);
-        error_log($id);
-        error_log($person);//->load('roles'));
+
         $person->roles()->detach();
 
         if ($person->recipient()->exists()) {

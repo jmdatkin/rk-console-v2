@@ -1,12 +1,12 @@
 <?php   
 
-namespace App\Repository\Eloquent;   
+namespace App\Repository;   
 
 use App\Repository\EloquentRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;   
 
-class BaseRepository implements EloquentRepositoryInterface 
+class BaseRepository
 {     
     /**      
      * @var Model      
@@ -24,13 +24,19 @@ class BaseRepository implements EloquentRepositoryInterface
     }
  
     /**
+    * Create new instance
     * @param array $attributes
     *
     * @return Model
     */
     public function create(array $attributes): Model
     {
-        return $this->model->create($attributes);
+        // return $this->model->create($attributes);
+        $model = new $this->model();
+        $model->fill($attributes);
+        $model->save();
+
+        return $model;
     }
  
     /**
