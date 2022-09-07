@@ -2,6 +2,7 @@
 
 namespace App\Facade;
 
+use App\Carbon\RkCarbon;
 use App\Models\Setting;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
@@ -28,13 +29,13 @@ class Settings
             //         return Setting::where('key', $k)->get();
             //     });
             // }, $key);
-            return Cache::remember($key, 2000, function () use ($key) {
+            // return Cache::remember($key, 2000, function () use ($key) {
                 return Setting::whereIn('key', $key)->get();
-            });
+            // });
         } else {
-            return Cache::remember($key, 2000, function () use ($key) {
-                return Setting::where('key', $key)->get()->value;
-            });
+            // return Cache::remember($key, 2000, function () use ($key) {
+                return Setting::where('key', $key)->first()->value;
+            // });
         }
     }
 
@@ -70,6 +71,17 @@ class Settings
             $setting->save();
             return true;
         }
+    }
+
+    public function appIsLocked($now = null) {
+
+        if (is_null($now))
+            $now = RkCarbon::now();
+
+        $lockIn = RkCarbon::parse($this->get('lock_in_time'))->week($now->week);
+        $lockOut = RkCarbon::parse($this->get('lock_out_time'))->week($now->week);
+
+        return $now->greaterThan($lockIn) && $now->lessThan($lockOut);
     }
 
     public function user()
