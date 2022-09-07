@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Resources\DataTables;
 
-use App\DataTables\AgencyDataTableInterface;
+use App\DataTables\AgencyDataTable;
 use Inertia\Inertia;
 
 class AgencyDataTableController extends BaseDataTableController
@@ -10,9 +10,9 @@ class AgencyDataTableController extends BaseDataTableController
     /**
      * AgencyDataTable constructor.
      * 
-     * @param AgencyDataTableInterface $dataTable
+     * @param AgencyDataTable $dataTable
      */
-    public function __construct(AgencyDataTableInterface $dataTable)
+    public function __construct(AgencyDataTable $dataTable)
     {
         parent::__construct($dataTable);        
     }

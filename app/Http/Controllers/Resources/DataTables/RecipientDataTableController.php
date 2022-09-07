@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Resources\DataTables;
 
+use App\DataTables\RecipientDataTable;
 use App\DataTables\RecipientDataTableInterface;
 use App\Repository\AgencyRepositoryInterface;
 use App\Models\PendingJob;
+use App\Repository\AgencyRepository;
 use Inertia\Inertia;
 
 class RecipientDataTableController extends BaseDataTableController
@@ -14,7 +16,7 @@ class RecipientDataTableController extends BaseDataTableController
      * 
      * @param RecipientDataTableInterface $dataTable
      */
-    public function __construct(RecipientDataTableInterface $dataTable)
+    public function __construct(RecipientDataTable $dataTable)
     {
         parent::__construct($dataTable);
     }
@@ -24,7 +26,7 @@ class RecipientDataTableController extends BaseDataTableController
      * 
      * @param AgencyRepositoryInterface $agencyRepository
      */
-    public function index(AgencyRepositoryInterface $agencyRepository)
+    public function index(AgencyRepository $agencyRepository)
     {
         return Inertia::render(
             'Admin/Resources/RecipientDataTable',

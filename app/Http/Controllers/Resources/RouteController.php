@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Resources;
 use App\DataTables\RouteDataTableInterface;
 use App\Jobs\Route\CreateRoute;
 use App\Jobs\Route\UpdateRoute;
+use App\Repository\RouteRepository;
 use App\Repository\RouteRepositoryInterface;
 use Error;
 use Exception;
@@ -14,9 +15,8 @@ use Inertia\Inertia;
 
 class RouteController extends BaseResourceController
 {
-    public function __construct(RouteDataTableInterface $dataTable,  RouteRepositoryInterface $repository)
+    public function __construct( RouteRepository $repository)
     {
-        $this->dataTable = $dataTable;
         parent::__construct($repository);
     }
 
@@ -48,38 +48,6 @@ class RouteController extends BaseResourceController
             return response('An error occurred. Record was not created.', 409);
         }
     }
-
-    // public function update(Request $request, $id)
-    // {
-    //     parent::update($request, $id);
-    //     //     return Redirect::route('datatables.routes')->with([
-    //     //         'message-class' => 'success',
-    //     //         'message' => 'Record successfully edited.'
-    //     //     ]);
-    //     // } catch (Exception $e) {
-    //     //     error_log($e);
-    //     //     return Redirect::route('datatables.routes')->with([
-    //     //         'message-class' => 'error',
-    //     //         'message' => 'An error occurred. Record was not edited.'
-    //     //     ]);
-    //     // }
-    // }
-
-    // public function bulkDestroy(Request $request)
-    // {
-    //     try {
-    //         parent::bulkDestroy($request);
-    //         return Redirect::route('datatables.routes')->with([
-    //             'message-class' => 'success',
-    //             'message' => 'Record(s) successfully deleted.'
-    //         ]);
-    //     } catch (Exception $e) {
-    //         return Redirect::route('datatables.routes')->with([
-    //             'message-class' => 'error',
-    //             'message' => 'An error occurred. One or more record(s) were not deleted.'
-    //         ]);
-    //     }
-    // }
 
     public function alternateDrivers($id)
     {

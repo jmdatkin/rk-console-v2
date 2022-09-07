@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
-use App\Repository\EloquentRepositoryInterface;
 use Error;
 use Exception;
 use Illuminate\Http\Request;
@@ -17,7 +16,7 @@ class BaseResourceController extends Controller
      * 
      * @param \App\Repository\EloquentRepositoryInterface
      */
-    public function __construct(EloquentRepositoryInterface $repository)
+    public function __construct($repository)
     {
         $this->repository = $repository;
     }
