@@ -2,7 +2,7 @@
 
 namespace App\Jobs\Route;
 
-use App\Repository\RouteRepositoryInterface;
+use App\Repository\RouteRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -33,7 +33,7 @@ class UpdateRoute implements ShouldQueue
      *
      * @return void
      */
-    public function handle(RouteRepositoryInterface $repository)
+    public function handle(RouteRepository $repository)
     {
         $repository->update($this->person_id, $this->attr);
     }

@@ -4,14 +4,14 @@ namespace App\Report;
 
 use App\Carbon\RkCarbon;
 use App\Models\Route;
-use App\Repository\RecipientRepositoryInterface;
-use App\Repository\RouteRepositoryInterface;
+use App\Repository\RecipientRepository;
+use App\Repository\RouteRepository;
 use Illuminate\Support\Facades\DB;
 
 class MealReport
 {
 
-    public function __construct(RecipientRepositoryInterface $repository, RouteRepositoryInterface $routeRepository)
+    public function __construct(RecipientRepository $repository, RouteRepository $routeRepository)
     {
         $this->repository = $repository;
         $this->routeRepository = $routeRepository;

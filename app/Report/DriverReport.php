@@ -3,14 +3,14 @@
 namespace App\Report;
 
 use App\Models\Route;
-use App\Repository\DriverRepositoryInterface;
+use App\Repository\DriverRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
 class DriverReport
 {
 
-    public function __construct(DriverRepositoryInterface $repository, Stubs $stubs)
+    public function __construct(DriverRepository $repository, Stubs $stubs)
     {
         $this->repository = $repository;
         $this->stubs = $stubs;

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Error;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 
 class BaseResourceController extends Controller
@@ -14,7 +15,7 @@ class BaseResourceController extends Controller
     /**
      * BaseResourceController constructor.
      * 
-     * @param \App\Repository\EloquentRepositoryInterface
+     * @param
      */
     public function __construct($repository)
     {
@@ -75,6 +76,7 @@ class BaseResourceController extends Controller
             $this->repository->update($id, $data);
             return response('Record successfully edited.', 200);
         } catch (Error | Exception $e) {
+            Log::error($e); 
             return response('An error occurred. Record was not edited.', 409);
         }
     }

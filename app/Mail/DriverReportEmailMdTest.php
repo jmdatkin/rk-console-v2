@@ -25,7 +25,7 @@ class DriverReportEmailMdTest extends Mailable
      *
      * @return void
      */
-    // public function __construct(DriverRepositoryInterface $driverRepository, DriverReport $report, $driver_id)
+    // public function __construct(DriverRepository $driverRepository, DriverReport $report, $driver_id)
     public function __construct(Driver $driver)
     {
         //

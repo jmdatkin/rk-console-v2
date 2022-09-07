@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers\Resources;
 
-use App\DataTables\RouteDataTableInterface;
 use App\Jobs\Route\CreateRoute;
-use App\Jobs\Route\UpdateRoute;
 use App\Repository\RouteRepository;
-use App\Repository\RouteRepositoryInterface;
 use Error;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class RouteController extends BaseResourceController

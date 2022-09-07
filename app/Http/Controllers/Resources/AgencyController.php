@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Resources;
 
-use App\DataTables\AgencyDataTableInterface;
-use App\Repository\AgencyRepositoryInterface;
+use App\Repository\AgencyRepository;
 
 class AgencyController extends BaseResourceController
 {
-    public function __construct(AgencyDataTableInterface $dataTable,  AgencyRepositoryInterface $repository)
+    public function __construct( AgencyRepository $repository)
     {
-        $this->dataTable = $dataTable;
         parent::__construct($repository);
     }
 }

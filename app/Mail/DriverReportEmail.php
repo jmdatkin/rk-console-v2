@@ -5,7 +5,7 @@ namespace App\Mail;
 use App\Carbon\RkCarbon;
 use App\Models\Driver;
 use App\Report\DriverReport;
-use App\Repository\DriverRepositoryInterface;
+use App\Repository\DriverRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -24,7 +24,7 @@ class DriverReportEmail extends Mailable
      *
      * @return void
      */
-    // public function __construct(DriverRepositoryInterface $driverRepository, DriverReport $report, $driver_id)
+    // public function __construct(DriverRepository $driverRepository, DriverReport $report, $driver_id)
     public function __construct(Driver $driver)
     {
         //

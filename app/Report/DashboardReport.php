@@ -4,7 +4,7 @@ namespace App\Report;
 
 use App\Models\DriverRoute;
 use App\Models\Route;
-use App\Repository\RouteRepositoryInterface;
+use App\Repository\RouteRepository;
 
 class DashboardReport
 {
@@ -12,10 +12,10 @@ class DashboardReport
     /**
      * DashboardReport constructor.
      * 
-     * @param RouteRepositoryInterface $repository
+     * @param RouteRepository $repository
      * @param DriversByRouteReport $driversByRouteReport
      */
-    public function __construct(RouteRepositoryInterface $repository, DriversByRouteReport $driversByRouteReport)
+    public function __construct(RouteRepository $repository, DriversByRouteReport $driversByRouteReport)
     {
         $this->repository = $repository;
         $this->driversByRouteReport = $driversByRouteReport;

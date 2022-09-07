@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Resources\DataTables;
 
 use App\DataTables\RecipientDataTable;
 use App\DataTables\RecipientDataTableInterface;
-use App\Repository\AgencyRepositoryInterface;
-use App\Models\PendingJob;
 use App\Repository\AgencyRepository;
+use App\Models\PendingJob;
 use Inertia\Inertia;
 
 class RecipientDataTableController extends BaseDataTableController
@@ -24,7 +23,7 @@ class RecipientDataTableController extends BaseDataTableController
     /**
      * Load the view which displays the Recipient DataTable
      * 
-     * @param AgencyRepositoryInterface $agencyRepository
+     * @param AgencyRepository $agencyRepository
      */
     public function index(AgencyRepository $agencyRepository)
     {
