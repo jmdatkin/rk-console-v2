@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
+use App\Services\CSVProcessorService;
 use Error;
 use Exception;
 use Illuminate\Http\Request;
@@ -121,25 +122,34 @@ class BaseResourceController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function import(Request $request)
+    public function import(Request $request, CSVProcessorService $csvService)
     {
+        $data = $request->input('data');
+        // try {
+        //     $data = $request->input('data');
+        //     $rows = explode("\n", $data);       //Split data by newline
+        //     $csv_data = array_map(function ($row) {
+        //         return str_getcsv($row);
+        //     }, $rows);
+
+        //     $header = $csv_data[0];
+        //     $body = array_slice($csv_data, 1);
+
+        //     if ($this->checkCsvHeaders($header))
+        //         $this->repository->import($body);
+        //     else
+        //         throw new Error("Headers do not match");
+        // } catch (Exception | Error $e) {
+        //     error_log($e);
+        // }
+        // return Redirect::route('datatables.recipients');
         try {
-            $data = $request->input('data');
-            $rows = explode("\n", $data);       //Split data by newline
-            $csv_data = array_map(function ($row) {
-                return str_getcsv($row);
-            }, $rows);
-
-            $header = $csv_data[0];
-            $body = array_slice($csv_data, 1);
-
-            if ($this->checkCsvHeaders($header))
-                $this->repository->import($body);
-            else
-                throw new Error("Headers do not match");
-        } catch (Exception | Error $e) {
-            error_log($e);
+            $csv = $csvService->parse($data);
+            $this->repository->import($csv);
+            return response('Success', 201);
+        } catch (Error | Exception $e) {
+            Log::error($e);
+            return response('An error occurred.', 500);
         }
-        return Redirect::route('datatables.recipients');
     }
 }

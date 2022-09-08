@@ -63,4 +63,16 @@ class BaseRepository
         foreach ($ids as $id)
             $this->destroy($id);
     }
+
+    public function import($data) {
+        // $model_headers = collect($this->model->first()->getAttributes())
+        // ->keys()
+        // ->except(['created_at', 'updated_at', 'deleted_at']);
+        // dd($data);
+        foreach ($data as $record) {
+            // $filtered_data = collect($record)->intersectByKeys($model_headers)->toArray();
+            // $this->create($filtered_data);
+            $this->create($record);
+        }
+    }
 }

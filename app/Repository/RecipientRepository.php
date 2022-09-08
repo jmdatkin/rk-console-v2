@@ -61,6 +61,11 @@ class RecipientRepository extends BaseRepository
         $model->person->save();
     }
 
+    /**
+     * Destroy models with id
+     * 
+     * @param int $id
+     */
     public function destroy($id)
     {
         $this->find($id)->routes()->detach();
