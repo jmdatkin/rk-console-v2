@@ -884,6 +884,9 @@ select {
 .flex-wrap {
   flex-wrap: wrap;
 }
+.items-end {
+  align-items: flex-end;
+}
 .items-center {
   align-items: center;
 }
@@ -1567,6 +1570,14 @@ html tr.no-associated-driver {
     flex-direction: row;
   }
 
+  .md\:p-2 {
+    padding: 0.5rem;
+  }
+
+  .md\:p-0 {
+    padding: 0px;
+  }
+
   .md\:px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -1580,6 +1591,21 @@ html tr.no-associated-driver {
   .md\:px-5 {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
+  }
+
+  .md\:py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .md\:px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .md\:text-5xl {
+    font-size: 3rem;
+    line-height: 1;
   }
 }
 @media (min-width: 1024px) {

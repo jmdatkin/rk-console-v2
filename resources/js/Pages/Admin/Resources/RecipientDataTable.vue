@@ -26,6 +26,7 @@ import RecipientService from '@/Service/RecipientService';
 import { Inertia } from '@inertiajs/inertia';
 import FullscreenDataTable from '../../../Components/FullscreenDataTable.vue';
 import DatatableButtonSet from '../../../Components/DatatableButtonSet.vue';
+import DataTableOptionsLink from '../../../Components/DataTableOptionsLink.vue';
 
 const props = defineProps(['agencies', 'pending_jobs', 'csrf']);
 
@@ -40,24 +41,6 @@ const rowClass = (row) => {
     return '';
 };
 
-// const pendingUpdates = computed(() => {
-//     return props.pending_jobs.filter(job => job.job_name.indexOf('update') > 0);
-// });
-
-// const tableDataWithPending = computed(() => {
-//     const newData = _.cloneDeep(tableData.value);
-//     pendingUpdates.value.forEach(update => {
-//         let idx = newData.findIndex(row => row.id == update.payload[0]);
-//         console.log(idx);
-//         if (idx < 0) return;
-//         let payload = update.payload[1];
-//         let row = newData[idx];
-//         Object.assign(row, payload);
-//         // row = {...payload, ...row};
-//         newData[idx] = {pending: true, ...row};
-//     });
-//     return newData;
-// });
 const tableDataWithPending = usePending(props.pending_jobs, tableData);
 
 const conditionalTableData = computed(() => {
@@ -308,6 +291,9 @@ CRUD.get();
         <template #header>
             Recipients
         </template>
+        <template #options>
+            <DataTableOptionsLink></DataTableOptionsLink>
+        </template>
         <template #table>
             <!-- <FullscreenDataTable> -->
             <DataTable :value="conditionalTableData" :paginator="true" :rows="15" class="p-datatable-recipients"
@@ -320,9 +306,9 @@ CRUD.get();
                 <template #header>
                     <Toolbar class="p-0">
                         <template #start>
-                            <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
+                            <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
                                 label="Import from CSV" chooseLabel="Import from CSV" url="/recipients/import"
-                                class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
+                                class="inline-block" :customUpload="true" @uploader="onUpload" />
                             <DatatableButtonSet @clearFilterClick="initFilters()" @addClick="openNewRecordDialog"
                                 @destroyClick="destroySelected" :selected="selected"></DatatableButtonSet>
                             <Badge :value="pending_jobs.length"></Badge>
