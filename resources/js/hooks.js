@@ -109,13 +109,34 @@ const useCRUD = function (service) {
                 });
     };
 
+    const upload = function (files) {
+        let fr = new FileReader();
+
+        fr.readAsText(files[0]);
+
+        fr.onload = () => {
+            service.importCsv(fr.result)
+                .then(
+                    () => {
+                        get()
+                        toastBus.emit('add', { severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+                    },
+                    () => {
+                        toastBus.emit('add', { severity: 'error', summary: 'Error', detail: res, life: 3000 });
+                    }
+                );
+
+        };
+    }
+
     return {
         data, dataLoaded, selected,
         CRUD: {
             get,
             store,
             update,
-            destroy
+            destroy,
+            upload
         }
     };
 };
@@ -140,8 +161,10 @@ const usePending = function (pendingJobs, tableData) {
 
 const fullName = props => computed(() => `${props.firstName} ${props.lastName}`);
 
-export { useCRUD,
-            usePending,
-            fullName,
-            useData,
-            useBreadcrumb };
+export {
+    useCRUD,
+    usePending,
+    fullName,
+    useData,
+    useBreadcrumb
+};

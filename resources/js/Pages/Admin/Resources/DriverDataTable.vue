@@ -25,6 +25,7 @@ import { driverFilters } from '@/filters';
 import DriverService from '@/Service/DriverService';
 import { useCRUD, usePending } from '@/hooks';
 import DatatableButtonSet from '../../../Components/DatatableButtonSet.vue';
+import DataTableOptionsLink from '../../../Components/DataTableOptionsLink.vue';
 
 const props = defineProps(['pending_jobs', 'errors', 'message', 'csrf']);
 
@@ -154,6 +155,10 @@ const destroyRecords = function (ids) {
 //     event.xhr.setRequestHeader('X-CSRF-TOKEN', props.csrf);
 // };
 
+const onUpload = function(event) {
+    CRUD.upload(event.files);
+};
+
 // const onUpload = function (event) {
 //     let { files } = event;
 //     let fr = new FileReader();
@@ -279,6 +284,9 @@ CRUD.get();
         <template #header>
             Drivers
         </template>
+        <template #options>
+            <DataTableOptionsLink></DataTableOptionsLink>
+        </template>
         <template #table>
             <DataTable :value="conditionalTableData" :paginator="true" :rows="15" class="p-datatable-drivers"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
@@ -291,6 +299,8 @@ CRUD.get();
                 <template #header>
                     <Toolbar class="p-0">
                         <template #start>
+                            <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
+                                class="hidden" :customUpload="true" @uploader="onUpload" />
                                 <DatatableButtonSet @clearFilterClick="initFilters()" @addClick="openNewRecordDialog" @destroyClick="destroySelected" :selected="selected"></DatatableButtonSet>
                             <!-- <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
                                 class="p-button-outlined" @click="initFilters()" />
@@ -405,15 +415,6 @@ CRUD.get();
                     </template>
                     <template #editor="{ data, field }">
                         <InputText v-model="data[field]" autofocus />
-                    </template>
-                </Column>
-                <Column style="width:10%; min-width:4rem" bodyStyle="text-align:center">
-                    <template #body="{ data }">
-                        <a @click="() => openAssignDialog(data.id)">
-                            <i class="pi pi-folder-open"></i>
-                        </a>
-                        <!-- <Button @click="() => openAssignDialog(data.id)" class="p-button-rounded"
-                            icon="pi pi-folder-open"></Button> -->
                     </template>
                 </Column>
                 <Column :rowEditor="true" style="width:10%; min-width:8rem" bodyStyle="text-align:center"></Column>

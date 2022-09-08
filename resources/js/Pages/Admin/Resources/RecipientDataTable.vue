@@ -149,33 +149,17 @@ const openAssignDialog = function (row) {
 // };
 
 const onUpload = function (event) {
-    let { files } = event;
-    let fr = new FileReader();
+    // let { files } = event;
+    // let fr = new FileReader();
 
-    fr.readAsText(files[0]);
+    // fr.readAsText(files[0]);
 
-    fr.onload = () => {
-        // Inertia.post('/recipient/import', {
-        //     data: fr.result,
-        // }, {
-        //     onBefore: () => {
-        //         dataLoaded.value = false;
-        //     },
-        //     onFinish: () => {
-        //         fetchData();
-        //     },
-        //     onSuccess: page => {
-        //         toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-        //     },
+    // fr.onload = () => {
+    //     RecipientService.importCsv(fr.result)
+    //     .then(CRUD.get());
 
-        //     onError: errors => {
-        //         toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-        //     }
-        // })
-        RecipientService.importCsv(fr.result)
-        .then(CRUD.get());
-
-    };
+    // };
+    CRUD.upload(event.files);
 };
 
 // Lifecycle hooks
@@ -307,8 +291,7 @@ CRUD.get();
                     <Toolbar class="p-0">
                         <template #start>
                             <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
-                                label="Import from CSV" chooseLabel="Import from CSV" url="/recipients/import"
-                                class="inline-block" :customUpload="true" @uploader="onUpload" />
+                                class="hidden" :customUpload="true" @uploader="onUpload" />
                             <DatatableButtonSet @clearFilterClick="initFilters()" @addClick="openNewRecordDialog"
                                 @destroyClick="destroySelected" :selected="selected"></DatatableButtonSet>
                             <Badge :value="pending_jobs.length"></Badge>
