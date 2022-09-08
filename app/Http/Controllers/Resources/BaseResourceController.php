@@ -125,24 +125,6 @@ class BaseResourceController extends Controller
     public function import(Request $request, CSVProcessorService $csvService)
     {
         $data = $request->input('data');
-        // try {
-        //     $data = $request->input('data');
-        //     $rows = explode("\n", $data);       //Split data by newline
-        //     $csv_data = array_map(function ($row) {
-        //         return str_getcsv($row);
-        //     }, $rows);
-
-        //     $header = $csv_data[0];
-        //     $body = array_slice($csv_data, 1);
-
-        //     if ($this->checkCsvHeaders($header))
-        //         $this->repository->import($body);
-        //     else
-        //         throw new Error("Headers do not match");
-        // } catch (Exception | Error $e) {
-        //     error_log($e);
-        // }
-        // return Redirect::route('datatables.recipients');
         try {
             $csv = $csvService->parse($data);
             $this->repository->import($csv);

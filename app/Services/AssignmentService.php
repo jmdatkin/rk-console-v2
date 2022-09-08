@@ -67,7 +67,8 @@ class AssignmentService
      * @param int $sub_driver_id
      * @param int $date
      */
-    public function assign_driver_sub($route_id, $driver_id, $sub_driver_id, $date) {
+    public function assign_driver_sub($route_id, $driver_id, $sub_driver_id, $date)
+    {
         $driver_sub = DriverSub::where(
             [
                 'route_id' => $route_id,
@@ -96,19 +97,37 @@ class AssignmentService
      */
     public function assign_recipient($route_id, $recipient_id, $weekday)
     {
+        $existing_assignment = RecipientRoute::where(
+            [
+                'recipient_id' => $recipient_id,
+                'weekday' => $weekday,
+            ]
+        )->first();
+
+        // If selected route is same as current route
+        if (isset($existing_assignment) && $existing_assignment->route_id == $route_id) return;
+
         $nextIndex = RecipientRoute::getNextOrderingIndex(
             $route_id,
             $weekday
         );
-        RecipientRoute::upsert(
-            [
-                'route_id' => $route_id,
-                'recipient_id' => $recipient_id,
-                'weekday' => $weekday,
-                'driver_custom_order' => $nextIndex
-            ],
-            ['route_id', 'weekday', 'recipient_id']
-        );
+
+        DB::beginTransaction();
+
+        if (isset($existing_assignment))
+            $existing_assignment->delete();
+
+        $recipient_route = new RecipientRoute();
+
+        $recipient_route->route_id = $route_id;
+        $recipient_route->recipient_id = $recipient_id;
+        $recipient_route->weekday = $weekday;
+        $recipient_route->driver_custom_order = $nextIndex;
+
+        $recipient_route->save();
+        DB::commit();
+
+        return $recipient_route;
     }
 
     /**

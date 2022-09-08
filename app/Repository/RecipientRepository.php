@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Models\Person;
 use App\Models\Recipient;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Model;
