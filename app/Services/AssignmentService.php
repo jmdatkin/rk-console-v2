@@ -115,7 +115,11 @@ class AssignmentService
         DB::beginTransaction();
 
         if (isset($existing_assignment))
-            $existing_assignment->delete();
+            // $existing_assignment->delete();
+            $this->deassign_recipient(
+                $existing_assignment->route_id,
+                $existing_assignment->recipient_id,
+                $existing_assignment->weekday);
 
         $recipient_route = new RecipientRoute();
 
