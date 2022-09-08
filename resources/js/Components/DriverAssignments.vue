@@ -76,8 +76,9 @@ const createSelectCallback = function (day) {
     };
 };
 
-const submitAssignment = function (route_id, weekday) {
-    axios.patch(route('driver.assign', { driver_id: props.driverData.id, route_id, weekday }))
+const submitAssignment = function (selectedRoute, weekday) {
+    // axios.patch(route('driver.assign', { driver_id: props.driverData.id, route_id, weekday }))
+    axios.post(route('assignment.driver.assign', { driver_id: props.driverData.id, route_id: selectedRoute.id, weekday }))
         .then(
             () => {
                 getData();
