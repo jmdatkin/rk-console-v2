@@ -17,4 +17,8 @@ const edit = function(id, data) {
     return axios.patch(`/personnel/${id}/update`, data);
 };
 
-export default { get, destroy, store, edit };
+const importCsv = function(data) {
+    return axios.post('/personnel/import', { data });
+};
+
+export default { get, destroy, store, edit, importCsv };

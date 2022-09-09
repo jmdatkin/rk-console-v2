@@ -18,4 +18,8 @@ const edit = function (id, data) {
     return axios.patch(`/agency/${id}/update`, data);
 };
 
-export default { get, destroy, store, edit };
+const importCsv = function(data) {
+    return axios.post('/agency/import', { data });
+};
+
+export default { get, destroy, store, edit, importCsv };
