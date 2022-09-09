@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Person;
+use App\Models\Recipient;
+use App\Observers\PersonObserver;
+use App\Observers\RecipientObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,5 +28,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        Person::observe(PersonObserver::class);
+        Recipient::observe(RecipientObserver::class);
     }
 }
