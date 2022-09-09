@@ -4,7 +4,7 @@ namespace App\Mail;
 
 use App\Models\Driver;
 use App\Report\DriverReport;
-use App\Repository\DriverRepositoryInterface;
+use App\Repository\DriverRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;

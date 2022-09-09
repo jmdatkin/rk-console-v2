@@ -2,7 +2,7 @@
 
 namespace App\Jobs\Person;
 
-use App\Repository\PersonRepositoryInterface;
+use App\Repository\PersonRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -33,7 +33,7 @@ class UpdatePerson implements ShouldQueue
      *
      * @return void
      */
-    public function handle(PersonRepositoryInterface $repository)
+    public function handle(PersonRepository $repository)
     {
         $repository->update($this->person_id, $this->attr);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resources;
 
+use App\Repository\DriverRepository;
 use App\Repository\DriverRepositoryInterface;
 use App\Repository\RouteRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,12 +11,12 @@ use Inertia\Inertia;
 use Error;
 use Exception;
 
-class DriverController extends BasePersonRoleController
+class DriverController extends BaseResourceController
 {
     /**
      * DriverController constructor.
      */
-    public function __construct(DriverRepositoryInterface $repository)
+    public function __construct(DriverRepository $repository)
     {
         parent::__construct($repository);
     }
@@ -59,50 +60,6 @@ class DriverController extends BasePersonRoleController
     {
         return $this->repository->find($driver_id)->alternateRoutes;
     }
-
-
-    /**
-     * Create a new Driver-Route association.
-     * 
-     * @param Request $request
-     * @param RouteRepositoryInterface $routeRepository
-     * @param int $driver_id
-     * @param int $route_id
-     */
-    public function assign(Request $request, RouteRepositoryInterface $routeRepository, $driver_id, $route_id)
-    {
-        try {
-            $weekday = $request->input('weekday');
-            // $this->repository->find($driver_id)->deassignRoute($route_id, $weekday);
-            $routeRepository->find($route_id)->deassignDriver($weekday);
-            $this->repository->find($driver_id)->assignRoute($route_id, $weekday);
-            return response()->json([], 200);
-        } catch (Error | Exception $e) {
-            return response()->json([], 500);
-        }
-    }
-
-
-    /**
-     * Release an existing Driver-Route association.
-     * 
-     * @param Request $request
-     * @param RouteRepositoryInterface $routeRepository
-     * @param int $driver_id
-     * @param int $route_id
-     */
-    public function deassign(Request $request, RouteRepositoryInterface $routeRepository, $driver_id, $route_id)
-    {
-        try {
-            $weekday = $request->input('weekday');
-            $routeRepository->find($route_id)->deassignDriver($weekday);
-            $this->repository->find($driver_id)->routes()->detach($route_id);
-            return response()->json([], 200);
-        } catch (Error | Exception $e) {
-            return response()->json([], 500);
-        }
-    }
-
 
     /**
      * Create an alternate Driver-Route association.

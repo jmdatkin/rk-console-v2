@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resources;
 
 use App\Jobs\SchedulePendingJob;
+use App\Repository\PersonRepository;
 use App\Repository\PersonRepositoryInterface;
 use Error;
 use Exception;
@@ -14,7 +15,7 @@ class PersonController extends BaseResourceController
     /**
      * PersonController constructor.
      */
-    public function __construct( PersonRepositoryInterface $repository)
+    public function __construct( PersonRepository $repository)
     {
         parent::__construct($repository);
     }

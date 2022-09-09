@@ -8,7 +8,10 @@ import BasePageLayout from '@/Layouts/BasePageLayout';
             <slot name="header"></slot>
         </template>
         <slot></slot>
-        <div class="p-datatable-wrapper shadow-sm">
+        <div class="p-datatable-container shadow-sm border bg-white flex flex-col items-end p-0 md:p-2">
+            <div class="p-datatable-options">
+                <slot name="options"></slot>
+            </div>
             <slot name="table"></slot>
         </div>
     </BasePageLayout>
@@ -17,9 +20,9 @@ import BasePageLayout from '@/Layouts/BasePageLayout';
 <style lang="scss">
 .p-datatable-wrapper {
     width: 100%;
-    background-color: #fff;
-    padding: 15px;
-    border: solid 1px var(--gray-300);
+    // background-color: #fff;
+    // padding: 15px;
+    // border: solid 1px var(--gray-300);
 }
 
 .p-toolbar {

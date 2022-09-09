@@ -68,30 +68,6 @@ import BasePageLayout from './BasePageLayout';
     }
 }
 
-::v-deep(.p-datatable.p-datatable-recipients) {
-    .p-datatable-header {
-        padding: 1rem;
-        text-align: left;
-        font-size: 1.5rem;
-    }
-
-    .p-paginator {
-        padding: 1rem;
-    }
-
-    .p-datatable-thead>tr>th {
-        text-align: left;
-    }
-
-    .p-datatable-tbody>tr>td {
-        cursor: auto;
-    }
-
-    .p-dropdown-label:not(.p-placeholder) {
-        text-transform: uppercase;
-    }
-}
-
 .p-button.p-fileupload-choose {
     overflow: initial !important;
     cursor: pointer;

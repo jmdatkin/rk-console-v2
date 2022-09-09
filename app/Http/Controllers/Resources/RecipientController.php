@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Resources;
 
-use App\DataTables\RecipientDataTableInterface;
-use App\Repository\RecipientRepositoryInterface;
+use App\Repository\RecipientRepository;
 use Inertia\Inertia;
 
-class RecipientController extends BasePersonRoleController
+class RecipientController extends BaseResourceController
 {
-    public function __construct(RecipientDataTableInterface $dataTable,  RecipientRepositoryInterface $repository)
+    public function __construct( RecipientRepository $repository)
     {
-        $this->dataTable = $dataTable;
         parent::__construct($repository);
     }
     /**

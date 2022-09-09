@@ -4,12 +4,12 @@ namespace App\Report;
 
 use App\Models\DriverRoute;
 use App\Models\Route;
-use App\Repository\RouteRepositoryInterface;
+use App\Repository\RouteRepository;
 
 class RecipientsByRouteReport
 {
 
-    public function __construct(RouteRepositoryInterface $repository)
+    public function __construct(RouteRepository $repository)
     {
         $this->repository = $repository;
     }

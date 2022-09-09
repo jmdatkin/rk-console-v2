@@ -2,7 +2,7 @@
 
 namespace App\Jobs\Driver;
 
-use App\Repository\DriverRepositoryInterface;
+use App\Repository\DriverRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -32,7 +32,7 @@ class CreateDriver implements ShouldQueue
      *
      * @return void
      */
-    public function handle(DriverRepositoryInterface $repository)
+    public function handle(DriverRepository $repository)
     {
         $repository->create($this->attr);
     }

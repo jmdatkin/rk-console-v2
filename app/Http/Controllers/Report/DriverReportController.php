@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Report;
 
-use App\Http\Controllers\Controller;
 use App\Report\DriverReport;
-use App\Repository\DriverRepositoryInterface;
+use App\Repository\DriverRepository;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,7 +12,7 @@ class DriverReportController extends BaseReportController
     /**
      * DriverReportController constructor.
      */
-    public function __construct(DriverReport $report, DriverRepositoryInterface $repository)
+    public function __construct(DriverReport $report, DriverRepository $repository)
     {
         // parent::__construct($report);
         $this->report = $report;
@@ -27,16 +26,13 @@ class DriverReportController extends BaseReportController
             'Reports/DriverReport',
             [
                 "driverData" => $this->repository->find($driver_id),
-                // "data" => $this->report->driver($driver_id)
             ]
         );
     }
 
     public function data(Request $request)
     {
-        // $driver_id = $request->input('driver_id');
         $weekday = $request->input('weekday');
-        // return $this->report->data($request->only(['driver_id', 'weekday']));
         return $this->report->new_data(
             $request->input('driver_id'),
             $request->input('date')

@@ -3,12 +3,12 @@
 namespace App\Report;
 
 use App\Models\Route;
-use App\Repository\RouteRepositoryInterface;
+use App\Repository\RouteRepository;
 
 class DriversByRouteReport implements ReportInterface
 {
 
-    public function __construct(RouteRepositoryInterface $repository)
+    public function __construct(RouteRepository $repository)
     {
         $this->repository = $repository;
     }

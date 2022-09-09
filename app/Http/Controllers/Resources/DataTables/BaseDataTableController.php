@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Resources\DataTables;
 
-use App\DataTables\EloquentDataTableInterface;
 use App\Http\Controllers\Controller;
 
 class BaseDataTableController extends Controller
@@ -10,9 +9,9 @@ class BaseDataTableController extends Controller
     /**
      * BaseDataTableController constructor.
      * 
-     * @param App\DataTables\EloquentDataTableInterface $dataTable
+     * @param $dataTable
      */
-    public function __construct(EloquentDataTableInterface $dataTable) {
+    public function __construct($dataTable) {
         $this->dataTable = $dataTable;
     }
 

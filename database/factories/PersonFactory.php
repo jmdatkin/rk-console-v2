@@ -35,7 +35,11 @@ class PersonFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Person $person) {
-            $role = Role::all()->random();
+            $role = Role::all();
+            
+            if ($role->count() <= 0) return;
+
+            $role = $role->random();
             $person->roles()->attach($role);
             switch ($role->name) {
                 case "recipient":

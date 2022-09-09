@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Resources\DataTables;
 
-use App\DataTables\RouteDataTableInterface;
+use App\DataTables\RouteDataTable;
 use Inertia\Inertia;
 
 class RouteDataTableController extends BaseDataTableController
@@ -10,9 +10,9 @@ class RouteDataTableController extends BaseDataTableController
     /**
      * RouteDataTableController constructor.
      * 
-     * @param RouteDataTableInterface $dataTable
+     * @param RouteDataTable $dataTable
      */
-    public function __construct(RouteDataTableInterface $dataTable)
+    public function __construct(RouteDataTable $dataTable)
     {
         parent::__construct($dataTable);        
     }

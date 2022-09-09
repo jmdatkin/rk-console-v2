@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Resources\DataTables;
 
-use App\DataTables\DriverDataTableInterface;
+use App\DataTables\DriverDataTable;
 use App\Models\PendingJob;
 use Inertia\Inertia;
 
@@ -11,9 +11,9 @@ class DriverDataTableController extends BaseDataTableController
     /**
      * DriverDataTableController constructor.
      * 
-     * @param DriverDataTableInterface $dataTable
+     * @param DriverDataTable $dataTable
      */
-    public function __construct(DriverDataTableInterface $dataTable)
+    public function __construct(DriverDataTable $dataTable)
     {
         parent::__construct($dataTable);
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Resources\DataTables;
 
-use App\DataTables\PersonDataTableInterface;
+use App\DataTables\PersonDataTable;
 use Inertia\Inertia;
 
 class PersonDataTableController extends BaseDataTableController
@@ -10,9 +10,9 @@ class PersonDataTableController extends BaseDataTableController
     /**
      * PersonDataTableController constructor.
      * 
-     * @param PersonDataTableInterface $dataTable
+     * @param PersonDataTable $dataTable
      */
-    public function __construct(PersonDataTableInterface $dataTable)
+    public function __construct(PersonDataTable $dataTable)
     {
         parent::__construct($dataTable);        
     }

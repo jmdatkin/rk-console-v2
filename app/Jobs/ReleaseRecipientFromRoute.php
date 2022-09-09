@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Repository\RouteRepositoryInterface;
+use App\Repository\RouteRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -36,7 +36,7 @@ class ReleaseRecipientFromRoute implements ShouldQueue
      *
      * @return void
      */
-    public function handle(RouteRepositoryInterface $repository)
+    public function handle(RouteRepository $repository)
     {
         $repository->find($this->route_id)->deassignRecipient($this->recipient_id, $this->weekday);
     }

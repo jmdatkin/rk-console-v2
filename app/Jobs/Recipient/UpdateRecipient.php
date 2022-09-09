@@ -2,7 +2,7 @@
 
 namespace App\Jobs\Recipient;
 
-use App\Repository\RecipientRepositoryInterface;
+use App\Repository\RecipientRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -33,7 +33,7 @@ class UpdateRecipient implements ShouldQueue
      *
      * @return void
      */
-    public function handle(RecipientRepositoryInterface $repository)
+    public function handle(RecipientRepository $repository)
     {
         $repository->update($this->recipient_id, $this->attr);
     }

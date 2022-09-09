@@ -6,6 +6,7 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 import Dialog from 'primevue/dialog';
+import FileUpload from 'primevue/fileupload';
 import { ref, onMounted } from 'vue';
 import { Inertia } from '@inertiajs/inertia';
 import { useForm } from '@inertiajs/inertia-vue3';
@@ -13,8 +14,9 @@ import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import { routeFilters } from '@/filters';
 import { useCRUD } from '@/hooks';
-import RouteService from './Routes/RouteService';
+import RouteService from '../../../Service/RouteService';
 import DatatableButtonSet from '../../../Components/DatatableButtonSet.vue';
+import DataTableOptionsLink from '../../../Components/DataTableOptionsLink.vue';
 
 const props = defineProps(['csrf']);
 
@@ -35,7 +37,6 @@ onMounted(() => {
 const toast = useToast();
 const loading = ref(true);
 const editingRows = ref([]);
-// const selected = ref();
 const newRecordDialog = ref(false);
 const newRecordForm = useForm({
     name: null,
@@ -51,30 +52,11 @@ const closeNewRecordDialog = function () {
 }
 
 const submitNewRecord = function () {
-    // newRecordForm.post('/route/store', {
-    //     onSuccess: page => {
-    //         toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-    //     },
-    //     onError: errors => {
-    //         toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-    //     }
-    // })
     CRUD.store(newRecordForm);
 };
 
 const onRowEditSave = function (event) {
     CRUD.update(event.newData);
-    // let { newData, index } = event;
-    // Inertia.patch(`/route/${newData.id}/update`, newData,
-    //     {
-    //         onSuccess: page => {
-    //             toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-    //         },
-
-    //         onError: errors => {
-    //             toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-    //         }
-    //     });
 };
 
 const destroyRecords = function (ids) {
@@ -95,32 +77,10 @@ const destroySelected = function () {
     destroyRecords(selected.value.map(row => row.id));
 };
 
-const beforeUpload = function (event) {
-    event.xhr.setRequestHeader('Content-type', 'text/csv');
-    event.xhr.setRequestHeader('X-CSRF-TOKEN', props.csrf);
-};
-
+// CSV Upload
 const onUpload = function (event) {
-    let { files } = event;
-    let fr = new FileReader();
-
-    fr.readAsText(files[0]);
-
-    fr.onload = () => {
-        Inertia.post('/route/import', {
-            data: fr.result,
-        }, {
-            onSuccess: page => {
-                toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-            },
-
-            onError: errors => {
-                toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-            }
-        });
-    };
-
-}
+    CRUD.upload(event.files);
+};
 
 CRUD.get();
 </script>
@@ -162,25 +122,21 @@ CRUD.get();
         <template #header>
             Routes
         </template>
+        <template #options>
+            <DataTableOptionsLink></DataTableOptionsLink>
+        </template>
         <template #table>
-            <DataTable :value="data" :paginator="true" :rows="15" class="p-datatable-routes"
+            <DataTable :value="data" :paginator="true" :rows="15" class="p-datatable-routes" dataKey="id"
                 :globalFilterFields="['id', 'name', 'notes']" filterDisplay="menu" responsiveLayout="scroll"
                 editMode="row" showGridlines :resizableColumns="true" columnResizeMode="fit" v-model:filters="filters"
                 v-model:editingRows="editingRows" @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
                     <Toolbar class="p-0">
                         <template #start>
-                                <DatatableButtonSet @clearFilterClick="initFilters()" @addClick="openNewRecordDialog" @destroyClick="destroySelected" :selected="selected"></DatatableButtonSet>
-                            <!-- <Button type="button" icon="pi pi-filter-slash" label="Clear Filters"
-                                class="p-button-outlined" @click="initFilters()" />
-                            <Button type="button" icon="pi pi-plus" label="Add Record" class="p-button-success"
-                                @click="openNewRecordDialog" />
-                            <Button type="button" icon="pi pi-plus" label="Delete Records" class="p-button-alert"
-                                @click="destroySelected" /> -->
-                            <!-- <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
-                                label="Import from CSV" chooseLabel="Import from CSV" url="/routes/import"
-                                class="inline-block" :customUpload="true" @uploader="onUpload" /> -->
-
+                            <FileUpload :auto="true" name="csv_data" mode="basic" accept=".csv" :maxFileSize="1000000"
+                                class="hidden" :customUpload="true" @uploader="onUpload" />
+                            <DatatableButtonSet @clearFilterClick="initFilters()" @addClick="openNewRecordDialog"
+                                @destroyClick="destroySelected" :selected="selected"></DatatableButtonSet>
                         </template>
                         <template #end>
                             <span class="p-input-icon-left ">
@@ -244,4 +200,5 @@ CRUD.get();
 </template>
 
 <style lang="scss" scoped>
+
 </style>

@@ -4,19 +4,16 @@ namespace App\Http\Controllers\Report;
 
 use App\Carbon\RkCarbon;
 use App\Http\Controllers\Controller;
-use App\Report\DriverReport;
 use App\Report\MealReport;
-use App\Repository\DriverRepositoryInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class MealReportController extends Controller
 {
-    //
-    public function __construct(MealReport $report, DriverRepositoryInterface $repository)
+
+    public function __construct(MealReport $report)
     {
        $this->report = $report; 
-       $this->repository = $repository;
     }
 
     public function report($date) {
