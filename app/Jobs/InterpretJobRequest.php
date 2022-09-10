@@ -40,7 +40,7 @@ class InterpretJobRequest implements ShouldQueue
         if (Settings::appIsLocked()) {
             SchedulePendingJob::dispatchSync(
                 $this->job_name,
-                $this->resource_id,
+                // $this->resource_id,
                 $this->payload
             );
         } else {

@@ -70,28 +70,42 @@ const payloadTableData = computed(() => {
 </script>
 
 <template>
-    <div class="pending-job">
-        <InfoItem :title="jobAction" class="mb-1">
-        </InfoItem>
-        <div class="flex mb-2">
-            <div class="flex-grow flex flex-col">
-                <span class="text-gray-500">
-                    {{ createdAtFormat }}
-                </span>
-                <span class="mb-2">
-                    {{ actionString }}
-                </span>
+    <div class="pending-job flex bg-white rounded border shadow-sm items-center">
+        <div class="start border-r h-full">
+            <div class="p-4 h-full">
+                <InfoItem :title="jobAction" class="mb-1">
+                </InfoItem>
+            </div>
+        </div>
+        <div class="center flex-grow">
+            <div class="p-4">
+                <div class="flex flex-grow items-center space-between space-x-4">
+                    <div class="flex flex-col">
+                        <span class="text-gray-500">
+                            {{ createdAtFormat }}
+                        </span>
+                        <span class="mb-2">
+                            {{ actionString }}
+                        </span>
+                    </div>
+                    <div class="flex-grow" v-if="jobAction === 'update' || jobAction === 'create'">
+                        <DataTable style="" class="p-datatable-sm" :showGridlines="true" :value="payloadTableData"
+                            responsiveLayout="scroll">
+                            <Column header="Key" field="attribute" style="max-width: 2rem;"></Column>
+                            <Column header="Value" field="value"></Column>
+                        </DataTable>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="start border-l h-full">
+            <div class="p-4 h-full">
                 <div class="space-x-1">
                     <Button icon="pi pi-check" class="p-button-rounded p-button-outlined"></Button>
                     <Button icon="pi pi-trash" class="p-button-danger p-button-rounded p-button-outlined"></Button>
                 </div>
-            </div>
-            <div class="flex-grow" v-if="jobAction === 'update' || jobAction === 'create'">
-                    <DataTable style="" class="p-datatable-sm" :showGridlines="true" :value="payloadTableData"
-                        responsiveLayout="scroll">
-                        <Column header="Key" field="attribute" style="max-width: 50%;"></Column>
-                        <Column header="Value" field="value" style="max-width: 50%"></Column>
-                    </DataTable>
+
             </div>
         </div>
 
@@ -101,8 +115,5 @@ const payloadTableData = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-.pending-job {
-    display: flex;
-    flex-direction: column;
-}
+
 </style>

@@ -102,7 +102,8 @@ class Settings
         // dd($lockInThisWeek, $lockOutThisWeek);
 
         // return $now->greaterThan($lockIn) && $now->lessThan($lockOut);
-        return $now->greaterThan($lockInThisWeek) && $now->lessThan($lockOutThisWeek);
+        // return $now->greaterThan($lockInThisWeek) && $now->lessThan($lockOutThisWeek);
+        return true;
     }
 
     public function user()

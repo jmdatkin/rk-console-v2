@@ -13,9 +13,10 @@ defineProps(['pending_jobs']);
             Pending Jobs
         </template>
 
-        <div class="p-4 rounded-md border mb-2" v-for="job in pending_jobs">
-            <PendingJobListItem :job="job">
-            </PendingJobListItem>
+        <div class="space-y-2">
+        <PendingJobListItem v-for="job in pending_jobs" :job="job">
+        </PendingJobListItem>
+
         </div>
 
     </BasePageLayout>
