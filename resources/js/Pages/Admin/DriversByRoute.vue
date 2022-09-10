@@ -18,10 +18,10 @@ defineProps(['data', 'date']);
                     <!-- <Content :openDateSelect="openDateSelect" :date="date"></Content> -->
                 <Button class="p-button-outlined" icon="pi pi-chevron-left" label="Back"
                     @click="$inertia.visit(route('driversbyroute'))"></Button>
-                <div class="border">
+                <!-- <div class="border"> -->
                     <WeekDateLinks :baseURL="route('driversbyroute')" :date="date"></WeekDateLinks>
                     <RouteDriverTable :date="date" :data="data"></RouteDriverTable>
-                </div>
+                <!-- </div> -->
                 <!-- </template>
             </DateSelect> -->
         </template>

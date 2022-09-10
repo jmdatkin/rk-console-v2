@@ -3,7 +3,7 @@ import Setting from '../Components/Setting.vue';
 import InputText from 'primevue/inputtext';
 import InputSwitch from 'primevue/inputswitch';
 import Calendar from 'primevue/calendar';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import axios from 'axios';
 import BasePageLayout from '../Layouts/BasePageLayout.vue';
 import InfoItem from '../Components/InfoItem.vue';
@@ -20,6 +20,8 @@ const saveSettings = function () {
     axios.post(route('settings.save'), settings.value);
 };
 
+onMounted(() => {
+
 axios.get(route('settings.data')).then(res => {
     console.log(res.data);
     let d = {};
@@ -29,6 +31,7 @@ axios.get(route('settings.data')).then(res => {
     console.log(d);
     initSettings(d);
 });
+})
 </script>
 <template>
     <BasePageLayout>

@@ -11,7 +11,7 @@ const props = defineProps(['data', 'date', 'openDateSelect']);
     <DataTable :value="data" :paginator="true" :rows="10"
         responsiveLayout="scroll"
         class="p-datatable-sm"
-        @row-select="e => visitRecipient(e.data.id)"
+        @row-select="e => visitRecipient(e.data.recipient_id)"
         selectionMode="single"
         :showGridlines="true">
         <template #header>

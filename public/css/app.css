@@ -832,6 +832,9 @@ select {
 .basis-48 {
   flex-basis: 12rem;
 }
+.basis-full {
+  flex-basis: 100%;
+}
 .origin-top-left {
   transform-origin: top left;
 }

@@ -78,10 +78,31 @@ class Settings
         if (is_null($now))
             $now = RkCarbon::now();
 
-        $lockIn = RkCarbon::parse($this->get('lock_in_time'))->week($now->week);
-        $lockOut = RkCarbon::parse($this->get('lock_out_time'))->week($now->week);
+        $lockIn = RkCarbon::parse($this->get('lock_in_time'));
+        $lockOut = RkCarbon::parse($this->get('lock_out_time'));
 
-        return $now->greaterThan($lockIn) && $now->lessThan($lockOut);
+        $lockInDay = $lockIn->dayOfWeek;
+        $lockInHour = $lockIn->hour;
+        $lockInMinute = $lockIn->minute;
+
+        $lockInThisWeek = RkCarbon::now()
+        ->weekday($lockInDay)
+        ->hour($lockInHour)
+        ->minute($lockInMinute);
+
+        $lockOutDay = $lockOut->dayOfWeek;
+        $lockOutHour = $lockOut->hour;
+        $lockOutMinute = $lockOut->minute;
+
+        $lockOutThisWeek = RkCarbon::now()
+        ->weekday($lockOutDay)
+        ->hour($lockOutHour)
+        ->minute($lockOutMinute);
+
+        // dd($lockInThisWeek, $lockOutThisWeek);
+
+        // return $now->greaterThan($lockIn) && $now->lessThan($lockOut);
+        return $now->greaterThan($lockInThisWeek) && $now->lessThan($lockOutThisWeek);
     }
 
     public function user()

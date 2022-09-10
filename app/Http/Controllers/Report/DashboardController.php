@@ -10,6 +10,7 @@ use App\Models\Recipient;
 use App\Report\DashboardReport;
 use App\Report\Stats;
 use Carbon\Carbon;
+use Facades\App\Facade\Settings;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -51,6 +52,7 @@ class DashboardController extends Controller
                 'routeRecipient_data' => $report->routeRecipients($today),
                 'messages' => $messages,
                 'stats' => [
+                    'isAppLocked' => Settings::appIsLocked(),
                     'recipients' => (new Stats(Recipient::first()))->data(),
                     'drivers' => (new Stats(Driver::first()))->data(),
                     'person' => (new Stats(Person::first()))->data()

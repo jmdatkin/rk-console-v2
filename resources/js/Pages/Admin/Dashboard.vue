@@ -3,6 +3,7 @@ import BasePageLayout from '@/Layouts/BasePageLayout';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import RouteRecipientsTable from '@/Components/Dashboard/RouteRecipientsTable';
+import Badge from 'primevue/badge';
 import Card from 'primevue/card';
 import moment from 'moment';
 import { Link, Head } from '@inertiajs/inertia-vue3';
@@ -29,7 +30,7 @@ const openRecipientDialog = function (row) {
     recipientDialogOpen.value = true;
 };
 
-const viewRecipient = function(id) {
+const viewRecipient = function (id) {
     Inertia.visit(route('recipient.show', id));
 };
 
@@ -38,7 +39,7 @@ const openDriverDialog = function (row) {
     driverDialogOpen.value = true;
 };
 
-const viewDriver = function(id) {
+const viewDriver = function (id) {
     Inertia.visit(route('driver.show', id));
 };
 
@@ -56,7 +57,8 @@ const viewDriver = function(id) {
             </template>
             <DriverInfo :data="driverData"></DriverInfo>
             <template #footer>
-                <Button class="p-button-text" label="View Resource" icon="pi pi-chevron-right" iconPos="right" @click="() => viewDriver(driverData.id)"></Button>
+                <Button class="p-button-text" label="View Resource" icon="pi pi-chevron-right" iconPos="right"
+                    @click="() => viewDriver(driverData.id)"></Button>
             </template>
         </Dialog>
         <!-- Recipient Dialog -->
@@ -66,12 +68,13 @@ const viewDriver = function(id) {
             </template>
             <RecipientInfo :data="recipientData"></RecipientInfo>
             <template #footer>
-                <Button class="p-button-text" label="View Resource" icon="pi pi-chevron-right" iconPos="right" @click="() => viewRecipient(recipientData.id)"></Button>
+                <Button class="p-button-text" label="View Resource" icon="pi pi-chevron-right" iconPos="right"
+                    @click="() => viewRecipient(recipientData.id)"></Button>
             </template>
         </Dialog>
         <template #header>
             <!-- <h2 class="font-semibold text-xl leading-tight mb-4"> -->
-                Dashboard
+            Dashboard
             <!-- </h2> -->
         </template>
         <div class="grid">
@@ -80,81 +83,119 @@ const viewDriver = function(id) {
                 <TextClock />
             </div>
         </div>
-        <div class="grid">
 
-            <div class="col-12 2xl:col-6">
+        <div class="grid">
+            <div class="col-12 xl:col-9">
             <!-- <div class="col-12"> -->
-                <Panel>
-                    <template #header>
-                        <span>
-                            <i class="pi pi-car"></i>
-                            Today's Drivers
-                        </span>
-                    </template>
-                    <!-- <RouteDriversTable :onSelect="openDriverDialog" :value="routeDriver_data"
+                <div class="grid">
+
+                    <div class="col-12 2xl:col-6">
+                        <!-- <div class="col-12"> -->
+                        <Panel>
+                            <template #header>
+                                <span>
+                                    <i class="pi pi-car"></i>
+                                    Today's Drivers
+                                </span>
+                            </template>
+                            <!-- <RouteDriversTable :onSelect="openDriverDialog" :value="routeDriver_data"
                         :date="DateAdapter.make(moment.tz().utcOffset(-240))"></RouteDriversTable> -->
-                        <RouteDriverTable :data="routeDriver_data"
-                        :date="DateAdapter.make(moment.tz().utcOffset(-240))"></RouteDriverTable>
-                </Panel>
-            </div>
-            <div class="col-12 2xl:col-6">
-            <!-- <div class="col-12"> -->
-                <Panel>
-                    <template #header>
-                        <span>
-                            <i class="pi pi-box"></i>
-                            Today's Recipients
-                        </span>
-                    </template>
-                    <RouteRecipientsTable :onSelect="openRecipientDialog" :value="routeRecipient_data"
-                        :date="DateAdapter.make(moment.tz().utcOffset(-240))">
-                    </RouteRecipientsTable>
-                </Panel>
-            </div>
-        </div>
+                            <RouteDriverTable :data="routeDriver_data"
+                                :date="DateAdapter.make(moment.tz().utcOffset(-240))"></RouteDriverTable>
+                        </Panel>
+                    </div>
+                    <div class="col-12 2xl:col-6">
+                        <!-- <div class="col-12"> -->
+                        <Panel>
+                            <template #header>
+                                <span>
+                                    <i class="pi pi-box"></i>
+                                    Today's Recipients
+                                </span>
+                            </template>
+                            <RouteRecipientsTable :onSelect="openRecipientDialog" :value="routeRecipient_data"
+                                :date="DateAdapter.make(moment.tz().utcOffset(-240))">
+                            </RouteRecipientsTable>
+                        </Panel>
+                    </div>
+                </div>
 
-        <div class="grid">
-            <div class="col-12 md:col-6 lg:col-4">
-                <Card>
-                    <template #content>
-                <div class="flex flex-col">
-                    <span>
-                {{ stats.recipients.total }} total recipients
-                    </span>
-                    <span>
-                {{ stats.recipients.createdThisWeek }} added this week
-                    </span>
-                </div>
-                    </template>
-                </Card>
             </div>
-            <div class="col-12 md:col-6 lg:col-4">
-                <Card>
-                    <template #content>
-                <div class="flex flex-col">
-                    <span>
-                {{ stats.drivers.total }} total drivers
-                    </span>
-                    <span>
-                {{ stats.drivers.createdThisWeek }} added this week
-                    </span>
+
+            <div class="col-12 xl:col-3">
+            <!-- <div class="col-12"> -->
+
+                <div class="grid">
+                    <div class="col-12">
+                        <div class="flex flex-row flex-wrap space-y-2">
+                            <!-- <div class="col-12 md:col-6 lg:col-4"> -->
+                            <div class="basis-full">
+                                <Card>
+                                    <template #content>
+                                        <div class="flex flex-col">
+                                            <span>
+                                                <span v-if="stats.isAppLocked">
+                                                    <Badge severity="success" value="1"></Badge>
+                                                    DB is locked
+                                                </span>
+                                                <span v-else>
+                                                    <Badge value="1"></Badge>
+                                                    DB is unlocked
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </template>
+                                </Card>
+                            </div>
+                            <div class="basis-full">
+                                <Card>
+                                    <template #content>
+                                        <div class="flex flex-col">
+                                            <span>
+                                                {{ stats.recipients.total }} total recipients
+                                            </span>
+                                            <span>
+                                                {{ stats.recipients.createdThisWeek }} added this week
+                                            </span>
+                                        </div>
+                                    </template>
+                                </Card>
+                            </div>
+                            <!-- <div class="col-12 md:col-6 lg:col-4"> -->
+                            <div class="basis-full">
+                                <Card>
+                                    <template #content>
+                                        <div class="flex flex-col">
+                                            <span>
+                                                {{ stats.drivers.total }} total drivers
+                                            </span>
+                                            <span>
+                                                {{ stats.drivers.createdThisWeek }} added this week
+                                            </span>
+                                        </div>
+                                    </template>
+                                </Card>
+                            </div>
+                            <!-- <div class="col-12 md:col-6 lg:col-4"> -->
+                            <div class="basis-full">
+                                <Card>
+                                    <template #content>
+                                        <div class="flex flex-col">
+                                            <span>
+                                                {{ stats.person.total }} total people
+                                            </span>
+                                            <span>
+                                                {{ stats.person.createdThisWeek }} added this week
+                                            </span>
+                                        </div>
+                                    </template>
+                                </Card>
+                            </div>
+
+                        </div>
+
+                    </div>
                 </div>
-                    </template>
-                </Card>
-            </div>
-            <div class="col-12 md:col-6 lg:col-4">
-                <Card>
-                    <template #content>
-                <div class="flex flex-col">
-                    <span>
-                {{ stats.person.total }} total people
-                    </span>
-                    <span>
-                {{ stats.person.createdThisWeek }} added this week
-                    </span>
-                </div>
-                    </template>
-                </Card>
             </div>
         </div>
 

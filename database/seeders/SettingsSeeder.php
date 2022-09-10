@@ -19,7 +19,7 @@ class SettingsSeeder extends Seeder
         //
         Setting::create([
             'key' => 'lock_in_time',
-            'value' => RkCarbon::parse('5pm friday')
+            'value' => RkCarbon::parse('friday 5pm')
         ]);
 
         Setting::create([

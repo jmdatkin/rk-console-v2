@@ -23,7 +23,7 @@ const activeIndex = ref(moment(props.date, 'MM-DD-YYYY').day());
 </script>
 
 <template>
-<TabView scrollable @tab-click="visitDay" v-model:activeIndex="activeIndex">
+<TabView class="w-full" scrollable @tab-click="visitDay" v-model:activeIndex="activeIndex">
 	<!-- <TabPanel v-for="(dayName, day) in moment.weekdays()"
 	:header="`dayName`"
 	></TabPanel> -->
