@@ -5,6 +5,7 @@ use App\Http\Controllers\AuditViewController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DriverSubController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\Report\DashboardController;
 use App\Http\Controllers\Report\DriversByRouteViewController;
 use App\Http\Controllers\Report\RecipientsByRouteViewController;
@@ -95,14 +96,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/data', [RecipientsByRouteViewController::class, 'data'])->name('recipientsbyroute.data');
         });
 
-
         Route::get('audits', [AuditViewController::class, 'index'])->name('audits');
 
-        Route::get('pendingjobs', function () {
-            return Inertia::render('Admin/PendingJobs', [
-                'pending_jobs' => PendingJob::uncommitted()->get()
-            ]);
-        })->name('pendingjobs');
+        Route::prefix('jobs')->group(function() {
+            Route::get('/', [JobController::class, 'index'])->name('jobs');
+            Route::post('/{id}/commit', [JobController::class, 'commit'])->name('jobs.commit');
+            Route::post('/{id}/destroy', [JobController::class, 'destroy'])->name('jobs.destroy');
+        });
 
         Route::prefix('recipient')->group(function () {
             Route::get('/', [RecipientController::class, 'all'])->name('recipient.all');

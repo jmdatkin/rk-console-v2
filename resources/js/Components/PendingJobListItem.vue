@@ -5,7 +5,10 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
 import moment from 'moment';
+import { useToast } from 'primevue/usetoast';
+import { useConfirm } from 'primevue/useconfirm';
 import FullscreenDataTable from './FullscreenDataTable.vue';
+import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps(['job']);
 
@@ -34,6 +37,9 @@ const jobIcon = computed(() => {
         'recipient': 'pi pi-box'
     }[jobClass.value] || '';
 });
+
+const confirm = useConfirm();
+const toast = useToast();
 
 const actionString = computed(() => {
     let str;
@@ -67,10 +73,60 @@ const payloadTableData = computed(() => {
         }
     });
 });
+
+const doCommit = function () {
+    confirm.require({
+        message: `Are you sure you want to commit job with id ${props.job.id}?`,
+        icon: 'pi pi-exclamation-triangle',
+        acceptClass: 'p-button-success',
+        accept: () => {
+            axios.post(route('jobs.commit', props.job.id))
+                .then(
+                    (res) => {
+                        toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+                        Inertia.reload();
+                    },
+                    () => {
+                        toast.add({ severity: 'error', summary: 'Error', detail: res, life: 3000 });
+                    }
+                );
+        },
+        reject: () => {
+            toast.add({ severity: 'info', summary: 'Cancelled', detail: 'Commit operation cancelled by user.', life: 3000 });
+        }
+    });
+};
+
+const doDestroy = function() {
+    confirm.require({
+        message: `Are you sure you want to delete job with id ${props.job.id}?`,
+        icon: 'pi pi-exclamation-triangle',
+        acceptClass: 'p-button-danger',
+        accept: () => {
+            axios.post(route('jobs.destroy', props.job.id))
+                .then(
+                    (res) => {
+                        toast.add({ severity: 'success', summary: 'Success', detail: res.data, life: 3000 });
+                        Inertia.reload();
+                    },
+                    () => {
+                        toast.add({ severity: 'error', summary: 'Error', detail: res, life: 3000 });
+                    }
+                );
+        },
+        reject: () => {
+            toast.add({ severity: 'info', summary: 'Cancelled', detail: 'Delete operation cancelled by user.', life: 3000 });
+        }
+    });
+
+}
 </script>
 
 <template>
-    <div class="pending-job flex bg-white rounded border shadow-sm items-center">
+    <div class="pending-job flex bg-white rounded border shadow-sm items-center relative">
+        <span class="text-gray-500 text-monospace absolute left-2 top-2">
+            {{ job.id }}
+        </span>
         <div class="start border-r h-full">
             <div class="p-4 h-full">
                 <InfoItem :title="jobAction" class="mb-1">
@@ -102,8 +158,8 @@ const payloadTableData = computed(() => {
         <div class="start border-l h-full">
             <div class="p-4 h-full">
                 <div class="space-x-1">
-                    <Button icon="pi pi-check" class="p-button-rounded p-button-outlined"></Button>
-                    <Button icon="pi pi-trash" class="p-button-danger p-button-rounded p-button-outlined"></Button>
+                    <Button @click="doCommit" icon="pi pi-check" class="p-button-rounded p-button-outlined"></Button>
+                    <Button @click="doDestroy" icon="pi pi-trash" class="p-button-danger p-button-rounded p-button-outlined"></Button>
                 </div>
 
             </div>

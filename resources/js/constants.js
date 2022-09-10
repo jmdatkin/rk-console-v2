@@ -73,7 +73,7 @@ const adminMenuItems = [
         items: [
             {
                 label: 'Pending Jobs',
-                command: () => Inertia.visit(route('pendingjobs'))
+                command: () => Inertia.visit(route('jobs'))
             },
             {
                 label: 'Audits',

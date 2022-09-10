@@ -99,11 +99,8 @@ class Settings
         ->hour($lockOutHour)
         ->minute($lockOutMinute);
 
-        // dd($lockInThisWeek, $lockOutThisWeek);
-
-        // return $now->greaterThan($lockIn) && $now->lessThan($lockOut);
-        // return $now->greaterThan($lockInThisWeek) && $now->lessThan($lockOutThisWeek);
-        return true;
+        return $now->greaterThan($lockInThisWeek) && $now->lessThan($lockOutThisWeek);
+        // return true;
     }
 
     public function user()
