@@ -107,7 +107,13 @@ const submitNewRecord = function () {
 // Edit record
 const editingRows = ref([]);
 const onRowEditSave = function (event) {
-    CRUD.update(event.newData);
+    // Extract only changed attributes
+    let data = Object.keys(event.newData)
+    .filter(key => event.newData[key] !== event.data[key])
+    .reduce((obj, key) => {
+        return Object.assign(obj, {[key]: event.newData[key]});
+    }, {});
+    CRUD.update(event.data.id, data);
 };
 
 // Destroy record
@@ -143,22 +149,7 @@ const openAssignDialog = function (row) {
 
 
 // CSV Upload
-// const beforeUpload = function (event) {
-//     event.xhr.setRequestHeader('Content-type', 'text/csv');
-//     event.xhr.setRequestHeader('X-CSRF-TOKEN', props.csrf);
-// };
-
 const onUpload = function (event) {
-    // let { files } = event;
-    // let fr = new FileReader();
-
-    // fr.readAsText(files[0]);
-
-    // fr.onload = () => {
-    //     RecipientService.importCsv(fr.result)
-    //     .then(CRUD.get());
-
-    // };
     CRUD.upload(event.files);
 };
 

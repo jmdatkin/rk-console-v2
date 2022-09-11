@@ -14,17 +14,21 @@ class SchedulePendingJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public string $job_name;
-    public array $payload;
+    public string $resource_type;
+    public string $job_action;
+    public int|null $resource_id;
+    public array|null $payload;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $job_name, array $payload)
+    public function __construct(string $resource_type, string $job_action, int|null $resource_id, array|null $payload)
     {
-        $this->job_name = $job_name;
+        $this->resource_type = $resource_type;
+        $this->job_action = $job_action;
+        $this->resource_id = $resource_id;
         $this->payload = $payload;
     }
 
@@ -37,7 +41,9 @@ class SchedulePendingJob implements ShouldQueue
     {
         $pending_job = new PendingJob();
 
-        $pending_job->job_name = $this->job_name;
+        $pending_job->resource_type = $this->resource_type;
+        $pending_job->job_action = $this->job_action;
+        $pending_job->resource_id = $this->resource_id;
         $pending_job->payload = $this->payload;
 
         $pending_job->save();

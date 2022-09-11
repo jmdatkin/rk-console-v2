@@ -14,8 +14,9 @@ class InterpretJobRequest implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public string $job_name;
-    public int $resource_id;
+    public string $resource_type;
+    public string|null $job_action;
+    public int|null $resource_id;
     public array $payload;
 
     /**
@@ -23,11 +24,14 @@ class InterpretJobRequest implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($job_name, $resource_id, $payload)
+    // public function __construct(string $resource_type, string $job_action, ?int $resource_id, ?array $payload)
+    public function __construct(string $resource_type, string $job_action, int|null $resource_id, array|null $payload)
     {
-        $this->job_name = $job_name;
+        $this->resource_type = $resource_type;
+        $this->job_action = $job_action;
         $this->resource_id = $resource_id;
         $this->payload = $payload;
+        $this->job_key = $resource_type . ':' . $job_action;
     }
 
     /**
@@ -39,13 +43,25 @@ class InterpretJobRequest implements ShouldQueue
     {
         if (Settings::appIsLocked()) {
             SchedulePendingJob::dispatchSync(
-                $this->job_name,
-                // $this->resource_id,
+                $this->resource_type,
+                $this->job_action,
+                $this->resource_id,
                 $this->payload
             );
         } else {
-            $job_class = config('app.job_key_names')[$this->job_name];
-            $job_class::dispatchSync(...$this->payload);
+            // $jobClass = config('app.job_key_names')[$this->job_key];
+            $jobClass = config('app.job_classes')[$this->resource_type][$this->job_action];
+
+            // No id, e.g. create
+            if (is_null($this->resource_id))
+                $jobClass::dispatchSync($this->payload);
+
+            // No payload, e.g. destroy
+            else if (is_null($this->payload))
+                $jobClass::dispatchSync($this->resource_id);
+
+            else
+                $jobClass::dispatchSync($this->resource_id, $this->payload);
         }
     }
 }

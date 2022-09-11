@@ -5,38 +5,13 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
 import moment from 'moment';
+import AccordionTab from 'primevue/accordiontab';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import FullscreenDataTable from './FullscreenDataTable.vue';
 import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps(['job']);
-
-// const jobClass = computed(() => props.job.job_name.split(':')[0]);
-const jobClass = computed(() => props.job.job_name.split(':')[0]);
-
-// const jobAction = computed(() => props.job_name.split(':')[1]);
-const jobAction = computed(() => props.job.job_name.split(':')[1]);
-
-const jobIcon = computed(() => {
-    // switch (jobClass) {
-    //     case 'recipient':
-    //         return 'pi pi-box';
-    //     case 'driver':
-    //         return 'pi pi-car';
-    //     case 'person':
-    //         return 'pi pi-user';
-    //     case 'route':
-    //         return 'pi pi-map';
-    //     case 'agency':
-    //         return 'pi pi-building';
-    //     default:
-    //         return '';
-    // }
-    return {
-        'recipient': 'pi pi-box'
-    }[jobClass.value] || '';
-});
 
 const confirm = useConfirm();
 const toast = useToast();
@@ -45,15 +20,16 @@ const actionString = computed(() => {
     let str;
     let payload = props.job.payload;
 
-    let action = jobAction.value;
-    let _class = jobClass.value;
+    let id = props.job.resource_id;
+    let action = props.job.job_action;
+    let type = props.job.resource_type;
 
     if (action === 'update') {
-        str = `Update ${_class} with id ${payload[0]}`;
+        str = `Update ${type} with id ${id}`;
     } else if (action === 'destroy') {
-        str = `Delete ${_class} with id ${payload[0]}`;
+        str = `Delete ${type} with id ${id}`;
     } else if (action === 'create') {
-        str = `Create new ${_class}`;
+        str = `Create new ${type}`;
     } else {
         str = '';
     }
@@ -66,7 +42,7 @@ const createdAtFormat = computed(() => {
 });
 
 const payloadTableData = computed(() => {
-    return Object.entries(props.job.payload[1] || props.job.payload).map(entry => {
+    return Object.entries(props.job.payload).map(entry => {
         return {
             "attribute": entry[0],
             "value": entry[1]
@@ -97,7 +73,7 @@ const doCommit = function () {
     });
 };
 
-const doDestroy = function() {
+const doDestroy = function () {
     confirm.require({
         message: `Are you sure you want to delete job with id ${props.job.id}?`,
         icon: 'pi pi-exclamation-triangle',
@@ -123,49 +99,55 @@ const doDestroy = function() {
 </script>
 
 <template>
-    <div class="pending-job flex bg-white rounded border shadow-sm items-center relative">
-        <span class="text-gray-500 text-monospace absolute left-2 top-2">
-            {{ job.id }}
-        </span>
-        <div class="start border-r h-full">
-            <div class="p-4 h-full">
-                <InfoItem :title="jobAction" class="mb-1">
-                </InfoItem>
-            </div>
-        </div>
-        <div class="center flex-grow">
-            <div class="p-4">
-                <div class="flex flex-grow items-center space-between space-x-4">
-                    <div class="flex flex-col">
-                        <span class="text-gray-500">
-                            {{ createdAtFormat }}
-                        </span>
-                        <span class="mb-2">
-                            {{ actionString }}
-                        </span>
-                    </div>
-                    <div class="flex-grow" v-if="jobAction === 'update' || jobAction === 'create'">
-                        <DataTable style="" class="p-datatable-sm" :showGridlines="true" :value="payloadTableData"
-                            responsiveLayout="scroll">
-                            <Column header="Key" field="attribute" style="max-width: 2rem;"></Column>
-                            <Column header="Value" field="value"></Column>
-                        </DataTable>
+    <AccordionTab>
+        <!-- <template #header>
+            <div class="pending-job flex bg-white rounded border shadow-sm items-center relative">
+                <span class="text-gray-500 text-monospace absolute left-2 top-2">
+                    {{ job.id }}
+                </span>
+                <div class="start border-r h-full">
+                    <div class="p-4 h-full">
+                        <InfoItem :title="job.job_action" class="mb-1">
+                        </InfoItem>
                     </div>
                 </div>
+                <div class="center flex-grow">
+                    <div class="p-4">
 
-            </div>
-        </div>
-        <div class="start border-l h-full">
-            <div class="p-4 h-full">
-                <div class="space-x-1">
-                    <Button @click="doCommit" icon="pi pi-check" class="p-button-rounded p-button-outlined"></Button>
-                    <Button @click="doDestroy" icon="pi pi-trash" class="p-button-danger p-button-rounded p-button-outlined"></Button>
+                    </div>
                 </div>
+                <div class="end border-l h-full">
+                    <div class="p-4 h-full">
+                        <div class="space-x-1">
+                            <Button @click="doCommit" icon="pi pi-check"
+                                class="p-button-rounded p-button-outlined"></Button>
+                            <Button @click="doDestroy" icon="pi pi-trash"
+                                class="p-button-danger p-button-rounded p-button-outlined"></Button>
+                        </div>
 
+                    </div>
+                </div>
+            </div>
+        </template> -->
+
+        <div class="flex flex-grow items-center space-between space-x-4">
+            <div class="flex flex-col">
+                <span class="text-gray-500">
+                    {{ createdAtFormat }}
+                </span>
+                <span class="mb-2">
+                    {{ actionString }}
+                </span>
+            </div>
+            <div class="flex-grow" v-if="props.job.job_action === 'update' || props.job.job_action === 'create'">
+                <DataTable style="" class="p-datatable-sm" :showGridlines="true" :value="payloadTableData"
+                    responsiveLayout="scroll">
+                    <Column header="Key" field="attribute" style="max-width: 2rem;"></Column>
+                    <Column header="Value" field="value"></Column>
+                </DataTable>
             </div>
         </div>
-
-    </div>
+    </AccordionTab>
     <!-- <Button label="Commit Job" icon="pi pi-check" class="p-button-rounded p-button-outlined" ></Button>
         <Button label="Discard Job" icon="pi pi-trash" class="p-button-danger p-button-rounded p-button-outlined"></Button> -->
 </template>

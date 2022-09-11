@@ -12,6 +12,32 @@ use Illuminate\Support\Facades\Cache;
 
 class Settings
 {
+
+    // protected $mutators = [
+    //     'lock_in_time' => function ($value) {
+    //         $date_value = RkCarbon::parse('value');
+
+    //         $day = $date_value->weekday();
+    //         $hour = $date_value->hour();
+    //         $minute = $date_value->minute();
+
+    //         return RkCarbon::today()->weekday($day)
+    //             ->hour($hour)
+    //             ->minute($minute);
+    //     },
+    //     'lock_in_time' => function ($value) {
+    //         $date_value = RkCarbon::parse('value');
+
+    //         $day = $date_value->weekday();
+    //         $hour = $date_value->hour();
+    //         $minute = $date_value->minute();
+
+    //         return RkCarbon::today()->weekday($day)
+    //             ->hour($hour)
+    //             ->minute($minute);
+    //     },
+    // ];
+
     public function __construct(UserSettings $userSettings)
     {
         $this->userSettings = $userSettings;
@@ -21,8 +47,7 @@ class Settings
     {
         if (is_null($key)) {
             return Setting::all();
-        }
-        else if (is_array($key)) {
+        } else if (is_array($key)) {
 
             // array_map(function ($k) {
             //     return Cache::remember($k, 2000, function () use ($k) {
@@ -30,11 +55,11 @@ class Settings
             //     });
             // }, $key);
             // return Cache::remember($key, 2000, function () use ($key) {
-                return Setting::whereIn('key', $key)->get();
+            return Setting::whereIn('key', $key)->get();
             // });
         } else {
             // return Cache::remember($key, 2000, function () use ($key) {
-                return Setting::where('key', $key)->first()->value;
+            return Setting::where('key', $key)->first()->value;
             // });
         }
     }
@@ -49,7 +74,7 @@ class Settings
                 ];
             }, array_keys($key), array_values($key)));
             try {
-            Setting::upsert($values, ['key'], ['value']);
+                Setting::upsert($values, ['key'], ['value']);
             } catch (QueryException $e) {
             }
             return true;
@@ -73,7 +98,8 @@ class Settings
         }
     }
 
-    public function appIsLocked($now = null) {
+    public function appIsLocked($now = null)
+    {
 
         if (is_null($now))
             $now = RkCarbon::now();
@@ -86,18 +112,18 @@ class Settings
         $lockInMinute = $lockIn->minute;
 
         $lockInThisWeek = RkCarbon::now()
-        ->weekday($lockInDay)
-        ->hour($lockInHour)
-        ->minute($lockInMinute);
+            ->weekday($lockInDay)
+            ->hour($lockInHour)
+            ->minute($lockInMinute);
 
         $lockOutDay = $lockOut->dayOfWeek;
         $lockOutHour = $lockOut->hour;
         $lockOutMinute = $lockOut->minute;
 
         $lockOutThisWeek = RkCarbon::now()
-        ->weekday($lockOutDay)
-        ->hour($lockOutHour)
-        ->minute($lockOutMinute);
+            ->weekday($lockOutDay)
+            ->hour($lockOutHour)
+            ->minute($lockOutMinute);
 
         return $now->greaterThan($lockInThisWeek) && $now->lessThan($lockOutThisWeek);
         // return true;

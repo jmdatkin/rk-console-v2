@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\InterpretJobRequest;
 use App\Services\CSVProcessorService;
 use Error;
 use Exception;
@@ -69,7 +70,7 @@ class BaseResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         //
         try {

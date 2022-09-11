@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('pending_jobs', function (Blueprint $table) {
             $table->id();
-            $table->string('job_name');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('resource_type');
             $table->unsignedBigInteger('resource_id')->nullable();
+            $table->string('job_action');
             $table->json('payload')->nullable();
             $table->timestamp('committed_at')->nullable()->default(null);
             $table->timestamps();

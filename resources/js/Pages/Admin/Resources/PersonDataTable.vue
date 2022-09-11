@@ -79,7 +79,13 @@ const submitNewRecord = function () {
 // Row editing
 const editingRows = ref([]);
 const onRowEditSave = function (event) {
-    CRUD.update(event.newData);
+    // Extract only changed attributes
+    let data = Object.keys(event.newData)
+    .filter(key => event.newData[key] !== event.data[key])
+    .reduce((obj, key) => {
+        return Object.assign(obj, {[key]: event.newData[key]});
+    }, {});
+    CRUD.update(event.data.id, data);
 };
 
 // Record destroy

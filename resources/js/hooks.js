@@ -79,10 +79,9 @@ const useCRUD = function (service) {
             );
     };
 
-    const update = function (form) {
-        let id = form.id;
+    const update = function (id, data) {
         dataLoaded.value = false;
-        service.edit(id, form)
+        service.edit(id, data)
             .then(
                 res => {
                     selected.value = [];
@@ -142,15 +141,14 @@ const useCRUD = function (service) {
 };
 
 const usePending = function (pendingJobs, tableData) {
-    console.log(tableData);
     return computed(() => {
-        let updates = pendingJobs.filter(job => job.job_name.indexOf('update') > 0);
+        let updates = pendingJobs.filter(job => job.job_action.indexOf('update') > 0);
         const newData = _.cloneDeep(tableData.value);
         updates.forEach(update => {
-            let idx = newData.findIndex(row => row.id == update.payload[0]);
+            let idx = newData.findIndex(row => row.id == update.resource_id);
             console.log(idx);
             if (idx < 0) return;
-            let payload = update.payload[1];
+            let payload = update.payload;
             let row = newData[idx];
             Object.assign(row, payload);
             newData[idx] = { pending: true, ...row };

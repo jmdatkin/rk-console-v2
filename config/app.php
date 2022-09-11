@@ -190,7 +190,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        
+
         App\Providers\RepositoryServiceProvider::class,
         App\Providers\DataTableServiceProvider::class,
         OwenIt\Auditing\AuditingServiceProvider::class,
@@ -228,6 +228,14 @@ return [
         'person:create' => CreatePerson::class,
         'person:update' => UpdatePerson::class,
         'person:destroy' => DeletePerson::class
+    ],
+
+    'job_classes' => [
+        'recipient' => [
+            'create' => CreateRecipient::class,
+            'update' => UpdateRecipient::class,
+            'destroy' => DeleteRecipient::class,
+        ]
     ]
 
 ];

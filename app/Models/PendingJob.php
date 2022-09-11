@@ -6,6 +6,7 @@ use App\Carbon\RkCarbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PendingJob extends Model
 {
@@ -15,12 +16,29 @@ class PendingJob extends Model
         'payload' => 'array'
     ];
 
+    public function getJobKeyAttribute() {
+        return $this->resource_type . ':' . $this->job_action;
+    }
+
     public function commit()
     {
-        $jobClass = config('app.job_key_names')[$this->job_name];
+        // $jobClass = config('app.job_key_names')[$this->job_key];
+        $jobClass = config('app.job_classes')[$this->resource_type][$this->job_action];
 
         DB::beginTransaction();
-        $jobClass::dispatchSync(...$this->payload);
+        
+        // No id, e.g. create
+        if (is_null($this->resource_id))
+            $jobClass::dispatchSync($this->payload);
+
+        // No payload, e.g. destroy
+        else if (is_null($this->payload))
+            $jobClass::dispatchSync($this->resource_id);
+        
+        else
+            $jobClass::dispatchSync($this->resource_id, $this->payload);
+
+        Log::info('Committing PendingJob with id'.$this->id, $this->getAttributes());
         $this->committed_at = RkCarbon::now();
         $this->save();
         DB::commit();
