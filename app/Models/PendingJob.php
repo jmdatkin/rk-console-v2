@@ -16,6 +16,12 @@ class PendingJob extends Model
         'payload' => 'array'
     ];
 
+    protected $with = ['user'];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
     public function getJobKeyAttribute() {
         return $this->resource_type . ':' . $this->job_action;
     }

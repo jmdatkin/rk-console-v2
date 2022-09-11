@@ -18,10 +18,16 @@ import InfoItem from '../../../Components/InfoItem.vue';
 const props = defineProps(['data']);
 
 const onPauseChange = function(event) {
-    console.log(event);
-    RecipientService.edit(props.data.id, {
-        paused: paused.value
-    }).then(() => Inertia.reload());
+    if (paused.value) {
+        RecipientService.pause(props.data.id)
+        .then(() => Inertia.reload())
+    } else {
+        RecipientService.unpause(props.data.id)
+        .then(() => Inertia.reload())
+    }
+    // RecipientService.edit(props.data.id, {
+    //     paused: paused.value
+    // }).then(() => Inertia.reload());
 };
 
 const paused = ref(!!props.data.paused);

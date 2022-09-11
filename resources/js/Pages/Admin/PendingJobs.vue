@@ -30,7 +30,7 @@ const filteredJobs = computed(() => {
         <template #header>
             Pending Jobs
         </template>
-        <InputText v-model="filter"></InputText>
+        <!-- <InputText v-model="filter"></InputText> -->
         <div class="space-y-2">
             <!-- <PendingJobListItem v-for="job in pending_jobs" :job="job"> -->
             <!-- <PendingJobListItem v-for="job in filteredJobs" :job="job">

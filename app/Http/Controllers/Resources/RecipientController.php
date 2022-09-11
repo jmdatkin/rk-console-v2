@@ -87,12 +87,22 @@ class RecipientController extends BaseResourceController
         return $this->repository->find($recipient_id)->routes;
     }
 
-    public function pause($recipient_id) {
-        $this->repository->find($recipient_id)->pause();
+    public function pause($id) {
+        // $this->repository->find($recipient_id)->pause();
+        InterpretJobRequest::dispatchSync(
+            'recipient',
+            'pause',
+            (int)$id,
+        );
     }
 
-    public function unpause($recipient_id) {
-        $this->repository->find($recipient_id)->unpause();
+    public function unpause($id) {
+        // $this->repository->find($recipient_id)->unpause();
+        InterpretJobRequest::dispatchSync(
+            'recipient',
+            'unpause',
+            (int)$id,
+        );
     }
 
 }

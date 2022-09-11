@@ -54,8 +54,6 @@ Route::prefix('settings')->group(function () {
     Route::post('/user/save', [SettingsController::class, 'save_user'])->name('settings.user.save');
 });
 
-Route::get('test', fn () => Inertia::render('Test'));
-
 // Must be signed in
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -102,6 +100,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/', [JobController::class, 'index'])->name('jobs');
             Route::post('/{id}/commit', [JobController::class, 'commit'])->name('jobs.commit');
             Route::post('/{id}/destroy', [JobController::class, 'destroy'])->name('jobs.destroy');
+            Route::post('/destroy', [JobController::class, 'destroy_many'])->name('jobs.destroy_many');
         });
 
         Route::prefix('recipient')->group(function () {

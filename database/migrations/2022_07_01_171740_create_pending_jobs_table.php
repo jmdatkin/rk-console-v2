@@ -20,6 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('resource_id')->nullable();
             $table->string('job_action');
             $table->json('payload')->nullable();
+            $table->string('schedule_type')->default('lock');
+            $table->datetime('schedule_time')->nullable();
             $table->timestamp('committed_at')->nullable()->default(null);
             $table->timestamps();
         });

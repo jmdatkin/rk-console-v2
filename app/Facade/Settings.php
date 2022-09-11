@@ -125,8 +125,8 @@ class Settings
             ->hour($lockOutHour)
             ->minute($lockOutMinute);
 
-        return $now->greaterThan($lockInThisWeek) && $now->lessThan($lockOutThisWeek);
-        // return true;
+        // return $now->greaterThan($lockInThisWeek) && $now->lessThan($lockOutThisWeek);
+        return true;
     }
 
     public function user()

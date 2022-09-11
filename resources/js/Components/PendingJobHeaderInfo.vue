@@ -112,8 +112,13 @@ const doDestroy = function () {
         <div class="center flex-grow">
             <div class="px-4">
                 <div class="flex flex-col">
-                    <span class="text-gray-500">
-                        {{ createdAtFormat }}
+                    <span>
+                        <span>
+                            {{ job.user.firstName }} {{ job.user.lastName }}
+                        </span>
+                        <span class="text-gray-500">
+                            {{ createdAtFormat }}
+                        </span>
                     </span>
                     <span class="mb-2">
                         {{ actionString }}
@@ -124,7 +129,8 @@ const doDestroy = function () {
         <div class="end border-l h-full">
             <div class="px-4 h-full">
                 <div class="space-x-1">
-                    <Button @click.stop="doCommit" icon="pi pi-check" class="p-button-rounded p-button-outlined"></Button>
+                    <Button @click.stop="doCommit" icon="pi pi-check"
+                        class="p-button-rounded p-button-outlined"></Button>
                     <Button @click.stop="doDestroy" icon="pi pi-trash"
                         class="p-button-danger p-button-rounded p-button-outlined"></Button>
                 </div>

@@ -10,6 +10,8 @@ use App\Jobs\Person\DeletePerson;
 use App\Jobs\Person\UpdatePerson;
 use App\Jobs\Recipient\CreateRecipient;
 use App\Jobs\Recipient\DeleteRecipient;
+use App\Jobs\Recipient\PauseRecipient;
+use App\Jobs\Recipient\UnpauseRecipient;
 use App\Jobs\Recipient\UpdateRecipient;
 use App\Jobs\ReleaseDriverFromRoute;
 use App\Jobs\ReleaseRecipientFromRoute;
@@ -235,6 +237,8 @@ return [
             'create' => CreateRecipient::class,
             'update' => UpdateRecipient::class,
             'destroy' => DeleteRecipient::class,
+            'pause' => PauseRecipient::class,
+            'unpause' => UnpauseRecipient::class
         ]
     ]
 

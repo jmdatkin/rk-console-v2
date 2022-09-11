@@ -21,4 +21,12 @@ const importCsv = function(data) {
     return axios.post('/recipient/import', { data });
 };
 
-export default { get, destroy, store, edit, importCsv };
+const pause = function(id) {
+    return axios.post(`/recipient/${id}/pause`);
+};
+
+const unpause = function(id) {
+    return axios.post(`/recipient/${id}/unpause`);
+};
+
+export default { get, destroy, store, edit, importCsv, pause, unpause };

@@ -15,9 +15,9 @@ class InterpretJobRequest implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public string $resource_type;
-    public string|null $job_action;
+    public string $job_action;
     public int|null $resource_id;
-    public array $payload;
+    public array|null $payload;
 
     /**
      * Create a new job instance.
@@ -25,7 +25,7 @@ class InterpretJobRequest implements ShouldQueue
      * @return void
      */
     // public function __construct(string $resource_type, string $job_action, ?int $resource_id, ?array $payload)
-    public function __construct(string $resource_type, string $job_action, int|null $resource_id, array|null $payload)
+    public function __construct(string $resource_type, string $job_action, int|null $resource_id = null, array|null $payload = null)
     {
         $this->resource_type = $resource_type;
         $this->job_action = $job_action;
