@@ -15,7 +15,7 @@ class JobController extends Controller
     public function index()
     {
         return Inertia::render('Admin/PendingJobs', [
-            'pending_jobs' => PendingJob::uncommitted()->get()
+            'pending_jobs' => PendingJob::uncommitted()->orderBy('created_at', 'desc')->get()
         ]);
     }
 

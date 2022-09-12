@@ -11,6 +11,11 @@ const mergePersonObject = function (item) {
     return item;
 }
 
+const initials = function(first,last) {
+    return first.substring(0,1).toUpperCase() +
+            last.substring(0,1).toUpperCase();
+};
+
 const parseSubstitutes = function (data) {
     return computed(() => {
         return data.map(row => {
@@ -89,5 +94,6 @@ export {
     parseSubstitutes,
     DateAdapter,
     back,
+    initials,
     visitDriver, visitPerson, visitRecipient
 };

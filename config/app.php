@@ -238,8 +238,26 @@ return [
             'update' => UpdateRecipient::class,
             'destroy' => DeleteRecipient::class,
             'pause' => PauseRecipient::class,
-            'unpause' => UnpauseRecipient::class
-        ]
+            'unpause' => UnpauseRecipient::class,
+
+            'assign' => AssignRecipientToRoute::class,
+            'deassign' => ReleaseRecipientFromRoute::class
+        ],
+
+        'driver' => [
+            'create' => CreateDriver::class,
+            'update' => UpdateDriver::class,
+            'destroy' => DeleteDriver::class,
+
+            'assign' => AssignDriverToRoute::class,
+            'deassign' => ReleaseDriverFromRoute::class
+        ],
+
+        'person' => [
+            'create' => CreatePerson::class,
+            'update' => UpdatePerson::class,
+            'destroy' => DeletePerson::class
+        ],
     ]
 
 ];

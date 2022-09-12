@@ -3,10 +3,7 @@
 namespace App\Http\Controllers\Resources;
 
 use App\Repository\DriverRepository;
-use App\Repository\DriverRepositoryInterface;
-use App\Repository\RouteRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Error;
 use Exception;
@@ -18,7 +15,7 @@ class DriverController extends BaseResourceController
      */
     public function __construct(DriverRepository $repository)
     {
-        parent::__construct($repository);
+        parent::__construct($repository, 'driver');
     }
 
 

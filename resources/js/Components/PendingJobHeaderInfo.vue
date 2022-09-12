@@ -5,13 +5,18 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
 import moment from 'moment';
+import Avatar from 'primevue/avatar';
 import AccordionTab from 'primevue/accordiontab';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import FullscreenDataTable from './FullscreenDataTable.vue';
 import { Inertia } from '@inertiajs/inertia';
+import { initials } from '@/util';
 
 const props = defineProps(['job']);
+
+const userFullName = computed(() => props.job.user.firstName + ' ' + props.job.user.lastName);
+const userInitials = initials(props.job.user.firstName, props.job.user.lastName);
 
 const confirm = useConfirm();
 const toast = useToast();
@@ -30,6 +35,10 @@ const actionString = computed(() => {
         str = `Delete ${type} with id ${id}`;
     } else if (action === 'create') {
         str = `Create new ${type}`;
+    } else if (action === 'pause') {
+        str = `Pause ${type} with id ${id}`;
+    } else if (action === 'unpause') {
+        str = `Unpause ${type} with id ${id}`;
     } else {
         str = '';
     }
@@ -99,12 +108,12 @@ const doDestroy = function () {
 </script>
 
 <template>
-    <div class="pending-job flex w-full items-center relative">
+    <div class="pending-job flex w-full items-center content-center relative">
         <!-- <span class="text-gray-500 text-monospace absolute left-2 top-2">
             {{ job.id }}
         </span> -->
-        <div class="start border-r h-full">
-            <div class="px-4 h-full">
+        <div class="start border-r h-full basis-24">
+            <div class="px-2 h-full text-center">
                 <InfoItem :title="job.job_action" class="mb-1">
                 </InfoItem>
             </div>
@@ -112,22 +121,21 @@ const doDestroy = function () {
         <div class="center flex-grow">
             <div class="px-4">
                 <div class="flex flex-col">
-                    <span>
-                        <span>
-                            {{ job.user.firstName }} {{ job.user.lastName }}
-                        </span>
-                        <span class="text-gray-500">
+                    <span class="space-x-2">
+                        <Avatar shape="circle" :label="userInitials"></Avatar>
+                        <!-- {{ job.user.firstName }} {{ job.user.lastName }} -->
+                        <span class="text-slate-500">
                             {{ createdAtFormat }}
                         </span>
                     </span>
-                    <span class="mb-2">
+                    <span class="mb-2 font-normal text-slate-400">
                         {{ actionString }}
                     </span>
                 </div>
             </div>
         </div>
         <div class="end border-l h-full">
-            <div class="px-4 h-full">
+            <div class="pl-4 h-full">
                 <div class="space-x-1">
                     <Button @click.stop="doCommit" icon="pi pi-check"
                         class="p-button-rounded p-button-outlined"></Button>

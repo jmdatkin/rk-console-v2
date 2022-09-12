@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\InterpretJobRequest;
+use App\Jobs\ProcessJobRequest;
 use App\Services\CSVProcessorService;
 use Error;
 use Exception;
@@ -19,9 +19,10 @@ class BaseResourceController extends Controller
      * 
      * @param
      */
-    public function __construct($repository)
+    public function __construct($repository, $resource_type)
     {
         $this->repository = $repository;
+        $this->resource_type = $resource_type;
     }
 
     /**
@@ -34,7 +35,13 @@ class BaseResourceController extends Controller
     {
         //
         try {
-            $this->repository->create($request->all());
+            // $this->repository->create($request->all());
+            ProcessJobRequest::dispatchSync(
+                $this->resource_type,
+                'create',
+                null,
+                $request->all()
+            );
             return response('Record successfully created.', 200);
         } catch (Error | Exception $e) {
             return response('An error occurred. Record was not created.', 409);
@@ -75,7 +82,13 @@ class BaseResourceController extends Controller
         //
         try {
             $data = $request->except('id', 'created_at', 'updated_at', 'deleted_at');
-            $this->repository->update($id, $data);
+            ProcessJobRequest::dispatchSync(
+                $this->resource_type,
+                'update',
+                $id,
+                $data
+            );
+            // $this->repository->update($id, $data);
             return response('Record successfully edited.', 200);
         } catch (Error | Exception $e) {
             Log::error($e); 
@@ -92,7 +105,12 @@ class BaseResourceController extends Controller
     public function destroy($id)
     {
         try {
-            $this->repository->destroy($id);
+            ProcessJobRequest::dispatchSync(
+                $this->resource_type,
+                'delete',
+                $id
+            );
+            // $this->repository->destroy($id);
             return response('Record(s) successfully deleted.', 200);
         } catch (Error | Exception $e) {
             return response('An error occurred. Record(s) were not deleted.' . $e, 409);
