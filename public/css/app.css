@@ -811,23 +811,11 @@ select {
 .w-48 {
   width: 12rem;
 }
-.w-20 {
-  width: 5rem;
-}
-.w-\[1\.5\] {
-  width: 1.5;
-}
-.w-\[1\.5rem\] {
-  width: 1.5rem;
-}
-.w-4 {
-  width: 1rem;
-}
-.w-\[12rem\] {
-  width: 12rem;
-}
 .w-\[3\.75rem\] {
   width: 3.75rem;
+}
+.w-20 {
+  width: 5rem;
 }
 .max-w-xl {
   max-width: 36rem;
@@ -1103,10 +1091,6 @@ select {
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
 }
-.py-12 {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
 .pt-8 {
   padding-top: 2rem;
 }
@@ -1252,13 +1236,21 @@ select {
   --tw-text-opacity: 1;
   color: rgb(67 56 202 / var(--tw-text-opacity));
 }
-.text-green-600 {
+.text-green-400 {
   --tw-text-opacity: 1;
-  color: rgb(22 163 74 / var(--tw-text-opacity));
+  color: rgb(74 222 128 / var(--tw-text-opacity));
+}
+.text-blue-400 {
+  --tw-text-opacity: 1;
+  color: rgb(96 165 250 / var(--tw-text-opacity));
 }
 .text-slate-700 {
   --tw-text-opacity: 1;
   color: rgb(51 65 85 / var(--tw-text-opacity));
+}
+.text-green-600 {
+  --tw-text-opacity: 1;
+  color: rgb(22 163 74 / var(--tw-text-opacity));
 }
 .underline {
   -webkit-text-decoration-line: underline;
@@ -1356,7 +1348,7 @@ html, body, #app {
 }
 body {
   background-color: var(--surface-ground-b);
-  color: #495057;
+  color: var(--slate-800);
   font-family: var(--font-family) !important;
 }
 h1, h2, h3, h4, h5, h6 {
@@ -1651,11 +1643,6 @@ html tr.no-associated-driver {
   .md\:px-5 {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
-  }
-
-  .md\:py-4 {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
   }
 
   .md\:py-12 {

@@ -17,7 +17,8 @@ html, body, #app {
 
 body {
     background-color: var(--surface-ground-b);
-    color: #495057;
+    // color: #495057;
+    color: var(--slate-800);
     font-family: var(--font-family) !important;
     // color: #3d4852;
 }

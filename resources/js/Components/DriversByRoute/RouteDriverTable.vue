@@ -132,9 +132,11 @@ const assignSub = function (exceptionId, substituteDriverId, routeId) {
         :globalFilterFields="['routeName', 'id', 'driver.person.firstName', 'lastName']" filterDisplay="menu"
         v-model:filters="filters" :value="tableData" :paginator="true" :rowClass="rowClass" :rows="10"
         responsiveLayout="scroll" columnResizeMode="fit" :showGridlines="true">
-        <template #header>
+        <!-- <template #header>
+            <span v-if="date">
             {{ DateAdapter.format(date) }}
-        </template>
+            </span>
+        </template> -->
         <ColumnGroup type="header">
             <Row>
                 <Column header="Route" :colspan="2">

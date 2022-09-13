@@ -32,7 +32,7 @@ class DashboardController extends Controller
         $unassociated_drivers_exist = !$routeRecipient_data->every(function ($recip, $key) {
             return $recip['has_driver_associated'];
         });
-        
+
         if ($unassociated_drivers_exist) {
             array_push(
                 $messages,
@@ -51,6 +51,14 @@ class DashboardController extends Controller
                 'routeDriver_data' => $report->routeDrivers($today)->get(),
                 'routeRecipient_data' => $report->routeRecipients($today),
                 'messages' => $messages,
+                'lockOut' => [
+                    'time' => Settings::get('lock_out_time'),
+                    'day' => Settings::get('lock_out_day')
+                ],
+                'lockIn' => [
+                    'time' => Settings::get('lock_in_time'),
+                    'day' => Settings::get('lock_in_day')
+                ],
                 'stats' => [
                     'isAppLocked' => Settings::appIsLocked(),
                     'recipients' => (new Stats(Recipient::first()))->data(),

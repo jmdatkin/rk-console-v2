@@ -13,12 +13,18 @@ import DriverInfo from '@/Components/DriverInfo';
 import { Inertia } from '@inertiajs/inertia';
 import TextClock from '@/Components/TextClock';
 import { ref } from 'vue';
-
 import { DateAdapter } from '../../util';
 import RouteDriverTable from '../../Components/DriversByRoute/RouteDriverTable.vue';
 import DBLockIndicator from '../../Components/Dashboard/DBLockIndicator.vue';
+import DBStatusWidget from '../../Components/Dashboard/DBStatusWidget.vue';
+import InfoItem from '../../Components/InfoItem.vue';
 
-defineProps(['routeDriver_data', 'routeRecipient_data', 'stats', 'messages'])
+defineProps(['routeDriver_data',
+    'routeRecipient_data',
+    'stats',
+    'lockIn',
+    'lockOut',
+    'messages'])
 
 const recipientData = ref([]);
 const driverData = ref([]);
@@ -84,10 +90,12 @@ const viewDriver = function (id) {
                 <TextClock />
             </div>
         </div>
-
+        <!-- <DashboardStatusBar>
+            <DBStatusWidget :isLocked="stats.isAppLocked"></DBStatusWidget>
+        </DashboardStatusBar> -->
         <div class="grid">
             <div class="col-12 xl:col-9">
-            <!-- <div class="col-12"> -->
+                <!-- <div class="col-12"> -->
                 <div class="grid">
 
                     <div class="col-12 2xl:col-6">
@@ -124,7 +132,7 @@ const viewDriver = function (id) {
             </div>
 
             <div class="col-12 xl:col-3">
-            <!-- <div class="col-12"> -->
+                <!-- <div class="col-12"> -->
 
                 <div class="grid">
                     <div class="col-12">
@@ -135,12 +143,32 @@ const viewDriver = function (id) {
                                     <template #content>
                                         <div class="flex flex-col">
                                             <span>
-                                                <DBLockIndicator :status="stats.isAppLocked"></DBLockIndicator>
+                                                <DBLockIndicator :status="stats.isAppLocked" :lockIn="lockIn" :lockOut="lockOut"></DBLockIndicator>
                                             </span>
                                         </div>
                                     </template>
                                 </Card>
                             </div>
+                            <!-- <div class="basis-full">
+                                <Card>
+                                    <template #content>
+                                        <div class="flex flex-col">
+                                            <span>
+                                                <i class="pi pi-clock"></i>
+                                                <span v-if="stats.isAppLocked">
+                                                    DB lock out {{ moment.weekdaysShort()[lockOut.day] }} {{
+                                                    lockOut.time }}
+                                                </span>
+                                                <span v-else>
+                                                    DB lock in {{ moment.weekdaysShort()[lockIn.day] }} {{
+                                                    lockIn.time }}
+                                                </span>
+
+                                            </span>
+                                        </div>
+                                    </template>
+                                </Card>
+                            </div> -->
                             <div class="basis-full">
                                 <Card>
                                     <template #content>

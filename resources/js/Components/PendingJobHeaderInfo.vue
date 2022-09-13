@@ -12,6 +12,7 @@ import { useConfirm } from 'primevue/useconfirm';
 import FullscreenDataTable from './FullscreenDataTable.vue';
 import { Inertia } from '@inertiajs/inertia';
 import { initials } from '@/util';
+import { WEEKDAYS } from '../constants';
 
 const props = defineProps(['job']);
 
@@ -39,6 +40,10 @@ const actionString = computed(() => {
         str = `Pause ${type} with id ${id}`;
     } else if (action === 'unpause') {
         str = `Unpause ${type} with id ${id}`;
+    } else if (action === 'assign') {
+        str = `Assign ${type} with id ${id} to route id ${payload[0]} for ${WEEKDAYS[payload[1]]}`
+    } else if (action === 'deassign') {
+        str = `Deassign ${type} with id ${id} from route id ${payload[0]} for ${WEEKDAYS[payload[1]]}`
     } else {
         str = '';
     }
