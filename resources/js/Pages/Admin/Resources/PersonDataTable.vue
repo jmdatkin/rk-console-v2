@@ -81,10 +81,12 @@ const editingRows = ref([]);
 const onRowEditSave = function (event) {
     // Extract only changed attributes
     let data = Object.keys(event.newData)
-    .filter(key => event.newData[key] !== event.data[key])
-    .reduce((obj, key) => {
-        return Object.assign(obj, {[key]: event.newData[key]});
-    }, {});
+        .filter(key => event.newData[key] !== event.data[key])
+        .reduce((obj, key) => {
+            return Object.assign(obj, { [key]: event.newData[key] });
+        }, {});
+
+    if (Object.keys(data).length <= 0) return;
     CRUD.update(event.data.id, data);
 };
 
@@ -190,8 +192,7 @@ onMounted(() => {
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'phoneHome', 'phoneCell', 'notes']"
                 filterDisplay="menu" responsiveLayout="scroll" editMode="row" showGridlines :resizableColumns="true"
                 @row-click="e => viewRecord(e.data)" columnResizeMode="fit" v-model:filters="filters"
-                v-model:editingRows="editingRows" contextMenu v-model:contextMenuSelection="cmSelection"
-                dataKey="id"
+                v-model:editingRows="editingRows" contextMenu v-model:contextMenuSelection="cmSelection" dataKey="id"
                 @rowContextmenu="onRowContextMenu" @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
                     <Toolbar class="p-0">
@@ -244,9 +245,6 @@ onMounted(() => {
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search by role"></InputText>
                     </template>
-                    <template #editor="{ data, field }">
-                        <InputText v-model="data[field]" autofocus />
-                    </template>
                 </Column>
                 <Column :sortable="true" field="firstName" header="First Name" filterField="firstName">
                     <template #body="{ data }">
@@ -257,7 +255,7 @@ onMounted(() => {
                             class="p-column-filter" placeholder="Search by first name"></InputText>
                     </template>
                     <template #editor="{ data, field }">
-                        <InputText v-model="data[field]" autofocus />
+                        <InputText v-model="data[field]" />
                     </template>
                 </Column>
                 <Column :sortable="true" field="lastName" header="Last Name">
@@ -269,7 +267,7 @@ onMounted(() => {
                             class="p-column-filter" placeholder="Search by last name"></InputText>
                     </template>
                     <template #editor="{ data, field }">
-                        <InputText v-model="data[field]" autofocus />
+                        <InputText v-model="data[field]" />
                     </template>
                 </Column>
                 <Column :sortable="true" field="email" header="E-mail Address">
@@ -281,7 +279,7 @@ onMounted(() => {
                             class="p-column-filter" placeholder="Search by e-mail address"></InputText>
                     </template>
                     <template #editor="{ data, field }">
-                        <InputText v-model="data[field]" autofocus />
+                        <InputText v-model="data[field]" />
                     </template>
                 </Column>
                 <Column :sortable="true" field="phoneHome" header="Home #">
@@ -293,7 +291,7 @@ onMounted(() => {
                             class="p-column-filter" placeholder="Search home phone"></InputText>
                     </template>
                     <template #editor="{ data, field }">
-                        <InputText v-model="data[field]" autofocus />
+                        <InputText v-model="data[field]" />
                     </template>
                 </Column>
                 <Column :sortable="true" field="phoneCell" header="Cell #">
@@ -305,7 +303,7 @@ onMounted(() => {
                             class="p-column-filter" placeholder="Search cell phone"></InputText>
                     </template>
                     <template #editor="{ data, field }">
-                        <InputText v-model="data[field]" autofocus />
+                        <InputText v-model="data[field]" />
                     </template>
                 </Column>
                 <Column :sortable="true" field="notes" header="Notes">
@@ -317,7 +315,7 @@ onMounted(() => {
                             class="p-column-filter" placeholder="Search notes"></InputText>
                     </template>
                     <template #editor="{ data, field }">
-                        <InputText v-model="data[field]" autofocus />
+                        <InputText v-model="data[field]" />
                     </template>
                 </Column>
                 <Column :rowEditor="true" style="width:10%; min-width:8rem" bodyStyle="text-align:center"></Column>

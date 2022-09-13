@@ -15,8 +15,8 @@ import { initials } from '@/util';
 
 const props = defineProps(['job']);
 
-const userFullName = computed(() => props.job.user.firstName + ' ' + props.job.user.lastName);
-const userInitials = initials(props.job.user.firstName, props.job.user.lastName);
+const userFullName = computed(() => props.job.user?.firstName + ' ' + props.job.user?.lastName);
+const userInitials = initials(props.job.user?.firstName, props.job.user?.lastName);
 
 const confirm = useConfirm();
 const toast = useToast();

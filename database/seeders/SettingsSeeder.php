@@ -16,15 +16,12 @@ class SettingsSeeder extends Seeder
      */
     public function run()
     {
-        //
-        Setting::create([
-            'key' => 'lock_in_time',
-            'value' => RkCarbon::parse('friday 5pm')
-        ]);
-
-        Setting::create([
-            'key' => 'lock_out_time',
-            'value' => RkCarbon::parse('8am monday')
-        ]);
+        foreach (config('app.default_settings') as $key => $value) {
+            Setting::create([
+                'key' => $key,
+                'value' => $value['value'],
+                'type' => $value['type']
+            ]);
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Repository\RouteRepository;
+use App\Services\AssignmentService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -15,14 +16,14 @@ class AssignRecipientToRoute implements ShouldQueue
 
     public int $recipient_id;
     public int $route_id;
-    public string $weekday;
+    public int $weekday;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(int $recipient_id, int $route_id, string $weekday)
+    public function __construct(int $recipient_id, int $route_id, int $weekday)
     {
         $this->recipient_id = $recipient_id;
         $this->route_id = $route_id;
@@ -34,8 +35,12 @@ class AssignRecipientToRoute implements ShouldQueue
      *
      * @return void
      */
-    public function handle(RouteRepository $repository)
+    public function handle(AssignmentService $service)
     {
-        $repository->find($this->route_id)->assignRecipient($this->recipient_id, $this->weekday);
+        $service->assign_recipient(
+            $this->route_id,
+            $this->recipient_id,
+            $this->weekday
+        );
     }
 }

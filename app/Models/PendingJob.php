@@ -35,14 +35,14 @@ class PendingJob extends Model
         
         // No id, e.g. create
         if (is_null($this->resource_id))
-            $jobClass::dispatchSync($this->payload);
+            $jobClass::dispatchSync(...$this->payload);
 
         // No payload, e.g. destroy
         else if (is_null($this->payload))
             $jobClass::dispatchSync($this->resource_id);
         
         else
-            $jobClass::dispatchSync($this->resource_id, $this->payload);
+            $jobClass::dispatchSync($this->resource_id, ...$this->payload);
 
         Log::info('Committing PendingJob with id'.$this->id, $this->getAttributes());
         $this->committed_at = RkCarbon::now();

@@ -11,7 +11,7 @@ const mergePersonObject = function (item) {
     return item;
 }
 
-const initials = function(first,last) {
+const initials = function(first = '', last = '') {
     return first.substring(0,1).toUpperCase() +
             last.substring(0,1).toUpperCase();
 };

@@ -14,7 +14,7 @@ class UpdateRoute implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public int $person_id;
+    public int $route_id;
     public array $attr;
 
     /**
@@ -22,9 +22,9 @@ class UpdateRoute implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(int $person_id, array $attr)
+    public function __construct(int $route_id, array $attr)
     {
-        $this->person_id = $person_id;
+        $this->route_id = $route_id;
         $this->attr = $attr;
     }
 
@@ -35,6 +35,6 @@ class UpdateRoute implements ShouldQueue
      */
     public function handle(RouteRepository $repository)
     {
-        $repository->update($this->person_id, $this->attr);
+        $repository->update($this->route_id, $this->attr);
     }
 }

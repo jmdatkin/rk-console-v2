@@ -8,6 +8,6 @@ class AgencyController extends BaseResourceController
 {
     public function __construct( AgencyRepository $repository)
     {
-        parent::__construct($repository);
+        parent::__construct($repository, 'agency');
     }
 }

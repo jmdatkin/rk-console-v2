@@ -1,7 +1,13 @@
 <?php
 
+use App\Carbon\RkCarbon;
+use App\Jobs\Agency\CreateAgency;
+use App\Jobs\Agency\DeleteAgency;
+use App\Jobs\Agency\UpdateAgency;
 use App\Jobs\AssignDriverToRoute;
 use App\Jobs\AssignRecipientToRoute;
+use App\Jobs\DeassignDriverFromRoute;
+use App\Jobs\DeassignRecipientFromRoute;
 use App\Jobs\Driver\CreateDriver;
 use App\Jobs\Driver\DeleteDriver;
 use App\Jobs\Driver\UpdateDriver;
@@ -15,6 +21,9 @@ use App\Jobs\Recipient\UnpauseRecipient;
 use App\Jobs\Recipient\UpdateRecipient;
 use App\Jobs\ReleaseDriverFromRoute;
 use App\Jobs\ReleaseRecipientFromRoute;
+use App\Jobs\Route\CreateRoute;
+use App\Jobs\Route\DeleteRoute;
+use App\Jobs\Route\UpdateRoute;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -241,7 +250,7 @@ return [
             'unpause' => UnpauseRecipient::class,
 
             'assign' => AssignRecipientToRoute::class,
-            'deassign' => ReleaseRecipientFromRoute::class
+            'deassign' => DeassignRecipientFromRoute::class
         ],
 
         'driver' => [
@@ -250,7 +259,7 @@ return [
             'destroy' => DeleteDriver::class,
 
             'assign' => AssignDriverToRoute::class,
-            'deassign' => ReleaseDriverFromRoute::class
+            'deassign' => DeassignDriverFromRoute::class
         ],
 
         'person' => [
@@ -258,6 +267,46 @@ return [
             'update' => UpdatePerson::class,
             'destroy' => DeletePerson::class
         ],
+
+        'route' => [
+            'create' => CreateRoute::class,
+            'update' => UpdateRoute::class,
+            'destroy' => DeleteRoute::class
+        ],
+
+        'agency' => [
+            'create' => CreateAgency::class,
+            'update' => UpdateAgency::class,
+            'destroy' => DeleteAgency::class
+        ]
+    ],
+
+    'default_settings' => [
+        'lock_in_day' => [
+            'type' => 'number',
+            'value' => 1
+        ],
+        // 'lock_in_time' => [
+        //     'type' => 'date',
+        //     'value' => RkCarbon::parse('08:00')
+        // ],
+        'lock_in_time' => [
+            'type' => 'string',
+            'value' => '08:00'
+        ],
+
+        'lock_out_day' => [
+            'type' => 'number',
+            'value' => 5
+        ],
+        'lock_out_time' => [
+            'type' => 'string',
+            'value' => '17:00'
+        ],
+        // 'lock_out_time' => [
+        //     'type' => 'date',
+        //     'value' => RkCarbon::parse('17:00')
+        // ],
     ]
 
 ];

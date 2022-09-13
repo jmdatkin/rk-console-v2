@@ -30,7 +30,7 @@ class HomeController extends Controller
                 // 'data' => $this->report->data(['date' => RkCarbon::today(), 'driver_id' => Auth::user()->driver_id]),
                 'data' => $this->report->new_data(
                     Auth::user()->driver_id,
-                    RkCarbon::today()
+                    RkCarbon::now()
                 )
             ]);
         }

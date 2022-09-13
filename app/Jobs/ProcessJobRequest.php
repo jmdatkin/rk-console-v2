@@ -54,14 +54,14 @@ class ProcessJobRequest implements ShouldQueue
 
             // No id, e.g. create
             if (is_null($this->resource_id))
-                $jobClass::dispatchSync($this->payload);
+                $jobClass::dispatchSync(...$this->payload);
 
             // No payload, e.g. destroy
             else if (is_null($this->payload))
                 $jobClass::dispatchSync($this->resource_id);
 
             else
-                $jobClass::dispatchSync($this->resource_id, $this->payload);
+                $jobClass::dispatchSync($this->resource_id, ...$this->payload);
         }
     }
 }

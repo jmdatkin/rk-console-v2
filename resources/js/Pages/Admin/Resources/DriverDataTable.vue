@@ -133,6 +133,7 @@ const onRowEditSave = function (event) {
     .reduce((obj, key) => {
         return Object.assign(obj, {[key]: event.newData[key]});
     }, {});
+    if (Object.keys(data).length <= 0) return;
     CRUD.update(event.data.id, data);
 };
 
@@ -156,52 +157,15 @@ const destroyRecords = function (ids) {
 };
 
 // CSV upload
-// const beforeUpload = function (event) {
-//     event.xhr.setRequestHeader('Content-type', 'text/csv');
-//     event.xhr.setRequestHeader('X-CSRF-TOKEN', props.csrf);
-// };
-
 const onUpload = function(event) {
     CRUD.upload(event.files);
 };
-
-// const onUpload = function (event) {
-//     let { files } = event;
-//     let fr = new FileReader();
-
-
-//     fr.readAsText(files[0]);
-
-//     fr.onload = () => {
-//         Inertia.post('/driver/import', {
-//             data: fr.result,
-//         }, {
-//             onBefore: () => {
-//                 dataLoaded.value = false;
-//             },
-//             onFinish: () => {
-//                 fetchData();
-//             },
-//             onSuccess: page => {
-//                 toast.add({ severity: props.message.class, summary: 'Successful', detail: props.message.detail, life: 3000 });
-//             },
-
-//             onError: errors => {
-//                 toast.add({ severity: props.message.class, summary: 'Error', detail: props.message.detail, life: 3000 });
-//             }
-//         })
-
-//     };
-
-// }
 
 onMounted(() => {
     initFilters();
 });
 
-// fetchData();
 CRUD.get();
-
 </script>
 
 <template>

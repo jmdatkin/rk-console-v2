@@ -7,7 +7,7 @@ defineProps(['messages']);
 
 <template>
     <AdminLayout>
-        <section class="md:py-4 md:px-5 lg:px-8 xl:px-12">
+        <section class="md:py-12 md:px-5 lg:px-8 xl:px-12">
         <Message v-for="message of messages" :severity="message.severity" :key="message.content">
         {{message.content}}
         </Message>

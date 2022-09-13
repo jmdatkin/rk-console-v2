@@ -10,6 +10,8 @@ class Setting extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public function getValueAttribute($value) {
         switch ($value) {
             case 'boolean':

@@ -14,16 +14,16 @@ class DeleteRoute implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public int $person_id;
+    public int $route_id;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(int $person_id)
+    public function __construct(int $route_id)
     {
-        $this->person_id = $person_id;
+        $this->route_id = $route_id;
     }
 
     /**
@@ -33,6 +33,6 @@ class DeleteRoute implements ShouldQueue
      */
     public function handle(RouteRepository $repository)
     {
-        $repository->destroy($this->person_id);
+        $repository->destroy($this->route_id);
     }
 }

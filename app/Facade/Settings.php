@@ -43,24 +43,44 @@ class Settings
         $this->userSettings = $userSettings;
     }
 
+    private function cast($value, $type)
+    {
+        switch ($type) {
+            case 'number':
+                return (int)$value;
+            case 'string':
+                return (string)$value;
+            case 'date':
+                return RkCarbon::parse($value);
+            default:
+                return $value;
+        }
+    }
+
+    private function getTypeForKey($key)
+    {
+        return Setting::where('key', $key)->first()->type;
+    }
+
     public function get($key = null)
     {
         if (is_null($key)) {
-            return Setting::all();
+            return Setting::all()->map(function ($setting) {
+                return [
+                    'key' => $setting->key,
+                    'value' => $this->cast($setting->value, $setting->type)
+                ];
+            });
         } else if (is_array($key)) {
-
-            // array_map(function ($k) {
-            //     return Cache::remember($k, 2000, function () use ($k) {
-            //         return Setting::where('key', $k)->get();
-            //     });
-            // }, $key);
-            // return Cache::remember($key, 2000, function () use ($key) {
-            return Setting::whereIn('key', $key)->get();
-            // });
+            return Setting::whereIn('key', $key)->get()->map(function ($setting) {
+                return [
+                    'key' => $setting->key,
+                    'value' => $this->cast($setting->value, $setting->type)
+                ];
+            });
         } else {
-            // return Cache::remember($key, 2000, function () use ($key) {
-            return Setting::where('key', $key)->first()->value;
-            // });
+            $setting = Setting::where('key', $key)->first();
+            return $this->cast($setting->value, $setting->type);
         }
     }
 
@@ -70,7 +90,7 @@ class Settings
             $values = array_values(array_map(function ($k, $v) {
                 return [
                     'key' => $k,
-                    'value' => $v
+                    'value' => $this->cast($v, $this->getTypeForKey($k))
                 ];
             }, array_keys($key), array_values($key)));
             try {
@@ -86,13 +106,13 @@ class Settings
                 $new_setting = new Setting();
 
                 $new_setting->key = $key;
-                $new_setting->value = $value;
+                $new_setting->value = $this->cast($value, $this->getTypeForKey($key));
 
                 $new_setting->save();
                 return true;
             }
 
-            $setting->value = $value;
+            $setting->value = $this->cast($value, $setting->type);
             $setting->save();
             return true;
         }
@@ -104,29 +124,38 @@ class Settings
         if (is_null($now))
             $now = RkCarbon::now();
 
-        $lockIn = RkCarbon::parse($this->get('lock_in_time'));
-        $lockOut = RkCarbon::parse($this->get('lock_out_time'));
+        $lockInTime = $this->get('lock_in_time');
+        $lockInTimeValues = explode(':',$lockInTime);
 
-        $lockInDay = $lockIn->dayOfWeek;
-        $lockInHour = $lockIn->hour;
-        $lockInMinute = $lockIn->minute;
+        $lockInDay = $this->get('lock_in_day');
+        $lockInHour = $lockInTimeValues[0];
+        $lockInMinute = $lockInTimeValues[1];
 
-        $lockInThisWeek = RkCarbon::now()
+        $lockIn = RkCarbon::today()
             ->weekday($lockInDay)
             ->hour($lockInHour)
             ->minute($lockInMinute);
 
-        $lockOutDay = $lockOut->dayOfWeek;
-        $lockOutHour = $lockOut->hour;
-        $lockOutMinute = $lockOut->minute;
+        $lockOutTime = $this->get('lock_out_time');
+        $lockOutTimeValues = explode(':',$lockOutTime);
 
-        $lockOutThisWeek = RkCarbon::now()
+        $lockOutDay = $this->get('lock_out_day');
+        $lockOutHour = $lockOutTimeValues[0];
+        $lockOutMinute = $lockOutTimeValues[1];
+
+        $lockOut = RkCarbon::today()
             ->weekday($lockOutDay)
             ->hour($lockOutHour)
             ->minute($lockOutMinute);
+ 
+        // If lock out day before lock in day, set to following week
+        if ($lockInDay >= $lockOutDay)
+            $lockOut->addWeek(1);
 
-        // return $now->greaterThan($lockInThisWeek) && $now->lessThan($lockOutThisWeek);
-        return true;
+        // dd($lockIn, $lockOut);
+
+        return $now->greaterThan($lockIn) && $now->lessThan($lockOut);
+        // return true;
     }
 
     public function user()

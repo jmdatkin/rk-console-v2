@@ -13,7 +13,7 @@ class RouteController extends BaseResourceController
 {
     public function __construct( RouteRepository $repository)
     {
-        parent::__construct($repository);
+        parent::__construct($repository, 'route');
     }
 
     public function show($id)

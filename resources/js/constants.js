@@ -72,7 +72,7 @@ const adminMenuItems = [
         icon: 'pi pi-fw pi-database',
         items: [
             {
-                label: 'Pending Jobs',
+                label: 'Jobs',
                 command: () => Inertia.visit(route('jobs'))
             },
             {

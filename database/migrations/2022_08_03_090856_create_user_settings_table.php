@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('key');
             $table->string('value');
             $table->unique(['key', 'user_id']);
-            $table->timestamps();
         });
     }
 

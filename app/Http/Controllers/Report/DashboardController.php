@@ -23,7 +23,7 @@ class DashboardController extends Controller
      */
     public function index(DashboardReport $report)
     {
-        $today = RkCarbon::today();
+        $today = RkCarbon::now();
 
         $routeRecipient_data = $report->routeRecipients($today);
 

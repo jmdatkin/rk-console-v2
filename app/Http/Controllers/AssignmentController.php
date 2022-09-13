@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SchedulePendingJob;
 use App\Models\DriverRoute;
 use App\Models\RecipientRoute;
 use App\Services\AssignmentService;
+use Facades\App\Facade\Settings;
 use Illuminate\Http\Request;
 
 class AssignmentController extends Controller
@@ -12,7 +14,7 @@ class AssignmentController extends Controller
 
     public function __construct(AssignmentService $assignmentService)
     {
-        $this->assignmentService = $assignmentService;        
+        $this->assignmentService = $assignmentService;
     }
 
     /**
@@ -20,18 +22,24 @@ class AssignmentController extends Controller
      */
     public function assign_driver(Request $request)
     {
-        $data = $request->only(['route_id', 'driver_id', 'weekday']);
+        $route_id = (int)$request->input('route_id');
+        $driver_id = (int)$request->input('driver_id');
+        $weekday = (int)$request->input('weekday');
 
-        $driver_route = DriverRoute::where($request->only(['route_id', 'weekday']))->first();
-
-        if (isset($driver_route))
-            $driver_route->driver_id = $request->input('driver_id');
-
-        else
-            $driver_route = new DriverRoute($data);
-
-        $driver_route->save();
-        // DriverRoute::upsert($data, ['route_id','weekday','driver_id']);
+        if (Settings::appIsLocked()) {
+            SchedulePendingJob::dispatchSync(
+                'driver',
+                'assign',
+                $driver_id,
+                [(int)$route_id, (int)$weekday]
+            );
+        } else {
+            $this->assignmentService->assign_driver(
+                $route_id,
+                $driver_id,
+                $weekday
+            );
+        }
     }
 
     /**
@@ -39,8 +47,24 @@ class AssignmentController extends Controller
      */
     public function deassign_driver(Request $request)
     {
-        $data = $request->only(['route_id', 'driver_id', 'weekday']);
-        DriverRoute::where($data)->delete();
+        $route_id = (int)$request->input('route_id');
+        $driver_id = (int)$request->input('driver_id');
+        $weekday = (int)$request->input('weekday');
+
+        if (Settings::appIsLocked()) {
+            SchedulePendingJob::dispatchSync(
+                'driver',
+                'deassign',
+                $driver_id,
+                [$route_id, $weekday]
+            );
+        } else {
+            $this->assignmentService->deassign_driver(
+                $route_id,
+                $driver_id,
+                $weekday
+            );
+        }
     }
 
     /**
@@ -48,18 +72,24 @@ class AssignmentController extends Controller
      */
     public function assign_recipient(Request $request)
     {
-        // $data = $request->only(['route_id', 'recipient_id', 'weekday']);
-        // $nextIndex = RecipientRoute::getNextOrderingIndex($data['route_id'], $data['weekday']);
-        // // dd($nextIndex);
-        // RecipientRoute::upsert(
-        //     array_merge($data, ['driver_custom_order' => $nextIndex]),
-        //     ['route_id', 'weekday', 'recipient_id']
-        // );
-        $this->assignmentService->assign_recipient(
-            $request->input('route_id'),
-            $request->input('recipient_id'),
-            $request->input('weekday')
-        );
+        $route_id = (int)$request->input('route_id');
+        $recipient_id = (int)$request->input('recipient_id');
+        $weekday = (int)$request->input('weekday');
+
+        if (Settings::appIsLocked()) {
+            SchedulePendingJob::dispatchSync(
+                'recipient',
+                'assign',
+                $recipient_id,
+                [$route_id, $weekday]
+            );
+        } else {
+            $this->assignmentService->assign_recipient(
+                $route_id,
+                $recipient_id,
+                $weekday
+            );
+        }
     }
 
     /**
@@ -67,16 +97,28 @@ class AssignmentController extends Controller
      */
     public function deassign_recipient(Request $request)
     {
-        // $data = $request->only(['route_id', 'recipient_id', 'weekday']);
-        // RecipientRoute::where($data)->delete();
-        $this->assignmentService->deassign_recipient(
-            $request->input('route_id'),
-            $request->input('recipient_id'),
-            $request->input('weekday')
-        );
+        $route_id = (int)$request->input('route_id');
+        $recipient_id = (int)$request->input('recipient_id');
+        $weekday = (int)$request->input('weekday');
+
+        if (Settings::appIsLocked()) {
+            SchedulePendingJob::dispatchSync(
+                'recipient',
+                'deassign',
+                $recipient_id,
+                [$route_id, $weekday]
+            );
+        } else {
+            $this->assignmentService->deassign_recipient(
+                $route_id,
+                $recipient_id,
+                $weekday
+            );
+        }
     }
 
-    public function reorder_recipient(Request $request) {
+    public function reorder_recipient(Request $request)
+    {
         $this->assignmentService->reorder_recipient(
             $request->input('route_id'),
             $request->input('recipient_id'),

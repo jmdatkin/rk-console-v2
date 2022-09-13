@@ -95,8 +95,9 @@ class AssignmentService
      * @param int $recipient_id
      * @param int $weekday
      */
-    public function assign_recipient($route_id, $recipient_id, $weekday)
+    public function assign_recipient(int $route_id, int $recipient_id, int $weekday)
     {
+        // dd($route_id, $recipient_id, $weekday);
         $existing_assignment = RecipientRoute::where(
             [
                 'recipient_id' => $recipient_id,
@@ -130,6 +131,8 @@ class AssignmentService
 
         $recipient_route->save();
         DB::commit();
+
+        // dd($recipient_route);
 
         return $recipient_route;
     }

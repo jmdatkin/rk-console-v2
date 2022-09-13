@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Resources;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessJobRequest;
+use App\Jobs\SchedulePendingJob;
 use App\Services\CSVProcessorService;
 use Error;
 use Exception;
+use Facades\App\Facade\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
@@ -35,14 +37,18 @@ class BaseResourceController extends Controller
     {
         //
         try {
-            // $this->repository->create($request->all());
-            ProcessJobRequest::dispatchSync(
-                $this->resource_type,
-                'create',
-                null,
-                $request->all()
-            );
-            return response('Record successfully created.', 200);
+            if (Settings::appIsLocked()) {
+                SchedulePendingJob::dispatchSync(
+                    $this->resource_type,
+                    'create',
+                    null,
+                    [$request->all()]
+                );
+                return response('Resource created as job.', 200);
+            } else {
+                $this->repository->create($request->all());
+                return response('Record successfully created.', 200);
+            }
         } catch (Error | Exception $e) {
             return response('An error occurred. Record was not created.', 409);
         }
@@ -82,16 +88,20 @@ class BaseResourceController extends Controller
         //
         try {
             $data = $request->except('id', 'created_at', 'updated_at', 'deleted_at');
-            ProcessJobRequest::dispatchSync(
-                $this->resource_type,
-                'update',
-                $id,
-                $data
-            );
-            // $this->repository->update($id, $data);
-            return response('Record successfully edited.', 200);
+            if (Settings::appIsLocked()) {
+                SchedulePendingJob::dispatchSync(
+                    $this->resource_type,
+                    'update',
+                    $id,
+                    [$data]
+                );
+                return response('Resource created as job.', 200);
+            } else {
+                $this->repository->update($id, $data);
+                return response('Record successfully edited.', 200);
+            }
         } catch (Error | Exception $e) {
-            Log::error($e); 
+            Log::error($e);
             return response('An error occurred. Record was not edited.', 409);
         }
     }
@@ -105,13 +115,17 @@ class BaseResourceController extends Controller
     public function destroy($id)
     {
         try {
-            ProcessJobRequest::dispatchSync(
-                $this->resource_type,
-                'delete',
-                $id
-            );
-            // $this->repository->destroy($id);
-            return response('Record(s) successfully deleted.', 200);
+            if (Settings::appIsLocked()) {
+                SchedulePendingJob::dispatchSync(
+                    $this->resource_type,
+                    'delete',
+                    $id
+                );
+                return response('Resource created as job.', 200);
+            } else {
+                $this->repository->destroy($id);
+                return response('Record(s) successfully deleted.', 200);
+            }
         } catch (Error | Exception $e) {
             return response('An error occurred. Record(s) were not deleted.' . $e, 409);
         }

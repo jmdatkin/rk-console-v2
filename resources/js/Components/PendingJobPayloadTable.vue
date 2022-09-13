@@ -5,7 +5,7 @@ import Column from 'primevue/column';
 const props = defineProps(['job']);
 
 const payloadTableData = computed(() => {
-    return Object.entries(props.job.payload).map(entry => {
+    return Object.entries(props.job.payload[0]).map(entry => {
         return {
             "attribute": entry[0],
             "value": entry[1]

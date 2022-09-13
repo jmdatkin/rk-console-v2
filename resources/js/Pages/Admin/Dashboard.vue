@@ -16,6 +16,7 @@ import { ref } from 'vue';
 
 import { DateAdapter } from '../../util';
 import RouteDriverTable from '../../Components/DriversByRoute/RouteDriverTable.vue';
+import DBLockIndicator from '../../Components/Dashboard/DBLockIndicator.vue';
 
 defineProps(['routeDriver_data', 'routeRecipient_data', 'stats', 'messages'])
 
@@ -134,14 +135,7 @@ const viewDriver = function (id) {
                                     <template #content>
                                         <div class="flex flex-col">
                                             <span>
-                                                <span v-if="stats.isAppLocked">
-                                                    <Badge severity="success" value="1"></Badge>
-                                                    DB is locked
-                                                </span>
-                                                <span v-else>
-                                                    <Badge value="1"></Badge>
-                                                    DB is unlocked
-                                                </span>
+                                                <DBLockIndicator :status="stats.isAppLocked"></DBLockIndicator>
                                             </span>
                                         </div>
                                     </template>

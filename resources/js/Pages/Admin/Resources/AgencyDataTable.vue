@@ -65,6 +65,7 @@ const onRowEditSave = function (event) {
     .reduce((obj, key) => {
         return Object.assign(obj, {[key]: event.newData[key]});
     }, {});
+    if (Object.keys(data).length <= 0) return;
     CRUD.update(event.data.id, data);
 };
 
