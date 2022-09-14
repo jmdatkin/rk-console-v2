@@ -43,8 +43,12 @@ const saveSettings = function () {
     axios.post(route('settings.save'), data);
 };
 
+const onTimeChange = key => function (time) {
+    settings.value[key] = time;
+};
+
 const makeOnChange = (keyName) => {
-    return function(evt) {
+    return function (evt) {
         settings.value[keyName] = evt.target.value;
     };
 };
@@ -66,21 +70,31 @@ onMounted(() => {
         <template #header>
             Application Settings
         </template>
-        <!-- <h3>Panel</h3> -->
-        <div class="flex flex-col space-y-2">
-            <!-- <InfoItem title="Timezone">
+        <div class="px-4 md:px-0">
+            <!-- <h3>Panel</h3> -->
+            <div class="flex flex-col space-y-2">
+                <!-- <InfoItem title="Timezone">
                 <TimezoneDropdown v-model="settings.timezone"></TimezoneDropdown>
             </InfoItem> -->
-            <InfoItem title="Lock-In">
-                <WeekdayButton v-model="settings.lock_in_day"></WeekdayButton>
-                <TimeInput v-model="settings.lock_in_time"></TimeInput>
-            </InfoItem>
-            <InfoItem title="Lock-Out">
-                <WeekdayButton v-model="settings.lock_out_day"></WeekdayButton>
-                <TimeInput v-model="settings.lock_out_time"></TimeInput>
-            </InfoItem>
-            <!-- <InputText v-model="settings.x"></InputText> -->
-            <Button @click="saveSettings" label="Save"></Button>
+                <div class="mb-4 space-y-4">
+                    <InfoItem title="Lock-In">
+                        <div class="flex space-x-2">
+                            <WeekdayButton v-model="settings.lock_in_day"></WeekdayButton>
+                            <TimeInput v-model="settings.lock_in_time"></TimeInput>
+                        </div>
+                    </InfoItem>
+                    <InfoItem title="Lock-Out">
+                        <div class="flex space-x-2">
+                            <WeekdayButton v-model="settings.lock_out_day"></WeekdayButton>
+                            <TimeInput v-model="settings.lock_out_time"></TimeInput>
+                        </div>
+                    </InfoItem>
+                </div>
+                <!-- <InputText v-model="settings.x"></InputText> -->
+                <Button class="w-[6rem]" @click="saveSettings" label="Save"></Button>
+
+
+            </div>
 
         </div>
     </BasePageLayout>

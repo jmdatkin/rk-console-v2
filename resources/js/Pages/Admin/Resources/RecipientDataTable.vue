@@ -12,6 +12,7 @@ import Dialog from 'primevue/dialog';
 import Loading from '@/Components/Loading';
 import ContextMenu from 'primevue/contextmenu';
 import Badge from 'primevue/badge';
+import Chip from 'primevue/chip';
 import Tag from 'primevue/tag';
 import RecipientRouteAssignments from '@/Components/Assignments/RecipientRouteAssignments';
 import InputSwitch from 'primevue/inputswitch';
@@ -320,6 +321,16 @@ CRUD.get();
                             placeholder="Search by id"></InputText>
                     </template>
                 </Column>
+                <Column :sortable="true" field="paused" header="Status">
+                    <template #body="{ data }">
+                        <Chip :class="{
+                            'p-chip-paused': !!data.paused,
+                            'p-chip-active': !!!data.paused,
+                        }">
+                            {{ !!data.paused ? 'Paused' : 'Active' }}
+                    </Chip>
+                    </template>
+                </Column>
                 <Column :sortable="true" field="agency.name" header="Agency" filterField="agency.name">
                     <template #body="{ data }">
                         {{ data.agency ? data.agency.name : 'N/a'}}
@@ -368,18 +379,6 @@ CRUD.get();
                         <InputText v-model="data[field]" autofocus />
                     </template>
                 </Column>
-                <Column :sortable="true" field="address" header="Address">
-                    <template #body="{ data }">
-                        {{ data.address }}
-                    </template>
-                    <template #filter="{ filterModel, filterCallback }">
-                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
-                            class="p-column-filter" placeholder="Search by address"></InputText>
-                    </template>
-                    <template #editor="{ data, field }">
-                        <InputText v-model="data[field]" autofocus />
-                    </template>
-                </Column>
                 <Column :sortable="true" field="phoneHome" header="Home #">
                     <template #body="{ data }">
                         {{ data.phoneHome }}
@@ -404,6 +403,18 @@ CRUD.get();
                         <InputText v-model="data[field]" autofocus />
                     </template>
                 </Column>
+                <Column :sortable="true" field="address" header="Address">
+                    <template #body="{ data }">
+                        {{ data.address }}
+                    </template>
+                    <template #filter="{ filterModel, filterCallback }">
+                        <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
+                            class="p-column-filter" placeholder="Search by address"></InputText>
+                    </template>
+                    <template #editor="{ data, field }">
+                        <InputText v-model="data[field]" autofocus />
+                    </template>
+                </Column>
                 <Column :sortable="true" field="numMeals" header="Num. Meals">
                     <template #body="{ data }">
                         {{ data.numMeals }}
@@ -414,12 +425,6 @@ CRUD.get();
                     </template>
                     <template #editor="{ data, field }">
                         <InputText v-model="data[field]" autofocus />
-                    </template>
-                </Column>
-                <Column :sortable="true" field="paused" header="Status">
-                    <template #body="{ data }">
-                        <Tag :value="!!data.paused ? 'Paused' : 'Active'" :rounded="true"
-                            :severity="!!data.paused ? 'info' : 'success'"></Tag>
                     </template>
                 </Column>
                 <Column :sortable="true" :style="{ maxWidth: '600px' }" field="notes" header="Notes">
@@ -448,5 +453,15 @@ CRUD.get();
 <style lang="scss">
 .pending {
     background-color: var(--blue-100) !important;
+}
+
+.p-chip-paused {
+    background-color: var(--blue-200);
+    color: var(--blue-700);
+}
+
+.p-chip-active {
+    background-color: var(--green-200);
+    color: var(--green-700);
 }
 </style>

@@ -63,10 +63,8 @@ const menuModel = ref([
     { label: 'View record', icon: 'pi pi-fw pi-search', command: () => viewRecord(cmSelection.value) },
     { label: 'Edit record', icon: 'pi pi-fw pi-pencil', command: () => editingRows.value = [...editingRows.value, cmSelection.value] },
     { label: 'Delete record', icon: 'pi pi-fw pi-trash', command: () => destroyRecords([cmSelection.value.id]) },
-    { label: 'Edit route assignments', icon: 'pi pi-fw pi-pencil', command: () => openAssignDialog(cmSelection.value.id) },
     { label: 'Edit alternate routes', icon: 'pi pi-fw pi-pencil', command: () => openAlternatesDialog(cmSelection.value) },
-    { label: 'Schedule unavailability', icon: 'pi pi-fw pi-pencil', command: () => visitDriverStatus(cmSelection.value.id) },
-    { label: 'View report', icon: 'pi pi-fw pi-search', command: () => goToReport(cmSelection) }
+    // { label: 'View report', icon: 'pi pi-fw pi-search', command: () => goToReport(cmSelection) }
 ]);
 const onRowContextMenu = event => {
     cm.value.show(event.originalEvent);

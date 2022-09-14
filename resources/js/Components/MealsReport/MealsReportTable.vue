@@ -18,7 +18,7 @@ const props = defineProps(['data', 'date', 'openDateSelect']);
 </script>
 
 <template>
-    <DataTable :value="data" rowGroupMode="subheader" groupRowsBy="name" :paginator="true" :rows="10"
+    <DataTable :value="data" rowGroupMode="subheader" sortField="name" groupRowsBy="name" :paginator="true" :rows="10"
         responsiveLayout="scroll"
         class="p-datatable-sm"
         @row-select="e => visitRecipient(e.data.recipient_id)"
@@ -36,22 +36,18 @@ const props = defineProps(['data', 'date', 'openDateSelect']);
             No records found.
         </template>
 
-        <Column header="First" field="firstName"></Column>
-        <Column header="Last" field="lastName"></Column>
+        <Column header="Recip. id" field="recipient_id"></Column>
+        <Column header="Recip. First" field="firstName"></Column>
+        <Column header="Recip. Last" field="lastName"></Column>
         <Column header="Num. Meals" field="numMeals"></Column>
         <Column header="Address" field="address"></Column>
         <Column header="Notes" field="notes"></Column>
 
         <template #groupheader="slotProps">
-            <!-- <td colspan="5">
-                <span><strong>{{ slotProps.data.name }}</strong></span>
-            </td> -->
-            <!-- <td class="p-dt-subheader-cell flex"> -->
             <span class="flex">
                 <span class="flex-grow"><strong>{{ slotProps.data.name }}</strong></span>
                 <span class="flex-grow text-right"><strong>Total Num. Meals: {{ slotProps.data.agg_num_meals }}</strong></span>
             </span>
-            <!-- </td> -->
         </template>
         <!-- <template #groupfooter="slotProps">
             <td class="p-dt-footer-cell" colspan="5">

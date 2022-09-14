@@ -32,7 +32,6 @@ class DashboardReport
     {
         return $this->driversByRouteReport->data(['date' => $date])
             ->whereHas('drivers', function ($query) use ($date) {
-                // $query->where('weekday', $date->lowercaseDayName());
                 $query->where('weekday', $date->dayOfWeek);
             });
     }

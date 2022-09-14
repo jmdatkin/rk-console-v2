@@ -26,8 +26,9 @@ const props = defineProps(['data', 'date', 'openDateSelect']);
             No records found.
         </template>
 
-        <Column header="First" field="firstName"></Column>
-        <Column header="Last" field="lastName"></Column>
+        <Column header="Recip. id" field="recipient_id"></Column>
+        <Column header="Recip. First" field="firstName"></Column>
+        <Column header="Recip. Last" field="lastName"></Column>
         <Column header="Num. Meals" field="numMeals"></Column>
         <Column header="Address" field="address"></Column>
         <Column header="Notes" field="notes"></Column>

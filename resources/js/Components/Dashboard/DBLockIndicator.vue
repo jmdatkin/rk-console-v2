@@ -11,7 +11,7 @@ defineProps(['status', 'lockIn', 'lockOut']);
                     DB is locked
                 </span>
                 <span class="text-gray-600">
-                    Database modifications will be delayed until app lock-out.
+                    Database modifications will be postponed until app unlocks.
                 </span>
                 <span class="text-gray-600">
                     DB unlocks {{ moment.weekdaysShort()[lockOut.day] }} {{
