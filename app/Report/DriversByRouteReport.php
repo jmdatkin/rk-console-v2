@@ -4,6 +4,7 @@ namespace App\Report;
 
 use App\Models\Route;
 use App\Repository\RouteRepository;
+use Illuminate\Support\Facades\DB;
 
 class DriversByRouteReport implements ReportInterface
 {
@@ -12,6 +13,46 @@ class DriversByRouteReport implements ReportInterface
     {
         $this->repository = $repository;
     }
+
+    public function new_data($date) {
+        $weekday = $date->dayOfWeek;
+
+        // return DB::table('driver_route')
+        // ->rightJoin('driver_subs', 'driver_route.driver_id', '=', 'driver_subs.driver_id')
+        // return DB::table('driver_subs')
+        // ->leftJoin('driver_route', 'driver_route.driver_id', '=', 'driver_subs.driver_id')
+        return DB::table('driver_route')
+        // ->join('driver_subs', 'driver_route.driver_id', '=', 'driver_subs.driver_id')
+        ->join('driver_subs', 'driver_route.route_id', '=', 'driver_subs.route_id')
+        ->join('routes', 'routes.id', '=', 'driver_subs.route_id')
+        ->join('drivers', 'drivers.id', '=', 'driver_route.driver_id')
+        ->join('people as driver_people', 'driver_people.id', '=', 'drivers.person_id')
+        ->join('drivers as drivers_sub', 'drivers_sub.id', '=', 'driver_subs.sub_driver_id')
+        ->join('people as driver_sub_people', 'driver_sub_people.id', '=', 'drivers_sub.person_id')
+        ->select([
+            // 'driver_sub_people.*',
+            // 'driver_people.*',
+            'routes.id as route_id',
+            'name as route_name',
+            'drivers.id as driver_id',
+            'driver_people.firstName as driver_firstName',
+            'driver_people.lastName as driver_lastName',
+            'driver_people.email as driver_email',
+            'drivers_sub.id as driver_sub_id',
+            'driver_sub_people.firstName as driver_sub_firstName',
+            'driver_sub_people.lastName as driver_sub_lastName',
+            'driver_sub_people.email as driver_sub_email',
+            // 'driver_peofirstName as driver_first_name',
+            // 'drivers.lastName as driver_last_name',
+            // 'drivers.email as driver_email',
+            // 'drivers.phoneHome as driver_phone_home',
+            // 'drivers.phoneCell as driver_phone_cell',
+            // ''
+        ])
+        ->get();
+        
+    }
+    
 
     /**
      * 
@@ -88,7 +129,8 @@ class DriversByRouteReport implements ReportInterface
     //             $join->on('driver_route_subs.route_id', '=', 'driver_route.route_id')
     //             ->andOn('driver_route_subs.driver_id', '=', 'driver_route.driver_id')
     //             ->whereDate('date',$date);
-    //         });
+    //         })p
+    
 
     //         /*
     //     return DB::table('routes')

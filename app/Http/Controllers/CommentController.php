@@ -27,7 +27,6 @@ class CommentController extends Controller
      * @return void
      */
     public function store(Request $request) {
-        error_log($request->collect());
         if ($request->has(['driver_id','recipient_id','body'])) {
             $this->repository->create($request->only(['driver_id','recipient_id','body']));
             return redirect()->back();

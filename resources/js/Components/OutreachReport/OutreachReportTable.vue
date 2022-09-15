@@ -31,6 +31,8 @@ const props = defineProps(['data', 'date', 'openDateSelect']);
         <Column header="Recip. Last" field="lastName"></Column>
         <Column header="Num. Meals" field="numMeals"></Column>
         <Column header="Address" field="address"></Column>
+        <Column header="Home Phone" field="phoneHome"></Column>
+        <Column header="Cell Phone" field="phoneCell"></Column>
         <Column header="Notes" field="notes"></Column>
     </DataTable>
 </template>

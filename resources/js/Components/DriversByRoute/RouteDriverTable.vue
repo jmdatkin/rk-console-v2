@@ -59,18 +59,19 @@ const getAlternateDrivers = function (id) {
 };
 
 const tableData = computed(() => {
-    return props.data.map(row => {
-        let isSub = row.substitute_drivers.length > 0;
-        let driver;
+    // return props.data.map(row => {
+    //     let isSub = row.substitute_drivers.length > 0;
+    //     let driver;
 
-        if (isSub) {
-            driver = row.substitute_drivers[0];
-        } else {
-            driver = row.drivers[0];
-        }
+    //     if (isSub) {
+    //         driver = row.substitute_drivers[0];
+    //     } else {
+    //         driver = row.drivers[0];
+    //     }
 
-        return {driver, isSub, ...row};
-    });
+    //     return {driver, isSub, ...row};
+    // });
+    return props.data;
 });
 
 const onRowSelect = function (row) {
@@ -131,8 +132,11 @@ const assignSub = function (exceptionId, substituteDriverId, routeId) {
     <DataTable @row-select="e => onRowSelect(e.data)" v-model:selection="selection" selectionMode="single"
         :globalFilterFields="['routeName', 'id', 'driver.person.firstName', 'lastName']" filterDisplay="menu"
         v-model:filters="filters" :value="tableData" :paginator="true" :rowClass="rowClass" :rows="10"
-        responsiveLayout="scroll" columnResizeMode="fit" :showGridlines="true">
+        responsiveLayout="scroll" columnResizeMode="fit" :showGridlines="true"
+        >
         <!-- <template #header>
+        :groupRowsBy="['route_id','route_name','driver_id','driver_firstName','driver_lastName']"
+        :groupRowsBy="['route_id','route_name','driver_id','driver_firstName','driver_lastName']"
             <span v-if="date">
             {{ DateAdapter.format(date) }}
             </span>
@@ -143,6 +147,14 @@ const assignSub = function (exceptionId, substituteDriverId, routeId) {
                 </Column>
                 <Column header="Driver" :colspan="3">
                 </Column>
+                <Column header="Sub. Driver 1" :colspan="3">
+                </Column>
+                <Column header="Sub. Driver 2" :colspan="3">
+                </Column>
+                <Column header="Sub. Driver 3" :colspan="3">
+                </Column>
+                <Column header="Sub. Driver 4" :colspan="3">
+                </Column>
             </Row>
             <Row>
                 <Column :sortable="true" header="id" field="route_id">
@@ -152,28 +164,49 @@ const assignSub = function (exceptionId, substituteDriverId, routeId) {
                         </InputText>
                     </template>
                 </Column>
-                <Column :sortable="true" header="Name" field="name">
+                <Column :sortable="true" header="Name" field="route_name">
                     <template #filter="{ filterModel }">
                         <InputText type="text" v-model="filterModel.value" class="p-column-filter"
                             placeholder="Search by id">
                         </InputText>
                     </template>
                 </Column>
-                <Column :sortable="true" header="id" field="driver.id">
+                <Column :sortable="true" header="id" field="driver_id">
                     <template #filter="{ filterModel }">
                         <InputText type="text" v-model="filterModel.value" class="p-column-filter"
                             placeholder="Search by id">
                         </InputText>
                     </template>
                 </Column>
-                <Column :sortable="true" header="First Name" field="driver.person.firstName">
+                <Column :sortable="true" header="First Name" field="driver_firstName">
                     <template #filter="{ filterModel }">
                         <InputText type="text" v-model="filterModel.value" class="p-column-filter"
                             placeholder="Search by first name">
                         </InputText>
                     </template>
                 </Column>
-                <Column :sortable="true" header="Last Name" field="driver.person.lastName">
+                <Column :sortable="true" header="Last Name" field="driver_lastName">
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by last name">
+                        </InputText>
+                    </template>
+                </Column>
+                <Column :sortable="true" header="id" field="driver_sub_id">
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by id">
+                        </InputText>
+                    </template>
+                </Column>
+                <Column :sortable="true" header="First Name" field="driver_sub_firstName">
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by first name">
+                        </InputText>
+                    </template>
+                </Column>
+                <Column :sortable="true" header="Last Name" field="driver_sub_lastName">
                     <template #filter="{ filterModel }">
                         <InputText type="text" v-model="filterModel.value" class="p-column-filter"
                             placeholder="Search by last name">
@@ -182,15 +215,21 @@ const assignSub = function (exceptionId, substituteDriverId, routeId) {
                 </Column>
             </Row>
         </ColumnGroup>
-        <Column header="id" field="id">
+        <Column header="id" field="route_id">
         </Column>
-        <Column header="Name" field="name">
+        <Column header="Name" field="route_name">
         </Column>
-        <Column :sortable="true" field="driver.id" header="id" style="max-width: 10%; text-align: center">
+        <Column :sortable="true" field="driver_id" header="id" style="max-width: 10%; text-align: center">
         </Column>
-        <Column :sortable="true" field="driver.person.firstName">
+        <Column :sortable="true" field="driver_firstName">
         </Column>
-        <Column :sortable="true" field="driver.person.lastName">
+        <Column :sortable="true" field="driver_lastName">
+        </Column>
+        <Column :sortable="true" field="driver_sub_id" header="id" style="max-width: 10%; text-align: center">
+        </Column>
+        <Column :sortable="true" field="driver_sub_firstName">
+        </Column>
+        <Column :sortable="true" field="driver_sub_lastName">
         </Column>
     </DataTable>
     <ContextMenu :model="menuModel" ref="cm"></ContextMenu>

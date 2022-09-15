@@ -39,7 +39,8 @@ class DriversByRouteViewController extends BaseReportController
         return Inertia::render('Admin/DriversByRoute',
         [
             'date' => $date,
-            'data' => $this->report->data(['date' => RkCarbon::createFromFormat('m-d-Y', $date)])->get()
+            // 'data' => $this->report->data(['date' => RkCarbon::createFromFormat('m-d-Y', $date)])->get()
+            'data' => $this->report->new_data(RkCarbon::createFromFormat('m-d-Y', $date))
         ]);
     }
 
@@ -48,6 +49,7 @@ class DriversByRouteViewController extends BaseReportController
      */
     public function data(Request $request) {
         $date = RkCarbon::parseStd($request->input('date'));
-        return $this->report->data(['date' => $date])->get();
+        // return $this->report->data(['date' => $date])->get();
+        return $this->report->new_data($date);
     }
 }
