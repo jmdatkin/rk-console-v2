@@ -54,7 +54,7 @@ const submit = () => {
             <template #start>
         <InfoItem title="Recipient" icon="pi pi-fw pi-box"></InfoItem>
             </template>
-            <template #end>
+            <!-- <template #end>
 
                 <span v-if="editing">
                 <Button icon="pi pi-check" class="p-button-rounded p-button-secondary p-button-text" @click="submit" />
@@ -63,7 +63,7 @@ const submit = () => {
                 <span v-else>
                 <Button icon="pi pi-pencil" class="p-button-rounded p-button-secondary p-button-text" @click="() => editing= true" />
                 </span>
-            </template>
+            </template> -->
         </Toolbar>
         <div class="grid">
             <div class=col-12>

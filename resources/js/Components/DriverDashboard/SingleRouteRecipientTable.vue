@@ -23,7 +23,7 @@ const onRowReorder = function (event) {
 
 <template>
     <DataTable responsiveLayout="scroll" :value="data" @row-select="onRowSelect" dataKey="pivot.driver_custom_order"
-        sortOrder="1" sortField="pivot.driver_custom_order" @rowReorder="onRowReorder" selectionMode="single">
+        :sortOrder="1" sortField="pivot.driver_custom_order" @rowReorder="onRowReorder" selectionMode="single">
         <Column :rowReorder="true" headerStyle="width: 3rem" :reorderableColumn="false" />
         <Column field="id" header="id"></Column>
         <Column field="person.firstName" header="First"></Column>
