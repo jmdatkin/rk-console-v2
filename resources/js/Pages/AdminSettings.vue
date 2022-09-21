@@ -2,6 +2,7 @@
 import Setting from '../Components/Setting.vue';
 import InputText from 'primevue/inputtext';
 import InputSwitch from 'primevue/inputswitch';
+import InputNumber from 'primevue/inputnumber';
 import Calendar from 'primevue/calendar';
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
@@ -88,6 +89,9 @@ onMounted(() => {
                             <WeekdayButton v-model="settings.lock_out_day"></WeekdayButton>
                             <TimeInput v-model="settings.lock_out_time"></TimeInput>
                         </div>
+                    </InfoItem>
+                    <InfoItem title="# Sub Drivers Shown">
+                        <InputNumber v-model="settings['driversbyroute.num_sub_drivers']" showButtons mode="decimal" />
                     </InfoItem>
                 </div>
                 <!-- <InputText v-model="settings.x"></InputText> -->

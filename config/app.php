@@ -303,6 +303,11 @@ return [
             'type' => 'string',
             'value' => '17:00'
         ],
+
+        'driversbyroute.num_sub_drivers' => [
+            'type' => 'number',
+            'value' => '4'
+        ]
         // 'lock_out_time' => [
         //     'type' => 'date',
         //     'value' => RkCarbon::parse('17:00')

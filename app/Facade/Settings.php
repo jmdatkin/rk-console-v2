@@ -5,6 +5,8 @@ namespace App\Facade;
 use App\Carbon\RkCarbon;
 use App\Models\Setting;
 use Carbon\Carbon;
+use Error;
+use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -59,7 +61,13 @@ class Settings
 
     private function getTypeForKey($key)
     {
-        return Setting::where('key', $key)->first()->type;
+        // dd($key);
+        $m = Setting::where('key', $key)->first();
+        try {
+        return $m?->type;
+        } catch (Error | Exception $e) {
+            dd($e);
+        }
     }
 
     public function get($key = null)
