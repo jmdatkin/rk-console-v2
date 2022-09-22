@@ -16,25 +16,28 @@ class HomeController extends Controller
     {
         $this->report = $report;
     }
-    public function handle(Request $request) {
+    public function handle(Request $request)
+    {
 
         if (is_null(Auth::user()))
             return redirect()->route('login');
 
-        if (Auth::user()->hasRole(Role::ADMIN))
-            return redirect()->route('dashboard');
+        return redirect()->route('dashboard');
+        // if (Auth::user()->hasRole(Role::ADMIN))
+        //     return redirect()->route('dashboard');
 
-        else if (Auth::user()->hasRole(Role::DRIVER)) {
-            return Inertia::render('Driver/Dashboard',
-            [
-                // 'data' => $this->report->data(['date' => RkCarbon::today(), 'driver_id' => Auth::user()->driver_id]),
-                'data' => $this->report->new_data(
-                    Auth::user()->driver_id,
-                    RkCarbon::now()
-                )
-            ]);
-        }
-        else
-            throw new AuthorizationException("User class not recognized.", 403);
+        // else if (Auth::user()->hasRole(Role::DRIVER)) {
+        //     return Inertia::render(
+        //         'Driver/Dashboard',
+        //         [
+        //             // 'data' => $this->report->data(['date' => RkCarbon::today(), 'driver_id' => Auth::user()->driver_id]),
+        //             'data' => $this->report->new_data(
+        //                 Auth::user()->driver_id,
+        //                 RkCarbon::now()
+        //             )
+        //         ]
+        //     );
+        // } else
+        //     throw new AuthorizationException("User class not recognized.", 403);
     }
 }

@@ -65,6 +65,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('UserSettings');
     });
 
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     Route::post('/recipient/reorder', [AssignmentController::class, 'reorder_recipient'])->name('assignment.recipient.reorder');
 
     // Signed-in user must have admin role
@@ -80,7 +82,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return Inertia::render('AdminSettings');
         });
 
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 
         Route::prefix('driversbyroute')->group(function () {
@@ -96,7 +97,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('audits', [AuditViewController::class, 'index'])->name('audits');
 
-        Route::prefix('jobs')->group(function() {
+        Route::prefix('jobs')->group(function () {
             Route::get('/', [JobController::class, 'index'])->name('jobs');
             Route::post('/{id}/commit', [JobController::class, 'commit'])->name('jobs.commit');
             Route::post('/{id}/destroy', [JobController::class, 'destroy'])->name('jobs.destroy');
@@ -133,7 +134,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/{id}/alternates/detach/{route_id}', [DriverController::class, 'deassignAlternate']);
         });
 
-        Route::prefix('assignments')->group(function() {
+        Route::prefix('assignments')->group(function () {
             Route::post('/recipient/assign', [AssignmentController::class, 'assign_recipient'])->name('assignment.recipient.assign');
             Route::post('/recipient/deassign', [AssignmentController::class, 'deassign_recipient'])->name('assignment.recipient.deassign');
 
@@ -141,7 +142,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/driver/deassign', [AssignmentController::class, 'deassign_driver'])->name('assignment.driver.deassign');
         });
 
-        Route::prefix('substitute')->group(function() {
+        Route::prefix('substitute')->group(function () {
             Route::post('/store', [DriverSubController::class, 'store'])->name('substitute.store');
         });
 

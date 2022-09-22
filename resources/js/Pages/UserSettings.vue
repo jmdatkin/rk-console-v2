@@ -36,8 +36,8 @@ axios.get(route('settings.user.data')).then(res => {
         </template>
         <!-- <h3>Panel</h3> -->
         <div class="flex flex-col space-y-2">
-            <InfoItem title="Defer DB Actions by Default">
-                <InputSwitch v-model="settings.E"></InputSwitch>
+            <InfoItem title="Override DB Lock">
+                <InputSwitch v-model="settings.override_db_lock"></InputSwitch>
             </InfoItem>
             <Button @click="saveSettings" label="Save"></Button>
 

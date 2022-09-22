@@ -7,11 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Driver;
 use App\Models\Person;
 use App\Models\Recipient;
+use App\Models\Role;
 use App\Report\DashboardReport;
+use App\Report\DriverReport;
 use App\Report\Stats;
 use Carbon\Carbon;
 use Facades\App\Facade\Settings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -21,8 +24,9 @@ class DashboardController extends Controller
      * 
      * @param DashboardReport $report
      */
-    public function index(DashboardReport $report)
+    public function index(DashboardReport $report, DriverReport $driverReport)
     {
+        if (Auth::user()->hasRole(Role::ADMIN)) {
         $today = RkCarbon::now();
 
         $routeRecipient_data = $report->routeRecipients($today);
@@ -68,5 +72,17 @@ class DashboardController extends Controller
                 ]
             ]
         );
+
+        }
+        else if (Auth::user()->hasRole(Role::DRIVER)) {
+            return Inertia::render('Driver/Dashboard',
+            [
+                // 'data' => $this->report->data(['date' => RkCarbon::today(), 'driver_id' => Auth::user()->driver_id]),
+                'data' => $driverReport->new_data(
+                    Auth::user()->driver_id,
+                    RkCarbon::now()
+                )
+            ]);
+        }
     }
 }

@@ -83,49 +83,57 @@ class DatabaseSeeder extends Seeder
         RecipientRoute::create([
             'recipient_id' => 1,
             'route_id' => 1,
-            'weekday' => RkCarbon::now()->dayOfWeek
+            'weekday' => RkCarbon::now()->dayOfWeek,
+            'driver_custom_order' => 0
         ]);
 
         RecipientRoute::create([
             'recipient_id' => 2,
             'route_id' => 1,
-            'weekday' => RkCarbon::now()->dayOfWeek
+            'weekday' => RkCarbon::now()->dayOfWeek,
+            'driver_custom_order' => 1
         ]);
 
         RecipientRoute::create([
             'recipient_id' => 3,
             'route_id' => 1,
-            'weekday' => RkCarbon::now()->dayOfWeek
+            'weekday' => RkCarbon::now()->dayOfWeek,
+            'driver_custom_order' => 2
         ]);
 
         RecipientRoute::create([
             'recipient_id' => 4,
             'route_id' => 1,
-            'weekday' => RkCarbon::now()->dayOfWeek
+            'weekday' => RkCarbon::now()->dayOfWeek,
+            'driver_custom_order' => 3
         ]);
 
         RecipientRoute::create([
             'recipient_id' => 5,
             'route_id' => 2,
-            'weekday' => RkCarbon::now()->dayOfWeek
+            'weekday' => RkCarbon::now()->dayOfWeek,
+            'driver_custom_order' => 0
         ]);
 
         RecipientRoute::create([
             'recipient_id' => 6,
             'route_id' => 2,
-            'weekday' => RkCarbon::now()->dayOfWeek
+            'weekday' => RkCarbon::now()->dayOfWeek,
+            'driver_custom_order' => 1
         ]);
 
         RecipientRoute::create([
             'recipient_id' => 7,
             'route_id' => 3,
-            'weekday' => RkCarbon::now()->dayOfWeek
+            'weekday' => RkCarbon::now()->dayOfWeek,
+            'driver_custom_order' => 0
         ]);
 
         RecipientRoute::create([
             'recipient_id' => 8,
             'route_id' => 4,
-            'weekday' => RkCarbon::now()->dayOfWeek
+            'weekday' => RkCarbon::now()->dayOfWeek,
+            'driver_custom_order' => 0
         ]);
     }
 }
