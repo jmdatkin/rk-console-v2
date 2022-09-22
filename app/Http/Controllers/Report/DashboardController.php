@@ -48,7 +48,8 @@ class DashboardController extends Controller
         return Inertia::render(
             'Admin/Dashboard',
             [
-                'routeDriver_data' => $report->routeDrivers($today)->get(),
+                // 'routeDriver_data' => $report->routeDrivers($today)->get(),
+                'routeDriver_data' => $report->routeDrivers($today),
                 'routeRecipient_data' => $report->routeRecipients($today),
                 'messages' => $messages,
                 'lockOut' => [

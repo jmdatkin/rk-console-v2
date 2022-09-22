@@ -38,6 +38,9 @@ class DatabaseSeeder extends Seeder
         Role::factory()->create([
             'name' => 'recipient'
         ]);
+        Role::factory()->create([
+            'name' => 'texter'
+        ]);
 
         Agency::factory(10)->create();
         // \App\Models\User::factory(10)->create();

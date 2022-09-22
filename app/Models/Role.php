@@ -15,6 +15,7 @@ class Role extends Model
     public const ADMIN  = 'admin';
     public const DRIVER = 'driver';
     public const RECIPIENT = 'recipient';
+    public const TEXTER = 'texter';
 
     public function people() {
         return $this->belongsToMany(Person::class);
@@ -30,6 +31,10 @@ class Role extends Model
 
     public static function RECIPIENT() {
         return self::where('name', 'recipient')->first();
+    }
+
+    public static function TEXTER() {
+        return self::where('name', 'texter')->first();
     }
 
 

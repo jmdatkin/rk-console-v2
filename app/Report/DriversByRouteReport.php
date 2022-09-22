@@ -15,15 +15,23 @@ class DriversByRouteReport
         $this->repository = $repository;
     }
 
-    public function new_new_data($date)
+    public function new_new_data($date, $exclude_empty = false)
     {
         $data = $this->data($date)
-        ->select('*', 'routes.id as route_id', 'routes.name as route_name')
-        ->get();
+        ->select('*', 'routes.id as route_id', 'routes.name as route_name');
+
+        // if ($exclude_empty)
+        //     $data = $data->whereNotNull('driver_id');
+
+        $data = $data->get();
+        // ->where
+        // ->get();
 
         $num_subs = Settings::get('driversbyroute.num_sub_drivers');
 
-        return $data->map(function ($route) use ($num_subs) {
+        return $data
+        ->filter(fn($r) => !$exclude_empty || count($r->drivers) > 0)
+        ->map(function ($route) use ($num_subs) {
             $flat_subs = [];
 
             // $subs = $route->substituteDrivers()->get();
