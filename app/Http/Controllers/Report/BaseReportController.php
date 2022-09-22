@@ -11,9 +11,9 @@ class BaseReportController extends Controller
     /**
      * BaseReportController constructor.
      * 
-     * @param ReportInterface $report
+     * @param $report
      */
-    public function __construct(ReportInterface $report) {
+    public function __construct($report) {
         $this->report = $report;
     }
 

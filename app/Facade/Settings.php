@@ -73,12 +73,15 @@ class Settings
     public function get($key = null)
     {
         if (is_null($key)) {
-            return Setting::all()->map(function ($setting) {
-                return [
-                    'key' => $setting->key,
-                    'value' => $this->cast($setting->value, $setting->type)
-                ];
-            });
+            return Setting::all()->reduce(function ($array, $setting) {
+                // return [
+                //     'key' => $setting->key,
+                //     'value' => $this->cast($setting->value, $setting->type)
+                // ];
+                return array_merge($array, [
+                    $setting->key => $this->cast($setting->value, $setting->type)
+                ]);
+            }, []);
         } else if (is_array($key)) {
             return Setting::whereIn('key', $key)->get()->map(function ($setting) {
                 return [

@@ -198,25 +198,96 @@ const driversByRouteFilters = {
         value: null, matchMode: FilterMatchMode.CONTAINS
     },
 
-    'routeName':
-    {
-        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }],
-    },
-
-    'id':
+    'route_id':
     {
         operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
     },
 
-    'driver.person.firstName':
+    'route_name':
     {
         operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
     },
 
-    'driver.person.lastName':
+    'driver_id':
     {
         operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
     },
+
+    'driver_firstName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'driver_lastName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'sub_driver_0_id':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'sub_driver_0_firstName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'sub_driver_0_lastName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+
+    'sub_driver_1_id':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'sub_driver_1_firstName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'sub_driver_1_lastName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+
+    'sub_driver_2_id':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'sub_driver_2_firstName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'sub_driver_2_lastName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+
+    'sub_driver_3_id':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'sub_driver_3_firstName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+    'sub_driver_3_lastName':
+    {
+        operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    },
+
+
+
 };
 
 export {

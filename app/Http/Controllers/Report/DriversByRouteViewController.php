@@ -40,7 +40,7 @@ class DriversByRouteViewController extends BaseReportController
         [
             'date' => $date,
             // 'data' => $this->report->data(['date' => RkCarbon::createFromFormat('m-d-Y', $date)])->get()
-            'data' => $this->report->new_data(RkCarbon::createFromFormat('m-d-Y', $date))
+            'data' => $this->report->new_new_data(RkCarbon::createFromFormat('m-d-Y', $date))
         ]);
     }
 
@@ -50,6 +50,6 @@ class DriversByRouteViewController extends BaseReportController
     public function data(Request $request) {
         $date = RkCarbon::parseStd($request->input('date'));
         // return $this->report->data(['date' => $date])->get();
-        return $this->report->new_data($date);
+        return $this->report->new_new_data($date);
     }
 }

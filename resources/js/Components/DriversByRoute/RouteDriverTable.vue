@@ -14,7 +14,7 @@ import AlternateDriversDataTable from '../DataTables/AlternateDriversDataTable.v
 import { useConfirm } from 'primevue/useconfirm';
 import DriverSubInfo from '../DriverSubInfo.vue';
 
-const props = defineProps(['date', 'data']);
+const props = defineProps(['date', 'data', 'settings']);
 
 const filters = ref(driversByRouteFilters);
 const initFilters = function () {
@@ -114,6 +114,9 @@ const assignSub = function (exceptionId, substituteDriverId, routeId) {
     });
 }
 
+// console.log(props.settings['driversbyroute.num_sub_drivers'])
+console.log(props);
+
 // onMounted(() => getData());
 
 </script>
@@ -121,19 +124,20 @@ const assignSub = function (exceptionId, substituteDriverId, routeId) {
     <Dialog v-model:visible="driverSubDialogOpen" :modal="true" :dismissableMask="true" :closeOnEscape="true">
         <template #header>
             &nbsp;
-        </template> 
-         <DriverSubInfo :data="selected" :date="date"></DriverSubInfo>
-                <!-- <DriverExceptionList :onExceptionSelect="onExceptionSelect" :selectedDriver="selected"></DriverExceptionList> -->
+        </template>
+        <DriverSubInfo :data="selected" :date="date"></DriverSubInfo>
+        <!-- <DriverExceptionList :onExceptionSelect="onExceptionSelect" :selectedDriver="selected"></DriverExceptionList> -->
     </Dialog>
     <Dialog v-model:visible="altDriverDialog" :modal="true" :dismissableMask="true" :closeOnEscape="true">
-            <AlternateDriversDataTable :data="altDrivers" :onSelect="(event) => assignSub(selectedException.id, event.data.id, selectedRoute.value)">
-            </AlternateDriversDataTable>
+        <AlternateDriversDataTable :data="altDrivers"
+            :onSelect="(event) => assignSub(selectedException.id, event.data.id, selectedRoute.value)">
+        </AlternateDriversDataTable>
     </Dialog>
     <DataTable @row-select="e => onRowSelect(e.data)" v-model:selection="selection" selectionMode="single"
         :globalFilterFields="['routeName', 'id', 'driver.person.firstName', 'lastName']" filterDisplay="menu"
         v-model:filters="filters" :value="tableData" :paginator="true" :rowClass="rowClass" :rows="10"
-        responsiveLayout="scroll" columnResizeMode="fit" :showGridlines="true"
-        >
+        dataKey="route_id"
+        responsiveLayout="scroll" columnResizeMode="fit" :showGridlines="true">
         <!-- <template #header>
         :groupRowsBy="['route_id','route_name','driver_id','driver_firstName','driver_lastName']"
         :groupRowsBy="['route_id','route_name','driver_id','driver_firstName','driver_lastName']"
@@ -147,6 +151,12 @@ const assignSub = function (exceptionId, substituteDriverId, routeId) {
                 </Column>
                 <Column header="Driver" :colspan="3">
                 </Column>
+
+                <!-- <template v-for="idx in $page.props.settings['driversbyroute.num_sub_drivers']">
+                    <Column :header="`Sub. Driver ${idx}`" :colspan="3">
+                    </Column>
+                </template> -->
+
                 <Column header="Sub. Driver 1" :colspan="3">
                 </Column>
                 <Column header="Sub. Driver 2" :colspan="3">
@@ -192,44 +202,198 @@ const assignSub = function (exceptionId, substituteDriverId, routeId) {
                         </InputText>
                     </template>
                 </Column>
-                <Column :sortable="true" header="id" field="driver_sub_id">
+
+                <!-- <template v-for="idx in $page.props.settings['driversbyroute.num_sub_drivers']">
+                    <Column :sortable="true" header="id" :field="`sub_driver_${idx}_id`">
+                        <template #filter="{ filterModel }">
+                            <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                                placeholder="Search by id">
+                            </InputText>
+                        </template>
+                    </Column>
+                    <Column :sortable="true" header="First Name" :field="`sub_driver_${idx}_firstName`">
+                        <template #filter="{ filterModel }">
+                            <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                                placeholder="Search by first name">
+                            </InputText>
+                        </template>
+                    </Column>
+                    <Column :sortable="true" header="Last Name" :field="`sub_driver_${idx}_lastName`">
+                        <template #filter="{ filterModel }">
+                            <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                                placeholder="Search by last name">
+                            </InputText>
+                        </template>
+                    </Column>
+                </template> -->
+
+                <Column :sortable="true" header="id" field="sub_driver_0_id">
                     <template #filter="{ filterModel }">
                         <InputText type="text" v-model="filterModel.value" class="p-column-filter"
                             placeholder="Search by id">
                         </InputText>
                     </template>
+                    <template #body="{data}">
+                        {{ data.id ?? ''}}
+                    </template>
                 </Column>
-                <Column :sortable="true" header="First Name" field="driver_sub_firstName">
+                <Column :sortable="true" header="First Name" field="sub_driver_0_firstName">
                     <template #filter="{ filterModel }">
                         <InputText type="text" v-model="filterModel.value" class="p-column-filter"
                             placeholder="Search by first name">
                         </InputText>
                     </template>
+                    <template #body="{data}">
+                        {{ data.firstName ?? ''}}
+                    </template>
                 </Column>
-                <Column :sortable="true" header="Last Name" field="driver_sub_lastName">
+                <Column :sortable="true" header="Last Name" field="sub_driver_0_lastName">
                     <template #filter="{ filterModel }">
                         <InputText type="text" v-model="filterModel.value" class="p-column-filter"
                             placeholder="Search by last name">
                         </InputText>
                     </template>
+                    <template #body="{data}">
+                        {{ data.lastName ?? ''}}
+                    </template>
+                </Column>
+                <Column :sortable="true" header="id" field="sub_driver_1_id">
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by id">
+                        </InputText>
+                    </template>
+                    <template #body="{data}">
+                        {{ data.id ?? ''}}
+                    </template>
+                </Column>
+                <Column :sortable="true" header="First Name" field="sub_driver_1_firstName">
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by first name">
+                        </InputText>
+                    </template>
+                    <template #body="{data}">
+                        {{ data.firstName ?? ''}}
+                    </template>
+                </Column>
+                <Column :sortable="true" header="Last Name" field="sub_driver_1_lastName">
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by last name">
+                        </InputText>
+                    </template>
+                    <template #body="{data}">
+                        {{ data.lastName ?? ''}}
+                    </template>
+                </Column>
+                <Column :sortable="true" header="id" field="sub_driver_2_id">
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by id">
+                        </InputText>
+                    </template>
+                    <template #body="{data}">
+                        {{ data.id ?? ''}}
+                    </template>
+                </Column>
+                <Column :sortable="true" header="First Name" field="sub_driver_2_firstName">
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by first name">
+                        </InputText>
+                    </template>
+                    <template #body="{data}">
+                        {{ data.firstName ?? ''}}
+                    </template>
+                </Column>
+                <Column :sortable="true" header="Last Name" field="sub_driver_2_lastName">
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by last name">
+                        </InputText>
+                    </template>
+                    <template #body="{data}">
+                        {{ data.lastName ?? ''}}
+                    </template>
+                </Column>
+                <Column :sortable="true" header="id" field="sub_driver_3_id">
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by id">
+                        </InputText>
+                    </template>
+                    <template #body="{data}">
+                        {{ data.id ?? ''}}
+                    </template>
+                </Column>
+                <Column :sortable="true" header="First Name" field="sub_driver_3_firstName">
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by first name">
+                        </InputText>
+                    </template>
+                    <template #body="{data}">
+                        {{ data.firstName ?? ''}}
+                    </template>
+                </Column>
+                <Column :sortable="true" header="Last Name" field="sub_driver_3_lastName">
+                    <template #filter="{ filterModel }">
+                        <InputText type="text" v-model="filterModel.value" class="p-column-filter"
+                            placeholder="Search by last name">
+                        </InputText>
+                    </template>
+                    <template #body="{data}">
+                        {{ data.lastName ?? ''}}
+                    </template>
                 </Column>
             </Row>
         </ColumnGroup>
+
         <Column header="id" field="route_id">
         </Column>
         <Column header="Name" field="route_name">
         </Column>
         <Column :sortable="true" field="driver_id" header="id" style="max-width: 10%; text-align: center">
         </Column>
-        <Column :sortable="true" field="driver_firstName">
+        <Column :sortable="true" field="driver_firstName" header="First Name">
         </Column>
-        <Column :sortable="true" field="driver_lastName">
+        <Column :sortable="true" field="driver_lastName" header="Last Name">
         </Column>
-        <Column :sortable="true" field="driver_sub_id" header="id" style="max-width: 10%; text-align: center">
+
+        <!-- <template v-for="idx in $page.props.settings['driversbyroute.num_sub_drivers']">
+            <Column :sortable="true" :field="`sub_driver_${idx}_id`" header="id"
+                style="max-width: 10%; text-align: center">
+            </Column>
+            <Column :sortable="true" :field="`sub_driver_${idx}_firstName`">
+            </Column>
+            <Column :sortable="true" :field="`sub_driver_${idx}_lastName`">
+            </Column>
+        </template> -->
+
+        <Column :sortable="true" field="sub_driver_0_id" header="id" style="max-width: 10%; text-align: center">
         </Column>
-        <Column :sortable="true" field="driver_sub_firstName">
+        <Column :sortable="true" field="sub_driver_0_firstName">
         </Column>
-        <Column :sortable="true" field="driver_sub_lastName">
+        <Column :sortable="true" field="sub_driver_0_lastName">
+        </Column>
+        <Column :sortable="true" field="sub_driver_1_id" header="id" style="max-width: 10%; text-align: center">
+        </Column>
+        <Column :sortable="true" field="sub_driver_1_firstName">
+        </Column>
+        <Column :sortable="true" field="sub_driver_1_lastName">
+        </Column>
+        <Column :sortable="true" field="sub_driver_2_id" header="id" style="max-width: 10%; text-align: center">
+        </Column>
+        <Column :sortable="true" field="sub_driver_2_firstName">
+        </Column>
+        <Column :sortable="true" field="sub_driver_2_lastName">
+        </Column>
+        <Column :sortable="true" field="sub_driver_3_id" header="id" style="max-width: 10%; text-align: center">
+        </Column>
+        <Column :sortable="true" field="sub_driver_3_firstName">
+        </Column>
+        <Column :sortable="true" field="sub_driver_3_lastName">
         </Column>
     </DataTable>
     <ContextMenu :model="menuModel" ref="cm"></ContextMenu>

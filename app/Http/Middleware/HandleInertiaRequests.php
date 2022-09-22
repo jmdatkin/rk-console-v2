@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Setting;
+use Facades\App\Facade\Settings;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -45,6 +47,7 @@ class HandleInertiaRequests extends Middleware
                 'class' => session('message-class'),
                 'detail' => session('message')
             ],
+            'settings' => Settings::get(),
             'csrf' => csrf_token()
         ]);
     }

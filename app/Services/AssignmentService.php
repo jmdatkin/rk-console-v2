@@ -69,18 +69,18 @@ class AssignmentService
      */
     public function assign_driver_sub($route_id, $driver_id, $sub_driver_id, $date)
     {
-        $driver_sub = DriverSub::where(
-            [
-                'route_id' => $route_id,
-                'driver_id' => $driver_id,
-            ]
-        )->whereDate('date', RkCarbon::parse($date))->first();
+        // $driver_sub = DriverSub::where(
+        //     [
+        //         'route_id' => $route_id,
+        //         'driver_id' => $driver_id,
+        //     ]
+        // )->whereDate('date', RkCarbon::parse($date))->first();
 
-        if (!isset($driver_sub)) {
+        // if (!isset($driver_sub)) {
             $driver_sub = new DriverSub();
             $driver_sub->route_id = $route_id;
             $driver_sub->date = RkCarbon::parse($date);
-        }
+        // }
 
         $driver_sub->driver_id = $driver_id;
         $driver_sub->sub_driver_id = $sub_driver_id;
