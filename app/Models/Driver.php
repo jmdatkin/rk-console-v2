@@ -22,9 +22,8 @@ class Driver extends BasePersonRole implements Auditable
         return $this->belongsTo(Person::class);
     }
 
-
-    public function exceptions() {
-        return $this->hasMany(DriverException::class, 'driver_id');
+    public function subs() {
+        return $this->hasMany(DriverSubPeriod::class, 'driver_id');
     }
 
     public function subbed($date) {
@@ -56,23 +55,5 @@ class Driver extends BasePersonRole implements Auditable
 
     public function alternateRoutes() {
         return $this->belongsToMany(Route::class, 'driver_route_alt');
-    }
-
-    public function assignRoute($route_id, $weekday)
-    {
-        try {
-            $this->routes()->attach($route_id, [ "weekday" => $weekday ]);
-        } catch (Exception $e) {
-            error_log($e);
-        }
-    }
-
-    public function deassignRoute($route_id, $weekday)
-    {
-        try {
-            $this->routes()->wherePivot('weekday',$weekday)->detach($route_id);
-        } catch (Exception $e) {
-            error_log($e);
-        }
     }
 }

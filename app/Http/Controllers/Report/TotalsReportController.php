@@ -17,7 +17,7 @@ class TotalsReportController extends Controller
     public function report($date) {
         return Inertia::render('Admin/Reports/TotalsReport',
         [
-            'data' => $this->report->data(RkCarbon::parseStd($date)),
+            'data' => $this->report->data(RkCarbon::createFromFormat('m-d-Y', $date)),
             'date' => $date
         ]
     );

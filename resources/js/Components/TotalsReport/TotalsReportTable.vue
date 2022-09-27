@@ -12,8 +12,7 @@ const props = defineProps(['date', 'data']);
 
 <template>
     <DataTable :value="data" :paginator="true" :rows="10" responsiveLayout="scroll" class="p-datatable-sm"
-        sortField="weekday"
-        rowGroupMode="rowspan" groupRowsBy="weekday" :showGridlines="true">
+        sortField="weekday" rowGroupMode="rowspan" groupRowsBy="weekday" :showGridlines="true">
         <template #header>
             {{ DateAdapter.format(date) }}
         </template>
@@ -50,17 +49,18 @@ const props = defineProps(['date', 'data']);
                 {{ WEEKDAYS[data.weekday] }}
             </template>
         </Column>
-                <Column header="id" field="route_id"></Column>
-                <Column header="Name" field="route_name"></Column>
-                <Column header="# Meals" field="totalNumMeals"></Column>
-                <Column header="id" field="driver_id"></Column>
-                <Column header="First" field="driver_firstName"></Column>
-                <Column header="Last" field="driver_lastName"></Column>
-                <Column header="Home Phone" field="driver_phoneHome"></Column>
-                <Column header="Cell Phone" field="driver_phoneCell"></Column>
+        <Column header="id" field="route_id"></Column>
+        <Column header="Name" field="route_name"></Column>
+        <Column header="# Meals" field="totalNumMeals"></Column>
+        <Column header="id" field="driver_id"></Column>
+        <Column header="First" field="driver_firstName"></Column>
+        <Column header="Last" field="driver_lastName"></Column>
+        <Column header="Home Phone" field="driver_phoneHome"></Column>
+        <Column header="Cell Phone" field="driver_phoneCell"></Column>
         <!-- <Column header="Notes" field="notes"></Column> -->
     </DataTable>
 </template>
 
 <style lang="scss">
+
 </style>

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('person_id')->nullable();
             $table->foreign('person_id')->references('id')->on('people');
             $table->string('region')->default('');
+            $table->boolean('status');
             //$table->enum('status', ['perm','sub']);
             $table->timestamps();
             $table->softDeletes();

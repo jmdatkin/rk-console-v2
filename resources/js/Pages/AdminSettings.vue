@@ -56,13 +56,14 @@ const makeOnChange = (keyName) => {
 
 onMounted(() => {
     axios.get(route('settings.data')).then(res => {
-        console.log(res.data);
-        let d = {};
-        res.data.forEach(data => {
-            d[data.key] = data.value;
-        });
-        console.log(d);
-        initSettings(d);
+        // console.log(res.data);
+        // let d = {};
+        // res.data.forEach(data => {
+        //     d[data.key] = data.value;
+        // });
+        // console.log(d);
+        // initSettings(d);
+        initSettings(res.data);
     });
 })
 </script>
