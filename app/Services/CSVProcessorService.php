@@ -21,9 +21,7 @@ class CSVProcessorService {
 
         $data = array_map(fn ($row) => str_getcsv($row, $col_delimeter), $rows);
 
-
         $header = $data[0];             // Col names
-
 
         $body = array_slice($data, 1);  // Data
 

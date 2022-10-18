@@ -15,13 +15,9 @@ return new class extends Migration
     {
         Schema::create('driver_subs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('driver_id');
+            $table->unsignedBigInteger('driver_sub_period_id');
             $table->unsignedBigInteger('route_id');
             $table->unsignedBigInteger('sub_driver_id');
-            $table->datetime('date');
-            $table->foreign('driver_id')->references('id')->on('drivers');
-            $table->foreign('route_id')->references('id')->on('routes');
-            $table->foreign('sub_driver_id')->references('id')->on('drivers');
             $table->timestamps();
         });
     }

@@ -2,12 +2,8 @@
 
 namespace App\Models;
 
-use App\Carbon\RkCarbon;
 use App\Traits\HasArchive;
-use Carbon\Carbon;
-use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\DB;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Driver extends BasePersonRole implements Auditable
@@ -24,17 +20,6 @@ class Driver extends BasePersonRole implements Auditable
 
     public function subs() {
         return $this->hasMany(DriverSubPeriod::class, 'driver_id');
-    }
-
-    public function subbed($date) {
-        $carbon_date = RkCarbon::parse($date);
-        // $exceptions = $this->exceptions()->has('substitutes')->with(['substitutes' => function($query) use ($date) {
-        $exceptions = $this->exceptions()->whereHas('substitutes', function($query) use ($date) {
-            $query->whereDate('date', $date);
-        });
-        if ($exceptions->exists())
-            return $exceptions->first()->substitutes;
-        return $this;
     }
 
     //Many-to-many linkage between route

@@ -21,7 +21,7 @@ class RouteController extends BaseResourceController
         $route = $this->repository->find($id);
         $drivers = $route->drivers;
         $recipients = $route->recipients;
-        return Inertia::render('Resources/Route', [
+        return Inertia::render('Admin/Resources/Route', [
             "data" => $route,
             "drivers" => $drivers,
             "recipients" => $recipients

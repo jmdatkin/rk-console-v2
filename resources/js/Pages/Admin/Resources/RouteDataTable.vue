@@ -51,6 +51,10 @@ const closeNewRecordDialog = function () {
     newRecordDialog.value = true;
 }
 
+const viewRecord = function (record) {
+    Inertia.visit(`/route/${record.id}`);
+};
+
 const submitNewRecord = function () {
     CRUD.store(newRecordForm);
 };
@@ -136,6 +140,7 @@ CRUD.get();
             <DataTable :value="data" :paginator="true" :rows="15" class="p-datatable-routes" dataKey="id"
                 :globalFilterFields="['id', 'name', 'notes']" filterDisplay="menu" responsiveLayout="scroll"
                 editMode="row" showGridlines :resizableColumns="true" columnResizeMode="fit" v-model:filters="filters"
+                @row-click="e => viewRecord(e.data)"
                 v-model:editingRows="editingRows" @row-edit-save="onRowEditSave" v-model:selection="selected">
                 <template #header>
                     <Toolbar class="p-0">

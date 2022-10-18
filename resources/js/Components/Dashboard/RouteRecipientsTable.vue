@@ -34,6 +34,15 @@ const rowClass = (data) => {
         <template #empty>
             No records found.
         </template>
+
+        <ColumnGroup>
+            <Row>
+                <Column header="Route" :colspan="2">
+                </Column>
+                <Column header="Recipient" :colspan="3"></Column>
+            </Row>
+        </ColumnGroup>
+
         <Column :sortable="true" header="Route" field="routeName">
         </Column>
         <Column :sortable="true" field="id" header="id" style="max-width: 10%; text-align: center">

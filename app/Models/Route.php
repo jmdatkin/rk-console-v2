@@ -36,6 +36,10 @@ class Route extends Model implements Auditable
         return $this->belongsToMany(Driver::class)->withPivot('weekday');
     }
 
+    public function subs() {
+        return $this->belongsToMany(Driver::class, 'route_sub', 'route_id', 'sub_driver_id');
+    }
+
     public function substituteDrivers()
     {
         return $this->belongsToMany(Driver::class, 'driver_subs', 'route_id', 'sub_driver_id')->withPivot('date');
@@ -81,35 +85,6 @@ class Route extends Model implements Auditable
         return $this->belongsToMany(Driver::class, 'driver_route_history');
     }
 
-    public function assignDriver($driver_id, $weekday)
-    {
-        $this->drivers()->attach($driver_id, ['weekday' => $weekday]);
-    }
-
-    public function deassignDriver($weekday)
-    {
-        $this->drivers()->wherePivot('weekday', $weekday)->detach();
-    }
-
-    public function assignRecipient($recipient_id, $weekday)
-    {
-        $this->recipients()->attach($recipient_id, ['weekday' => $weekday]);
-    }
-
-    public function deassignRecipient($recipient_id, $weekday)
-    {
-        $this->recipients()->wherePivot('weekday', $weekday)->wherePivot('recipient_id', $recipient_id)->detach();
-    }
-
-    // public function driversOnDay($date)
-    // {
-    //     $carbon_date = Carbon::parse($date);
-    //     if ($carbon_date->isBefore(Carbon::today()->startOfWeek())) {
-    //         return $this->belongsToMany(Driver::class, 'driver_route_history')->wherePivot('date', $carbon_date);
-    //     } else {
-    //         return $this->belongsToMany(Driver::class, 'driver_route')->wherePivot('weekday', strtolower($carbon_date->shortDayName));
-    //     }
-    // }
 
     public function driverAlternates()
     {

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuditViewController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DriverSubController;
+use App\Http\Controllers\DriverSubPeriodController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\Report\DashboardController;
 use App\Http\Controllers\Report\DriversByRouteViewController;
@@ -29,6 +30,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Mail\DriverReportEmail;
 use App\Mail\DriverReportEmailMdTest;
 use App\Models\Driver;
+use App\Models\DriverSubPeriod;
 use App\Models\PendingJob;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Route;
@@ -83,6 +85,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
 
+        Route::get('schedulesubs', [DriverSubPeriodController::class, 'index']);
 
         Route::prefix('driversbyroute')->group(function () {
             Route::get('/{date}', [DriversByRouteViewController::class, 'report'])->name('driversbyroute.report');
@@ -144,6 +147,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::prefix('substitute')->group(function () {
             Route::post('/store', [DriverSubController::class, 'store'])->name('substitute.store');
+            Route::post('/period/store', [DriverSubPeriodController::class, 'store'])->name('substitute.period.store');
         });
 
         Route::prefix('personnel')->group(function () {

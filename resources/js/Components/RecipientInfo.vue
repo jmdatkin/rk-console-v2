@@ -28,11 +28,11 @@ const editing = ref(false);
 const submit = () => {
     editing.value = false;
     RecipientService.edit(props.data.id, form.value)
-    .then(
-        () => {
-            Inertia.reload();
-        }
-    );
+        .then(
+            () => {
+                Inertia.reload();
+            }
+        );
 };
 // onMounted(() => {
 //     form.value = {
@@ -52,7 +52,7 @@ const submit = () => {
         </span> -->
         <Toolbar>
             <template #start>
-        <InfoItem title="Recipient" icon="pi pi-fw pi-box"></InfoItem>
+                <InfoItem title="Recipient" icon="pi pi-fw pi-box"></InfoItem>
             </template>
             <!-- <template #end>
 
@@ -146,4 +146,5 @@ const submit = () => {
 </template>
 
 <style lang="scss" scoped>
+
 </style>
