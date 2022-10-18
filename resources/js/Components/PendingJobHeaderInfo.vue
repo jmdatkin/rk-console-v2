@@ -114,9 +114,6 @@ const doDestroy = function () {
 
 <template>
     <div class="pending-job flex w-full items-center content-center relative">
-        <!-- <span class="text-gray-500 text-monospace absolute left-2 top-2">
-            {{ job.id }}
-        </span> -->
         <div class="start border-r h-full basis-24">
             <div class="px-2 h-full text-center">
                 <InfoItem :title="job.job_action" class="mb-1">
@@ -128,7 +125,6 @@ const doDestroy = function () {
                 <div class="flex flex-col">
                     <span class="space-x-2">
                         <Avatar shape="circle" :label="userInitials"></Avatar>
-                        <!-- {{ job.user.firstName }} {{ job.user.lastName }} -->
                         <span class="text-slate-500">
                             {{ createdAtFormat }}
                         </span>
@@ -147,13 +143,7 @@ const doDestroy = function () {
                     <Button @click.stop="doDestroy" icon="pi pi-trash"
                         class="p-button-danger p-button-rounded p-button-outlined"></Button>
                 </div>
-
             </div>
         </div>
     </div>
-
 </template>
-
-<style lang="scss" scoped>
-
-</style>

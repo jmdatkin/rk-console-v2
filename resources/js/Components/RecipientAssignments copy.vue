@@ -2,12 +2,10 @@
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Dialog from 'primevue/dialog';
-import Divider from 'primevue/divider';
 import WeekdayAssignButton from '@/Components/Assignments/WeekdayAssignButton';
-import { FilterMatchMode, FilterOperator } from 'primevue/api';
+import { FilterMatchMode} from 'primevue/api';
 import { useToast } from 'primevue/usetoast';
 import { onMounted, ref } from 'vue';
-import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps(['recipientData'])
 const toast = useToast();
@@ -48,8 +46,6 @@ const getData = function () {
 
 const dataForDay = function (day) {
     return data.value.filter(item => item.pivot.weekday === day);//.map(item => {
-    // return { id: item.id, name: item.name, notes: item.notes }
-    // });
 };
 
 

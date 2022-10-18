@@ -29,7 +29,6 @@ const items = ref(adminMenuItems);
 .p-menu {
     border-radius: 0;
     border: 0;
-    // height: 100%;
 }
 
 $scrollbar-color: rgb(225, 226, 228);

@@ -14,15 +14,6 @@ import { Inertia } from '@inertiajs/inertia';
 const props = defineProps(['recipientData'])
 const toast = useToast();
 
-// const WEEKDAYS = ref({
-//     'sun': 'Sunday',
-//     'mon': 'Monday',
-//     'tue': 'Tuesday',
-//     'wed': 'Wednesday',
-//     'thu': 'Thursday',
-//     'fri': 'Friday',
-//     'sat': 'Saturday'
-// });
 const WEEKDAYS = ref(moment.weekdays());
 
 const routeFilters = ref({

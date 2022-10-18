@@ -10,8 +10,6 @@ import moment from 'moment';
 
 const props = defineProps(['data', 'date']);
 
-// const driver = ref(props.data.drivers[0].id ?? null);
-// const subDriver = ref(props.data.substitute_drivers[0].id ?? null);
 const driver = ref();
 const subDriver = ref();
 if (props.data.drivers[0])
@@ -76,7 +74,6 @@ const save = function () {
 
     <div class="space-y-2">
         <InfoItem title="Driver">
-            <!-- {{ data.firstName }} {{ data.lastName }} -->
             <DriverDropdown class="w-full" v-model="driver" @change="onDriverChange"></DriverDropdown>
         </InfoItem>
 

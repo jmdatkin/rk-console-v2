@@ -22,13 +22,6 @@ const items = ref(adminMenuItems);
             @click="() => Inertia.get(route('profile'))"></Button>
         <Button label="Log Out" class="p-button-text p-button-plain"
             @click="() => Inertia.post(route('logout'))"></Button>
-        <!-- <Link :href="route('profile')" method="get" as="button">
-    <i class="pi pi-user"></i>
-        Profile
-    </Link>
-    <Link :href="route('logout')" method="post" as="button">
-        Log Out
-    </Link> -->
     </template>
 </MenuBar>
 </template>

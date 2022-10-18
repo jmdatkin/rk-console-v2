@@ -11,9 +11,7 @@ use App\Models\Role;
 use App\Report\DashboardReport;
 use App\Report\DriverReport;
 use App\Report\Stats;
-use Carbon\Carbon;
 use Facades\App\Facade\Settings;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 

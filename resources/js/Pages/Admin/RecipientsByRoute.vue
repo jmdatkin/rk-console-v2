@@ -11,7 +11,6 @@ import RecipientsByRouteTable from '@/Components/RecipientsByRoute/RecipientsByR
         <template #header>
             Recipients by Route
         </template>
-        <!-- <DateSelectLayout> -->
         <template #table>
             <DateSelect :limitSelect="true" >
                 <template v-slot="{ date, openDateSelect }">
@@ -21,7 +20,5 @@ import RecipientsByRouteTable from '@/Components/RecipientsByRoute/RecipientsByR
 
             </DateSelect>
         </template>
-
-        <!-- </DateSelectLayout> -->
     </DataTableLayout>
 </template>

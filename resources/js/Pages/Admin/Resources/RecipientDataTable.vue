@@ -272,7 +272,6 @@ CRUD.get();
             <DataTableOptionsLink></DataTableOptionsLink>
         </template>
         <template #table>
-            <!-- <FullscreenDataTable> -->
             <DataTable :value="conditionalTableData" :paginator="true" :rows="15" class="p-datatable-recipients"
                 :globalFilterFields="['id', 'firstName', 'lastName', 'email', 'address', 'phoneHome', 'phoneCell', 'numMeals', 'notes']"
                 dataKey="id" @row-click="e => viewRecord(e.data)" filterDisplay="menu" responsiveLayout="scroll"
@@ -339,9 +338,6 @@ CRUD.get();
                         <InputText type="text" v-model="filterModel.value" @keydown.enter="filterCallback()"
                             class="p-column-filter" placeholder="Search by first name"></InputText>
                     </template>
-                    <!-- <template #editor="{ data, field }">
-                        <InputText v-model="data[field]" autofocus />
-                    </template> -->
                 </Column>
                 <Column :sortable="true" field="firstName" header="First Name" filterField="firstName">
                     <template #body="{ data }">
@@ -445,7 +441,6 @@ CRUD.get();
 
                 <ContextMenu :model="menuModel" ref="cm"></ContextMenu>
             </DataTable>
-            <!-- </FullscreenDataTable> -->
         </template>
     </DataTableLayout>
 </template>

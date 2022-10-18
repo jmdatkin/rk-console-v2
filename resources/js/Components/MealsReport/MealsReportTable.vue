@@ -1,20 +1,10 @@
 <script setup>
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
-import Button from 'primevue/button';
 import { DateAdapter, visitRecipient } from '../../util';
-import { onMounted } from 'vue';
-import { useData } from '../../hooks';
 
 const props = defineProps(['data', 'date', 'openDateSelect']);
 
-// let dateString = DateAdapter.make(props.date);
-
-// const { data, dataLoaded, getData } = useData(route('report.meals.data', { date: dateString }));
-
-// onMounted(() => {
-//     getData();
-// });
 </script>
 
 <template>
@@ -25,7 +15,6 @@ const props = defineProps(['data', 'date', 'openDateSelect']);
         selectionMode="single"
         :showGridlines="true">
         <template #header>
-            <!-- <Button label="Change Date" icon="pi pi-calendar" @click="openDateSelect" /> -->
             {{ DateAdapter.format(date) }}
         </template>
 
@@ -51,11 +40,6 @@ const props = defineProps(['data', 'date', 'openDateSelect']);
                 <span class="flex-grow text-right"><strong>Total Num. Meals: {{ slotProps.data.agg_num_meals }}</strong></span>
             </span>
         </template>
-        <!-- <template #groupfooter="slotProps">
-            <td class="p-dt-footer-cell" colspan="5">
-                <span><strong>Total Num. Meals: {{ slotProps.data.agg_num_meals }}</strong></span>
-            </td>
-        </template> -->
     </DataTable>
 </template>
 

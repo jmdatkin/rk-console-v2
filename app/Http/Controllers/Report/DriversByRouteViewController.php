@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Report;
 
 use App\Carbon\RkCarbon;
+use App\Http\Controllers\Controller;
 use App\Report\DriversByRouteReport;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class DriversByRouteViewController extends BaseReportController
+class DriversByRouteViewController extends Controller
 {
     /**
      * DriversByRouteViewController constructor.
@@ -39,8 +40,7 @@ class DriversByRouteViewController extends BaseReportController
         return Inertia::render('Admin/DriversByRoute',
         [
             'date' => $date,
-            // 'data' => $this->report->data(['date' => RkCarbon::createFromFormat('m-d-Y', $date)])->get()
-            'data' => $this->report->new_new_data(RkCarbon::createFromFormat('m-d-Y', $date))
+            'data' => $this->report->data(RkCarbon::createFromFormat('m-d-Y', $date))
         ]);
     }
 
@@ -49,7 +49,6 @@ class DriversByRouteViewController extends BaseReportController
      */
     public function data(Request $request) {
         $date = RkCarbon::parseStd($request->input('date'));
-        // return $this->report->data(['date' => $date])->get();
-        return $this->report->new_new_data($date);
+        return $this->report->data($date);
     }
 }

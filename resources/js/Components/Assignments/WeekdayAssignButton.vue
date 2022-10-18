@@ -14,7 +14,6 @@ const confirm = useConfirm();
 const toast = useToast();
 
 const deleteAssignment = function (row) {
-    console.log(row.data);
     confirm.require({
         message: 'Are you sure you want to delete this assignment?',
         header: 'Clear Assignment',

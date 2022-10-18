@@ -5,9 +5,6 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
 
 <template>
     <AuthenticatedLayout>
-        <!-- <template #header>
-            <slot name="header"></slot>
-        </template> -->
         <slot></slot>
         <div class="relative flex pt-0 justify-center min-h-screen bg-gray-100 sm:pt-2">
             <div class="flex flex-col px-0 w-full max-w-screen-2xl">
@@ -30,41 +27,12 @@ import AuthenticatedLayout from '@/Layouts/Authenticated.vue';
                             <div class="font-medium text-3xl text-900">
                                 <slot name="header"></slot>
                             </div>
-                            <!-- <div class="flex align-items-center text-700 flex-wrap">
-                                <div class="mr-5 flex align-items-center mt-3">
-                                    <i class="pi pi-users mr-2"></i>
-                                    <span>332 Active Users</span>
-                                </div>
-                                <div class="mr-5 flex align-items-center mt-3">
-                                    <i class="pi pi-globe mr-2"></i>
-                                    <span>9402 Sessions</span>
-                                </div>
-                                <div class="flex align-items-center mt-3">
-                                    <i class="pi pi-clock mr-2"></i>
-                                    <span>2.32m Avg. Duration</span>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                     <div class="report-wrapper flex card">
                         <slot name="body"></slot>
                     </div>
                 </div>
-
-                <!-- <Toolbar>
-                <template #start>
-                    <Button label="New" icon="pi pi-plus" class="mr-2" />
-                    <Button label="Upload" icon="pi pi-upload" class="p-button-success" />
-                    <i class="pi pi-bars p-toolbar-separator mr-2" />
-                    <SplitButton label="Save" icon="pi pi-check" :model="items" class="p-button-warning"></SplitButton>
-                </template>
-
-                <template #end>
-                    <Button icon="pi pi-search" class="mr-2" />
-                    <Button icon="pi pi-calendar" class="p-button-success mr-2" />
-                    <Button icon="pi pi-times" class="p-button-danger" />
-                </template>
-            </Toolbar> -->
             </div>
         </div>
     </AuthenticatedLayout>

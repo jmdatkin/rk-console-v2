@@ -12,7 +12,6 @@ const props = defineProps(['data', 'driverData']);
 
 const dataXform = computed(() => {
     let x = props.data.map(route => {
-        console.log(route);
         let routeName = route.routeName;
         let recipients = route.recipients.map(recipient => {
             let newRecipient = mergePersonObject(recipient);

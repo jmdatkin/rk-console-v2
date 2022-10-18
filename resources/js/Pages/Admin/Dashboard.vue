@@ -80,26 +80,18 @@ const viewDriver = function (id) {
             </template>
         </Dialog>
         <template #header>
-            <!-- <h2 class="font-semibold text-xl leading-tight mb-4"> -->
             Dashboard
-            <!-- </h2> -->
         </template>
         <div class="grid">
             <div class="col-12">
-                <!-- <h3>{{ moment.tz().utcOffset(-240).format("dddd DD MMM YYYY hh:mm A") }}</h3> -->
                 <TextClock />
             </div>
         </div>
-        <!-- <DashboardStatusBar>
-            <DBStatusWidget :isLocked="stats.isAppLocked"></DBStatusWidget>
-        </DashboardStatusBar> -->
         <div class="grid">
             <div class="col-12 xl:col-9">
-                <!-- <div class="col-12"> -->
                 <div class="grid">
 
                     <div class="col-12 2xl:col-6">
-                        <!-- <div class="col-12"> -->
                         <Panel>
                             <template #header>
                                 <span>
@@ -107,14 +99,11 @@ const viewDriver = function (id) {
                                     Today's Drivers
                                 </span>
                             </template>
-                            <!-- <RouteDriversTable :onSelect="openDriverDialog" :value="routeDriver_data"
-                        :date="DateAdapter.make(moment.tz().utcOffset(-240))"></RouteDriversTable> -->
                             <RouteDriverTable :data="routeDriver_data"
                                 :date="DateAdapter.make(moment.tz().utcOffset(-240))"></RouteDriverTable>
                         </Panel>
                     </div>
                     <div class="col-12 2xl:col-6">
-                        <!-- <div class="col-12"> -->
                         <Panel>
                             <template #header>
                                 <span>
@@ -132,12 +121,9 @@ const viewDriver = function (id) {
             </div>
 
             <div class="col-12 xl:col-3">
-                <!-- <div class="col-12"> -->
-
                 <div class="grid">
                     <div class="col-12">
                         <div class="flex flex-row flex-wrap space-y-2">
-                            <!-- <div class="col-12 md:col-6 lg:col-4"> -->
                             <div class="basis-full">
                                 <Card>
                                     <template #content>
@@ -149,26 +135,6 @@ const viewDriver = function (id) {
                                     </template>
                                 </Card>
                             </div>
-                            <!-- <div class="basis-full">
-                                <Card>
-                                    <template #content>
-                                        <div class="flex flex-col">
-                                            <span>
-                                                <i class="pi pi-clock"></i>
-                                                <span v-if="stats.isAppLocked">
-                                                    DB lock out {{ moment.weekdaysShort()[lockOut.day] }} {{
-                                                    lockOut.time }}
-                                                </span>
-                                                <span v-else>
-                                                    DB lock in {{ moment.weekdaysShort()[lockIn.day] }} {{
-                                                    lockIn.time }}
-                                                </span>
-
-                                            </span>
-                                        </div>
-                                    </template>
-                                </Card>
-                            </div> -->
                             <div class="basis-full">
                                 <Card>
                                     <template #content>
@@ -183,7 +149,6 @@ const viewDriver = function (id) {
                                     </template>
                                 </Card>
                             </div>
-                            <!-- <div class="col-12 md:col-6 lg:col-4"> -->
                             <div class="basis-full">
                                 <Card>
                                     <template #content>
@@ -198,7 +163,6 @@ const viewDriver = function (id) {
                                     </template>
                                 </Card>
                             </div>
-                            <!-- <div class="col-12 md:col-6 lg:col-4"> -->
                             <div class="basis-full">
                                 <Card>
                                     <template #content>
@@ -213,9 +177,7 @@ const viewDriver = function (id) {
                                     </template>
                                 </Card>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>

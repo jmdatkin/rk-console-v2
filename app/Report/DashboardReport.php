@@ -30,11 +30,7 @@ class DashboardReport
      */
     public function routeDrivers($date)
     {
-        // return $this->driversByRouteReport->data($date)
-        //     ->whereHas('drivers', function ($query) use ($date) {
-        //         $query->where('weekday', $date->dayOfWeek);
-        //     });
-        return $this->driversByRouteReport->new_new_data($date, true);
+        return $this->driversByRouteReport->data($date, true);
     }
 
 
@@ -46,7 +42,6 @@ class DashboardReport
      */
     public function routeRecipients($date)
     {
-
         $weekday = $date->dayOfWeek;
 
         return Route::with([
@@ -57,9 +52,6 @@ class DashboardReport
             ->get()
             ->flatMap(function ($route) use ($weekday) {
                 return $route->recipients->map(function ($recipient) use ($route, $weekday) {
-                    // return collect($recipient->toArray())->union([
-                    //     'routeName' => $route->name,
-                    // ]);
                     $driver_associated = DriverRoute::where(['weekday' => $weekday, 'route_id' => $route->id])->exists();
                     return array_merge($recipient->toArray(),
                         [

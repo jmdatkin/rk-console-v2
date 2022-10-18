@@ -22,7 +22,6 @@ const onRowSelect = function (event) {
     axios.get(`/driver/${props.driver_data.id}/alternates/attach/${data.id}`)
         .then(res => {
             toast.add({ severity: 'success', summary: 'Successful', detail: 'Record successfully modified.', life: 3000 });
-            console.log("success");
         }).catch(err => {
             toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred. Record was not modified.', life: 3000 });
         });
@@ -32,7 +31,6 @@ const onRowUnselect = function (event) {
     axios.get(`/driver/${props.driver_data.id}/alternates/detach/${data.id}`)
         .then(res => {
             toast.add({ severity: 'success', summary: 'Successful', detail: 'Record successfully modified.', life: 3000 });
-            console.log("success");
         }).catch(err => {
             toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred. Record was not modified.', life: 3000 });
         });

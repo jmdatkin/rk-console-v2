@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Report;
 
+use App\Http\Controllers\Controller;
 use App\Report\DriverReport;
 use App\Repository\DriverRepository;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class DriverReportController extends BaseReportController
+class DriverReportController extends Controller
 {
     /**
      * DriverReportController constructor.

@@ -2,14 +2,8 @@
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';
-import Button from 'primevue/button';
 import Row from 'primevue/row';
-import Dialog from 'primevue/dialog';
 import ContextMenu from 'primevue/contextmenu';
-import moment from 'moment';
-// import { formatDate } from '@fullcalendar/common';
-import { useConfirm } from 'primevue/useconfirm';
-import { ref, onUpdated, onMounted, computed } from 'vue';
 
 const props = defineProps(['value', 'onSelect']);
 
@@ -22,7 +16,6 @@ const rowClass = (data) => {
     if (!data.has_driver_associated)
         classString += 'no-associated-driver';
 
-    // return data.inException ? 'in-exception' : null;
     return classString;
 };
 

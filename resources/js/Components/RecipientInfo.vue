@@ -17,10 +17,6 @@ const form = ref({
     numMeals: props.data.numMeals,
     address: props.data.address,
     notes: props.data.person.notes
-    // email: '',
-    // phoneHome: '',
-    // phoneCell: '',
-    // numMeals: ''
 });
 
 const editing = ref(false);
@@ -34,36 +30,15 @@ const submit = () => {
             }
         );
 };
-// onMounted(() => {
-//     form.value = {
-//         email: props.data.person.email
-//     };
-// });
-
-// const editing = ref(false);
 
 </script>
 
 <template>
     <div>
-        <!-- <span class="personnel-type">
-            <i class="pi pi-fw pi-box"></i>
-            Recipient
-        </span> -->
         <Toolbar>
             <template #start>
                 <InfoItem title="Recipient" icon="pi pi-fw pi-box"></InfoItem>
             </template>
-            <!-- <template #end>
-
-                <span v-if="editing">
-                <Button icon="pi pi-check" class="p-button-rounded p-button-secondary p-button-text" @click="submit" />
-                <Button icon="pi pi-times" class="p-button-rounded p-button-secondary p-button-text" @click="() => editing= false" />
-                </span>
-                <span v-else>
-                <Button icon="pi pi-pencil" class="p-button-rounded p-button-secondary p-button-text" @click="() => editing= true" />
-                </span>
-            </template> -->
         </Toolbar>
         <div class="grid">
             <div class=col-12>
@@ -80,8 +55,6 @@ const submit = () => {
                         {{ data.person.email }}
                     </span>
                 </InfoItem>
-                <!-- <span>Email</span>
-                <h4>{{ data.person.email }}</h4> -->
             </div>
         </div>
         <Divider />

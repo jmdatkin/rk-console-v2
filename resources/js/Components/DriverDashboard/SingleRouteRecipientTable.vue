@@ -7,8 +7,6 @@ import { Inertia } from '@inertiajs/inertia';
 const props = defineProps(['data', 'onRowSelect']);
 
 const onRowReorder = function (event) {
-    console.log(event);
-    console.log(props.data);
     let recipient = props.data[event.dragIndex]; // Recipient being dragged
     let recipient_id = recipient.id;
     let route_id = recipient.pivot.route_id;

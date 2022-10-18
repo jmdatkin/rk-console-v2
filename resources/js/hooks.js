@@ -2,55 +2,6 @@ import { Inertia } from "@inertiajs/inertia";
 import { ref, computed } from "vue";
 import { toastBus } from "./app";
 
-const useBreadcrumb = (function () {
-    // let items = {};
-
-    // const get = function () {
-    //     // return {
-    //     //     // home: { to: '/' },
-    //     //     items
-    //     // };
-    //     return items;
-    // };
-    const items = ref([]);
-
-    const append = function (item) {
-        console.log('calling append');
-        items.value.unshift(item);
-    };
-
-    return function () {
-        return { items, append }
-    };
-})();
-
-// Hook to reduce code reusage when fetching ajax data
-const useData = function (url, params) {
-    const data = ref([]);
-    const dataLoaded = ref(false);
-
-    const getData = function () {
-        dataLoaded.value = false;
-        let req_params;
-
-        if (typeof params === 'object') {
-            req_params = params;
-        } else if (typeof params === 'function') {
-            req_params = params.apply(this, arguments);
-        }
-
-        axios.get(url, req_params).then(
-            (res) => {
-                data.value = res.data;
-                dataLoaded.value = true;
-            },
-            () => {
-            }
-        )
-    };
-
-    return { data, dataLoaded, getData };
-};
 
 const useCRUD = function (service) {
     const data = ref([]);
@@ -146,7 +97,6 @@ const usePending = function (pendingJobs, tableData) {
         const newData = _.cloneDeep(tableData.value);
         updates.forEach(update => {
             let idx = newData.findIndex(row => row.id == update.resource_id);
-            console.log(idx);
             if (idx < 0) return;
             let payload = update.payload;
             let row = newData[idx];
@@ -162,7 +112,5 @@ const fullName = props => computed(() => `${props.firstName} ${props.lastName}`)
 export {
     useCRUD,
     usePending,
-    fullName,
-    useData,
-    useBreadcrumb
+    fullName
 };

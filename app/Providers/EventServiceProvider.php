@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Events\RecipientModelUpdated;
 use App\Listeners\LogModelChanges;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -20,10 +19,6 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-
-        // RecipientModelUpdated::class => [
-        //     LogModelChanges::class
-        // ]
     ];
 
     /**

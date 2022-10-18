@@ -5,7 +5,6 @@ import BasePageLayout from './BasePageLayout.vue';
 </script>
 
 <template>
-    <!-- <AdminLayout> -->
     <BasePageLayout>
         <div class="container w-full m-auto flex justify-content-center">
             <div class="content w-full md:w-8">
@@ -13,7 +12,6 @@ import BasePageLayout from './BasePageLayout.vue';
             </div>
         </div>
     </BasePageLayout>
-    <!-- </AdminLayout> -->
 </template>
 
 <style lang="scss" scoped>

@@ -67,8 +67,6 @@ const parseSubstitutes = function (data) {
 
 const DateAdapter = {
     make: function (date) {
-        // return moment(date).tz('Etc/UTC').format(momentFormatString);
-        console.log(date);
         return moment(date).tz('Etc/UTC').toISOString();
     },
 

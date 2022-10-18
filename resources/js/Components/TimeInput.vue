@@ -3,7 +3,6 @@ import InputMask from 'primevue/inputmask';
 
 const onBlur = function(event) {
     let value = event.target.value;
-    console.log(value);
 
     let [hour, minute] = value.split(':');
 

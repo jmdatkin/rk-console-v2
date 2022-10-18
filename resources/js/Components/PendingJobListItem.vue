@@ -100,36 +100,6 @@ const doDestroy = function () {
 
 <template>
     <AccordionTab>
-        <!-- <template #header>
-            <div class="pending-job flex bg-white rounded border shadow-sm items-center relative">
-                <span class="text-gray-500 text-monospace absolute left-2 top-2">
-                    {{ job.id }}
-                </span>
-                <div class="start border-r h-full">
-                    <div class="p-4 h-full">
-                        <InfoItem :title="job.job_action" class="mb-1">
-                        </InfoItem>
-                    </div>
-                </div>
-                <div class="center flex-grow">
-                    <div class="p-4">
-
-                    </div>
-                </div>
-                <div class="end border-l h-full">
-                    <div class="p-4 h-full">
-                        <div class="space-x-1">
-                            <Button @click="doCommit" icon="pi pi-check"
-                                class="p-button-rounded p-button-outlined"></Button>
-                            <Button @click="doDestroy" icon="pi pi-trash"
-                                class="p-button-danger p-button-rounded p-button-outlined"></Button>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </template> -->
-
         <div class="flex flex-grow items-center space-between space-x-4">
             <div class="flex flex-col">
                 <span class="text-gray-500">
@@ -148,8 +118,6 @@ const doDestroy = function () {
             </div>
         </div>
     </AccordionTab>
-    <!-- <Button label="Commit Job" icon="pi pi-check" class="p-button-rounded p-button-outlined" ></Button>
-        <Button label="Discard Job" icon="pi pi-trash" class="p-button-danger p-button-rounded p-button-outlined"></Button> -->
 </template>
 
 <style lang="scss" scoped>

@@ -18,7 +18,6 @@ class DriverController extends BaseResourceController
         parent::__construct($repository, 'driver');
     }
 
-
     /**
      * Load the view which displays a single Driver resource.
      * 
@@ -34,7 +33,6 @@ class DriverController extends BaseResourceController
         );
     }
 
-
     /**
      * Get routes associated with a driver.
      * 
@@ -45,7 +43,6 @@ class DriverController extends BaseResourceController
     {
         return $this->repository->find($driver_id)->routes;
     }
-
 
     /**
      * Get alternate routes associated with a driver.
@@ -73,7 +70,6 @@ class DriverController extends BaseResourceController
             return response()->json([], 500);
         }
     }
-
 
     /**
      * Release an existing alternate Driver-Route association.

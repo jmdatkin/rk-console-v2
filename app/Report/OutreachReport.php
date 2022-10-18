@@ -8,6 +8,8 @@ class OutreachReport {
 
     /**
      * Retrieves all recipients assigned to a given day, regardless of route
+     * 
+     * @param RkCarbon $date
      */
     public function data($date) {
         $weekday = $date->dayOfWeek;
@@ -20,7 +22,6 @@ class OutreachReport {
         ->join('people', 'recipients.person_id', '=', 'people.id')
         ->select([
             'recipient_id',
-            // 'agency_id',
             'firstName',
             'lastName',
             'email',

@@ -47,7 +47,6 @@ const confirm = useConfirm();
 
 const openNewRecordDialog = function () {
     newRecordDialog.value = true;
-    console.log(newRecordDialog.value);
 }
 
 const closeNewRecordDialog = function () {

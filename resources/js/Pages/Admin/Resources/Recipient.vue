@@ -25,9 +25,6 @@ const onPauseChange = function(event) {
         RecipientService.unpause(props.data.id)
         .then(() => Inertia.reload())
     }
-    // RecipientService.edit(props.data.id, {
-    //     paused: paused.value
-    // }).then(() => Inertia.reload());
 };
 
 const paused = ref(!!props.data.paused);
@@ -40,17 +37,12 @@ const editing = ref(false);
     <SingleResourceLayout>
 
         <Head :title="`${data.person.firstName} ${data.person.lastName}`"></Head>
-        <!-- <Link class="p-router-link my-2" :href="route('datatables.recipients')">&lt; Recipients</Link> -->
-        <!-- <Button label="Back" icon="pi pi-chevron-left" type="button" class="p-button-text" @click="() => Inertia.visit(route('datatables.recipients'))"></Button> -->
         <Toolbar>
             <template #start>
                 <Button label="Back" icon="pi pi-chevron-left" type="button" class="p-button-text"
                     @click="back"></Button>
             </template>
             <template #end>
-                <!-- <InputSwitch v-model="editing"></InputSwitch> -->
-
-
             </template>
         </Toolbar>
         <Card class="mt-2">

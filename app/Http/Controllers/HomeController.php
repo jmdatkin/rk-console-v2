@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Carbon\RkCarbon;
-use App\Models\Role;
 use App\Report\DriverReport;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 
 class HomeController extends Controller
 {
@@ -23,21 +19,5 @@ class HomeController extends Controller
             return redirect()->route('login');
 
         return redirect()->route('dashboard');
-        // if (Auth::user()->hasRole(Role::ADMIN))
-        //     return redirect()->route('dashboard');
-
-        // else if (Auth::user()->hasRole(Role::DRIVER)) {
-        //     return Inertia::render(
-        //         'Driver/Dashboard',
-        //         [
-        //             // 'data' => $this->report->data(['date' => RkCarbon::today(), 'driver_id' => Auth::user()->driver_id]),
-        //             'data' => $this->report->new_data(
-        //                 Auth::user()->driver_id,
-        //                 RkCarbon::now()
-        //             )
-        //         ]
-        //     );
-        // } else
-        //     throw new AuthorizationException("User class not recognized.", 403);
     }
 }

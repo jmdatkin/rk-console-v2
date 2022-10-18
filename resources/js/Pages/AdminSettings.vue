@@ -30,17 +30,6 @@ const initSettings = function (data) {
 
 const saveSettings = function () {
     let data = settings.value;
-    // let data = Object.entries(settings.value)
-    // .map(([key,value]) => {
-    //     return {
-    //         key,
-    //         value: mutators[key] ? mutators[key](value) : value
-    //     };
-    // })
-    // .reduce((obj, item) => {
-    //     return Object.assign(obj, {[item.key]: item.value})
-    // }, {});
-    console.log(data);
     axios.post(route('settings.save'), data);
 };
 
@@ -56,13 +45,6 @@ const makeOnChange = (keyName) => {
 
 onMounted(() => {
     axios.get(route('settings.data')).then(res => {
-        // console.log(res.data);
-        // let d = {};
-        // res.data.forEach(data => {
-        //     d[data.key] = data.value;
-        // });
-        // console.log(d);
-        // initSettings(d);
         initSettings(res.data);
     });
 })
@@ -73,11 +55,7 @@ onMounted(() => {
             Application Settings
         </template>
         <div class="px-4 md:px-0">
-            <!-- <h3>Panel</h3> -->
             <div class="flex flex-col space-y-2">
-                <!-- <InfoItem title="Timezone">
-                <TimezoneDropdown v-model="settings.timezone"></TimezoneDropdown>
-            </InfoItem> -->
                 <div class="mb-4 space-y-4">
                     <InfoItem title="Lock-In">
                         <div class="flex space-x-2">
@@ -95,12 +73,8 @@ onMounted(() => {
                         <InputNumber v-model="settings['driversbyroute.num_sub_drivers']" showButtons mode="decimal" />
                     </InfoItem>
                 </div>
-                <!-- <InputText v-model="settings.x"></InputText> -->
                 <Button class="w-[6rem]" @click="saveSettings" label="Save"></Button>
-
-
             </div>
-
         </div>
     </BasePageLayout>
 </template>

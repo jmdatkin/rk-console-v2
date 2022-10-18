@@ -6,6 +6,8 @@ use Carbon\Carbon;
 
 class RkCarbon extends Carbon {
 
+    // Subclass of Carbon date library to add custom behavior
+
     public function __construct($time = null, $tz = null) {
         parent::__construct($time, $tz);
         $this->setTimezone('-4:00');
@@ -18,8 +20,4 @@ class RkCarbon extends Carbon {
     public function lowercaseDayName() {
         return strtolower($this->shortDayName);
     }
-
-    // public function startOfWeek($date) {
-    //     return $this->parse($date)->startOf('week', self::SUNDAY);
-    // }
 }

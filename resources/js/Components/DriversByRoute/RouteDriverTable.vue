@@ -6,10 +6,8 @@ import Row from 'primevue/row';
 import InputText from 'primevue/inputtext';
 import Dialog from 'primevue/dialog';
 import ContextMenu from 'primevue/contextmenu';
-import moment from 'moment';
-import { ref, onUpdated, onMounted, computed } from 'vue';
+import { ref, computed } from 'vue';
 import { driversByRouteFilters } from '@/filters';
-import { DateAdapter } from '../../util';
 import AlternateDriversDataTable from '../DataTables/AlternateDriversDataTable.vue';
 import { useConfirm } from 'primevue/useconfirm';
 import DriverSubInfo from '../DriverSubInfo.vue';
@@ -39,7 +37,6 @@ const rowClass = (data) => {
         classString += 'is-sub ';
 
     return classString;
-    // return data.inException ? 'in-exception' : null;
 
 };
 
@@ -47,7 +44,6 @@ const altDriverDialog = ref(false);
 const altDrivers = ref([]);
 const altDriversLoaded = ref(false);
 
-// const { altDrivers, altDriversLoaded, getAltDrivers} = useData('/route/')
 
 const getAlternateDrivers = function (id) {
     axios.get(`/route/${id}/alternates`)
@@ -59,25 +55,11 @@ const getAlternateDrivers = function (id) {
 };
 
 const tableData = computed(() => {
-    // return props.data.map(row => {
-    //     let isSub = row.substitute_drivers.length > 0;
-    //     let driver;
-
-    //     if (isSub) {
-    //         driver = row.substitute_drivers[0];
-    //     } else {
-    //         driver = row.drivers[0];
-    //     }
-
-    //     return {driver, isSub, ...row};
-    // });
     return props.data;
 });
 
 const onRowSelect = function (row) {
-    // if (!row.driver) return;
     selected.value = row;
-    // showExceptions.value = true;
     driverSubDialogOpen.value = true;
 };
 
@@ -113,12 +95,6 @@ const assignSub = function (exceptionId, substituteDriverId, routeId) {
         },
     });
 }
-
-// console.log(props.settings['driversbyroute.num_sub_drivers'])
-console.log(props);
-
-// onMounted(() => getData());
-
 </script>
 <template>
     <Dialog v-model:visible="driverSubDialogOpen" :modal="true" :dismissableMask="true" :closeOnEscape="true">
@@ -126,7 +102,6 @@ console.log(props);
             &nbsp;
         </template>
         <DriverSubInfo :data="selected" :date="date"></DriverSubInfo>
-        <!-- <DriverExceptionList :onExceptionSelect="onExceptionSelect" :selectedDriver="selected"></DriverExceptionList> -->
     </Dialog>
     <Dialog v-model:visible="altDriverDialog" :modal="true" :dismissableMask="true" :closeOnEscape="true">
         <AlternateDriversDataTable :data="altDrivers"
@@ -138,13 +113,6 @@ console.log(props);
         v-model:filters="filters" :value="tableData" :paginator="true" :rowClass="rowClass" :rows="10"
         dataKey="route_id"
         responsiveLayout="scroll" columnResizeMode="fit" :showGridlines="true">
-        <!-- <template #header>
-        :groupRowsBy="['route_id','route_name','driver_id','driver_firstName','driver_lastName']"
-        :groupRowsBy="['route_id','route_name','driver_id','driver_firstName','driver_lastName']"
-            <span v-if="date">
-            {{ DateAdapter.format(date) }}
-            </span>
-        </template> -->
         <ColumnGroup type="header">
             <Row>
                 <Column header="Route" :colspan="2">
@@ -152,10 +120,6 @@ console.log(props);
                 <Column header="Driver" :colspan="3">
                 </Column>
 
-                <!-- <template v-for="idx in $page.props.settings['driversbyroute.num_sub_drivers']">
-                    <Column :header="`Sub. Driver ${idx}`" :colspan="3">
-                    </Column>
-                </template> -->
 
                 <Column header="Sub. Driver 1" :colspan="3">
                 </Column>
@@ -202,30 +166,6 @@ console.log(props);
                         </InputText>
                     </template>
                 </Column>
-
-                <!-- <template v-for="idx in $page.props.settings['driversbyroute.num_sub_drivers']">
-                    <Column :sortable="true" header="id" :field="`sub_driver_${idx}_id`">
-                        <template #filter="{ filterModel }">
-                            <InputText type="text" v-model="filterModel.value" class="p-column-filter"
-                                placeholder="Search by id">
-                            </InputText>
-                        </template>
-                    </Column>
-                    <Column :sortable="true" header="First Name" :field="`sub_driver_${idx}_firstName`">
-                        <template #filter="{ filterModel }">
-                            <InputText type="text" v-model="filterModel.value" class="p-column-filter"
-                                placeholder="Search by first name">
-                            </InputText>
-                        </template>
-                    </Column>
-                    <Column :sortable="true" header="Last Name" :field="`sub_driver_${idx}_lastName`">
-                        <template #filter="{ filterModel }">
-                            <InputText type="text" v-model="filterModel.value" class="p-column-filter"
-                                placeholder="Search by last name">
-                            </InputText>
-                        </template>
-                    </Column>
-                </template> -->
 
                 <Column :sortable="true" header="id" field="sub_driver_0_id">
                     <template #filter="{ filterModel }">
@@ -360,16 +300,6 @@ console.log(props);
         </Column>
         <Column :sortable="true" field="driver_lastName" header="Last Name">
         </Column>
-
-        <!-- <template v-for="idx in $page.props.settings['driversbyroute.num_sub_drivers']">
-            <Column :sortable="true" :field="`sub_driver_${idx}_id`" header="id"
-                style="max-width: 10%; text-align: center">
-            </Column>
-            <Column :sortable="true" :field="`sub_driver_${idx}_firstName`">
-            </Column>
-            <Column :sortable="true" :field="`sub_driver_${idx}_lastName`">
-            </Column>
-        </template> -->
 
         <Column :sortable="true" field="sub_driver_0_id" header="id" style="max-width: 10%; text-align: center">
         </Column>

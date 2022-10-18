@@ -22,9 +22,6 @@ class RouteTotalsReport {
             ->select('routes.id as route_id', 'weekday')
             ->selectRaw('sum(recipients.numMeals) as agg_num_meals');
 
-        return $sub;
-
-        // return DB::table('driver_route')
         return DB::query()->fromSub($this->stubs->driverSubsAsWeekdays(), 'driver_subs_weekdays')
             ->joinSub($sub,'sub',function($join) {
                 $join->on('sub.route_id','=','driver_subs_weekdays.route_id')
@@ -52,10 +49,6 @@ class RouteTotalsReport {
 
     public function dayTotals($date) {
         return $this->baseQuery($date)
-        // ->groupBy('driver_route.weekday')
-        // ->select('driver_route.weekday as weekday')
-        // ->selectRaw('sum(agg_num_meals) as day_total')
-        // ->get();
         ->groupBy('driver_route.weekday')
         ->select('driver_route.weekday as weekday')
         ->selectRaw('sum(agg_num_meals) as day_total')
